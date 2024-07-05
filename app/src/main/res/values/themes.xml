@@ -5,5 +5,61 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
+    <style name="card" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:layout_margin">16dp</item>
+        <item name="android:padding">8dp</item>
+    </style>
+
+    <style name="text" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+    </style>
+
+    <style name="titles" parent="text">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="bold_titles" parent="text">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="information" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:layout_marginBottom">4dp</item>
+    </style>
+
+    <style name="numbers" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+    </style>
+
+    <style name="image" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:adjustViewBounds">true</item>
+    </style>
+
+    <style name="small_image" parent="image">
+        <item name="android:layout_height">32dp</item>
+        <item name="android:layout_width">32dp</item>
+    </style>
+
+    <style name="big_image" parent="image">
+        <item name="android:layout_height">60dp</item>
+        <item name="android:layout_width">60dp</item>
+    </style>
+
     <style name="Theme.Coinbook" parent="Base.Theme.Coinbook" />
 </resources>
