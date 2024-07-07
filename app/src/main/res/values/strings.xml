@@ -12,8 +12,17 @@
     <string name="settings_title">Settings</string>
 
     <string name="amount">%s %s</string>
-    <string name="you_can_spend">You can spend %s %s this month</string>
-    <string name="you_have_exceeded_your_limit">You have exceeded your limit by %s %s</string>
+    <string name="limit_info_positive">You can spend %s %s more this month</string>
+    <string name="limit_info_negative">You have exceeded your limit by %s %s</string>
+    <string name="limit_info_neutral">You can\'t spend any more money this month</string>
+    <string name="debt_info_positive">Next repayment: %s</string>
+    <string name="debt_info_negative">You have overdue repayments</string>
+    <string name="debt_positive">Repay before %s</string>
+    <string name="debt_negative">Debt is overdue by %s day%s</string>
+    <string name="money_box_info_positive">You are ahead of your goal by %s %s</string>
+    <string name="money_box_info_negative">You are %s %s behind your goal</string>
+    <string name="money_box_info_neutral">You are keeping up this your goal!</string>
+    <string name="money_box_goal">You need to save %s %s every day to reach this goal</string>
 
     <string name="content_description_balance_image">Check your balance</string>
     <string name="content_description_income_image">Check your income stats</string>

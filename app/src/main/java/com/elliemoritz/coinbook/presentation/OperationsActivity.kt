@@ -34,7 +34,7 @@ class OperationsActivity : AppCompatActivity() {
         val mode = intent.getStringExtra(EXTRA_MODE)
         val colorResId: Int
         when (mode) {
-            EXPENSE_MODE -> {
+            EXPENSES_MODE -> {
                 binding.tvOperationTitle.setText(R.string.expenses_title)
                 colorResId = R.color.red
             }
@@ -42,6 +42,16 @@ class OperationsActivity : AppCompatActivity() {
             INCOME_MODE -> {
                 binding.tvOperationTitle.setText(R.string.income_title)
                 colorResId = R.color.green
+            }
+
+            MONEY_BOX_MODE -> {
+                binding.tvOperationTitle.setText(R.string.money_box_title)
+                colorResId = R.color.yellow
+            }
+
+            DEBTS_MODE -> {
+                binding.tvOperationTitle.setText(R.string.debts_title)
+                colorResId = R.color.orange
             }
 
             else -> {
@@ -55,8 +65,10 @@ class OperationsActivity : AppCompatActivity() {
 
     companion object {
         private const val EXTRA_MODE = "mode"
-        const val EXPENSE_MODE = "expense"
+        const val EXPENSES_MODE = "expenses"
         const val INCOME_MODE = "income"
+        const val MONEY_BOX_MODE = "money_box"
+        const val DEBTS_MODE = "debts"
 
         fun newIntent(context: Context, mode: String): Intent {
             val intent = Intent(context, OperationsActivity::class.java)

@@ -47,6 +47,18 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_operation_title"
         tools:text="12 527 ₽" />
 
+    <TextView
+        android:id="@+id/tv_money_information"
+        style="@style/text"
+        android:textColor="@color/gray"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="@id/tv_money_amount"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="You can spend 7 473 ₽ more this month" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_operations"
         android:layout_width="match_parent"
