@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OperationsActivity">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineOperations"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <ImageView
+        android:id="@+id/iv_back_from_operations"
+        style="@style/back_image"
+        android:contentDescription="@string/content_description_left_arrow_image"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_expenses_activity_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_expenses_activity_title"
+        app:srcCompat="@drawable/ic_left_arrow" />
+
+    <TextView
+        android:id="@+id/tv_expenses_activity_title"
+        style="@style/activity_titles"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/expenses_title"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineOperations"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_add_new_operation"
+        style="@style/back_image"
+        android:contentDescription="@string/content_description_plus_green_image"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_expenses_activity_title"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineOperations"
+        app:layout_constraintTop_toTopOf="@+id/tv_expenses_activity_title"
+        app:srcCompat="@drawable/ic_plus_green" />
+
+    <ImageView
+        style="@style/back_image"
+        android:contentDescription="@string/content_description_left_arrow_image"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_expenses_activity_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_expenses_activity_title"
+        app:srcCompat="@drawable/ic_left_arrow" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineOperations"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_expenses_activity_title"
+        tools:text="12 527 ₽" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_operations"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineOperations"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        tools:listitem="@layout/expense_element" />
+
+
+    <androidx.fragment.app.FragmentContainerView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/operation_container"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guidelineOperations"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

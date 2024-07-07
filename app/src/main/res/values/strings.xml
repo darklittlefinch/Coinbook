@@ -26,5 +26,7 @@
     <string name="content_description_alarm_image">Check your reminders</string>
     <string name="content_description_history_image">Check history of operations</string>
     <string name="content_description_settings_image">Open settings of the application</string>
+    <string name="content_description_left_arrow_image">Go back to home screen</string>
+    <string name="content_description_plus_green_image">Add new operation</string>
 
 </resources>
