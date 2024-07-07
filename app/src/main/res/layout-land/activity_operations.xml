@@ -76,10 +76,10 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/operation_container"
+        android:name="com.elliemoritz.coinbook.AddOperationFragment"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:name="com.elliemoritz.coinbook.AddOperationFragment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/guidelineOperations"
         app:layout_constraintTop_toTopOf="parent" />
