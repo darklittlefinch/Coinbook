@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddOperationFragment">
+    tools:context=".presentation.AddOperationFragment">
 
     <androidx.cardview.widget.CardView
         style="@style/card"
