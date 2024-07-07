@@ -11,6 +11,13 @@
         android:layout_height="wrap_content"
         tools:context=".MainActivity">
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineMain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_balance"
             style="@style/card"
@@ -20,13 +27,14 @@
             app:cardCornerRadius="8dp"
             app:cardElevation="8dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/cv_alarms"
+            app:layout_constraintStart_toStartOf="@+id/guidelineMain"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/base_medium_margin">
+                android:layout_margin="8dp">
 
                 <ImageView
                     android:id="@+id/iv_balance"
@@ -65,10 +73,53 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cv_settings"
+            style="@style/card"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/creamy"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guidelineMain"
+            app:layout_constraintTop_toBottomOf="@+id/cv_alarms">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="317dp"
+                android:layout_height="44dp"
+                android:layout_margin="8dp">
+
+                <ImageView
+                    android:id="@+id/iv_settings"
+                    style="@style/small_image"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/content_description_settings_image"
+                    android:src="@drawable/ic_settings"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_settings_title"
+                    style="@style/bold_titles"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/settings_title"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/iv_settings"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
             android:id="@+id/cv_expenses"
             style="@style/card"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="16dp"
             android:backgroundTint="@color/pale_red"
             app:cardCornerRadius="8dp"
             app:cardElevation="8dp"
@@ -80,8 +131,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/base_medium_margin"
-                >
+                android:layout_margin="8dp">
 
                 <ImageView
                     android:id="@+id/iv_expense"
@@ -122,18 +172,18 @@
             style="@style/card"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="16dp"
             android:backgroundTint="@color/red"
             app:cardCornerRadius="8dp"
             app:cardElevation="8dp"
             app:layout_constraintBottom_toBottomOf="@id/cv_expenses"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineMain"
             app:layout_constraintTop_toTopOf="@id/cv_expenses">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/base_medium_margin"
-                >
+                android:layout_margin="8dp">
 
                 <ImageView
                     style="@style/small_image"
@@ -159,7 +209,7 @@
             app:cardElevation="8dp"
             app:layout_constraintEnd_toStartOf="@id/cv_plus"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cv_balance">
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -208,18 +258,18 @@
             style="@style/card"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="16dp"
             android:backgroundTint="@color/green"
             app:cardCornerRadius="8dp"
             app:cardElevation="8dp"
             app:layout_constraintBottom_toBottomOf="@id/cv_income"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineMain"
             app:layout_constraintTop_toTopOf="@id/cv_income">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/base_medium_margin"
-                >
+                android:layout_margin="8dp">
 
                 <ImageView
                     style="@style/small_image"
@@ -240,9 +290,11 @@
             style="@style/card"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="16dp"
             android:backgroundTint="@color/creamy"
             app:cardCornerRadius="8dp"
             app:cardElevation="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/cv_debts"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cv_expenses"
@@ -251,8 +303,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/base_medium_margin"
-                >
+                android:layout_margin="8dp">
 
                 <ImageView
                     android:id="@+id/iv_money_box"
@@ -297,10 +348,12 @@
             style="@style/card"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="16dp"
             android:backgroundTint="@color/creamy"
             app:cardCornerRadius="8dp"
             app:cardElevation="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineMain"
             app:layout_constraintStart_toEndOf="@+id/cv_money_box"
             app:layout_constraintTop_toBottomOf="@+id/cv_expenses"
             tools:backgroundTint="@color/orange">
@@ -308,8 +361,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/base_medium_margin"
-                >
+                android:layout_margin="8dp">
 
                 <ImageView
                     android:id="@+id/iv_debts"
@@ -352,20 +404,19 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_limits"
             style="@style/card"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/creamy"
             app:cardCornerRadius="8dp"
             app:cardElevation="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cv_money_box"
+            app:layout_constraintStart_toStartOf="@+id/guidelineMain"
+            app:layout_constraintTop_toBottomOf="@+id/cv_balance"
             tools:backgroundTint="@color/orange">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/base_medium_margin"
-                >
+                android:layout_margin="8dp">
 
                 <ImageView
                     android:id="@+id/iv_limits"
@@ -395,21 +446,20 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_alarms"
             style="@style/card"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/creamy"
             app:cardCornerRadius="8dp"
             app:cardElevation="8dp"
-            app:layout_constraintEnd_toStartOf="@id/cv_history"
-            app:layout_constraintStart_toEndOf="@id/cv_limits"
-            app:layout_constraintTop_toBottomOf="@+id/cv_money_box"
+            app:layout_constraintEnd_toStartOf="@+id/cv_history"
+            app:layout_constraintStart_toEndOf="@+id/cv_limits"
+            app:layout_constraintTop_toBottomOf="@+id/cv_balance"
             tools:backgroundTint="@color/purple">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/base_medium_margin"
-                >
+                android:layout_margin="8dp">
 
                 <ImageView
                     android:id="@+id/iv_alarms"
@@ -440,19 +490,18 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_history"
             style="@style/card"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/blue"
             app:cardCornerRadius="8dp"
             app:cardElevation="8dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cv_money_box">
+            app:layout_constraintTop_toBottomOf="@+id/cv_balance">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/base_medium_margin"
-                >
+                android:layout_margin="8dp">
 
                 <ImageView
                     android:id="@+id/iv_history"
@@ -474,49 +523,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/iv_history" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cv_settings"
-            style="@style/card"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/creamy"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cv_alarms">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/base_medium_margin"
-                >
-
-                <ImageView
-                    android:id="@+id/iv_settings"
-                    style="@style/small_image"
-                    android:adjustViewBounds="true"
-                    android:contentDescription="@string/content_description_settings_image"
-                    android:src="@drawable/ic_settings"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_settings_title"
-                    style="@style/bold_titles"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="@string/settings_title"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/iv_settings"
-                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

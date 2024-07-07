@@ -1,3 +1,43 @@
 <resources>
     <string name="app_name">Coinbook</string>
+
+    <string name="balance_title">Balance</string>
+    <string name="expenses_title">Expenses</string>
+    <string name="income_title">Income</string>
+    <string name="money_box_title">Money box</string>
+    <string name="debts_title">Debts</string>
+    <string name="limits_title">Limits</string>
+    <string name="alarm_title">Alarms</string>
+    <string name="history_title">History</string>
+    <string name="settings_title">Settings</string>
+
+    <string name="amount">%s %s</string>
+    <string name="you_can_spend">You can spend %s %s this month</string>
+    <string name="you_have_exceeded_your_limit">You have exceeded your limit by %s %s</string>
+
+    <string name="content_description_balance_image">Check your balance</string>
+    <string name="content_description_income_image">Check your income stats</string>
+    <string name="content_description_plus_image">Add new expense</string>
+    <string name="content_description_expense_image">Check your expense stats</string>
+    <string name="content_description_minus_image">Add new income</string>
+    <string name="content_description_piggy_bank_image">Open your money box</string>
+    <string name="content_description_debt_image">Check your debts</string>
+    <string name="content_description_limit_image">Check your limits</string>
+    <string name="content_description_alarm_image">Check your reminders</string>
+    <string name="content_description_history_image">Check history of operations</string>
+    <string name="content_description_settings_image">Open settings of the application</string>
+    <string name="content_description_left_arrow_image">Go back to home screen</string>
+    <string name="content_description_plus_green_image">Add new operation</string>
+
+    <string name="add_new_operation">Add new operation</string>
+    <string name="hint_enter_the_amount">Enter the amount</string>
+    <string name="button_done">Done</string>
+
+    <array name="categories">
+        <item>Home</item>
+        <item>Food</item>
+        <item>Transport</item>
+        <item>Entertainment</item>
+    </array>
+
 </resources>
