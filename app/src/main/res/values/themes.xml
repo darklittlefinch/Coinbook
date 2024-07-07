@@ -17,10 +17,11 @@
         <item name="android:padding">8dp</item>
     </style>
 
-    <style name="activity_titles" parent="base_margin">
+    <style name="activity_titles" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:textSize">24sp</item>
         <item name="android:textAlignment">center</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:padding">8dp</item>
     </style>
 
     <style name="text" parent="base_small_margin">
@@ -68,7 +69,7 @@
     <style name="big_numbers" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">40sp</item>
-        <item name="android:layout_margin">36dp</item>
+        <item name="android:textAlignment">center</item>
     </style>
 
     <style name="image" parent="Theme.Material3.DayNight.NoActionBar">
@@ -89,7 +90,7 @@
         <item name="android:layout_width">60dp</item>
     </style>
 
-    <style name="back_image" parent="base_margin">
+    <style name="navigation_images" parent="base_margin">
         <item name="android:adjustViewBounds">true</item>
         <item name="android:layout_height">28dp</item>
         <item name="android:layout_width">28dp</item>

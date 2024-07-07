@@ -14,36 +14,37 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
 
-    <ImageView
-        android:id="@+id/iv_back_from_operations"
-        style="@style/back_image"
-        android:contentDescription="@string/content_description_left_arrow_image"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_expenses_activity_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_expenses_activity_title"
-        app:srcCompat="@drawable/ic_left_arrow" />
-
     <TextView
         android:id="@+id/tv_expenses_activity_title"
         style="@style/activity_titles"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@color/red"
         android:text="@string/expenses_title"
         app:layout_constraintEnd_toStartOf="@+id/guidelineOperations"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/iv_add_new_operation"
-        style="@style/back_image"
-        android:contentDescription="@string/content_description_plus_green_image"
+        android:id="@+id/iv_back_from_operations"
+        style="@style/navigation_images"
+        android:contentDescription="@string/content_description_left_arrow_image"
         app:layout_constraintBottom_toBottomOf="@+id/tv_expenses_activity_title"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineOperations"
+        app:layout_constraintStart_toStartOf="@+id/tv_expenses_activity_title"
         app:layout_constraintTop_toTopOf="@+id/tv_expenses_activity_title"
-        app:srcCompat="@drawable/ic_plus_green" />
+        app:srcCompat="@drawable/ic_left_arrow" />
 
     <ImageView
-        style="@style/back_image"
+        android:id="@+id/iv_add_new_operation"
+        style="@style/navigation_images"
+        android:contentDescription="@string/content_description_plus_green_image"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_expenses_activity_title"
+        app:layout_constraintEnd_toEndOf="@+id/tv_expenses_activity_title"
+        app:layout_constraintTop_toTopOf="@+id/tv_expenses_activity_title"
+        app:srcCompat="@drawable/ic_plus_rounded" />
+
+    <ImageView
+        style="@style/navigation_images"
         android:contentDescription="@string/content_description_left_arrow_image"
         app:layout_constraintBottom_toBottomOf="@+id/tv_expenses_activity_title"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,10 +52,11 @@
         app:srcCompat="@drawable/ic_left_arrow" />
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+        android:id="@+id/tv_money_amount"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:padding="20dp"
+        android:textAlignment="center"
         android:textSize="32sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/guidelineOperations"
@@ -66,24 +68,20 @@
         android:id="@+id/rv_operations"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:padding="16dp"
         app:layout_constraintEnd_toStartOf="@+id/guidelineOperations"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/tv_money_amount"
         tools:listitem="@layout/expense_element" />
 
 
     <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/operation_container"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:id="@+id/operation_container"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/guidelineOperations"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
