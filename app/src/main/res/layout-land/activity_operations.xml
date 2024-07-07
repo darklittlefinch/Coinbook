@@ -72,7 +72,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guidelineOperations"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_money_amount"
-        tools:listitem="@layout/expense_element" />
+        tools:listitem="@layout/operation_element" />
 
 
     <androidx.fragment.app.FragmentContainerView
