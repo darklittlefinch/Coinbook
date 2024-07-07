@@ -29,4 +29,15 @@
     <string name="content_description_left_arrow_image">Go back to home screen</string>
     <string name="content_description_plus_green_image">Add new operation</string>
 
+    <string name="add_new_operation">Add new operation</string>
+    <string name="hint_enter_the_amount">Enter the amount</string>
+    <string name="button_done">Done</string>
+
+    <array name="categories">
+        <item>Home</item>
+        <item>Food</item>
+        <item>Transport</item>
+        <item>Entertainment</item>
+    </array>
+
 </resources>

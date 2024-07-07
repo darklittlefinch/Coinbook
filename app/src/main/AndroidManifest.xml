@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Coinbook"
         tools:targetApi="31">
         <activity
+            android:name=".AddOperationActivity"
+            android:exported="false" />
+        <activity
             android:name=".OperationsActivity"
             android:exported="false" />
         <activity
