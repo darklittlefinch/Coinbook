@@ -47,17 +47,6 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_expenses_activity_title"
         tools:text="12 527 ₽" />
 
-    <TextView
-        android:id="@+id/tv_operations_information"
-        style="@style/big_numbers"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="40dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_expenses_activity_title"
-        tools:text="12 527 ₽" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_operations"
         android:layout_width="match_parent"
