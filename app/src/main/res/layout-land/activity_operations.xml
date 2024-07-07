@@ -15,7 +15,7 @@
         app:layout_constraintGuide_percent="0.5" />
 
     <TextView
-        android:id="@+id/tv_expenses_activity_title"
+        android:id="@+id/tv_operation_title"
         style="@style/activity_titles"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -29,26 +29,26 @@
         android:id="@+id/iv_back_from_operations"
         style="@style/navigation_images"
         android:contentDescription="@string/content_description_left_arrow_image"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_expenses_activity_title"
-        app:layout_constraintStart_toStartOf="@+id/tv_expenses_activity_title"
-        app:layout_constraintTop_toTopOf="@+id/tv_expenses_activity_title"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_operation_title"
+        app:layout_constraintStart_toStartOf="@+id/tv_operation_title"
+        app:layout_constraintTop_toTopOf="@+id/tv_operation_title"
         app:srcCompat="@drawable/ic_left_arrow" />
 
     <ImageView
         android:id="@+id/iv_add_new_operation"
         style="@style/navigation_images"
         android:contentDescription="@string/content_description_plus_green_image"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_expenses_activity_title"
-        app:layout_constraintEnd_toEndOf="@+id/tv_expenses_activity_title"
-        app:layout_constraintTop_toTopOf="@+id/tv_expenses_activity_title"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_operation_title"
+        app:layout_constraintEnd_toEndOf="@+id/tv_operation_title"
+        app:layout_constraintTop_toTopOf="@+id/tv_operation_title"
         app:srcCompat="@drawable/ic_plus_rounded" />
 
     <ImageView
         style="@style/navigation_images"
         android:contentDescription="@string/content_description_left_arrow_image"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_expenses_activity_title"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_operation_title"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_expenses_activity_title"
+        app:layout_constraintTop_toTopOf="@+id/tv_operation_title"
         app:srcCompat="@drawable/ic_left_arrow" />
 
     <TextView
@@ -61,7 +61,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/guidelineOperations"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_expenses_activity_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_operation_title"
         tools:text="12 527 ₽" />
 
     <androidx.recyclerview.widget.RecyclerView
