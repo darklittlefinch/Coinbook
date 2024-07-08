@@ -16,6 +16,7 @@
         android:padding="4dp">
 
         <TextView
+            android:id="@+id/tv_expense_category"
             style="@style/text_without_top_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -26,6 +27,7 @@
             tools:text="Food" />
 
         <TextView
+            android:id="@+id/tv_expense_amount"
             style="@style/bold_numbers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

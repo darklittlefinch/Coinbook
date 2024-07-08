@@ -16,6 +16,7 @@
         android:padding="4dp">
 
         <TextView
+            android:id="@+id/tv_income_source"
             style="@style/text_without_top_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -25,6 +26,7 @@
             tools:text="Salary" />
 
         <TextView
+            android:id="@+id/tv_income_amount"
             style="@style/bold_numbers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

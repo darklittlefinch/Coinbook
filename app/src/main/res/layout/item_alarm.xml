@@ -16,17 +16,17 @@
         android:padding="4dp">
 
         <TextView
-            android:id="@+id/tv_alarm_amount"
+            android:id="@+id/tv_alarm_text"
             style="@style/text_without_top_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/tv_alarm_text"
+            app:layout_constraintBottom_toTopOf="@+id/tv_alarm_amount"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Repay a debt to John Doe" />
 
         <TextView
-            android:id="@+id/tv_alarm_text"
+            android:id="@+id/tv_alarm_amount"
             style="@style/text_without_top_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -34,29 +34,29 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_alarm_amount"
+            app:layout_constraintTop_toBottomOf="@id/tv_alarm_text"
             tools:text="500 ₽" />
 
         <TextView
-            android:id="@+id/tv_date"
+            android:id="@+id/tv_alarm_date"
             style="@style/text_without_top_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/tv_time"
+            app:layout_constraintBottom_toTopOf="@id/tv_alarm_time"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="01.11.2024" />
 
         <TextView
-            android:id="@+id/tv_time"
+            android:id="@+id/tv_alarm_time"
             style="@style/text_without_top_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_date"
+            app:layout_constraintTop_toBottomOf="@id/tv_alarm_date"
             tools:text="18:00" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,11 +16,12 @@
         android:padding="4dp">
 
         <TextView
+            android:id="@+id/tv_limit_category"
             style="@style/text_without_top_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/progressBar"
+            app:layout_constraintBottom_toTopOf="@id/progress_bar_limit"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Entertainment" />
@@ -31,13 +32,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@id/progressBar"
+            app:layout_constraintBottom_toTopOf="@id/progress_bar_limit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="4 142 / 5 000 ₽" />
 
         <ProgressBar
-            android:id="@+id/progressBar"
+            android:id="@+id/progress_bar_limit"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
