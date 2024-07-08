@@ -19,7 +19,7 @@
         tools:text="@string/expenses_title" />
 
     <ImageView
-        android:id="@+id/iv_back_from_operations"
+        android:id="@+id/iv_back"
         style="@style/navigation_images"
         android:contentDescription="@string/content_description_left_arrow_image"
         app:layout_constraintBottom_toBottomOf="@+id/tv_operation_title"

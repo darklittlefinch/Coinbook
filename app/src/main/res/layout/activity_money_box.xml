@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/iv_back_from_operations"
+        android:id="@+id/iv_back"
         style="@style/navigation_images"
         android:contentDescription="@string/content_description_left_arrow_image"
         app:layout_constraintBottom_toBottomOf="@+id/tv_money_box_title"
@@ -116,7 +116,7 @@
         tools:text="@string/money_box_result_neutral" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_operations"
+        android:id="@+id/rv_money_box_operations"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
