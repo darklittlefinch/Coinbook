@@ -123,6 +123,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_money_box_goal_result_information"
-        tools:listitem="@layout/money_box_item" />
+        tools:listitem="@layout/item_money_box" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

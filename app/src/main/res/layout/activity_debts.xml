@@ -76,6 +76,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_debts_info"
-        tools:listitem="@layout/debt_item" />
+        tools:listitem="@layout/item_debt" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
