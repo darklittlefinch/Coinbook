@@ -56,10 +56,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setMoneyBoxListener() {
         binding.cvMoneyBox.setOnClickListener {
-            val intent = OperationsActivity.newIntent(
-                this,
-                OperationsActivity.MONEY_BOX_MODE
-            )
+            val intent = MoneyBoxActivity.newIntent(this)
             startActivity(intent)
         }
     }

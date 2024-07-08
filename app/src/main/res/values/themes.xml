@@ -94,9 +94,14 @@
         <item name="android:layout_width">32dp</item>
     </style>
 
-    <style name="big_image" parent="image">
+    <style name="medium_image" parent="image">
         <item name="android:layout_height">60dp</item>
         <item name="android:layout_width">60dp</item>
+    </style>
+
+    <style name="big_image" parent="base_big_margin">
+        <item name="android:layout_height">120dp</item>
+        <item name="android:layout_width">120dp</item>
     </style>
 
     <style name="navigation_images" parent="base_big_margin">

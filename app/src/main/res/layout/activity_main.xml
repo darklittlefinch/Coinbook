@@ -256,7 +256,7 @@
 
                 <ImageView
                     android:id="@+id/iv_money_box"
-                    style="@style/big_image"
+                    style="@style/medium_image"
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/content_description_piggy_bank_image"
                     android:src="@drawable/ic_piggy_bank"
@@ -313,7 +313,7 @@
 
                 <ImageView
                     android:id="@+id/iv_debts"
-                    style="@style/big_image"
+                    style="@style/medium_image"
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/content_description_debt_image"
                     android:src="@drawable/ic_debt"
@@ -369,7 +369,7 @@
 
                 <ImageView
                     android:id="@+id/iv_limits"
-                    style="@style/big_image"
+                    style="@style/medium_image"
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/content_description_limit_image"
                     android:src="@drawable/ic_limit"
@@ -413,7 +413,7 @@
 
                 <ImageView
                     android:id="@+id/iv_alarms"
-                    style="@style/big_image"
+                    style="@style/medium_image"
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/content_description_alarm_image"
                     android:src="@drawable/ic_bell_slash"
@@ -456,7 +456,7 @@
 
                 <ImageView
                     android:id="@+id/iv_history"
-                    style="@style/big_image"
+                    style="@style/medium_image"
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/content_description_history_image"
                     android:src="@drawable/ic_history"
