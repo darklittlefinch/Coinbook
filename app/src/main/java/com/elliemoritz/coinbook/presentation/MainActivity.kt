@@ -63,10 +63,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setDebtsListener() {
         binding.cvDebts.setOnClickListener {
-            val intent = OperationsActivity.newIntent(
-                this,
-                OperationsActivity.DEBTS_MODE
-            )
+            val intent = DebtsActivity.newIntent(this)
             startActivity(intent)
         }
     }

@@ -44,11 +44,6 @@ class OperationsActivity : AppCompatActivity() {
                 colorResId = R.color.green
             }
 
-            DEBTS_MODE -> {
-                binding.tvOperationTitle.setText(R.string.debts_title)
-                colorResId = R.color.orange
-            }
-
             else -> {
                 throw RuntimeException("Unknown mode")
             }
@@ -62,7 +57,6 @@ class OperationsActivity : AppCompatActivity() {
         private const val EXTRA_MODE = "mode"
         const val EXPENSES_MODE = "expenses"
         const val INCOME_MODE = "income"
-        const val DEBTS_MODE = "debts"
 
         fun newIntent(context: Context, mode: String): Intent {
             val intent = Intent(context, OperationsActivity::class.java)

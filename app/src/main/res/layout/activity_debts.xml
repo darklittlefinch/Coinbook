@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.DebtsActivity">
+
+    <TextView
+        android:id="@+id/tv_debts_title"
+        style="@style/activity_titles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/orange"
+        android:text="@string/debts_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_back"
+        style="@style/navigation_images"
+        android:contentDescription="@string/content_description_left_arrow_image"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_debts_title"
+        app:layout_constraintStart_toStartOf="@+id/tv_debts_title"
+        app:layout_constraintTop_toTopOf="@+id/tv_debts_title"
+        app:srcCompat="@drawable/ic_left_arrow" />
+
+    <ImageView
+        android:id="@+id/iv_add_new_debt"
+        style="@style/navigation_images"
+        android:contentDescription="@string/content_description_plus_green_image"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_debts_title"
+        app:layout_constraintEnd_toEndOf="@+id/tv_debts_title"
+        app:layout_constraintTop_toTopOf="@+id/tv_debts_title"
+        app:srcCompat="@drawable/ic_plus_rounded" />
+
+    <ImageView
+        android:id="@+id/iv_debts"
+        style="@style/big_image"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/content_description_piggy_bank_image"
+        android:src="@drawable/ic_debt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_debts_title" />
+
+    <TextView
+        android:id="@+id/tv_debts_amount"
+        style="@style/big_numbers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_debts"
+        tools:text="2 500 ₽" />
+
+    <TextView
+        android:id="@+id/tv_debts_info"
+        style="@style/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textColor="@color/gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_debts_amount"
+        tools:text="Next repayment: 01.11.2024" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_debts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_debts_info"
+        tools:listitem="@layout/debt_item" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
