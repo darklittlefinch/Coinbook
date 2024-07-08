@@ -8,80 +8,81 @@
     tools:context=".presentation.ExpensesActivity">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineOperations"
+        android:id="@+id/guideline_expenses"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
 
     <TextView
-        android:id="@+id/tv_operation_title"
+        android:id="@+id/tv_expenses_title"
         style="@style/activity_titles"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/red"
         android:text="@string/expenses_title"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineOperations"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_expenses"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/iv_back_from_operations"
+        android:id="@+id/iv_back"
         style="@style/navigation_images"
         android:contentDescription="@string/content_description_left_arrow_image"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_operation_title"
-        app:layout_constraintStart_toStartOf="@+id/tv_operation_title"
-        app:layout_constraintTop_toTopOf="@+id/tv_operation_title"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_expenses_title"
+        app:layout_constraintStart_toStartOf="@+id/tv_expenses_title"
+        app:layout_constraintTop_toTopOf="@+id/tv_expenses_title"
         app:srcCompat="@drawable/ic_left_arrow" />
 
     <ImageView
-        android:id="@+id/iv_add_new_operation"
+        android:id="@+id/iv_add_new_expense"
         style="@style/navigation_images"
         android:contentDescription="@string/content_description_plus_green_image"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_operation_title"
-        app:layout_constraintEnd_toEndOf="@+id/tv_operation_title"
-        app:layout_constraintTop_toTopOf="@+id/tv_operation_title"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_expenses_title"
+        app:layout_constraintEnd_toEndOf="@+id/tv_expenses_title"
+        app:layout_constraintTop_toTopOf="@+id/tv_expenses_title"
         app:srcCompat="@drawable/ic_plus_rounded" />
 
-    <ImageView
-        style="@style/navigation_images"
-        android:contentDescription="@string/content_description_left_arrow_image"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_operation_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_operation_title"
-        app:srcCompat="@drawable/ic_left_arrow" />
-
     <TextView
-        android:id="@+id/tv_money_amount"
+        android:id="@+id/tv_expenses_amount"
+        style="@style/big_numbers_landscape_without_pics"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:textAlignment="center"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineOperations"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_expenses"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_operation_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_expenses_title"
         tools:text="12 527 ₽" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_operations"
+    <TextView
+        android:id="@+id/tv_expenses_info"
+        style="@style/text_landscape"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineOperations"
+        android:textAlignment="center"
+        android:textColor="@color/gray"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_expenses"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_money_amount"
+        app:layout_constraintTop_toBottomOf="@id/tv_expenses_amount"
+        tools:text="You can spend 7 473 ₽ more this month" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_expenses"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_expenses"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_expenses_info"
         tools:listitem="@layout/item_expense" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/operation_container"
+        android:id="@+id/expenses_container"
         android:name="com.elliemoritz.coinbook.presentation.AddOperationFragment"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/guidelineOperations"
+        app:layout_constraintStart_toStartOf="@id/guideline_expenses"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

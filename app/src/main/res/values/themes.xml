@@ -32,13 +32,17 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="text_landscape" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:textSize">12sp</item>
+    </style>
+
     <style name="numbers" parent="base_small_margin">
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="medium_numbers" parent="base_medium_margin">
-        <item name="android:textSize">24sp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
@@ -75,10 +79,35 @@
         <item name="android:layout_marginBottom">4dp</item>
     </style>
 
-    <style name="big_numbers" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="big_numbers_portrait" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">40sp</item>
         <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="big_numbers_portrait_without_pics" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">40sp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:paddingTop">30dp</item>
+        <item name="android:paddingStart">30dp</item>
+        <item name="android:paddingEnd">30dp</item>
+        <item name="android:paddingBottom">10dp</item>
+    </style>
+
+    <style name="big_numbers_landscape" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="big_numbers_landscape_without_pics" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">32sp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:paddingTop">20dp</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
     </style>
 
     <style name="image" parent="Theme.Material3.DayNight.NoActionBar">
@@ -102,6 +131,11 @@
     <style name="big_image" parent="base_big_margin">
         <item name="android:layout_height">120dp</item>
         <item name="android:layout_width">120dp</item>
+    </style>
+
+    <style name="big_image_landscape" parent="base_big_margin">
+        <item name="android:layout_height">80dp</item>
+        <item name="android:layout_width">80dp</item>
     </style>
 
     <style name="navigation_images" parent="base_big_margin">

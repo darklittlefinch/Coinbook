@@ -7,14 +7,21 @@
     android:layout_height="match_parent"
     tools:context=".presentation.MoneyBoxActivity">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_money_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
     <TextView
         android:id="@+id/tv_money_box_title"
         style="@style/activity_titles"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/yellow"
         android:text="@string/money_box_title"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_money_box"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,11 +36,11 @@
 
     <ImageView
         android:id="@+id/iv_money_box"
-        style="@style/big_image"
+        style="@style/big_image_landscape"
         android:adjustViewBounds="true"
         android:contentDescription="@string/content_description_piggy_bank_image"
         android:src="@drawable/ic_piggy_bank"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_money_box"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_money_box_title" />
 
@@ -59,70 +66,80 @@
 
     <TextView
         android:id="@+id/tv_money_box_amount"
-        style="@style/big_numbers_portrait"
-        android:layout_width="match_parent"
+        style="@style/big_numbers_landscape"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_money_box"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_money_box"
         tools:text="14 673 ₽" />
 
     <TextView
         android:id="@+id/tv_money_box_start_information"
-        style="@style/text"
-        android:layout_width="match_parent"
+        style="@style/text_landscape"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textColor="@color/gray"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_money_box"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_money_box_amount"
         tools:text="Started 15.02.2024" />
 
     <TextView
         android:id="@+id/tv_money_box_goal_information"
-        style="@style/text"
-        android:layout_width="match_parent"
+        style="@style/text_landscape"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textColor="@color/gray"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_money_box"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_money_box_start_information"
         tools:text="Your goal: 25 000 ₽ before 25.03.2024" />
 
     <TextView
         android:id="@+id/tv_money_box_goal_destination_information"
-        style="@style/text"
-        android:layout_width="match_parent"
+        style="@style/text_landscape"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textColor="@color/gray"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_money_box"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_money_box_goal_information"
         tools:text="You need to save 200 ₽ every day to reach this goal" />
 
     <TextView
         android:id="@+id/tv_money_box_goal_result_information"
-        style="@style/text"
-        android:layout_width="match_parent"
+        style="@style/text_landscape"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textColor="@color/gray"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_money_box"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_money_box_goal_destination_information"
         tools:text="@string/money_box_result_neutral" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_money_box_operations"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="4dp"
+        app:layout_constraintEnd_toEndOf="@id/guideline_money_box"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_money_box_goal_result_information"
         tools:listitem="@layout/item_money_box" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/money_box_container"
+        android:name="com.elliemoritz.coinbook.presentation.AddOperationFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline_money_box"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
