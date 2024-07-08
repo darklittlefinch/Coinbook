@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Coinbook"
         tools:targetApi="31">
         <activity
+            android:name=".presentation.IncomeActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.DebtsActivity"
             android:exported="false" />
         <activity
@@ -22,7 +25,7 @@
             android:name=".presentation.AddOperationActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.OperationsActivity"
+            android:name=".presentation.ExpensesActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.MainActivity"

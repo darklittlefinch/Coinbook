@@ -36,20 +36,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun setIncomeListener() {
         binding.cvIncome.setOnClickListener {
-            val intent = OperationsActivity.newIntent(
-                this,
-                OperationsActivity.INCOME_MODE
-            )
+            val intent = IncomeActivity.newIntent(this)
             startActivity(intent)
         }
     }
 
     private fun setExpensesListener() {
         binding.cvExpenses.setOnClickListener {
-            val intent = OperationsActivity.newIntent(
-                this,
-                OperationsActivity.EXPENSES_MODE
-            )
+            val intent = ExpensesActivity.newIntent(this)
             startActivity(intent)
         }
     }

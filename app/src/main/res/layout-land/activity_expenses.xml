@@ -5,21 +5,28 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.OperationsActivity">
+    tools:context=".presentation.ExpensesActivity">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineOperations"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
 
     <TextView
         android:id="@+id/tv_operation_title"
         style="@style/activity_titles"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/red"
+        android:text="@string/expenses_title"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineOperations"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:background="@color/red"
-        tools:text="@string/expenses_title" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/iv_back"
+        android:id="@+id/iv_back_from_operations"
         style="@style/navigation_images"
         android:contentDescription="@string/content_description_left_arrow_image"
         app:layout_constraintBottom_toBottomOf="@+id/tv_operation_title"
@@ -36,37 +43,45 @@
         app:layout_constraintTop_toTopOf="@+id/tv_operation_title"
         app:srcCompat="@drawable/ic_plus_rounded" />
 
+    <ImageView
+        style="@style/navigation_images"
+        android:contentDescription="@string/content_description_left_arrow_image"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_operation_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_operation_title"
+        app:srcCompat="@drawable/ic_left_arrow" />
+
     <TextView
         android:id="@+id/tv_money_amount"
-        style="@style/big_numbers"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="40dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="20dp"
+        android:textAlignment="center"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineOperations"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_operation_title"
         tools:text="12 527 ₽" />
 
-    <TextView
-        android:id="@+id/tv_money_information"
-        style="@style/text"
-        android:textColor="@color/gray"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="@id/tv_money_amount"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="You can spend 7 473 ₽ more this month" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_operations"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineOperations"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_money_amount"
-        tools:listitem="@layout/item_operation" />
+        tools:listitem="@layout/item_expense" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/operation_container"
+        android:name="com.elliemoritz.coinbook.presentation.AddOperationFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guidelineOperations"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
