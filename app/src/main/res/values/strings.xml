@@ -41,7 +41,15 @@
     <string name="content_description_history_image">Check history of operations</string>
     <string name="content_description_settings_image">Open settings of the application</string>
     <string name="content_description_left_arrow_image">Go back to home screen</string>
-    <string name="content_description_plus_green_image">Add new operation</string>
+    <string name="content_description_add_new_income">Add new income</string>
+    <string name="content_description_add_new_expense">Add new expense</string>
+    <string name="content_description_replenish_money_box">Replenish your money box</string>
+    <string name="content_description_take_out_of_money_box">Take out money from your money box</string>
+    <string name="content_description_add_new_debt">Add new debt</string>
+    <string name="content_description_simple_income_image">Image of hand with pluses above it</string>
+    <string name="content_description_simple_expense_image">Image of hand giving away money</string>
+    <string name="content_description_simple_piggy_bank_image">Image of piggy bank</string>
+    <string name="content_description_simple_debt_image">Image of weight with a drawn dollar on it</string>
 
     <string name="add_new_operation">Add new operation</string>
     <string name="hint_enter_the_amount">Enter the amount</string>
