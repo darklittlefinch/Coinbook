@@ -26,9 +26,10 @@
 
         <TextView
             android:id="@+id/tv_date"
-            style="@style/text_landscape"
+            style="@style/text_without_top_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/tv_time"
             app:layout_constraintEnd_toEndOf="parent"
@@ -37,7 +38,7 @@
 
         <TextView
             android:id="@+id/tv_time"
-            style="@style/text_landscape"
+            style="@style/text_without_top_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"

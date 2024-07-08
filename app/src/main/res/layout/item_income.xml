@@ -16,7 +16,7 @@
         android:padding="4dp">
 
         <TextView
-            style="@style/text"
+            style="@style/text_without_top_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
