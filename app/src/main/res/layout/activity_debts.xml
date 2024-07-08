@@ -38,7 +38,7 @@
 
     <ImageView
         android:id="@+id/iv_debts"
-        style="@style/big_image"
+        style="@style/big_image_landscape"
         android:adjustViewBounds="true"
         android:contentDescription="@string/content_description_piggy_bank_image"
         android:src="@drawable/ic_debt"
