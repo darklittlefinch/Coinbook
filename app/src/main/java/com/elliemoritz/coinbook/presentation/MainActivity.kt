@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         setIncomeListener()
         setMoneyBoxListener()
         setDebtsListener()
+        setLimitsListener()
     }
 
     private fun setIncomeListener() {
@@ -58,6 +59,13 @@ class MainActivity : AppCompatActivity() {
     private fun setDebtsListener() {
         binding.cvDebts.setOnClickListener {
             val intent = DebtsActivity.newIntent(this)
+            startActivity(intent)
+        }
+    }
+
+    private fun setLimitsListener() {
+        binding.cvLimits.setOnClickListener {
+            val intent = LimitsActivity.newIntent(this)
             startActivity(intent)
         }
     }

@@ -25,7 +25,7 @@
             tools:text="Food" />
 
         <TextView
-            style="@style/numbers"
+            style="@style/bold_numbers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
