@@ -171,7 +171,7 @@
                     style="@style/small_image"
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/content_description_income_image"
-                    android:src="@drawable/ic_benefit"
+                    android:src="@drawable/ic_income"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
