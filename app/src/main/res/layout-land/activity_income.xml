@@ -67,7 +67,7 @@
         android:id="@+id/rv_income"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="4dp"
+        android:padding="8dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_income"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_income_amount"

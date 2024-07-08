@@ -69,7 +69,7 @@
         android:id="@+id/rv_limits"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="4dp"
+        android:padding="8dp"
         app:layout_constraintEnd_toEndOf="@id/guideline_limits"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_limits_info"
