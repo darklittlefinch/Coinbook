@@ -46,18 +46,18 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="base_titles" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="base_narrow_top_bottom" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:layout_marginTop">4dp</item>
         <item name="android:layout_marginBottom">4dp</item>
         <item name="android:layout_marginStart">8dp</item>
         <item name="android:layout_marginEnd">8dp</item>
     </style>
 
-    <style name="titles" parent="base_titles">
+    <style name="titles" parent="base_narrow_top_bottom">
         <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="bold_titles" parent="base_titles">
+    <style name="bold_titles" parent="base_narrow_top_bottom">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textAlignment">center</item>

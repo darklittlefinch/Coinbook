@@ -2,9 +2,9 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/base_narrow_top_bottom"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
     app:cardBackgroundColor="@color/red"
     app:cardCornerRadius="8dp"
     app:cardElevation="8dp">
@@ -26,20 +26,20 @@
 
         <TextView
             android:id="@+id/tv_date"
-            style="@style/text"
-            android:textStyle="bold"
+            style="@style/text_landscape"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/tv_time"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Debt is overdue by 3 days" />
 
         <TextView
             android:id="@+id/tv_time"
-            style="@style/base_small_margin"
+            style="@style/text_landscape"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_date"
