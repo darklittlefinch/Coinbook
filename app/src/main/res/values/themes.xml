@@ -32,6 +32,11 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="text_with_big_top_bottom" parent="base_big_margin">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+
     <style name="text_without_top_bottom" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:textSize">14sp</item>
         <item name="android:layout_marginStart">8dp</item>

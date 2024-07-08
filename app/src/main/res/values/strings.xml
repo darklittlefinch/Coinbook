@@ -29,6 +29,8 @@
     <string name="money_box_result_negative">You are %s %s behind your goal</string>
     <string name="money_box_result_neutral">You are keeping up your goal!</string>
 
+    <string name="alarm_info">The next event will be %s</string>
+
     <string name="add_new_operation">Add new operation</string>
     <string name="hint_enter_the_amount">Enter the amount</string>
     <string name="button_done">Done</string>
@@ -52,12 +54,14 @@
     <string name="content_description_take_out_of_money_box">Take out money from your money box</string>
     <string name="content_description_add_new_debt">Add new debt</string>
     <string name="content_description_add_new_limit">Add new limit</string>
+    <string name="content_description_add_new_alarm">Add new alarm</string>
 
-    <string name="content_description_simple_income_image">Image of hand with pluses above it</string>
-    <string name="content_description_simple_expense_image">Image of hand giving away money</string>
-    <string name="content_description_simple_piggy_bank_image">Image of piggy bank</string>
-    <string name="content_description_simple_debt_image">Image of weight with a drawn dollar on it</string>
-    <string name="content_description_simple_limit_image">Image of hand and prohibition sign</string>
+    <string name="content_description_simple_income_image">Image of a hand with pluses above it</string>
+    <string name="content_description_simple_expense_image">Image of a hand giving away money</string>
+    <string name="content_description_simple_piggy_bank_image">Image of a piggy bank</string>
+    <string name="content_description_simple_debt_image">Image of a weight with a drawn dollar on it</string>
+    <string name="content_description_simple_limit_image">Image of a hand and a prohibition sign</string>
+    <string name="content_description_simple_alarm_image">Image of a ringing bell</string>
 
     <array name="categories">
         <item>Home</item>
