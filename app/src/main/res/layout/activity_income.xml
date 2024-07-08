@@ -36,14 +36,24 @@
         app:layout_constraintTop_toTopOf="@+id/tv_income_title"
         app:srcCompat="@drawable/ic_plus_rounded" />
 
+    <ImageView
+        android:id="@+id/iv_income"
+        style="@style/big_image_landscape"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/content_description_piggy_bank_image"
+        android:src="@drawable/ic_benefit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_income_title" />
+
     <TextView
         android:id="@+id/tv_income_amount"
-        style="@style/big_numbers_portrait_without_pics"
+        style="@style/big_numbers_portrait"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_income_title"
+        app:layout_constraintTop_toBottomOf="@+id/iv_income"
         tools:text="37 500 ₽" />
 
     <androidx.recyclerview.widget.RecyclerView

@@ -47,7 +47,7 @@
     <ImageView
         android:id="@+id/iv_remove_from_money_box"
         style="@style/small_image"
-        android:layout_margin="32dp"
+        android:layout_margin="16dp"
         android:contentDescription="@string/content_description_plus_green_image"
         app:layout_constraintBottom_toBottomOf="@+id/iv_money_box"
         app:layout_constraintEnd_toStartOf="@+id/iv_money_box"
@@ -57,7 +57,7 @@
     <ImageView
         android:id="@+id/iv_add_to_money_box"
         style="@style/small_image"
-        android:layout_margin="32dp"
+        android:layout_margin="16dp"
         android:contentDescription="@string/content_description_plus_green_image"
         app:layout_constraintBottom_toBottomOf="@+id/iv_money_box"
         app:layout_constraintStart_toEndOf="@+id/iv_money_box"

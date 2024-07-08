@@ -43,14 +43,24 @@
         app:layout_constraintTop_toTopOf="@+id/tv_expenses_title"
         app:srcCompat="@drawable/ic_plus_rounded" />
 
+    <ImageView
+        android:id="@+id/iv_expense"
+        style="@style/big_image_landscape"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/content_description_piggy_bank_image"
+        android:src="@drawable/ic_expense"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_expenses"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_expenses_title" />
+
     <TextView
         android:id="@+id/tv_expenses_amount"
-        style="@style/big_numbers_landscape_without_pics"
+        style="@style/big_numbers_landscape"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toStartOf="@+id/guideline_expenses"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_expenses_title"
+        app:layout_constraintTop_toBottomOf="@+id/iv_expense"
         tools:text="12 527 ₽" />
 
     <TextView
