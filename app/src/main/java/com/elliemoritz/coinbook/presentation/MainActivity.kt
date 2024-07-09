@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         setLimitsListener()
         setAlarmsListener()
         setHistoryListener()
+        setSettingsListener()
     }
 
     private fun setIncomeListener() {
@@ -82,6 +83,13 @@ class MainActivity : AppCompatActivity() {
     private fun setHistoryListener() {
         binding.cvHistory.setOnClickListener {
             val intent = HistoryActivity.newIntent(this)
+            startActivity(intent)
+        }
+    }
+
+    private fun setSettingsListener() {
+        binding.cvSettings.setOnClickListener {
+            val intent = SettingsActivity.newIntent(this)
             startActivity(intent)
         }
     }

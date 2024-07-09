@@ -37,6 +37,11 @@
     <string name="hint_enter_the_amount">Enter the amount</string>
     <string name="button_done">Done</string>
 
+    <string name="settings_currency">Currency</string>
+    <string name="settings_enable_notifications">Enable notifications</string>
+    <string name="settings_enable_notifications_sound">Turn on notifications sound</string>
+    <string name="settings_hint_enter_new_balance">Enter new balance</string>
+
     <string name="content_description_balance_image">Check your balance</string>
     <string name="content_description_income_image">Check your income stats</string>
     <string name="content_description_plus_image">Add new expense</string>
@@ -70,6 +75,13 @@
         <item>Food</item>
         <item>Transport</item>
         <item>Entertainment</item>
+    </array>
+
+    <array name="currencies">
+        <item>$</item>
+        <item>€</item>
+        <item>₽</item>
+        <item>£</item>
     </array>
 
 </resources>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.SettingsActivity">
+
+    <TextView
+        android:id="@+id/tv_settings_title"
+        style="@style/activity_titles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray"
+        android:text="@string/settings_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_back"
+        style="@style/navigation_images"
+        android:contentDescription="@string/content_description_left_arrow_image"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_settings_title"
+        app:layout_constraintStart_toStartOf="@+id/tv_settings_title"
+        app:layout_constraintTop_toTopOf="@+id/tv_settings_title"
+        app:srcCompat="@drawable/ic_left_arrow" />
+
+    <TextView
+        android:id="@+id/tv_settings_balance"
+        style="@style/settings_titles"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/balance_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_settings_title" />
+
+    <EditText
+        android:id="@+id/editTextNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/settings_hint_enter_new_balance"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="@id/tv_settings_balance"
+        app:layout_constraintEnd_toEndOf="@+id/tv_settings_balance"
+        app:layout_constraintTop_toTopOf="@id/tv_settings_balance" />
+
+    <View
+        style="@style/settings_divider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_settings_balance" />
+
+    <TextView
+        android:id="@+id/tv_settings_currency"
+        style="@style/settings_titles"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/settings_currency"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_settings_balance" />
+
+    <Spinner
+        android:id="@+id/spinner_currency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/currencies"
+        app:layout_constraintBottom_toBottomOf="@id/tv_settings_currency"
+        app:layout_constraintEnd_toEndOf="@+id/tv_settings_currency"
+        app:layout_constraintTop_toTopOf="@id/tv_settings_currency"
+        tools:layout_editor_absoluteY="117dp" />
+
+    <View
+        style="@style/settings_divider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_settings_currency" />
+
+    <TextView
+        android:id="@+id/tv_settings_notifications"
+        style="@style/settings_titles"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/settings_enable_notifications"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_settings_currency" />
+
+    <ToggleButton
+        android:id="@+id/toggle_settings_notifications"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="@string/settings_enable_notifications_sound"
+        app:layout_constraintBottom_toBottomOf="@id/tv_settings_notifications"
+        app:layout_constraintEnd_toEndOf="@id/tv_settings_notifications"
+        app:layout_constraintTop_toTopOf="@id/tv_settings_notifications" />
+
+    <View
+        style="@style/settings_divider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_settings_notifications" />
+
+    <TextView
+        android:id="@+id/tv_settings_notifications_sound"
+        style="@style/settings_titles"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/settings_enable_notifications_sound"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_settings_notifications" />
+
+    <ToggleButton
+        android:id="@+id/toggle_settings_notifications_sound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="@string/settings_enable_notifications_sound"
+        app:layout_constraintBottom_toBottomOf="@id/tv_settings_notifications_sound"
+        app:layout_constraintEnd_toEndOf="@id/tv_settings_notifications_sound"
+        app:layout_constraintTop_toTopOf="@id/tv_settings_notifications_sound" />
+
+    <View
+        style="@style/settings_divider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_settings_notifications_sound" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
