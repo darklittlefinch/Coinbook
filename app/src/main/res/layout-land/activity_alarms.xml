@@ -59,7 +59,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:textColor="@color/gray"
+        android:textColor="@color/dark_gray"
         app:layout_constraintEnd_toStartOf="@+id/guideline_alarms"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_alarms"

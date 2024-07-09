@@ -79,7 +79,7 @@
     </style>
 
     <style name="information" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="android:textColor">@color/gray</item>
+        <item name="android:textColor">@color/dark_gray</item>
         <item name="android:textSize">12sp</item>
         <item name="android:textAlignment">center</item>
         <item name="android:layout_marginBottom">4dp</item>
