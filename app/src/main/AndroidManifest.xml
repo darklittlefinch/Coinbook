@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Coinbook"
         tools:targetApi="31">
         <activity
+            android:name=".presentation.HistoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.AlarmsActivity"
             android:exported="false" />
         <activity

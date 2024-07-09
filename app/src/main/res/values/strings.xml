@@ -12,6 +12,8 @@
     <string name="settings_title">Settings</string>
 
     <string name="amount">%s %s</string>
+    <string name="amount_minus">- %s %s</string>
+    <string name="amount_plus">+ %s %s</string>
 
     <string name="limit_info_positive">You can spend %s %s more this month</string>
     <string name="limit_info_negative">You have exceeded your limit by %s %s</string>
