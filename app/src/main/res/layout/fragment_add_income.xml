@@ -41,13 +41,13 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_amount"
                 android:inputType="number"
-                app:layout_constraintBottom_toTopOf="@id/spinner_income"
+                app:layout_constraintBottom_toTopOf="@id/tv_add_income_source"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_add_income_title" />
 
             <EditText
-                android:id="@+id/spinner_income"
+                android:id="@+id/tv_add_income_source"
                 style="@style/add_fragments_inputs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/spinner_income" />
+                app:layout_constraintTop_toBottomOf="@id/tv_add_income_source" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
