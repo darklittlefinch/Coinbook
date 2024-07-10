@@ -75,7 +75,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/income_container"
-        android:name="com.elliemoritz.coinbook.presentation.AddOperationFragment"
+        android:name="com.elliemoritz.coinbook.presentation.AddExpenseFragment"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"

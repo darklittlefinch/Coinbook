@@ -33,8 +33,22 @@
 
     <string name="alarm_info">The next event will be %s</string>
 
-    <string name="add_new_operation">Add new operation</string>
-    <string name="hint_enter_the_amount">Enter the amount</string>
+    <string name="dialog_edit_balance">Edit balance</string>
+    <string name="dialog_add_new_income">Add new income</string>
+    <string name="dialog_add_new_expense">Add new expense</string>
+    <string name="dialog_create_money_box">Create money box</string>
+    <string name="dialog_put_in_money_box">Put money in money box</string>
+    <string name="dialog_add_new_debt">Add new debt</string>
+    <string name="dialog_add_new_limit">Add new limit</string>
+    <string name="dialog_add_new_alarm">Add new alarm</string>
+    <string name="dialog_add_new_category">Add new category</string>
+
+    <string name="hint_amount">Enter the amount</string>
+    <string name="hint_source">Enter source</string>
+    <string name="hint_creditor">Enter creditor</string>
+    <string name="hint_description">Enter description</string>
+    <string name="hint_name">Enter name</string>
+
     <string name="button_done">Done</string>
 
     <string name="settings_currency">Currency</string>

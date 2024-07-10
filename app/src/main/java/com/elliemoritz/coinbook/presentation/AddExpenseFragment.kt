@@ -9,10 +9,10 @@ import com.elliemoritz.coinbook.R
 
 /**
  * A simple [Fragment] subclass.
- * Use the [AddOperationFragment.newInstance] factory method to
+ * Use the [AddExpenseFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class AddOperationFragment : Fragment() {
+class AddExpenseFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -30,7 +30,7 @@ class AddOperationFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_operation, container, false)
+        return inflater.inflate(R.layout.fragment_add_expense, container, false)
     }
 
     companion object {
@@ -51,7 +51,7 @@ class AddOperationFragment : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            AddOperationFragment().apply {
+            AddExpenseFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
