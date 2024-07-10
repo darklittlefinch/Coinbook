@@ -134,7 +134,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/money_box_container"
-        android:name="com.elliemoritz.coinbook.presentation.AddExpenseFragment"
+        android:name="com.elliemoritz.coinbook.presentation.AddMoneyBoxOperationFragment"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
