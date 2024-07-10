@@ -51,7 +51,7 @@
     <string name="hint_name">Enter name</string>
     <string name="hint_datetime">Enter date and time</string>
     <string name="hint_limit">Enter limit (0 = no limits)</string>
-    <string name="hint_money_box">I'm saving money for...</string>
+    <string name="hint_money_box">I\'m saving money for...</string>
 
     <string name="button_done">Done</string>
 
@@ -101,5 +101,7 @@
         <item>₽</item>
         <item>£</item>
     </array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
