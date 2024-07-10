@@ -20,7 +20,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/green"
-        android:text="@string/income_title"
+        android:text="@string/title_income"
         app:layout_constraintEnd_toStartOf="@+id/guideline_income"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

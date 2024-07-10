@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/yellow"
-        android:text="@string/money_box_title"
+        android:text="@string/title_money_box"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -113,7 +113,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_money_box_goal_destination_information"
-        tools:text="@string/money_box_result_neutral" />
+        tools:text="@string/info_money_box_result_neutral" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_money_box_operations"

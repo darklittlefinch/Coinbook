@@ -1,37 +1,37 @@
 <resources>
     <string name="app_name">Coinbook</string>
 
-    <string name="balance_title">Balance</string>
-    <string name="expenses_title">Expenses</string>
-    <string name="income_title">Income</string>
-    <string name="money_box_title">Money box</string>
-    <string name="debts_title">Debts</string>
-    <string name="limits_title">Limits</string>
-    <string name="alarm_title">Alarms</string>
-    <string name="history_title">History</string>
-    <string name="settings_title">Settings</string>
+    <string name="title_balance">Balance</string>
+    <string name="title_expenses">Expenses</string>
+    <string name="title_income">Income</string>
+    <string name="title_money_box">Money box</string>
+    <string name="title_debts">Debts</string>
+    <string name="title_limits">Limits</string>
+    <string name="title_alarm">Alarms</string>
+    <string name="title_history">History</string>
+    <string name="title_settings">Settings</string>
 
     <string name="amount">%s %s</string>
     <string name="amount_minus">- %s %s</string>
     <string name="amount_plus">+ %s %s</string>
 
-    <string name="limit_info_positive">You can spend %s %s more this month</string>
-    <string name="limit_info_negative">You have exceeded your limit by %s %s</string>
-    <string name="limit_info_neutral">You can\'t spend any more money this month</string>
+    <string name="info_limit_positive">You can spend %s %s more this month</string>
+    <string name="info_limit_negative">You have exceeded your limit by %s %s</string>
+    <string name="info_limit_neutral">You can\'t spend any more money this month</string>
 
-    <string name="debt_info_positive">Next repayment: %s</string>
-    <string name="debt_info_negative">You have overdue repayments</string>
-    <string name="debt_positive">Repay before %s</string>
-    <string name="debt_negative">Debt is overdue by %s day%s</string>
+    <string name="info_debt_positive">Next repayment: %s</string>
+    <string name="info_debt_negative">You have overdue repayments</string>
+    <string name="info_debt_specific_positive">Repay before %s</string>
+    <string name="info_debt_specific_negative">Debt is overdue by %s day%s</string>
 
-    <string name="money_box_start">Started %s</string>
-    <string name="money_box_goal">Your goal: %s %s before %s</string>
-    <string name="money_box_goal_destination">You need to save %s %s every day to reach this goal</string>
-    <string name="money_box_result_positive">You are ahead of your goal by %s %s</string>
-    <string name="money_box_result_negative">You are %s %s behind your goal</string>
-    <string name="money_box_result_neutral">You are keeping up your goal!</string>
+    <string name="info_money_box_start">Started %s</string>
+    <string name="info_money_box_goal">Your goal: %s %s before %s</string>
+    <string name="info_money_box_goal_destination">You need to save %s %s every day to reach this goal</string>
+    <string name="info_money_box_result_positive">You are ahead of your goal by %s %s</string>
+    <string name="info_money_box_result_negative">You are %s %s behind your goal</string>
+    <string name="info_money_box_result_neutral">You are keeping up your goal!</string>
 
-    <string name="alarm_info">The next event will be %s</string>
+    <string name="info_alarm">The next event will be %s</string>
 
     <string name="dialog_edit_balance">Edit balance</string>
     <string name="dialog_add_new_income">Add new income</string>

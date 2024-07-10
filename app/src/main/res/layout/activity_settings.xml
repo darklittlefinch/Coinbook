@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/gray"
-        android:text="@string/settings_title"
+        android:text="@string/title_settings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -32,7 +32,7 @@
         style="@style/settings_titles"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/balance_title"
+        android:text="@string/title_balance"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_settings_title" />
