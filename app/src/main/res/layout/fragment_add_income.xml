@@ -23,43 +23,43 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/tv_add_expense_title"
+                android:id="@+id/tv_add_income_title"
                 style="@style/activity_titles"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:text="@string/dialog_add_new_income"
-                app:layout_constraintBottom_toTopOf="@id/et_expense_amount"
+                app:layout_constraintBottom_toTopOf="@id/et_income_amount"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/et_expense_amount"
+                android:id="@+id/et_income_amount"
                 style="@style/add_fragments_inputs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_amount"
                 android:inputType="number"
-                app:layout_constraintBottom_toTopOf="@id/spinner_expenses"
+                app:layout_constraintBottom_toTopOf="@id/spinner_income"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_add_expense_title" />
+                app:layout_constraintTop_toBottomOf="@id/tv_add_income_title" />
 
             <EditText
-                android:id="@+id/spinner_expenses"
+                android:id="@+id/spinner_income"
                 style="@style/add_fragments_inputs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_source"
                 android:inputType="textAutoCorrect"
-                app:layout_constraintBottom_toTopOf="@id/button_add_expense"
+                app:layout_constraintBottom_toTopOf="@id/button_add_income"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/et_expense_amount" />
+                app:layout_constraintTop_toBottomOf="@id/et_income_amount" />
 
             <Button
-                android:id="@+id/button_add_expense"
+                android:id="@+id/button_add_income"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
@@ -72,7 +72,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/spinner_expenses" />
+                app:layout_constraintTop_toBottomOf="@id/spinner_income" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
