@@ -65,13 +65,13 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_creditor"
                 android:inputType="text"
-                app:layout_constraintBottom_toTopOf="@id/button_add_expense"
+                app:layout_constraintBottom_toTopOf="@id/button_add_debt"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/et_debt_date" />
 
             <Button
-                android:id="@+id/button_add_expense"
+                android:id="@+id/button_add_debt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
