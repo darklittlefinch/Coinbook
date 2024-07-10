@@ -46,6 +46,7 @@
     <string name="hint_amount">Enter the amount</string>
     <string name="hint_source">Enter source of income</string>
     <string name="hint_creditor">Enter creditor</string>
+    <string name="hint_date">Enter date</string>
     <string name="hint_description">Enter description</string>
     <string name="hint_name">Enter name</string>
 
