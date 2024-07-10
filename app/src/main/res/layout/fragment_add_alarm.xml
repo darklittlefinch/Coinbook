@@ -29,37 +29,37 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:text="@string/dialog_add_new_alarm"
-                app:layout_constraintBottom_toTopOf="@id/et_alarm_date"
+                app:layout_constraintBottom_toTopOf="@id/et_add_alarm_date"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/et_alarm_date"
+                android:id="@+id/et_add_alarm_date"
                 style="@style/add_fragments_inputs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_datetime"
                 android:inputType="datetime"
-                app:layout_constraintBottom_toTopOf="@id/et_alarm_creditor"
+                app:layout_constraintBottom_toTopOf="@id/et_add_alarm_creditor"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_add_alarm_title" />
 
             <EditText
-                android:id="@+id/et_alarm_creditor"
+                android:id="@+id/et_add_alarm_creditor"
                 style="@style/add_fragments_inputs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_description"
                 android:inputType="text"
-                app:layout_constraintBottom_toTopOf="@id/et_alarm_amount"
+                app:layout_constraintBottom_toTopOf="@id/et_add_alarm_amount"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/et_alarm_date" />
+                app:layout_constraintTop_toBottomOf="@id/et_add_alarm_date" />
 
             <EditText
-                android:id="@+id/et_alarm_amount"
+                android:id="@+id/et_add_alarm_amount"
                 style="@style/add_fragments_inputs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
                 app:layout_constraintBottom_toTopOf="@id/button_add_alarm"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/et_alarm_creditor" />
+                app:layout_constraintTop_toBottomOf="@id/et_add_alarm_creditor" />
 
             <Button
                 android:id="@+id/button_add_alarm"
@@ -84,8 +84,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/et_alarm_amount" />
-
+                app:layout_constraintTop_toBottomOf="@id/et_add_alarm_amount" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -29,26 +29,26 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:text="@string/dialog_add_new_category"
-                app:layout_constraintBottom_toTopOf="@id/tv_category_name"
+                app:layout_constraintBottom_toTopOf="@id/tv_add_category_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/tv_category_name"
+                android:id="@+id/tv_add_category_name"
                 style="@style/add_fragments_inputs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_name"
                 android:inputType="textAutoCorrect"
-                app:layout_constraintBottom_toTopOf="@id/et_category_limit"
+                app:layout_constraintBottom_toTopOf="@id/et_add_category_limit"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_add_category_title" />
 
             <EditText
-                android:id="@+id/et_category_limit"
+                android:id="@+id/et_add_category_limit"
                 style="@style/add_fragments_inputs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
                 app:layout_constraintBottom_toTopOf="@id/button_add_category"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_category_name" />
+                app:layout_constraintTop_toBottomOf="@id/tv_add_category_name" />
 
             <Button
                 android:id="@+id/button_add_category"
@@ -73,8 +73,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/et_category_limit" />
-
+                app:layout_constraintTop_toBottomOf="@id/et_add_category_limit" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

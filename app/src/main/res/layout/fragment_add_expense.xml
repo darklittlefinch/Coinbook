@@ -29,25 +29,25 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:text="@string/dialog_add_new_expense"
-                app:layout_constraintBottom_toTopOf="@id/et_expense_amount"
+                app:layout_constraintBottom_toTopOf="@id/et_add_expense_amount"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/et_expense_amount"
+                android:id="@+id/et_add_expense_amount"
                 style="@style/add_fragments_inputs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_amount"
                 android:inputType="number"
-                app:layout_constraintBottom_toTopOf="@id/spinner_expenses"
+                app:layout_constraintBottom_toTopOf="@id/spinner_add_expenses"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_add_expense_title" />
 
             <Spinner
-                android:id="@+id/spinner_expenses"
+                android:id="@+id/spinner_add_expenses"
                 style="@style/add_fragments_inputs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
                 app:layout_constraintBottom_toTopOf="@id/button_add_expense"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/et_expense_amount" />
+                app:layout_constraintTop_toBottomOf="@id/et_add_expense_amount" />
 
             <Button
                 android:id="@+id/button_add_expense"
@@ -72,8 +72,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/spinner_expenses" />
-
+                app:layout_constraintTop_toBottomOf="@id/spinner_add_expenses" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
