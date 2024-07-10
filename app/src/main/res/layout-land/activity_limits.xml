@@ -77,7 +77,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/limits_container"
-        android:name="com.elliemoritz.coinbook.presentation.AddExpenseFragment"
+        android:name="com.elliemoritz.coinbook.presentation.AddLimitFragment"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
