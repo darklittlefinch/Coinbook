@@ -49,6 +49,7 @@
     <string name="hint_date">Enter date</string>
     <string name="hint_description">Enter description</string>
     <string name="hint_name">Enter name</string>
+    <string name="hint_datetime">Enter date and time</string>
 
     <string name="button_done">Done</string>
 
