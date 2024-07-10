@@ -43,15 +43,15 @@
     <string name="dialog_add_new_alarm">Add new alarm</string>
     <string name="dialog_add_new_category">Add new category</string>
 
-    <string name="hint_balance">Enter new balance amount</string>
-    <string name="hint_amount">Enter the amount</string>
-    <string name="hint_source">Enter source of income</string>
-    <string name="hint_creditor">Enter creditor</string>
-    <string name="hint_date">Your deadline</string>
-    <string name="hint_description">Enter description</string>
-    <string name="hint_name">Enter name</string>
-    <string name="hint_datetime">Enter date and time</string>
-    <string name="hint_limit">Enter limit (0 = no limits)</string>
+    <string name="hint_balance">New balance amount</string>
+    <string name="hint_amount">Amount</string>
+    <string name="hint_source">Source of income</string>
+    <string name="hint_creditor">Creditor</string>
+    <string name="hint_deadline">Deadline</string>
+    <string name="hint_description">Description</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_datetime">Date and time</string>
+    <string name="hint_limit">Limit (0 = no limits)</string>
     <string name="hint_money_box">I\'m saving money for…</string>
 
     <string name="button_done">Done</string>

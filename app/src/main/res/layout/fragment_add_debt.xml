@@ -51,7 +51,7 @@
                 style="@style/add_fragments_inputs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/hint_date"
+                android:hint="@string/hint_deadline"
                 android:inputType="date"
                 app:layout_constraintBottom_toTopOf="@id/et_debt_creditor"
                 app:layout_constraintEnd_toEndOf="parent"
