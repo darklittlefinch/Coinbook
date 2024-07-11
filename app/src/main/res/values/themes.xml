@@ -17,6 +17,10 @@
         <item name="android:padding">8dp</item>
     </style>
 
+    <style name="text_info_narrow_top_bottom" parent="base_narrow_top_bottom">
+        <item name="android:textSize">14sp</item>
+    </style>
+
     <style name="activity_titles" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:textSize">24sp</item>
         <item name="android:textAlignment">center</item>
@@ -24,15 +28,10 @@
         <item name="android:padding">8dp</item>
     </style>
 
-    <style name="text" parent="base_narrow_top_bottom">
+    <style name="text_info" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:layout_margin">16dp</item>
         <item name="android:textSize">14sp</item>
     </style>
-
-    <style name="text_with_big_top_bottom" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="android:layout_margin">8dp</item>
-        <item name="android:textSize">14sp</item>
-    </style>
-
 
     <style name="text_without_top_bottom" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:textSize">14sp</item>

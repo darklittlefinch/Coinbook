@@ -58,9 +58,10 @@
 
     <TextView
         android:id="@+id/tv_expenses_info"
-        style="@style/text"
+        style="@style/text_info_narrow_top_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="@string/no_expenses"
         android:textAlignment="center"
         android:textColor="@color/dark_gray"
         app:layout_constraintEnd_toEndOf="parent"

@@ -48,9 +48,10 @@
 
     <TextView
         android:id="@+id/tv_alarms_info"
-        style="@style/text_with_big_top_bottom"
+        style="@style/text_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="@string/no_alarms"
         android:textAlignment="center"
         android:textColor="@color/dark_gray"
         app:layout_constraintEnd_toEndOf="parent"

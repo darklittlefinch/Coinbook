@@ -55,7 +55,7 @@
 
     <TextView
         android:id="@+id/tv_limits_info"
-        style="@style/text"
+        style="@style/text_info_narrow_top_bottom"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textAlignment="center"

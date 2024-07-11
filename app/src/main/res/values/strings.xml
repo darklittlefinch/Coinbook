@@ -15,23 +15,32 @@
     <string name="amount_minus">- %s %s</string>
     <string name="amount_plus">+ %s %s</string>
 
-    <string name="info_limit_positive">You can spend %s %s more this month</string>
-    <string name="info_limit_negative">You have exceeded your limit by %s %s</string>
-    <string name="info_limit_neutral">You can\'t spend any more money this month</string>
+    <string name="info_money_box_start">Started %s</string>
+    <string name="info_money_box_goal">Your goal: %s %s before %s for %s</string>
+    <string name="info_money_box_goal_destination">You need to save %s %s every day to reach this goal</string>
+    <string name="info_money_box_result_positive">You are ahead of your goal by %s %s</string>
+    <string name="info_money_box_result_negative">You are %s %s behind your goal</string>
+    <string name="info_money_box_result_neutral">You are keeping up your goal!</string>
 
     <string name="info_debt_positive">Next repayment: %s</string>
     <string name="info_debt_negative">You have overdue repayments</string>
     <string name="info_debt_specific_positive">Repay before %s</string>
     <string name="info_debt_specific_negative">Debt is overdue by %s day%s</string>
 
-    <string name="info_money_box_start">Started %s</string>
-    <string name="info_money_box_goal">Your goal: %s %s before %s</string>
-    <string name="info_money_box_goal_destination">You need to save %s %s every day to reach this goal</string>
-    <string name="info_money_box_result_positive">You are ahead of your goal by %s %s</string>
-    <string name="info_money_box_result_negative">You are %s %s behind your goal</string>
-    <string name="info_money_box_result_neutral">You are keeping up your goal!</string>
+    <string name="info_limit_positive">You can spend %s %s more this month</string>
+    <string name="info_limit_negative">You have exceeded your limit by %s %s</string>
+    <string name="info_limit_neutral">You can\'t spend any more money this month</string>
 
     <string name="info_alarm">The next event will be %s</string>
+
+    <string name="no_expenses">You don\'t have any expenses yet</string>
+    <string name="no_income">You don\'t have any income yet</string>
+    <string name="no_money_box">You don\'t have a money box yet</string>
+    <string name="no_money_box_operations">You don\'t have any operations with your money box yet</string>
+    <string name="no_debts">You don\'t have any debts yet</string>
+    <string name="no_limits">You don\'t have any limits yet</string>
+    <string name="no_alarms">You don\'t have any alarms yet</string>
+    <string name="no_history">You don\'t have any completed operations yet</string>
 
     <string name="dialog_edit_balance">Edit balance</string>
     <string name="dialog_add_new_income">Add new income</string>

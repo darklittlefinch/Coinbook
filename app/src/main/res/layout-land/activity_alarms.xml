@@ -55,7 +55,7 @@
 
     <TextView
         android:id="@+id/tv_alarms_info"
-        style="@style/text_with_big_top_bottom"
+        style="@style/text_info"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textAlignment="center"
