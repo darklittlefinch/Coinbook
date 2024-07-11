@@ -25,6 +25,26 @@ class ExpensesActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        setOnClickListeners()
+    }
+
+    private fun setOnClickListeners() {
+        setOnBackClickListener()
+        setOnAddClickListener()
+    }
+
+    private fun setOnBackClickListener() {
+        binding.ivBack.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+    }
+
+    private fun setOnAddClickListener() {
+        binding.ivAddNewExpense.setOnClickListener {
+            val intent = OperationsActivity.newIntent(this, OperationsActivity.MODE_EXPENSE)
+            startActivity(intent)
+        }
     }
 
     companion object {

@@ -24,14 +24,15 @@ class OperationsActivity : AppCompatActivity() {
     companion object {
         private const val EXTRA_MODE = "mode"
         const val MODE_BALANCE = "balance"
-        const val MODE_INCOME = "balance"
-        const val MODE_EXPENSE = "balance"
-        const val MODE_MONEY_BOX = "balance"
-        const val MODE_MONEY_BOX_OPERATION = "balance"
-        const val MODE_DEBT = "balance"
-        const val MODE_LIMIT = "balance"
-        const val MODE_ALARM = "balance"
-        const val MODE_CATEGORY = "balance"
+        const val MODE_INCOME = "income"
+        const val MODE_EXPENSE = "expense"
+        const val MODE_MONEY_BOX = "money_box"
+        const val MODE_ADD_MONEY_BOX = "add_money_box"
+        const val MODE_REMOVE_MONEY_BOX = "remove_money_box"
+        const val MODE_DEBT = "debt"
+        const val MODE_LIMIT = "limit"
+        const val MODE_ALARM = "alarm"
+        const val MODE_CATEGORY = "category"
 
         fun newIntent(context: Context, mode: String): Intent {
             val intent = Intent(context, OperationsActivity::class.java)
