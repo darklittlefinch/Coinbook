@@ -16,7 +16,7 @@
 
     <TextView
         android:id="@+id/tv_expenses_title"
-        style="@style/activity_titles"
+        style="@style/main_activity_titles"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/red"

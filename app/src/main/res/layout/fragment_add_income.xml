@@ -24,10 +24,9 @@
 
             <TextView
                 android:id="@+id/tv_add_income_title"
-                style="@style/activity_titles"
+                style="@style/add_fragments_titles"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
                 android:text="@string/dialog_add_new_income"
                 app:layout_constraintBottom_toTopOf="@id/et_add_income_amount"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -60,15 +59,10 @@
 
             <Button
                 android:id="@+id/button_add_income"
+                style="@style/add_fragments_buttons"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:backgroundTint="@color/green"
-                android:padding="8dp"
                 android:text="@string/button_done"
-                android:textAllCaps="true"
-                android:textSize="16sp"
-                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
