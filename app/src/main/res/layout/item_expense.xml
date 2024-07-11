@@ -17,7 +17,7 @@
 
         <TextView
             android:id="@+id/tv_expense_category"
-            style="@style/text_without_top_bottom"
+            style="@style/items_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
@@ -28,7 +28,7 @@
 
         <TextView
             android:id="@+id/tv_expense_amount"
-            style="@style/bold_numbers"
+            style="@style/items_numbers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"

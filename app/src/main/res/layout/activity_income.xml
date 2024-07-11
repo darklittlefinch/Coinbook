@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/tv_income_title"
-        style="@style/main_activity_titles"
+        style="@style/details_titles"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/green"
@@ -20,7 +20,7 @@
 
     <ImageView
         android:id="@+id/iv_back"
-        style="@style/navigation_images"
+        style="@style/details_navigation_images"
         android:contentDescription="@string/content_description_left_arrow_image"
         app:layout_constraintBottom_toBottomOf="@+id/tv_income_title"
         app:layout_constraintStart_toStartOf="@+id/tv_income_title"
@@ -29,7 +29,7 @@
 
     <ImageView
         android:id="@+id/iv_add_new_income"
-        style="@style/navigation_images"
+        style="@style/details_navigation_images"
         android:contentDescription="@string/content_description_add_new_income"
         app:layout_constraintBottom_toBottomOf="@+id/tv_income_title"
         app:layout_constraintEnd_toEndOf="@+id/tv_income_title"
@@ -38,7 +38,7 @@
 
     <ImageView
         android:id="@+id/iv_income"
-        style="@style/big_image_landscape"
+        style="@style/details_medium_image"
         android:adjustViewBounds="true"
         android:contentDescription="@string/content_description_simple_income_image"
         android:src="@drawable/ic_income"
@@ -48,7 +48,7 @@
 
     <TextView
         android:id="@+id/tv_income_amount"
-        style="@style/big_numbers_portrait"
+        style="@style/details_numbers_portrait"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -58,7 +58,7 @@
 
     <TextView
         android:id="@+id/tv_no_history_info"
-        style="@style/text_info_narrow_top_bottom"
+        style="@style/details_with_numbers_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/no_income"
@@ -81,7 +81,7 @@
 
     <ImageView
         android:id="@+id/iv_no_income"
-        style="@style/giant_image"
+        style="@style/details_giant_image"
         android:adjustViewBounds="true"
         android:contentDescription="@string/content_description_add_new_income"
         android:src="@drawable/ic_plus_rounded_gray"

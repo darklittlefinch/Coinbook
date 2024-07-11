@@ -17,7 +17,7 @@
 
         <TextView
             android:id="@+id/tv_alarm_text"
-            style="@style/text_without_top_bottom"
+            style="@style/items_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@+id/tv_alarm_amount"
@@ -27,7 +27,7 @@
 
         <TextView
             android:id="@+id/tv_alarm_amount"
-            style="@style/text_without_top_bottom"
+            style="@style/items_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
@@ -39,7 +39,7 @@
 
         <TextView
             android:id="@+id/tv_alarm_date"
-            style="@style/text_without_top_bottom"
+            style="@style/items_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
@@ -50,7 +50,7 @@
 
         <TextView
             android:id="@+id/tv_alarm_time"
-            style="@style/text_without_top_bottom"
+            style="@style/items_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/dark_gray"

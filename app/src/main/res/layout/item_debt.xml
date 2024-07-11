@@ -17,7 +17,7 @@
 
         <TextView
             android:id="@+id/tv_debt_amount"
-            style="@style/medium_numbers"
+            style="@style/items_numbers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -27,7 +27,7 @@
 
         <TextView
             android:id="@+id/tv_debt_date"
-            style="@style/text_without_top_bottom"
+            style="@style/items_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
@@ -38,7 +38,7 @@
 
         <TextView
             android:id="@+id/tv_debt_creditor"
-            style="@style/text_without_top_bottom"
+            style="@style/items_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/dark_gray"

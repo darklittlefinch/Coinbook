@@ -20,7 +20,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_balance"
-            style="@style/card"
+            style="@style/main_activity_card_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/creamy"
@@ -38,7 +38,7 @@
 
                 <ImageView
                     android:id="@+id/iv_balance"
-                    style="@style/small_image"
+                    style="@style/main_activity_small_image"
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/content_description_balance_image"
                     android:src="@drawable/ic_balance"
@@ -60,7 +60,7 @@
 
                 <TextView
                     android:id="@+id/tv_balance_number"
-                    style="@style/main_screen_numbers"
+                    style="@style/main_activity_bold_numbers"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -74,7 +74,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_settings"
-            style="@style/card"
+            style="@style/main_activity_card_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/creamy"
@@ -92,7 +92,7 @@
 
                 <ImageView
                     android:id="@+id/iv_settings"
-                    style="@style/small_image"
+                    style="@style/main_activity_small_image"
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/content_description_settings_image"
                     android:src="@drawable/ic_settings"
@@ -102,7 +102,7 @@
 
                 <TextView
                     android:id="@+id/tv_settings_title"
-                    style="@style/bold_titles"
+                    style="@style/main_activity_bold_titles"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="@string/title_settings"
@@ -116,7 +116,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_expenses"
-            style="@style/card"
+            style="@style/main_activity_card_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
@@ -135,7 +135,7 @@
 
                 <ImageView
                     android:id="@+id/iv_expense"
-                    style="@style/small_image"
+                    style="@style/main_activity_small_image"
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/content_description_expense_image"
                     android:src="@drawable/ic_expense"
@@ -145,7 +145,7 @@
 
                 <TextView
                     android:id="@+id/tv_expenses_title"
-                    style="@style/titles"
+                    style="@style/main_activity_thin_titles"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="@string/title_expenses"
@@ -155,7 +155,7 @@
 
                 <TextView
                     android:id="@+id/tv_expenses_number"
-                    style="@style/main_screen_numbers"
+                    style="@style/main_activity_bold_numbers"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -169,7 +169,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_minus"
-            style="@style/card"
+            style="@style/main_activity_card_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
@@ -186,7 +186,7 @@
                 android:layout_margin="8dp">
 
                 <ImageView
-                    style="@style/small_image"
+                    style="@style/main_activity_small_image"
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/content_description_plus_image"
                     android:src="@drawable/ic_minus"
@@ -201,7 +201,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_income"
-            style="@style/card"
+            style="@style/main_activity_card_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/pale_green"
@@ -218,7 +218,7 @@
 
                 <ImageView
                     android:id="@+id/iv_income"
-                    style="@style/small_image"
+                    style="@style/main_activity_small_image"
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/content_description_income_image"
                     android:src="@drawable/ic_income"
@@ -228,7 +228,7 @@
 
                 <TextView
                     android:id="@+id/tv_income_title"
-                    style="@style/titles"
+                    style="@style/main_activity_thin_titles"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="@string/title_income"
@@ -238,7 +238,7 @@
 
                 <TextView
                     android:id="@+id/tv_income_number"
-                    style="@style/main_screen_numbers"
+                    style="@style/main_activity_bold_numbers"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -255,7 +255,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_plus"
-            style="@style/card"
+            style="@style/main_activity_card_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
@@ -272,7 +272,7 @@
                 android:layout_margin="8dp">
 
                 <ImageView
-                    style="@style/small_image"
+                    style="@style/main_activity_small_image"
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/content_description_plus_image"
                     android:src="@drawable/ic_plus"
@@ -287,7 +287,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_money_box"
-            style="@style/card"
+            style="@style/main_activity_card_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
@@ -307,7 +307,7 @@
 
                 <ImageView
                     android:id="@+id/iv_money_box"
-                    style="@style/medium_image"
+                    style="@style/main_activity_big_image"
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/content_description_piggy_bank_image"
                     android:src="@drawable/ic_piggy_bank"
@@ -318,7 +318,7 @@
 
                 <TextView
                     android:id="@+id/tv_money_box_title"
-                    style="@style/bold_titles"
+                    style="@style/main_activity_bold_titles"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/title_money_box"
@@ -329,7 +329,7 @@
 
                 <TextView
                     android:id="@+id/tv_money_box_amount"
-                    style="@style/information"
+                    style="@style/main_activity_thin_numbers"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -345,7 +345,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_debts"
-            style="@style/card"
+            style="@style/main_activity_card_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
@@ -365,7 +365,7 @@
 
                 <ImageView
                     android:id="@+id/iv_debts"
-                    style="@style/medium_image"
+                    style="@style/main_activity_big_image"
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/content_description_debt_image"
                     android:src="@drawable/ic_debt"
@@ -376,7 +376,7 @@
 
                 <TextView
                     android:id="@+id/tv_debts_title"
-                    style="@style/bold_titles"
+                    style="@style/main_activity_bold_titles"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/title_debts"
@@ -387,7 +387,7 @@
 
                 <TextView
                     android:id="@+id/tv_debts_amount"
-                    style="@style/information"
+                    style="@style/main_activity_thin_numbers"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -403,7 +403,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_limits"
-            style="@style/card"
+            style="@style/main_activity_card_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/creamy"
@@ -420,7 +420,7 @@
 
                 <ImageView
                     android:id="@+id/iv_limits"
-                    style="@style/medium_image"
+                    style="@style/main_activity_big_image"
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/content_description_limit_image"
                     android:src="@drawable/ic_limit"
@@ -431,7 +431,7 @@
 
                 <TextView
                     android:id="@+id/tv_limits_title"
-                    style="@style/bold_titles"
+                    style="@style/main_activity_bold_titles"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/title_limits"
@@ -445,7 +445,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_alarms"
-            style="@style/card"
+            style="@style/main_activity_card_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/creamy"
@@ -463,7 +463,7 @@
 
                 <ImageView
                     android:id="@+id/iv_alarms"
-                    style="@style/medium_image"
+                    style="@style/main_activity_big_image"
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/content_description_alarm_image"
                     android:src="@drawable/ic_bell_slash"
@@ -475,7 +475,7 @@
 
                 <TextView
                     android:id="@+id/tv_alarms_title"
-                    style="@style/bold_titles"
+                    style="@style/main_activity_bold_titles"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/title_alarm"
@@ -489,7 +489,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_history"
-            style="@style/card"
+            style="@style/main_activity_card_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/blue"
@@ -505,7 +505,7 @@
 
                 <ImageView
                     android:id="@+id/iv_history"
-                    style="@style/medium_image"
+                    style="@style/main_activity_big_image"
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/content_description_history_image"
                     android:src="@drawable/ic_history"
@@ -516,7 +516,7 @@
 
                 <TextView
                     android:id="@+id/tv_history_title"
-                    style="@style/bold_titles"
+                    style="@style/main_activity_bold_titles"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/title_history"

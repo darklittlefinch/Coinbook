@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/tv_settings_title"
-        style="@style/main_activity_titles"
+        style="@style/details_titles"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/gray"
@@ -20,7 +20,7 @@
 
     <ImageView
         android:id="@+id/iv_back"
-        style="@style/navigation_images"
+        style="@style/details_navigation_images"
         android:contentDescription="@string/content_description_left_arrow_image"
         app:layout_constraintBottom_toBottomOf="@+id/tv_settings_title"
         app:layout_constraintStart_toStartOf="@+id/tv_settings_title"
@@ -38,6 +38,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_settings_title" />
 
     <EditText
+        style="settings"
         android:id="@+id/editTextNumber"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

@@ -17,7 +17,7 @@
 
         <TextView
             android:id="@+id/tv_limit_category"
-            style="@style/text_without_top_bottom"
+            style="@style/items_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
@@ -28,7 +28,7 @@
 
         <TextView
             android:id="@+id/tv_spent_money_amount"
-            style="@style/text_without_top_bottom"
+            style="@style/items_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"

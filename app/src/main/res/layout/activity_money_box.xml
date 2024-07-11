@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/tv_money_box_title"
-        style="@style/main_activity_titles"
+        style="@style/details_titles"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/yellow"
@@ -20,7 +20,7 @@
 
     <ImageView
         android:id="@+id/iv_back"
-        style="@style/navigation_images"
+        style="@style/details_navigation_images"
         android:contentDescription="@string/content_description_left_arrow_image"
         app:layout_constraintBottom_toBottomOf="@+id/tv_money_box_title"
         app:layout_constraintStart_toStartOf="@+id/tv_money_box_title"
@@ -29,7 +29,7 @@
 
     <ImageView
         android:id="@+id/iv_money_box"
-        style="@style/big_image"
+        style="@style/details_big_image"
         android:adjustViewBounds="true"
         android:contentDescription="@string/content_description_simple_piggy_bank_image"
         android:src="@drawable/ic_piggy_bank"
@@ -39,7 +39,7 @@
 
     <ImageView
         android:id="@+id/iv_remove_from_money_box"
-        style="@style/small_image"
+        style="@style/details_small_image"
         android:layout_margin="32dp"
         android:contentDescription="@string/content_description_take_out_of_money_box"
         app:layout_constraintBottom_toBottomOf="@+id/iv_money_box"
@@ -49,7 +49,7 @@
 
     <ImageView
         android:id="@+id/iv_add_to_money_box"
-        style="@style/small_image"
+        style="@style/details_small_image"
         android:layout_margin="32dp"
         android:contentDescription="@string/content_description_replenish_money_box"
         app:layout_constraintBottom_toBottomOf="@+id/iv_money_box"
@@ -59,7 +59,7 @@
 
     <TextView
         android:id="@+id/tv_money_box_amount"
-        style="@style/big_numbers_portrait"
+        style="@style/details_numbers_portrait"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -69,7 +69,7 @@
 
     <TextView
         android:id="@+id/tv_money_box_start_information"
-        style="@style/text_info_narrow_top_bottom"
+        style="@style/details_with_numbers_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/no_money_box"
@@ -82,7 +82,7 @@
 
     <TextView
         android:id="@+id/tv_money_box_goal_information"
-        style="@style/text_info_narrow_top_bottom"
+        style="@style/details_with_numbers_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
@@ -94,7 +94,7 @@
 
     <TextView
         android:id="@+id/tv_money_box_goal_destination_information"
-        style="@style/text_info_narrow_top_bottom"
+        style="@style/details_with_numbers_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
@@ -106,7 +106,7 @@
 
     <TextView
         android:id="@+id/tv_money_box_goal_result_information"
-        style="@style/text_info_narrow_top_bottom"
+        style="@style/details_with_numbers_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
@@ -128,7 +128,7 @@
 
     <ImageView
         android:id="@+id/iv_no_alarms"
-        style="@style/giant_image"
+        style="@style/details_giant_image"
         android:adjustViewBounds="true"
         android:contentDescription="@string/content_description_add_new_money_box"
         android:src="@drawable/ic_plus_rounded_gray"

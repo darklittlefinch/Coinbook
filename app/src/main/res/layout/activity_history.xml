@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/tv_history_title"
-        style="@style/main_activity_titles"
+        style="@style/details_titles"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/blue"
@@ -20,7 +20,7 @@
 
     <ImageView
         android:id="@+id/iv_back"
-        style="@style/navigation_images"
+        style="@style/details_navigation_images"
         android:contentDescription="@string/content_description_left_arrow_image"
         app:layout_constraintBottom_toBottomOf="@+id/tv_history_title"
         app:layout_constraintStart_toStartOf="@+id/tv_history_title"
@@ -29,7 +29,7 @@
 
     <ImageView
         android:id="@+id/iv_history"
-        style="@style/big_image_landscape"
+        style="@style/details_medium_image"
         android:adjustViewBounds="true"
         android:contentDescription="@string/content_description_simple_alarm_image"
         android:src="@drawable/ic_history"
@@ -39,7 +39,7 @@
 
     <TextView
         android:id="@+id/tv_no_history_info"
-        style="@style/text_info"
+        style="@style/details_without_numbers_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/no_history"
