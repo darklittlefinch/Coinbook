@@ -28,8 +28,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setListeners() {
-        setExpensesListener()
         setIncomeListener()
+        setExpensesListener()
         setMoneyBoxListener()
         setDebtsListener()
         setLimitsListener()
