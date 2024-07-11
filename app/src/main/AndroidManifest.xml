@@ -34,7 +34,7 @@
             android:name=".presentation.MoneyBoxActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.AddOperationActivity"
+            android:name=".presentation.OperationsActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.ExpensesActivity"

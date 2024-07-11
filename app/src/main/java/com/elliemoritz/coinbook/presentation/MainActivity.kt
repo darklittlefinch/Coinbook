@@ -28,14 +28,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setListeners() {
+        setBalanceListener()
         setIncomeListener()
+        setPlusListener()
         setExpensesListener()
+        setMinusListener()
         setMoneyBoxListener()
         setDebtsListener()
         setLimitsListener()
         setAlarmsListener()
         setHistoryListener()
         setSettingsListener()
+    }
+
+    private fun setBalanceListener() {
+        binding.cvBalance.setOnClickListener {
+            val intent = OperationsActivity.newIntent(this, OperationsActivity.MODE_BALANCE)
+            startActivity(intent)
+        }
     }
 
     private fun setIncomeListener() {
@@ -45,9 +55,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun setPlusListener() {
+        binding.cvPlus.setOnClickListener {
+            val intent = OperationsActivity.newIntent(this, OperationsActivity.MODE_INCOME)
+            startActivity(intent)
+        }
+    }
+
     private fun setExpensesListener() {
         binding.cvExpenses.setOnClickListener {
             val intent = ExpensesActivity.newIntent(this)
+            startActivity(intent)
+        }
+    }
+
+    private fun setMinusListener() {
+        binding.cvMinus.setOnClickListener {
+            val intent = OperationsActivity.newIntent(this, OperationsActivity.MODE_EXPENSE)
             startActivity(intent)
         }
     }
