@@ -90,6 +90,7 @@
     <string name="content_description_add_new_debt">Add new debt</string>
     <string name="content_description_add_new_limit">Add new limit</string>
     <string name="content_description_add_new_alarm">Add new alarm</string>
+    <string name="content_description_add_new_money_box">Add new money box</string>
 
     <string name="content_description_simple_income_image">Image of a hand with pluses above it</string>
     <string name="content_description_simple_expense_image">Image of a hand giving away money</string>

@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:text="@string/no_alarms"
         android:textAlignment="center"
-        android:textColor="@color/dark_gray"
+        android:textColor="@color/gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_alarms"
@@ -68,5 +68,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_alarms_info"
         tools:listitem="@layout/item_alarm" />
+
+    <ImageView
+        android:id="@+id/iv_no_alarms"
+        style="@style/giant_image"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/content_description_add_new_alarm"
+        android:src="@drawable/ic_plus_rounded_gray"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
