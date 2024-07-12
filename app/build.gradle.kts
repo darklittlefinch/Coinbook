@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    alias(libs.plugins.google.devtools.ksp)
     id("org.jetbrains.kotlin.kapt")
 }
 
@@ -50,10 +49,10 @@ dependencies {
 
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
-    ksp(libs.androidx.room.compiler)
+    kapt(libs.androidx.room.compiler)
 
     implementation(libs.google.dagger)
-    implementation(libs.google.dagger.compiler)
+    kapt(libs.google.dagger.compiler)
 
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
