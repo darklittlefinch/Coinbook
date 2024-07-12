@@ -1,13 +1,15 @@
-package com.elliemoritz.coinbook.domain.entities
+package com.elliemoritz.coinbook.domain.entities.operations
 
+import com.elliemoritz.coinbook.domain.entities.OperationForm
+import com.elliemoritz.coinbook.domain.entities.Type
 import java.time.LocalDateTime
 
-data class Operation(
+abstract class Operation(
     val operationForm: OperationForm,
     val type: Type,
     val date: LocalDateTime,
     var amount: Int,
-    var additionalInfo: String = "",
+    var info: String = "",
     val id: Int = UNDEFINED_ID
 ) {
     companion object {

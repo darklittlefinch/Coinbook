@@ -1,7 +1,7 @@
 package com.elliemoritz.coinbook.domain.repositories
 
 import androidx.lifecycle.LiveData
-import com.elliemoritz.coinbook.domain.entities.Operation
+import com.elliemoritz.coinbook.domain.entities.operations.Operation
 
 interface OperationsRepository {
     fun getOperationsList(): LiveData<List<Operation>>
