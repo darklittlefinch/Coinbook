@@ -12,7 +12,7 @@ import com.elliemoritz.coinbook.data.dao.MoneyBoxDao
 import com.elliemoritz.coinbook.data.dao.OperationsDao
 import com.elliemoritz.coinbook.data.dbModels.AlarmDbModel
 import com.elliemoritz.coinbook.data.dbModels.DebtDbModel
-import com.elliemoritz.coinbook.data.dbModels.ExpenseCategoryDbModel
+import com.elliemoritz.coinbook.data.dbModels.CategoryDbModel
 import com.elliemoritz.coinbook.data.dbModels.LimitDbModel
 import com.elliemoritz.coinbook.data.dbModels.MoneyBoxDbModel
 import com.elliemoritz.coinbook.data.dbModels.OperationDbModel
@@ -21,7 +21,7 @@ import com.elliemoritz.coinbook.data.dbModels.OperationDbModel
     entities = [
         AlarmDbModel::class,
         DebtDbModel::class,
-        ExpenseCategoryDbModel::class,
+        CategoryDbModel::class,
         LimitDbModel::class,
         MoneyBoxDbModel::class,
         OperationDbModel::class

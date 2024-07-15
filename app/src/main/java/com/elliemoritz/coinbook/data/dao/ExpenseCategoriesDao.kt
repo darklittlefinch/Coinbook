@@ -5,19 +5,19 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.elliemoritz.coinbook.data.dbModels.ExpenseCategoryDbModel
+import com.elliemoritz.coinbook.data.dbModels.CategoryDbModel
 
 @Dao
 interface ExpenseCategoriesDao {
 
     @Query("SELECT * FROM categories")
-    fun getCategoriesList(): LiveData<List<ExpenseCategoryDbModel>>
+    fun getCategoriesList(): LiveData<List<CategoryDbModel>>
 
     @Query("SELECT * FROM categories WHERE id=:categoryId LIMIT 1")
-    fun getCategory(categoryId: Int): ExpenseCategoryDbModel
+    fun getCategory(categoryId: Int): CategoryDbModel
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addCategory(category: ExpenseCategoryDbModel)
+    fun addCategory(category: CategoryDbModel)
 
     @Query("DELETE FROM categories WHERE id=:categoryId")
     fun removeCategory(categoryId: Int)

@@ -1,6 +1,6 @@
 package com.elliemoritz.coinbook.domain.entities
 
-data class ExpenseCategory(
+data class Category(
     val name: String,
     var amount: Int,
     var limit: Int,

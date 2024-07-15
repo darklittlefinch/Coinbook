@@ -1,7 +1,7 @@
 package com.elliemoritz.coinbook.domain.entities
 
 data class Limit(
-    val expenseCategory: ExpenseCategory,
+    val category: Category,
     var amount: Int,
     val id: Int = UNDEFINED_ID
 ) {
