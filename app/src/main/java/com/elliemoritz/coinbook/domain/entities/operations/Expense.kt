@@ -8,8 +8,8 @@ import java.time.LocalDateTime
 data class Expense(
     val expDate: LocalDateTime,
     var expAmount: Int,
-    var expCategory: ExpenseCategory,
+    var expCategoryName: String,
     val expId: Int = UNDEFINED_ID
 ) : Operation(
-    OperationForm.EXPENSE, Type.EXPENSE, expDate, expAmount, expCategory.name, expId
+    OperationForm.EXPENSE, Type.EXPENSE, expDate, expAmount, expCategoryName, expId
 )
