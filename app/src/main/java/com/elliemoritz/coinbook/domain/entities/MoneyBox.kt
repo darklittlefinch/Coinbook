@@ -6,9 +6,9 @@ data class MoneyBox(
     var amount: Int,
     var goal: String,
     var deadline: LocalDateTime,
-    val id: Int = UNDEFINED_ID
+    val id: Int = MONEY_BOX_ID
 ) {
     companion object {
-        const val UNDEFINED_ID = 0
+        const val MONEY_BOX_ID = 1
     }
 }
