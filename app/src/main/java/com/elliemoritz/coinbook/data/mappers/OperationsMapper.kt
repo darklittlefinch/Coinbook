@@ -48,14 +48,6 @@ class OperationsMapper {
     }
 
     // INCOME
-    fun mapIncomeToDbModel(income: Income) = OperationDbModel(
-        id = income.id,
-        operationForm = defineOperationForm(income.operationForm),
-        type = defineDbModelType(income.type),
-        date = income.date,
-        amount = income.amount,
-        info = income.info
-    )
 
     fun mapDbModelToIncome(dbModel: OperationDbModel) = Income(
         incId = dbModel.id,
@@ -69,14 +61,6 @@ class OperationsMapper {
     }
 
     // EXPENSE
-    fun mapExpenseToDbModel(expense: Expense) = OperationDbModel(
-        id = expense.id,
-        operationForm = defineOperationForm(expense.operationForm),
-        type = defineDbModelType(expense.type),
-        date = expense.date,
-        amount = expense.amount,
-        info = expense.info
-    )
 
     fun mapDbModelToExpense(dbModel: OperationDbModel) = Expense(
         expId = dbModel.id,
@@ -90,14 +74,6 @@ class OperationsMapper {
     }
 
     // MONEY BOX OPERATION
-    fun mapMoneyBoxOperationToDbModel(moneyBoxOperation: MoneyBoxOperation) = OperationDbModel(
-        id = moneyBoxOperation.id,
-        operationForm = defineOperationForm(moneyBoxOperation.operationForm),
-        type = defineDbModelType(moneyBoxOperation.type),
-        date = moneyBoxOperation.date,
-        amount = moneyBoxOperation.amount,
-        info = moneyBoxOperation.info
-    )
 
     fun mapDbModelToMoneyBoxOperation(dbModel: OperationDbModel) = MoneyBoxOperation(
         mbId = dbModel.id,
@@ -111,14 +87,6 @@ class OperationsMapper {
     }
 
     // DEBT OPERATION
-    fun mapDebtOperationToDbModel(debtOperation: DebtOperation) = OperationDbModel(
-        id = debtOperation.id,
-        operationForm = defineOperationForm(debtOperation.operationForm),
-        type = defineDbModelType(debtOperation.type),
-        date = debtOperation.date,
-        amount = debtOperation.amount,
-        info = debtOperation.info
-    )
 
     fun mapDbModelToDebtOperation(dbModel: OperationDbModel) = DebtOperation(
         debtId = dbModel.id,
@@ -133,6 +101,7 @@ class OperationsMapper {
     }
 
     // ALL OPERATIONS
+
     fun mapOperationToDbModel(income: Operation) = OperationDbModel(
         id = income.id,
         operationForm = defineOperationForm(income.operationForm),
