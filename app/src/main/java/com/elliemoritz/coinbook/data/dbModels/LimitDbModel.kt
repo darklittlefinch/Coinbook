@@ -9,5 +9,5 @@ data class LimitDbModel(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val expenseCategory: ExpenseCategory,
-    var amount: Int
+    val amount: Int
 )

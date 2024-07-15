@@ -8,6 +8,6 @@ data class ExpenseCategoryDbModel(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val name: String,
-    var amount: Int,
-    var limit: Int
+    val amount: Int,
+    val limit: Int
 )

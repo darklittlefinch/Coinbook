@@ -8,7 +8,7 @@ import java.time.LocalDateTime
 data class MoneyBoxDbModel(
     @PrimaryKey(autoGenerate = false)
     val id: Int,
-    var amount: Int,
-    var goal: String,
-    var deadline: LocalDateTime
+    val amount: Int,
+    val goal: String,
+    val deadline: LocalDateTime
 )
