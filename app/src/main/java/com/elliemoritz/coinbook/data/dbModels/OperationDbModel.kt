@@ -10,8 +10,8 @@ import java.time.LocalDateTime
 data class OperationDbModel(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
-    val operationForm: OperationForm,
-    val type: Type,
+    val operationForm: String,
+    val type: String,
     val date: LocalDateTime,
     val amount: Int,
     val info: String = ""

@@ -2,6 +2,7 @@ package com.elliemoritz.coinbook.data.mappers
 
 import com.elliemoritz.coinbook.data.dbModels.OperationDbModel
 import com.elliemoritz.coinbook.domain.entities.helpers.OperationForm
+import com.elliemoritz.coinbook.domain.entities.helpers.Type
 import com.elliemoritz.coinbook.domain.entities.operations.DebtOperation
 import com.elliemoritz.coinbook.domain.entities.operations.Expense
 import com.elliemoritz.coinbook.domain.entities.operations.Income
@@ -10,11 +11,47 @@ import com.elliemoritz.coinbook.domain.entities.operations.Operation
 
 class OperationsMapper {
 
+    companion object {
+        const val OPERATION_FORM_INCOME = "income"
+        const val OPERATION_FORM_EXPENSE = "expense"
+        const val OPERATION_FORM_MONEY_BOX_OPERATION = "money_box_operation"
+        const val OPERATION_FORM_DEBT = "debt"
+
+        private const val TYPE_INCOME = "income"
+        private const val TYPE_EXPENSE = "expense"
+    }
+
+    private fun defineOperationForm(operationForm: OperationForm): String {
+        return when (operationForm) {
+            OperationForm.INCOME -> OPERATION_FORM_INCOME
+            OperationForm.EXPENSE -> OPERATION_FORM_EXPENSE
+            OperationForm.MONEY_BOX -> OPERATION_FORM_MONEY_BOX_OPERATION
+            OperationForm.DEBT -> OPERATION_FORM_DEBT
+        }
+    }
+
+    private fun defineDbModelType(type: Type): String {
+        return when (type) {
+            Type.INCOME -> TYPE_INCOME
+            Type.EXPENSE -> TYPE_EXPENSE
+        }
+    }
+
+    private fun defineEntityType(string: String): Type {
+        return when (string) {
+            TYPE_INCOME -> Type.INCOME
+            TYPE_EXPENSE -> Type.EXPENSE
+            else -> {
+                throw RuntimeException("Unknown type")
+            }
+        }
+    }
+
     // INCOME
     fun mapIncomeToDbModel(income: Income) = OperationDbModel(
         id = income.id,
-        operationForm = income.operationForm,
-        type = income.type,
+        operationForm = defineOperationForm(income.operationForm),
+        type = defineDbModelType(income.type),
         date = income.date,
         amount = income.amount,
         info = income.info
@@ -34,8 +71,8 @@ class OperationsMapper {
     // EXPENSE
     fun mapExpenseToDbModel(expense: Expense) = OperationDbModel(
         id = expense.id,
-        operationForm = expense.operationForm,
-        type = expense.type,
+        operationForm = defineOperationForm(expense.operationForm),
+        type = defineDbModelType(expense.type),
         date = expense.date,
         amount = expense.amount,
         info = expense.info
@@ -55,8 +92,8 @@ class OperationsMapper {
     // MONEY BOX OPERATION
     fun mapMoneyBoxOperationToDbModel(moneyBoxOperation: MoneyBoxOperation) = OperationDbModel(
         id = moneyBoxOperation.id,
-        operationForm = moneyBoxOperation.operationForm,
-        type = moneyBoxOperation.type,
+        operationForm = defineOperationForm(moneyBoxOperation.operationForm),
+        type = defineDbModelType(moneyBoxOperation.type),
         date = moneyBoxOperation.date,
         amount = moneyBoxOperation.amount,
         info = moneyBoxOperation.info
@@ -66,7 +103,7 @@ class OperationsMapper {
         mbId = dbModel.id,
         mbDate = dbModel.date,
         mbAmount = dbModel.amount,
-        mbType = dbModel.type
+        mbType = defineEntityType(dbModel.type)
     )
 
     fun mapListDbModelToListMoneyBoxOperations(list: List<OperationDbModel>) = list.map {
@@ -76,8 +113,8 @@ class OperationsMapper {
     // DEBT OPERATION
     fun mapDebtOperationToDbModel(debtOperation: DebtOperation) = OperationDbModel(
         id = debtOperation.id,
-        operationForm = debtOperation.operationForm,
-        type = debtOperation.type,
+        operationForm = defineOperationForm(debtOperation.operationForm),
+        type = defineDbModelType(debtOperation.type),
         date = debtOperation.date,
         amount = debtOperation.amount,
         info = debtOperation.info
@@ -87,19 +124,19 @@ class OperationsMapper {
         debtId = dbModel.id,
         debtDate = dbModel.date,
         debtAmount = dbModel.amount,
-        debtType = dbModel.type,
+        debtType = defineEntityType(dbModel.type),
         debtCreditor = dbModel.info
     )
 
     fun mapListDbModelToListDebtOperations(list: List<OperationDbModel>) = list.map {
-        mapDbModelToMoneyBoxOperation(it)
+        mapDbModelToDebtOperation(it)
     }
 
     // ALL OPERATIONS
     fun mapOperationToDbModel(income: Operation) = OperationDbModel(
         id = income.id,
-        operationForm = income.operationForm,
-        type = income.type,
+        operationForm = defineOperationForm(income.operationForm),
+        type = defineDbModelType(income.type),
         date = income.date,
         amount = income.amount,
         info = income.info
@@ -107,10 +144,13 @@ class OperationsMapper {
 
     fun mapDbModelToOperation(dbModel: OperationDbModel): Operation {
         return when (dbModel.operationForm) {
-            OperationForm.INCOME -> mapDbModelToIncome(dbModel)
-            OperationForm.EXPENSE -> mapDbModelToExpense(dbModel)
-            OperationForm.MONEY_BOX -> mapDbModelToMoneyBoxOperation(dbModel)
-            OperationForm.DEBT -> mapDbModelToDebtOperation(dbModel)
+            OPERATION_FORM_INCOME -> mapDbModelToIncome(dbModel)
+            OPERATION_FORM_EXPENSE -> mapDbModelToExpense(dbModel)
+            OPERATION_FORM_MONEY_BOX_OPERATION -> mapDbModelToMoneyBoxOperation(dbModel)
+            OPERATION_FORM_DEBT -> mapDbModelToDebtOperation(dbModel)
+            else -> {
+                throw RuntimeException("Unknown operation form")
+            }
         }
     }
 

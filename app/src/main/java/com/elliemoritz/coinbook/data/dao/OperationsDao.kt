@@ -13,6 +13,9 @@ interface OperationsDao {
     @Query("SELECT * FROM operations")
     fun getOperationsList(): LiveData<List<OperationDbModel>>
 
+    @Query("SELECT * FROM operations WHERE operationForm = :operationForm")
+    fun getOperationFormList(operationForm: String): LiveData<List<OperationDbModel>>
+
     @Query("SELECT * FROM operations WHERE id=:operationId LIMIT 1")
     fun getOperation(operationId: Int): OperationDbModel
 
