@@ -20,5 +20,5 @@ interface AlarmsDao {
     fun addAlarm(alarm: AlarmDbModel)
 
     @Query("DELETE FROM alarms WHERE id=:alarmId")
-    fun removeAlarm(alarmId: AlarmDbModel)
+    fun removeAlarm(alarmId: Int)
 }

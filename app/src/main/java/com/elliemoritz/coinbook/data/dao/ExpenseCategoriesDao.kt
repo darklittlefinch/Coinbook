@@ -20,5 +20,5 @@ interface ExpenseCategoriesDao {
     fun addCategory(category: ExpenseCategoryDbModel)
 
     @Query("DELETE FROM categories WHERE id=:categoryId")
-    fun removeCategory(categoryId: ExpenseCategoryDbModel)
+    fun removeCategory(categoryId: Int)
 }

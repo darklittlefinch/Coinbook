@@ -20,5 +20,5 @@ interface LimitsDao {
     fun addLimit(limit: LimitDbModel)
 
     @Query("DELETE FROM limits WHERE id=:limitId")
-    fun removeLimit(limitId: LimitDbModel)
+    fun removeLimit(limitId: Int)
 }

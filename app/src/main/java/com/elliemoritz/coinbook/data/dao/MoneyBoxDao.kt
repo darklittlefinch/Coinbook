@@ -17,5 +17,5 @@ interface MoneyBoxDao {
     fun addMoneyBox(moneyBox: MoneyBoxDbModel)
 
     @Query("DELETE FROM money_box WHERE id=:moneyBoxId")
-    fun removeMoneyBox(moneyBoxId: MoneyBoxDbModel)
+    fun removeMoneyBox(moneyBoxId: Int)
 }

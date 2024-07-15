@@ -20,5 +20,5 @@ interface OperationsDao {
     fun addOperation(operation: OperationDbModel)
 
     @Query("DELETE FROM operations WHERE id=:operationId")
-    fun removeOperation(operationId: OperationDbModel)
+    fun removeOperation(operationId: Int)
 }

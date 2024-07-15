@@ -20,5 +20,5 @@ interface DebtsDao {
     fun addDebt(debt: DebtDbModel)
 
     @Query("DELETE FROM debts WHERE id=:debtId")
-    fun removeDebt(debtId: DebtDbModel)
+    fun removeDebt(debtId: Int)
 }
