@@ -49,7 +49,7 @@ class OperationsMapper {
 
     // INCOME
 
-    fun mapDbModelToIncome(dbModel: OperationDbModel) = Income(
+    private fun mapDbModelToIncome(dbModel: OperationDbModel) = Income(
         incId = dbModel.id,
         incDate = dbModel.date,
         incAmount = dbModel.amount,
@@ -75,7 +75,7 @@ class OperationsMapper {
 
     // MONEY BOX OPERATION
 
-    fun mapDbModelToMoneyBoxOperation(dbModel: OperationDbModel) = MoneyBoxOperation(
+    private fun mapDbModelToMoneyBoxOperation(dbModel: OperationDbModel) = MoneyBoxOperation(
         mbId = dbModel.id,
         mbDate = dbModel.date,
         mbAmount = dbModel.amount,
@@ -88,7 +88,7 @@ class OperationsMapper {
 
     // DEBT OPERATION
 
-    fun mapDbModelToDebtOperation(dbModel: OperationDbModel) = DebtOperation(
+    private fun mapDbModelToDebtOperation(dbModel: OperationDbModel) = DebtOperation(
         debtId = dbModel.id,
         debtDate = dbModel.date,
         debtAmount = dbModel.amount,
