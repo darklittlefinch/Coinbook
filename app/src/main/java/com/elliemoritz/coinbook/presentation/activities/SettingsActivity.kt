@@ -1,4 +1,4 @@
-package com.elliemoritz.coinbook.presentation
+package com.elliemoritz.coinbook.presentation.activities
 
 import android.content.Context
 import android.content.Intent
@@ -8,12 +8,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.elliemoritz.coinbook.R
-import com.elliemoritz.coinbook.databinding.ActivityHistoryBinding
+import com.elliemoritz.coinbook.databinding.ActivitySettingsBinding
 
-class HistoryActivity : AppCompatActivity() {
+class SettingsActivity : AppCompatActivity() {
 
     private val binding by lazy {
-        ActivityHistoryBinding.inflate(layoutInflater)
+        ActivitySettingsBinding.inflate(layoutInflater)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,6 +31,7 @@ class HistoryActivity : AppCompatActivity() {
 
     private fun setOnClickListeners() {
         setOnBackClickListener()
+        setOnDoneClickListener()
     }
 
     private fun setOnBackClickListener() {
@@ -39,9 +40,15 @@ class HistoryActivity : AppCompatActivity() {
         }
     }
 
+    private fun setOnDoneClickListener() {
+        binding.buttonDone.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+    }
+
     companion object {
         fun newIntent(context: Context): Intent {
-            val intent = Intent(context, HistoryActivity::class.java)
+            val intent = Intent(context, SettingsActivity::class.java)
             return intent
         }
     }

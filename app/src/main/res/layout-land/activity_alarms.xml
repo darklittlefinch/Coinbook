@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.AlarmsActivity">
+    tools:context=".presentation.activities.AlarmsActivity">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_alarms"
@@ -77,7 +77,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/alarms_container"
-        android:name="com.elliemoritz.coinbook.presentation.AddAlarmFragment"
+        android:name="com.elliemoritz.coinbook.presentation.fragments.AddAlarmFragment"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"

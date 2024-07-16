@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.IncomeActivity">
+    tools:context=".presentation.activities.IncomeActivity">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_income"
@@ -75,7 +75,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/income_container"
-        android:name="com.elliemoritz.coinbook.presentation.AddIncomeFragment"
+        android:name="com.elliemoritz.coinbook.presentation.fragments.AddIncomeFragment"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"

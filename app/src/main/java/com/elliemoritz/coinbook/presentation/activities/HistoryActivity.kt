@@ -1,4 +1,4 @@
-package com.elliemoritz.coinbook.presentation
+package com.elliemoritz.coinbook.presentation.activities
 
 import android.content.Context
 import android.content.Intent
@@ -8,12 +8,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.elliemoritz.coinbook.R
-import com.elliemoritz.coinbook.databinding.ActivityAlarmsBinding
+import com.elliemoritz.coinbook.databinding.ActivityHistoryBinding
 
-class AlarmsActivity : AppCompatActivity() {
+class HistoryActivity : AppCompatActivity() {
 
     private val binding by lazy {
-        ActivityAlarmsBinding.inflate(layoutInflater)
+        ActivityHistoryBinding.inflate(layoutInflater)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +31,6 @@ class AlarmsActivity : AppCompatActivity() {
 
     private fun setOnClickListeners() {
         setOnBackClickListener()
-        setOnAddClickListener()
     }
 
     private fun setOnBackClickListener() {
@@ -40,16 +39,9 @@ class AlarmsActivity : AppCompatActivity() {
         }
     }
 
-    private fun setOnAddClickListener() {
-        binding.ivAddNewAlarm.setOnClickListener {
-            val intent = OperationsActivity.newIntent(this, OperationsActivity.MODE_ALARM)
-            startActivity(intent)
-        }
-    }
-
     companion object {
         fun newIntent(context: Context): Intent {
-            val intent = Intent(context, AlarmsActivity::class.java)
+            val intent = Intent(context, HistoryActivity::class.java)
             return intent
         }
     }

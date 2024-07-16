@@ -1,4 +1,4 @@
-package com.elliemoritz.coinbook.presentation
+package com.elliemoritz.coinbook.presentation.activities
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge

@@ -1,4 +1,4 @@
-package com.elliemoritz.coinbook.presentation
+package com.elliemoritz.coinbook.presentation.activities
 
 import android.content.Context
 import android.content.Intent
@@ -8,12 +8,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.elliemoritz.coinbook.R
-import com.elliemoritz.coinbook.databinding.ActivityDebtsBinding
+import com.elliemoritz.coinbook.databinding.ActivityLimitsBinding
 
-class DebtsActivity : AppCompatActivity() {
+class LimitsActivity : AppCompatActivity() {
 
     private val binding by lazy {
-        ActivityDebtsBinding.inflate(layoutInflater)
+        ActivityLimitsBinding.inflate(layoutInflater)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,15 +41,15 @@ class DebtsActivity : AppCompatActivity() {
     }
 
     private fun setOnAddClickListener() {
-        binding.ivAddNewDebt.setOnClickListener {
-            val intent = OperationsActivity.newIntent(this, OperationsActivity.MODE_DEBT)
+        binding.ivAddNewLimit.setOnClickListener {
+            val intent = OperationsActivity.newIntent(this, OperationsActivity.MODE_LIMIT)
             startActivity(intent)
         }
     }
 
     companion object {
         fun newIntent(context: Context): Intent {
-            val intent = Intent(context, DebtsActivity::class.java)
+            val intent = Intent(context, LimitsActivity::class.java)
             return intent
         }
     }

@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.DebtsActivity">
+    tools:context=".presentation.activities.DebtsActivity">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_debts"
@@ -87,7 +87,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/debts_container"
-        android:name="com.elliemoritz.coinbook.presentation.AddDebtFragment"
+        android:name="com.elliemoritz.coinbook.presentation.fragments.AddDebtFragment"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"

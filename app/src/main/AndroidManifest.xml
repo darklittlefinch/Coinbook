@@ -13,34 +13,34 @@
         android:theme="@style/Theme.Coinbook"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.SettingsActivity"
+            android:name=".presentation.activities.SettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.HistoryActivity"
+            android:name=".presentation.activities.HistoryActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.AlarmsActivity"
+            android:name=".presentation.activities.AlarmsActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.LimitsActivity"
+            android:name=".presentation.activities.LimitsActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.IncomeActivity"
+            android:name=".presentation.activities.IncomeActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.DebtsActivity"
+            android:name=".presentation.activities.DebtsActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.MoneyBoxActivity"
+            android:name=".presentation.activities.MoneyBoxActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.OperationsActivity"
+            android:name=".presentation.activities.OperationsActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.ExpensesActivity"
+            android:name=".presentation.activities.ExpensesActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.MainActivity"
+            android:name=".presentation.activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

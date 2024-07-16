@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.MoneyBoxActivity">
+    tools:context=".presentation.activities.MoneyBoxActivity">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_money_box"
@@ -134,7 +134,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/money_box_container"
-        android:name="com.elliemoritz.coinbook.presentation.AddMoneyBoxOperationFragment"
+        android:name="com.elliemoritz.coinbook.presentation.fragments.AddMoneyBoxOperationFragment"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"

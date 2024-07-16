@@ -1,4 +1,4 @@
-package com.elliemoritz.coinbook.presentation
+package com.elliemoritz.coinbook.presentation.activities
 
 import android.content.Context
 import android.content.Intent
@@ -8,12 +8,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.elliemoritz.coinbook.R
-import com.elliemoritz.coinbook.databinding.ActivityIncomeBinding
+import com.elliemoritz.coinbook.databinding.ActivityDebtsBinding
 
-class IncomeActivity : AppCompatActivity() {
+class DebtsActivity : AppCompatActivity() {
 
     private val binding by lazy {
-        ActivityIncomeBinding.inflate(layoutInflater)
+        ActivityDebtsBinding.inflate(layoutInflater)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,15 +41,15 @@ class IncomeActivity : AppCompatActivity() {
     }
 
     private fun setOnAddClickListener() {
-        binding.ivAddNewIncome.setOnClickListener {
-            val intent = OperationsActivity.newIntent(this, OperationsActivity.MODE_INCOME)
+        binding.ivAddNewDebt.setOnClickListener {
+            val intent = OperationsActivity.newIntent(this, OperationsActivity.MODE_DEBT)
             startActivity(intent)
         }
     }
 
     companion object {
         fun newIntent(context: Context): Intent {
-            val intent = Intent(context, IncomeActivity::class.java)
+            val intent = Intent(context, DebtsActivity::class.java)
             return intent
         }
     }

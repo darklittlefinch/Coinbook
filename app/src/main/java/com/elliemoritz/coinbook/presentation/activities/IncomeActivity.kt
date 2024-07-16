@@ -1,4 +1,4 @@
-package com.elliemoritz.coinbook.presentation
+package com.elliemoritz.coinbook.presentation.activities
 
 import android.content.Context
 import android.content.Intent
@@ -8,12 +8,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.elliemoritz.coinbook.R
-import com.elliemoritz.coinbook.databinding.ActivityMoneyBoxBinding
+import com.elliemoritz.coinbook.databinding.ActivityIncomeBinding
 
-class MoneyBoxActivity : AppCompatActivity() {
+class IncomeActivity : AppCompatActivity() {
 
     private val binding by lazy {
-        ActivityMoneyBoxBinding.inflate(layoutInflater)
+        ActivityIncomeBinding.inflate(layoutInflater)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,50 +32,24 @@ class MoneyBoxActivity : AppCompatActivity() {
     private fun setOnClickListeners() {
         setOnBackClickListener()
         setOnAddClickListener()
-        setOnRemoveClickListener()
-        setOnAddMoneyBoxClickListener()
     }
 
     private fun setOnBackClickListener() {
         binding.ivBack.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
-
     }
 
     private fun setOnAddClickListener() {
-        binding.ivAddToMoneyBox.setOnClickListener {
-            val intent = OperationsActivity.newIntent(
-                this,
-                OperationsActivity.MODE_ADD_MONEY_BOX
-            )
-            startActivity(intent)
-        }
-    }
-
-    private fun setOnRemoveClickListener() {
-        binding.ivRemoveFromMoneyBox.setOnClickListener {
-            val intent = OperationsActivity.newIntent(
-                this,
-                OperationsActivity.MODE_REMOVE_MONEY_BOX
-            )
-            startActivity(intent)
-        }
-    }
-
-    private fun setOnAddMoneyBoxClickListener() {
-        binding.ivNoMoneyBox?.setOnClickListener {
-            val intent = OperationsActivity.newIntent(
-                this,
-                OperationsActivity.MODE_MONEY_BOX
-            )
+        binding.ivAddNewIncome.setOnClickListener {
+            val intent = OperationsActivity.newIntent(this, OperationsActivity.MODE_INCOME)
             startActivity(intent)
         }
     }
 
     companion object {
         fun newIntent(context: Context): Intent {
-            val intent = Intent(context, MoneyBoxActivity::class.java)
+            val intent = Intent(context, IncomeActivity::class.java)
             return intent
         }
     }
