@@ -15,6 +15,8 @@
     <string name="amount_minus">- %s %s</string>
     <string name="amount_plus">+ %s %s</string>
 
+    <string name="info_expenses_add_new_category">Add new category</string>
+
     <string name="info_money_box_start">Started %s</string>
     <string name="info_money_box_goal">Your goal: %s %s before %s for %s</string>
     <string name="info_money_box_goal_destination">You need to save %s %s every day to reach this goal</string>
