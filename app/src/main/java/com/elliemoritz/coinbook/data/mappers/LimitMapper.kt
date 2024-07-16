@@ -7,13 +7,13 @@ class LimitMapper {
 
     fun mapEntityToDbModel(limit: Limit) = LimitDbModel(
         id = limit.id,
-        category = limit.category,
+        categoryName = limit.categoryName,
         amount = limit.amount
     )
 
     fun mapDbModelToEntity(dbModel: LimitDbModel) = Limit(
         id = dbModel.id,
-        category = dbModel.category,
+        categoryName = dbModel.categoryName,
         amount = dbModel.amount
     )
 
