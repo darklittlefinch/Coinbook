@@ -6,7 +6,7 @@ import com.elliemoritz.coinbook.domain.repositories.LimitsRepository
 class RemoveLimitUseCase(
     private val limitsRepository: LimitsRepository
 ) {
-    fun removeLimit(limit: Limit) {
+    suspend fun removeLimit(limit: Limit) {
         limitsRepository.removeLimit(limit)
     }
 }

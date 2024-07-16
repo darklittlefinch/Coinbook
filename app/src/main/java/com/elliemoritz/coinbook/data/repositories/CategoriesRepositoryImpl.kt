@@ -19,22 +19,22 @@ class CategoriesRepositoryImpl(
         }
     }
 
-    override fun getCategory(id: Int): Category {
+    override suspend fun getCategory(id: Int): Category {
         val dbModel = dao.getCategory(id)
         return mapper.mapDbModelToEntity(dbModel)
     }
 
-    override fun addCategory(category: Category) {
+    override suspend fun addCategory(category: Category) {
         val dbModel = mapper.mapEntityToDbModel(category)
         dao.addCategory(dbModel)
     }
 
-    override fun editCategory(category: Category) {
+    override suspend fun editCategory(category: Category) {
         val dbModel = mapper.mapEntityToDbModel(category)
         dao.addCategory(dbModel)
     }
 
-    override fun removeCategory(category: Category) {
+    override suspend fun removeCategory(category: Category) {
         dao.removeCategory(category.id)
     }
 }

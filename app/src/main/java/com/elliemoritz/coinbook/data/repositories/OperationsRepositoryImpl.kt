@@ -27,22 +27,22 @@ class OperationsRepositoryImpl(
         }
     }
 
-    override fun getOperation(id: Int): Operation {
+    override suspend fun getOperation(id: Int): Operation {
         val dbModel = dao.getOperation(id)
         return mapper.mapDbModelToOperation(dbModel)
     }
 
-    override fun addOperation(operation: Operation) {
+    override suspend fun addOperation(operation: Operation) {
         val dbModel = mapper.mapOperationToDbModel(operation)
         dao.addOperation(dbModel)
     }
 
-    override fun editOperation(operation: Operation) {
+    override suspend fun editOperation(operation: Operation) {
         val dbModel = mapper.mapOperationToDbModel(operation)
         dao.addOperation(dbModel)
     }
 
-    override fun removeOperation(operation: Operation) {
+    override suspend fun removeOperation(operation: Operation) {
         dao.removeOperation(operation.id)
     }
 

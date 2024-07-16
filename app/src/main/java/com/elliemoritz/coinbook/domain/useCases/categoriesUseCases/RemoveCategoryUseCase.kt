@@ -6,7 +6,7 @@ import com.elliemoritz.coinbook.domain.repositories.CategoriesRepository
 class RemoveCategoryUseCase(
     private val categoriesRepository: CategoriesRepository
 ) {
-    fun removeCategory(category: Category) {
+    suspend fun removeCategory(category: Category) {
         categoriesRepository.removeCategory(category)
     }
 }

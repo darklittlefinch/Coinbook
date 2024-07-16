@@ -6,7 +6,7 @@ import com.elliemoritz.coinbook.domain.repositories.LimitsRepository
 class EditLimitUseCase(
     private val limitsRepository: LimitsRepository
 ) {
-    fun editLimit(limit: Limit) {
+    suspend fun editLimit(limit: Limit) {
         limitsRepository.editLimit(limit)
     }
 }

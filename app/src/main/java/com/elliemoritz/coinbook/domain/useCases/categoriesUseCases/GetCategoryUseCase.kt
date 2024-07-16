@@ -6,7 +6,7 @@ import com.elliemoritz.coinbook.domain.repositories.CategoriesRepository
 class GetCategoryUseCase(
     private val categoriesRepository: CategoriesRepository
 ) {
-    fun getCategory(id: Int): Category {
+    suspend fun getCategory(id: Int): Category {
         return categoriesRepository.getCategory(id)
     }
 }

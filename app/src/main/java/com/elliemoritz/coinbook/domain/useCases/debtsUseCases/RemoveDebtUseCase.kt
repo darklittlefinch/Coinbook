@@ -6,7 +6,7 @@ import com.elliemoritz.coinbook.domain.repositories.DebtsRepository
 class RemoveDebtUseCase(
     private val debtsRepository: DebtsRepository
 ) {
-    fun removeDebt(debt: Debt) {
+    suspend fun removeDebt(debt: Debt) {
         debtsRepository.removeDebt(debt)
     }
 }

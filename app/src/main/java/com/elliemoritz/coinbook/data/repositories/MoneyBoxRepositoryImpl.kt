@@ -10,22 +10,22 @@ class MoneyBoxRepositoryImpl(
     private val mapper: MoneyBoxMapper
 ) : MoneyBoxRepository {
 
-    override fun getMoneyBox(id: Int): MoneyBox {
+    override suspend fun getMoneyBox(id: Int): MoneyBox {
         val dbModel = dao.getMoneyBox(id)
         return mapper.mapDbModelToEntity(dbModel)
     }
 
-    override fun addMoneyBox(moneyBox: MoneyBox) {
+    override suspend fun addMoneyBox(moneyBox: MoneyBox) {
         val dbModel = mapper.mapEntityToDbModel(moneyBox)
         dao.addMoneyBox(dbModel)
     }
 
-    override fun editMoneyBox(moneyBox: MoneyBox) {
+    override suspend fun editMoneyBox(moneyBox: MoneyBox) {
         val dbModel = mapper.mapEntityToDbModel(moneyBox)
         dao.addMoneyBox(dbModel)
     }
 
-    override fun removeMoneyBox(moneyBox: MoneyBox) {
+    override suspend fun removeMoneyBox(moneyBox: MoneyBox) {
         dao.removeMoneyBox(moneyBox.id)
     }
 }

@@ -19,22 +19,22 @@ class LimitsRepositoryImpl(
         }
     }
 
-    override fun getLimit(id: Int): Limit {
+    override suspend fun getLimit(id: Int): Limit {
         val dbModel = dao.getLimit(id)
         return mapper.mapDbModelToEntity(dbModel)
     }
 
-    override fun addLimit(limit: Limit) {
+    override suspend fun addLimit(limit: Limit) {
         val dbModel = mapper.mapEntityToDbModel(limit)
         dao.addLimit(dbModel)
     }
 
-    override fun editLimit(limit: Limit) {
+    override suspend fun editLimit(limit: Limit) {
         val dbModel = mapper.mapEntityToDbModel(limit)
         dao.addLimit(dbModel)
     }
 
-    override fun removeLimit(limit: Limit) {
+    override suspend fun removeLimit(limit: Limit) {
         dao.removeLimit(limit.id)
     }
 }

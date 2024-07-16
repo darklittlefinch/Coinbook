@@ -19,22 +19,22 @@ class DebtsRepositoryImpl(
         }
     }
 
-    override fun getDebt(id: Int): Debt {
+    override suspend fun getDebt(id: Int): Debt {
         val dbModel = dao.getDebt(id)
         return mapper.mapDbModelToEntity(dbModel)
     }
 
-    override fun addDebt(debt: Debt) {
+    override suspend fun addDebt(debt: Debt) {
         val dbModel = mapper.mapEntityToDbModel(debt)
         dao.addDebt(dbModel)
     }
 
-    override fun editDebt(debt: Debt) {
+    override suspend fun editDebt(debt: Debt) {
         val dbModel = mapper.mapEntityToDbModel(debt)
         dao.addDebt(dbModel)
     }
 
-    override fun removeDebt(debt: Debt) {
+    override suspend fun removeDebt(debt: Debt) {
         dao.removeDebt(debt.id)
     }
 }

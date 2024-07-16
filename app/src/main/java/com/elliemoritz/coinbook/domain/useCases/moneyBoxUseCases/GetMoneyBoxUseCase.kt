@@ -6,7 +6,7 @@ import com.elliemoritz.coinbook.domain.repositories.MoneyBoxRepository
 class GetMoneyBoxUseCase(
     private val moneyBoxRepository: MoneyBoxRepository
 ) {
-    fun getMoneyBox(id: Int): MoneyBox {
+    suspend fun getMoneyBox(id: Int): MoneyBox {
         return moneyBoxRepository.getMoneyBox(id)
     }
 }

@@ -19,22 +19,22 @@ class AlarmsRepositoryImpl(
         }
     }
 
-    override fun getAlarm(id: Int): Alarm {
+    override suspend fun getAlarm(id: Int): Alarm {
         val dbModel = dao.getAlarm(id)
         return mapper.mapDbModelToEntity(dbModel)
     }
 
-    override fun addAlarm(alarm: Alarm) {
+    override suspend fun addAlarm(alarm: Alarm) {
         val dbModel = mapper.mapEntityToDbModel(alarm)
         dao.addAlarm(dbModel)
     }
 
-    override fun editAlarm(alarm: Alarm) {
+    override suspend fun editAlarm(alarm: Alarm) {
         val dbModel = mapper.mapEntityToDbModel(alarm)
         dao.addAlarm(dbModel)
     }
 
-    override fun removeAlarm(alarm: Alarm) {
+    override suspend fun removeAlarm(alarm: Alarm) {
         dao.removeAlarm(alarm.id)
     }
 }

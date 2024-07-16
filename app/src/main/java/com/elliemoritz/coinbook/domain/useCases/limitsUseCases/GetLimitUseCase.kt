@@ -6,7 +6,7 @@ import com.elliemoritz.coinbook.domain.repositories.LimitsRepository
 class GetLimitUseCase(
     private val limitsRepository: LimitsRepository
 ) {
-    fun getLimit(id: Int): Limit {
+    suspend fun getLimit(id: Int): Limit {
         return limitsRepository.getLimit(id)
     }
 }

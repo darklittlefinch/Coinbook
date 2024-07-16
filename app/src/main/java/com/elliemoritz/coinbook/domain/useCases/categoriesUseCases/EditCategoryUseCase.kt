@@ -6,7 +6,7 @@ import com.elliemoritz.coinbook.domain.repositories.CategoriesRepository
 class EditCategoryUseCase(
     private val categoriesRepository: CategoriesRepository
 ) {
-    fun editCategory(category: Category) {
+    suspend fun editCategory(category: Category) {
         categoriesRepository.editCategory(category)
     }
 }

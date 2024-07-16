@@ -14,11 +14,11 @@ interface DebtsDao {
     fun getDebtsList(): LiveData<List<DebtDbModel>>
 
     @Query("SELECT * FROM debts WHERE id=:debtId LIMIT 1")
-    fun getDebt(debtId: Int): DebtDbModel
+    suspend fun getDebt(debtId: Int): DebtDbModel
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addDebt(debt: DebtDbModel)
+    suspend fun addDebt(debt: DebtDbModel)
 
     @Query("DELETE FROM debts WHERE id=:debtId")
-    fun removeDebt(debtId: Int)
+    suspend fun removeDebt(debtId: Int)
 }

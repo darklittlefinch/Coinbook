@@ -5,8 +5,8 @@ import com.elliemoritz.coinbook.domain.entities.Category
 
 interface CategoriesRepository {
     fun getCategoriesList(): LiveData<List<Category>>
-    fun getCategory(id: Int): Category
-    fun addCategory(category: Category)
-    fun editCategory(category: Category)
-    fun removeCategory(category: Category)
+    suspend fun getCategory(id: Int): Category
+    suspend fun addCategory(category: Category)
+    suspend fun editCategory(category: Category)
+    suspend fun removeCategory(category: Category)
 }

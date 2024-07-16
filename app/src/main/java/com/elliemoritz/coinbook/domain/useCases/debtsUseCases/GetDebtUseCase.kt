@@ -6,7 +6,7 @@ import com.elliemoritz.coinbook.domain.repositories.DebtsRepository
 class GetDebtUseCase(
     private val debtsRepository: DebtsRepository
 ) {
-    fun getDebt(id: Int): Debt {
+    suspend fun getDebt(id: Int): Debt {
         return debtsRepository.getDebt(id)
     }
 }

@@ -5,8 +5,8 @@ import com.elliemoritz.coinbook.domain.entities.Debt
 
 interface DebtsRepository {
     fun getDebtsList(): LiveData<List<Debt>>
-    fun getDebt(id: Int): Debt
-    fun addDebt(debt: Debt)
-    fun editDebt(debt: Debt)
-    fun removeDebt(debt: Debt)
+    suspend fun getDebt(id: Int): Debt
+    suspend fun addDebt(debt: Debt)
+    suspend fun editDebt(debt: Debt)
+    suspend fun removeDebt(debt: Debt)
 }

@@ -5,8 +5,8 @@ import com.elliemoritz.coinbook.domain.entities.Alarm
 
 interface AlarmsRepository {
     fun getAlarmsList(): LiveData<List<Alarm>>
-    fun getAlarm(id: Int): Alarm
-    fun addAlarm(alarm: Alarm)
-    fun editAlarm(alarm: Alarm)
-    fun removeAlarm(alarm: Alarm)
+    suspend fun getAlarm(id: Int): Alarm
+    suspend fun addAlarm(alarm: Alarm)
+    suspend fun editAlarm(alarm: Alarm)
+    suspend fun removeAlarm(alarm: Alarm)
 }

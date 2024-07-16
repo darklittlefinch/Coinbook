@@ -6,7 +6,7 @@ import com.elliemoritz.coinbook.domain.repositories.AlarmsRepository
 class RemoveAlarmUseCase(
     private val alarmsRepository: AlarmsRepository
 ) {
-    fun removeAlarm(alarm: Alarm) {
+    suspend fun removeAlarm(alarm: Alarm) {
         alarmsRepository.removeAlarm(alarm)
     }
 }

@@ -14,11 +14,11 @@ interface LimitsDao {
     fun getLimitsList(): LiveData<List<LimitDbModel>>
 
     @Query("SELECT * FROM limits WHERE id=:limitId LIMIT 1")
-    fun getLimit(limitId: Int): LimitDbModel
+    suspend fun getLimit(limitId: Int): LimitDbModel
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addLimit(limit: LimitDbModel)
+    suspend fun addLimit(limit: LimitDbModel)
 
     @Query("DELETE FROM limits WHERE id=:limitId")
-    fun removeLimit(limitId: Int)
+    suspend fun removeLimit(limitId: Int)
 }

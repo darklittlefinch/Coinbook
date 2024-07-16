@@ -6,7 +6,7 @@ import com.elliemoritz.coinbook.domain.repositories.DebtsRepository
 class AddDebtUseCase(
     private val debtsRepository: DebtsRepository
 ) {
-    fun addDebt(debt: Debt) {
+    suspend fun addDebt(debt: Debt) {
         debtsRepository.addDebt(debt)
     }
 }

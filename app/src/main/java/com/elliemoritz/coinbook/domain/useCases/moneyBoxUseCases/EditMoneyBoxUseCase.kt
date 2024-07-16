@@ -6,7 +6,7 @@ import com.elliemoritz.coinbook.domain.repositories.MoneyBoxRepository
 class EditMoneyBoxUseCase(
     private val moneyBoxRepository: MoneyBoxRepository
 ) {
-    fun editMoneyBox(moneyBox: MoneyBox) {
+    suspend fun editMoneyBox(moneyBox: MoneyBox) {
         moneyBoxRepository.editMoneyBox(moneyBox)
     }
 }

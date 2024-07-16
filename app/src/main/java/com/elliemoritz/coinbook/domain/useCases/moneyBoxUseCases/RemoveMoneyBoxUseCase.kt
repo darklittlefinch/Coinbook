@@ -6,7 +6,7 @@ import com.elliemoritz.coinbook.domain.repositories.MoneyBoxRepository
 class RemoveMoneyBoxUseCase(
     private val moneyBoxRepository: MoneyBoxRepository
 ) {
-    fun removeMoneyBox(moneyBox: MoneyBox) {
+    suspend fun removeMoneyBox(moneyBox: MoneyBox) {
         moneyBoxRepository.removeMoneyBox(moneyBox)
     }
 }

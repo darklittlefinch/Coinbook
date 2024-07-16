@@ -5,8 +5,8 @@ import com.elliemoritz.coinbook.domain.entities.Limit
 
 interface LimitsRepository {
     fun getLimitsList(): LiveData<List<Limit>>
-    fun getLimit(id: Int): Limit
-    fun addLimit(limit: Limit)
-    fun editLimit(limit: Limit)
-    fun removeLimit(limit: Limit)
+    suspend fun getLimit(id: Int): Limit
+    suspend fun addLimit(limit: Limit)
+    suspend fun editLimit(limit: Limit)
+    suspend fun removeLimit(limit: Limit)
 }

@@ -6,7 +6,7 @@ import com.elliemoritz.coinbook.domain.repositories.AlarmsRepository
 class GetAlarmUseCase(
     private val alarmsRepository: AlarmsRepository
 ) {
-    fun getAlarm(id: Int): Alarm {
+    suspend fun getAlarm(id: Int): Alarm {
         return alarmsRepository.getAlarm(id)
     }
 }

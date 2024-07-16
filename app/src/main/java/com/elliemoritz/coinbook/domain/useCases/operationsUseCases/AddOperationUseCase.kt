@@ -6,7 +6,7 @@ import com.elliemoritz.coinbook.domain.repositories.OperationsRepository
 class AddOperationUseCase(
     private val operationsRepository: OperationsRepository
 ) {
-    fun addOperation(operation: Operation) {
+    suspend fun addOperation(operation: Operation) {
         operationsRepository.addOperation(operation)
     }
 }

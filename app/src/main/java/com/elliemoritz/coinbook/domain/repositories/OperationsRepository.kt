@@ -9,10 +9,10 @@ import com.elliemoritz.coinbook.domain.entities.operations.Operation
 
 interface OperationsRepository {
     fun getOperationsList(): LiveData<List<Operation>>
-    fun getOperation(id: Int): Operation
-    fun addOperation(operation: Operation)
-    fun editOperation(operation: Operation)
-    fun removeOperation(operation: Operation)
+    suspend fun getOperation(id: Int): Operation
+    suspend fun addOperation(operation: Operation)
+    suspend fun editOperation(operation: Operation)
+    suspend fun removeOperation(operation: Operation)
 
     fun getIncomeList(): LiveData<List<Income>>
     fun getExpensesList(): LiveData<List<Expense>>
