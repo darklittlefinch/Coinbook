@@ -75,18 +75,6 @@
         tools:text="14 673 ₽" />
 
     <TextView
-        android:id="@+id/tv_money_box_start_information"
-        style="@style/detail_with_numbers_info_land"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textColor="@color/dark_gray"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_money_box"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_money_box_amount"
-        tools:text="Started 15.02.2024" />
-
-    <TextView
         android:id="@+id/tv_money_box_goal_information"
         style="@style/detail_with_numbers_info_land"
         android:layout_width="0dp"
@@ -95,7 +83,7 @@
         android:textColor="@color/dark_gray"
         app:layout_constraintEnd_toStartOf="@+id/guideline_money_box"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_money_box_start_information"
+        app:layout_constraintTop_toBottomOf="@+id/tv_money_box_amount"
         tools:text="Your goal: 25 000 ₽ before 25.03.2024" />
 
     <TextView
@@ -110,18 +98,6 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_money_box_goal_information"
         tools:text="You need to save 200 ₽ every day to reach this goal" />
 
-    <TextView
-        android:id="@+id/tv_money_box_goal_result_information"
-        style="@style/detail_with_numbers_info_land"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textColor="@color/dark_gray"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_money_box"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_money_box_goal_destination_information"
-        tools:text="@string/info_money_box_result_neutral" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_money_box_operations"
         android:layout_width="0dp"
@@ -129,7 +105,7 @@
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="@id/guideline_money_box"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_money_box_goal_result_information"
+        app:layout_constraintTop_toBottomOf="@+id/tv_money_box_goal_destination_information"
         tools:listitem="@layout/item_money_box" />
 
     <androidx.fragment.app.FragmentContainerView
