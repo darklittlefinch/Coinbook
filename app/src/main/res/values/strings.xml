@@ -24,8 +24,8 @@
 
     <string name="info_debt_positive">Next repayment: %s</string>
     <string name="info_debt_negative">You have overdue repayments</string>
-    <string name="info_debt_specific_positive">Repay before %s</string>
-    <string name="info_debt_specific_negative">Debt is overdue by %s day%s</string>
+    <string name="info_debt_specific_positive">Repay before: %s</string>
+    <string name="info_debt_specific_negative">Debt is overdue by days: %s </string>
 
     <string name="info_limit_positive">You can spend %s %s more this month</string>
     <string name="info_limit_negative">You have exceeded your limit by %s %s</string>
