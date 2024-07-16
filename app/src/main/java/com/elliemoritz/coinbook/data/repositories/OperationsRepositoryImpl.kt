@@ -4,6 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import com.elliemoritz.coinbook.data.dao.OperationsDao
 import com.elliemoritz.coinbook.data.mappers.OperationsMapper
+import com.elliemoritz.coinbook.data.util.OPERATION_FORM_DEBT
+import com.elliemoritz.coinbook.data.util.OPERATION_FORM_EXPENSE
+import com.elliemoritz.coinbook.data.util.OPERATION_FORM_INCOME
+import com.elliemoritz.coinbook.data.util.OPERATION_FORM_MONEY_BOX_OPERATION
 import com.elliemoritz.coinbook.domain.entities.operations.DebtOperation
 import com.elliemoritz.coinbook.domain.entities.operations.Expense
 import com.elliemoritz.coinbook.domain.entities.operations.Income
@@ -43,14 +47,14 @@ class OperationsRepositoryImpl(
     }
 
     override fun getIncomeList(): LiveData<List<Income>> {
-        val operationsList = dao.getOperationFormList(OperationsMapper.OPERATION_FORM_INCOME)
+        val operationsList = dao.getOperationFormList(OPERATION_FORM_INCOME)
         return operationsList.map {
             mapper.mapListDbModelToListIncome(it)
         }
     }
 
     override fun getExpensesList(): LiveData<List<Expense>> {
-        val operationsList = dao.getOperationFormList(OperationsMapper.OPERATION_FORM_EXPENSE)
+        val operationsList = dao.getOperationFormList(OPERATION_FORM_EXPENSE)
         return operationsList.map {
             mapper.mapListDbModelToListExpenses(it)
         }
@@ -58,7 +62,7 @@ class OperationsRepositoryImpl(
 
     override fun getMoneyBoxOperationsList(): LiveData<List<MoneyBoxOperation>> {
         val operationsList = dao.getOperationFormList(
-            OperationsMapper.OPERATION_FORM_MONEY_BOX_OPERATION
+            OPERATION_FORM_MONEY_BOX_OPERATION
         )
         return operationsList.map {
             mapper.mapListDbModelToListMoneyBoxOperations(it)
@@ -66,7 +70,7 @@ class OperationsRepositoryImpl(
     }
 
     override fun getDebtOperationsList(): LiveData<List<DebtOperation>> {
-        val operationsList = dao.getOperationFormList(OperationsMapper.OPERATION_FORM_DEBT)
+        val operationsList = dao.getOperationFormList(OPERATION_FORM_DEBT)
         return operationsList.map {
             mapper.mapListDbModelToListDebtOperations(it)
         }

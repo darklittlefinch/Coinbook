@@ -1,6 +1,12 @@
 package com.elliemoritz.coinbook.data.mappers
 
 import com.elliemoritz.coinbook.data.dbModels.OperationDbModel
+import com.elliemoritz.coinbook.data.util.OPERATION_FORM_DEBT
+import com.elliemoritz.coinbook.data.util.OPERATION_FORM_EXPENSE
+import com.elliemoritz.coinbook.data.util.OPERATION_FORM_INCOME
+import com.elliemoritz.coinbook.data.util.OPERATION_FORM_MONEY_BOX_OPERATION
+import com.elliemoritz.coinbook.data.util.TYPE_EXPENSE
+import com.elliemoritz.coinbook.data.util.TYPE_INCOME
 import com.elliemoritz.coinbook.domain.entities.helpers.OperationForm
 import com.elliemoritz.coinbook.domain.entities.helpers.Type
 import com.elliemoritz.coinbook.domain.entities.operations.DebtOperation
@@ -10,16 +16,6 @@ import com.elliemoritz.coinbook.domain.entities.operations.MoneyBoxOperation
 import com.elliemoritz.coinbook.domain.entities.operations.Operation
 
 class OperationsMapper {
-
-    companion object {
-        const val OPERATION_FORM_INCOME = "income"
-        const val OPERATION_FORM_EXPENSE = "expense"
-        const val OPERATION_FORM_MONEY_BOX_OPERATION = "money_box_operation"
-        const val OPERATION_FORM_DEBT = "debt"
-
-        private const val TYPE_INCOME = "income"
-        private const val TYPE_EXPENSE = "expense"
-    }
 
     private fun defineOperationForm(operationForm: OperationForm): String {
         return when (operationForm) {
