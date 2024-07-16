@@ -125,7 +125,7 @@
     <style name="details_add_category_button" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:layout_margin">8dp</item>
         <item name="android:backgroundTint">@color/pale_red</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/black</item>
     </style>
