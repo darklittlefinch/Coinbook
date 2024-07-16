@@ -31,7 +31,8 @@ class ExpensesActivity : AppCompatActivity() {
 
     private fun setOnClickListeners() {
         setOnBackClickListener()
-        setOnAddClickListener()
+        setOnAddExpenseClickListener()
+        setOnAddCategoryClickListener()
     }
 
     private fun setOnBackClickListener() {
@@ -40,9 +41,16 @@ class ExpensesActivity : AppCompatActivity() {
         }
     }
 
-    private fun setOnAddClickListener() {
+    private fun setOnAddExpenseClickListener() {
         binding.ivAddNewExpense.setOnClickListener {
             val intent = OperationsActivity.newIntent(this, OperationsActivity.MODE_EXPENSE)
+            startActivity(intent)
+        }
+    }
+
+    private fun setOnAddCategoryClickListener() {
+        binding.buttonAddCategory?.setOnClickListener {
+            val intent = OperationsActivity.newIntent(this, OperationsActivity.MODE_CATEGORY)
             startActivity(intent)
         }
     }

@@ -1,20 +1,22 @@
 package com.elliemoritz.coinbook.data.mappers
 
 import com.elliemoritz.coinbook.data.dbModels.AlarmDbModel
+import com.elliemoritz.coinbook.data.util.formatTime
+import com.elliemoritz.coinbook.data.util.parseTime
 import com.elliemoritz.coinbook.domain.entities.Alarm
 
 class AlarmMapper {
 
     fun mapEntityToDbModel(alarm: Alarm) = AlarmDbModel(
         id = alarm.id,
-        dateTime = alarm.dateTime,
+        dateTime = formatTime(alarm.dateTime),
         description = alarm.description,
         amount = alarm.amount
     )
 
     fun mapDbModelToEntity(dbModel: AlarmDbModel) = Alarm(
         id = dbModel.id,
-        dateTime = dbModel.dateTime,
+        dateTime = parseTime(dbModel.dateTime),
         description = dbModel.description,
         amount = dbModel.amount
     )

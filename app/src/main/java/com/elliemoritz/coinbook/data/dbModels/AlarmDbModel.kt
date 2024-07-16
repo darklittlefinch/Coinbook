@@ -8,7 +8,7 @@ import java.time.LocalDateTime
 data class AlarmDbModel(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
-    val dateTime: LocalDateTime,
+    val dateTime: String,
     val description: String,
     val amount: Int
 )

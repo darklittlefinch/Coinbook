@@ -10,5 +10,5 @@ data class DebtDbModel(
     val id: Int,
     val amount: Int,
     val creditor: String,
-    val deadline: LocalDateTime
+    val deadline: String
 )

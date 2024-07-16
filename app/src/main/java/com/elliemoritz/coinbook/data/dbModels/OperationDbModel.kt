@@ -12,7 +12,7 @@ data class OperationDbModel(
     val id: Int,
     val operationForm: String,
     val type: String,
-    val date: LocalDateTime,
+    val date: String,
     val amount: Int,
     val info: String = ""
 )

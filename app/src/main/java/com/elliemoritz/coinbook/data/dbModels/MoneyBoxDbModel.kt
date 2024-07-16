@@ -10,5 +10,5 @@ data class MoneyBoxDbModel(
     val id: Int,
     val amount: Int,
     val goal: String,
-    val deadline: LocalDateTime
+    val deadline: String
 )

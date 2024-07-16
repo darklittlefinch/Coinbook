@@ -7,6 +7,8 @@ import com.elliemoritz.coinbook.data.util.OPERATION_FORM_INCOME
 import com.elliemoritz.coinbook.data.util.OPERATION_FORM_MONEY_BOX_OPERATION
 import com.elliemoritz.coinbook.data.util.TYPE_EXPENSE
 import com.elliemoritz.coinbook.data.util.TYPE_INCOME
+import com.elliemoritz.coinbook.data.util.formatTime
+import com.elliemoritz.coinbook.data.util.parseTime
 import com.elliemoritz.coinbook.domain.entities.helpers.OperationForm
 import com.elliemoritz.coinbook.domain.entities.helpers.Type
 import com.elliemoritz.coinbook.domain.entities.operations.DebtOperation
@@ -47,7 +49,7 @@ class OperationsMapper {
 
     private fun mapDbModelToIncome(dbModel: OperationDbModel) = Income(
         incId = dbModel.id,
-        incDate = dbModel.date,
+        incDate = parseTime(dbModel.date),
         incAmount = dbModel.amount,
         incSource = dbModel.info
     )
@@ -60,7 +62,7 @@ class OperationsMapper {
 
     fun mapDbModelToExpense(dbModel: OperationDbModel) = Expense(
         expId = dbModel.id,
-        expDate = dbModel.date,
+        expDate = parseTime(dbModel.date),
         expAmount = dbModel.amount,
         expCategoryName = dbModel.info
     )
@@ -73,7 +75,7 @@ class OperationsMapper {
 
     private fun mapDbModelToMoneyBoxOperation(dbModel: OperationDbModel) = MoneyBoxOperation(
         mbId = dbModel.id,
-        mbDate = dbModel.date,
+        mbDate = parseTime(dbModel.date),
         mbAmount = dbModel.amount,
         mbType = defineEntityType(dbModel.type)
     )
@@ -86,7 +88,7 @@ class OperationsMapper {
 
     private fun mapDbModelToDebtOperation(dbModel: OperationDbModel) = DebtOperation(
         debtId = dbModel.id,
-        debtDate = dbModel.date,
+        debtDate = parseTime(dbModel.date),
         debtAmount = dbModel.amount,
         debtType = defineEntityType(dbModel.type),
         debtCreditor = dbModel.info
@@ -102,7 +104,7 @@ class OperationsMapper {
         id = income.id,
         operationForm = defineOperationForm(income.operationForm),
         type = defineDbModelType(income.type),
-        date = income.date,
+        date = formatTime(income.date),
         amount = income.amount,
         info = income.info
     )
