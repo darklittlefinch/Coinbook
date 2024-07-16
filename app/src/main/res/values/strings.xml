@@ -20,9 +20,8 @@
     <string name="info_money_box_start">Started %s</string>
     <string name="info_money_box_goal">Your goal: %s %s before %s for %s</string>
     <string name="info_money_box_goal_destination">You need to save %s %s every day to reach this goal</string>
-    <string name="info_money_box_result_positive">You are ahead of your goal by %s %s</string>
-    <string name="info_money_box_result_negative">You are %s %s behind your goal</string>
-    <string name="info_money_box_result_neutral">You are keeping up your goal!</string>
+    <string name="info_money_box_goal_completed">You made it in time!</string>
+    <string name="info_money_box_goal_exceeded">Unfortunately, you did not have time</string>
 
     <string name="info_debt_positive">Next repayment: %s</string>
     <string name="info_debt_negative">You have overdue repayments</string>

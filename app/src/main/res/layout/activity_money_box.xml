@@ -104,18 +104,6 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_money_box_goal_information"
         tools:text="You need to save 200 ₽ every day to reach this goal" />
 
-    <TextView
-        android:id="@+id/tv_money_box_goal_result_information"
-        style="@style/details_with_numbers_info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textColor="@color/dark_gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_money_box_goal_destination_information"
-        tools:text="@string/info_money_box_result_neutral" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_money_box_operations"
         android:layout_width="match_parent"
@@ -123,7 +111,7 @@
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_money_box_goal_result_information"
+        app:layout_constraintTop_toBottomOf="@+id/tv_money_box_goal_destination_information"
         tools:listitem="@layout/item_money_box" />
 
     <ImageView
