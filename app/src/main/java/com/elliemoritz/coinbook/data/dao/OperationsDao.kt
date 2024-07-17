@@ -13,11 +13,18 @@ interface OperationsDao {
     @Query("SELECT * FROM operations")
     fun getOperationsList(): LiveData<List<OperationDbModel>>
 
-    @Query("SELECT * FROM operations WHERE operationForm = :operationForm")
-    fun getOperationFormList(operationForm: String): LiveData<List<OperationDbModel>>
+    @Query("SELECT * FROM operations " +
+            "WHERE operationForm = :operationForm AND dateTimeMillis >= :dateMillis")
+    fun getOperationFormList(
+        operationForm: String,
+        dateMillis: Long = 0)
+    : LiveData<List<OperationDbModel>>
 
-    @Query("SELECT * FROM operations WHERE info = :categoryName")
-    fun getCategoryExpensesList(categoryName: String): LiveData<List<OperationDbModel>>
+    @Query("SELECT * FROM operations WHERE info = :categoryName AND dateTimeMillis >= :dateMillis")
+    fun getCategoryExpensesList(
+        categoryName: String,
+        dateMillis: Long
+    ): LiveData<List<OperationDbModel>>
 
     @Query("SELECT * FROM operations WHERE id=:operationId LIMIT 1")
     suspend fun getOperation(operationId: Int): OperationDbModel

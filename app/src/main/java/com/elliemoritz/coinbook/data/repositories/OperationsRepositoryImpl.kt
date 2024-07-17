@@ -14,6 +14,7 @@ import com.elliemoritz.coinbook.domain.entities.operations.Income
 import com.elliemoritz.coinbook.domain.entities.operations.MoneyBoxOperation
 import com.elliemoritz.coinbook.domain.entities.operations.Operation
 import com.elliemoritz.coinbook.domain.repositories.OperationsRepository
+import java.sql.Timestamp
 
 class OperationsRepositoryImpl(
     private val dao: OperationsDao,
@@ -46,15 +47,15 @@ class OperationsRepositoryImpl(
         dao.removeOperation(operation.id)
     }
 
-    override fun getIncomeList(): LiveData<List<Income>> {
-        val operationsList = dao.getOperationFormList(OPERATION_FORM_INCOME)
+    override fun getIncomeListFromDate(date: Timestamp): LiveData<List<Income>> {
+        val operationsList = dao.getOperationFormList(OPERATION_FORM_INCOME, date.time)
         return operationsList.map {
             mapper.mapListDbModelToListIncome(it)
         }
     }
 
-    override fun getExpensesList(): LiveData<List<Expense>> {
-        val operationsList = dao.getOperationFormList(OPERATION_FORM_EXPENSE)
+    override fun getExpensesListFromDate(date: Timestamp): LiveData<List<Expense>> {
+        val operationsList = dao.getOperationFormList(OPERATION_FORM_EXPENSE, date.time)
         return operationsList.map {
             mapper.mapListDbModelToListExpenses(it)
         }
@@ -76,8 +77,11 @@ class OperationsRepositoryImpl(
         }
     }
 
-    override fun getCategoryExpensesList(categoryName: String): LiveData<List<Expense>> {
-        val expensesList = dao.getCategoryExpensesList(categoryName)
+    override fun getCategoryExpensesListFromDate(
+        categoryName: String,
+        date: Timestamp
+    ): LiveData<List<Expense>> {
+        val expensesList = dao.getCategoryExpensesList(categoryName, date.time)
         return expensesList.map {
             mapper.mapListDbModelToListExpenses(it)
         }

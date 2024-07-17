@@ -6,6 +6,7 @@ import com.elliemoritz.coinbook.domain.entities.operations.Expense
 import com.elliemoritz.coinbook.domain.entities.operations.Income
 import com.elliemoritz.coinbook.domain.entities.operations.MoneyBoxOperation
 import com.elliemoritz.coinbook.domain.entities.operations.Operation
+import java.sql.Timestamp
 
 interface OperationsRepository {
     fun getOperationsList(): LiveData<List<Operation>>
@@ -14,10 +15,13 @@ interface OperationsRepository {
     suspend fun editOperation(operation: Operation)
     suspend fun removeOperation(operation: Operation)
 
-    fun getIncomeList(): LiveData<List<Income>>
-    fun getExpensesList(): LiveData<List<Expense>>
+    fun getIncomeListFromDate(date: Timestamp): LiveData<List<Income>>
+    fun getExpensesListFromDate(date: Timestamp): LiveData<List<Expense>>
     fun getMoneyBoxOperationsList(): LiveData<List<MoneyBoxOperation>>
     fun getDebtOperationsList(): LiveData<List<DebtOperation>>
 
-    fun getCategoryExpensesList(categoryName: String): LiveData<List<Expense>>
+    fun getCategoryExpensesListFromDate(
+        categoryName: String,
+        date: Timestamp
+    ): LiveData<List<Expense>>
 }
