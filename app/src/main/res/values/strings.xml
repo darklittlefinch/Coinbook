@@ -29,7 +29,6 @@
 
     <string name="info_limit_positive">You can spend %s %s more this month</string>
     <string name="info_limit_negative">You have exceeded your limit by %s %s</string>
-    <string name="info_limit_neutral">You can\'t spend any more money this month</string>
 
     <string name="info_alarm">The next event will be %s</string>
 
