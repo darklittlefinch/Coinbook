@@ -1,14 +1,25 @@
 package com.elliemoritz.coinbook.presentation.activities
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 import com.elliemoritz.coinbook.R
 import com.elliemoritz.coinbook.databinding.ActivityMainBinding
+import kotlinx.coroutines.flow.map
 
 class MainActivity : AppCompatActivity() {
+
+    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
+        name = PREFERENCES_NAME
+    )
+    private var balance = 0
 
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
@@ -25,6 +36,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         setOnClickListeners()
+
+        dataStore.data.map { preferences ->
+            balance = preferences[BALANCE_KEY] ?: 0
+        }
+
+        binding.tvBalanceNumber.text = balance.toString()
     }
 
     private fun setOnClickListeners() {
@@ -116,5 +133,10 @@ class MainActivity : AppCompatActivity() {
             val intent = SettingsActivity.newIntent(this)
             startActivity(intent)
         }
+    }
+
+    companion object {
+        private const val PREFERENCES_NAME = "balance"
+        private val BALANCE_KEY = intPreferencesKey("amount")
     }
 }
