@@ -16,12 +16,15 @@ interface OperationsDao {
     @Query("SELECT * FROM operations WHERE operationForm = :operationForm")
     fun getOperationFormList(operationForm: String): LiveData<List<OperationDbModel>>
 
+    @Query("SELECT * FROM operations WHERE info = :categoryName")
+    fun getCategoryExpensesList(categoryName: String): LiveData<List<OperationDbModel>>
+
     @Query("SELECT * FROM operations WHERE id=:operationId LIMIT 1")
     suspend fun getOperation(operationId: Int): OperationDbModel
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addOperation(operation: OperationDbModel)
 
-    @Query("DELETE FROM operations WHERE id=:operationId")
+    @Query("DELETE FROM operations WHERE id = :operationId")
     suspend fun removeOperation(operationId: Int)
 }

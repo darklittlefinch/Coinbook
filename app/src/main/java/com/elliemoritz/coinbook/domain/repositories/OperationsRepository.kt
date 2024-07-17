@@ -18,4 +18,6 @@ interface OperationsRepository {
     fun getExpensesList(): LiveData<List<Expense>>
     fun getMoneyBoxOperationsList(): LiveData<List<MoneyBoxOperation>>
     fun getDebtOperationsList(): LiveData<List<DebtOperation>>
+
+    fun getCategoryExpensesList(categoryName: String): LiveData<List<Expense>>
 }

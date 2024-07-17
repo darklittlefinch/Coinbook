@@ -75,4 +75,11 @@ class OperationsRepositoryImpl(
             mapper.mapListDbModelToListDebtOperations(it)
         }
     }
+
+    override fun getCategoryExpensesList(categoryName: String): LiveData<List<Expense>> {
+        val expensesList = dao.getCategoryExpensesList(categoryName)
+        return expensesList.map {
+            mapper.mapListDbModelToListExpenses(it)
+        }
+    }
 }
