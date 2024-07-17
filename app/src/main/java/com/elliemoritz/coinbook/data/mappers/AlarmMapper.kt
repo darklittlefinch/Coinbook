@@ -3,8 +3,9 @@ package com.elliemoritz.coinbook.data.mappers
 import com.elliemoritz.coinbook.data.dbModels.AlarmDbModel
 import com.elliemoritz.coinbook.domain.entities.Alarm
 import java.sql.Timestamp
+import javax.inject.Inject
 
-class AlarmMapper {
+class AlarmMapper @Inject constructor() {
 
     fun mapEntityToDbModel(alarm: Alarm) = AlarmDbModel(
         id = alarm.id,

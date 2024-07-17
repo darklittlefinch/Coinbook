@@ -4,14 +4,15 @@ import com.elliemoritz.coinbook.data.dao.MoneyBoxDao
 import com.elliemoritz.coinbook.data.mappers.MoneyBoxMapper
 import com.elliemoritz.coinbook.domain.entities.MoneyBox
 import com.elliemoritz.coinbook.domain.repositories.MoneyBoxRepository
+import javax.inject.Inject
 
-class MoneyBoxRepositoryImpl(
+class MoneyBoxRepositoryImpl @Inject constructor(
     private val dao: MoneyBoxDao,
     private val mapper: MoneyBoxMapper
 ) : MoneyBoxRepository {
 
-    override suspend fun getMoneyBox(id: Int): MoneyBox {
-        val dbModel = dao.getMoneyBox(id)
+    override suspend fun getMoneyBox(id: Int): MoneyBox? {
+        val dbModel = dao.getMoneyBox(id) ?: return null
         return mapper.mapDbModelToEntity(dbModel)
     }
 

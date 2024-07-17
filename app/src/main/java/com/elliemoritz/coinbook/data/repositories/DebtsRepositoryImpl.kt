@@ -6,8 +6,9 @@ import com.elliemoritz.coinbook.data.dao.DebtsDao
 import com.elliemoritz.coinbook.data.mappers.DebtMapper
 import com.elliemoritz.coinbook.domain.entities.Debt
 import com.elliemoritz.coinbook.domain.repositories.DebtsRepository
+import javax.inject.Inject
 
-class DebtsRepositoryImpl(
+class DebtsRepositoryImpl @Inject constructor(
     private val dao: DebtsDao,
     private val mapper: DebtMapper
 ) : DebtsRepository {

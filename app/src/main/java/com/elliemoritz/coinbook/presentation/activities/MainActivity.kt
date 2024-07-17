@@ -1,28 +1,31 @@
 package com.elliemoritz.coinbook.presentation.activities
 
-import android.content.Context
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.intPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.ViewModelProvider
 import com.elliemoritz.coinbook.R
 import com.elliemoritz.coinbook.databinding.ActivityMainBinding
-import kotlinx.coroutines.flow.map
+import com.elliemoritz.coinbook.presentation.CoinBookApp
+import com.elliemoritz.coinbook.presentation.viewModels.MainViewModel
+import com.elliemoritz.coinbook.presentation.viewModels.ViewModelFactory
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
-        name = PREFERENCES_NAME
-    )
-    private var balance = 0
+    private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+    private val viewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
+    }
 
-    private val binding by lazy {
-        ActivityMainBinding.inflate(layoutInflater)
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+    private val component by lazy {
+        (application as CoinBookApp).component
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,13 +38,31 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        component.inject(this)
+
+        observeViewModel()
         setOnClickListeners()
+        setValues()
+    }
 
-        dataStore.data.map { preferences ->
-            balance = preferences[BALANCE_KEY] ?: 0
-        }
+    private fun observeViewModel() {
+        observeBalanceAmount()
+        observeIncomeAmount()
+        observeExpensesAmount()
+        observeMoneyBoxAmount()
+        observeDebtsAmount()
+        observeHasLimits()
+        observeHasAlarms()
+    }
 
-        binding.tvBalanceNumber.text = balance.toString()
+    private fun setValues() {
+        viewModel.getBalance()
+        viewModel.getIncome()
+        viewModel.getExpenses()
+        viewModel.getMoneyBoxTotalAmount()
+        viewModel.getDebtsTotalAmount()
+        viewModel.checkLimitsActive()
+        viewModel.checkAlarmsActive()
     }
 
     private fun setOnClickListeners() {
@@ -56,6 +77,74 @@ class MainActivity : AppCompatActivity() {
         setOnAlarmsClickListener()
         setOnHistoryClickListener()
         setOnSettingsClickListener()
+    }
+
+    private fun observeBalanceAmount() {
+        viewModel.balanceAmount.observe(this) {
+            binding.tvBalanceNumber.text = it
+        }
+    }
+
+    private fun observeIncomeAmount() {
+        viewModel.incomeAmount.observe(this) {
+            binding.tvIncomeNumber.text = it
+        }
+    }
+
+    private fun observeExpensesAmount() {
+        viewModel.expensesAmount.observe(this) {
+            binding.tvExpensesNumber.text = it
+        }
+    }
+
+    private fun observeMoneyBoxAmount() {
+        viewModel.moneyBoxAmount.observe(this) {
+            binding.tvMoneyBoxAmount.text = it.toString()
+            val colorResId = if (it == 0) {
+                R.color.creamy
+            } else {
+                R.color.yellow
+            }
+            val color = ContextCompat.getColor(this, colorResId)
+            binding.cvLimits.background.setTint(color)
+        }
+    }
+
+    private fun observeDebtsAmount() {
+        viewModel.debtsAmount.observe(this) {
+            binding.tvDebtsAmount.text = it.toString()
+            val colorResId = if (it == 0) {
+                R.color.creamy
+            } else {
+                R.color.orange
+            }
+            val color = ContextCompat.getColor(this, colorResId)
+            binding.cvLimits.background.setTint(color)
+        }
+    }
+
+    private fun observeHasLimits() {
+        viewModel.hasLimits.observe(this) {
+            val colorResId = if (it) {
+                R.color.orange
+            } else {
+                R.color.creamy
+            }
+            val color = ContextCompat.getColor(this, colorResId)
+            binding.cvLimits.background.setTint(color)
+        }
+    }
+
+    private fun observeHasAlarms() {
+        viewModel.hasAlarms.observe(this) {
+            val colorResId = if (it) {
+                R.color.purple
+            } else {
+                R.color.creamy
+            }
+            val color = ContextCompat.getColor(this, colorResId)
+            binding.cvLimits.background.setTint(color)
+        }
     }
 
     private fun setOnBalanceClickListener() {
@@ -133,10 +222,5 @@ class MainActivity : AppCompatActivity() {
             val intent = SettingsActivity.newIntent(this)
             startActivity(intent)
         }
-    }
-
-    companion object {
-        private const val PREFERENCES_NAME = "balance"
-        private val BALANCE_KEY = intPreferencesKey("amount")
     }
 }

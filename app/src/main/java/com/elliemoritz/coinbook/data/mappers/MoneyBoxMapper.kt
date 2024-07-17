@@ -3,8 +3,9 @@ package com.elliemoritz.coinbook.data.mappers
 import com.elliemoritz.coinbook.data.dbModels.MoneyBoxDbModel
 import com.elliemoritz.coinbook.domain.entities.MoneyBox
 import java.sql.Timestamp
+import javax.inject.Inject
 
-class MoneyBoxMapper {
+class MoneyBoxMapper @Inject constructor() {
 
     fun mapEntityToDbModel(moneyBox: MoneyBox) = MoneyBoxDbModel(
         id = moneyBox.id,

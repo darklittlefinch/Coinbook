@@ -15,8 +15,9 @@ import com.elliemoritz.coinbook.domain.entities.operations.Income
 import com.elliemoritz.coinbook.domain.entities.operations.MoneyBoxOperation
 import com.elliemoritz.coinbook.domain.entities.operations.Operation
 import java.sql.Timestamp
+import javax.inject.Inject
 
-class OperationsMapper {
+class OperationsMapper @Inject constructor() {
 
     private fun defineOperationForm(operationForm: OperationForm): String {
         return when (operationForm) {

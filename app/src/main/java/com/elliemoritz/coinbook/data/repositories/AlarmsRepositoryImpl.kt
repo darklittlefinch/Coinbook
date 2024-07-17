@@ -6,8 +6,9 @@ import com.elliemoritz.coinbook.data.dao.AlarmsDao
 import com.elliemoritz.coinbook.data.mappers.AlarmMapper
 import com.elliemoritz.coinbook.domain.entities.Alarm
 import com.elliemoritz.coinbook.domain.repositories.AlarmsRepository
+import javax.inject.Inject
 
-class AlarmsRepositoryImpl(
+class AlarmsRepositoryImpl @Inject constructor(
     private val dao: AlarmsDao,
     private val mapper: AlarmMapper
 ) : AlarmsRepository {

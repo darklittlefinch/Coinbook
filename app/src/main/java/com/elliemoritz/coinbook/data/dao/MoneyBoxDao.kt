@@ -11,7 +11,7 @@ import com.elliemoritz.coinbook.data.dbModels.MoneyBoxDbModel
 interface MoneyBoxDao {
 
     @Query("SELECT * FROM money_box WHERE id=:moneyBoxId LIMIT 1")
-    suspend fun getMoneyBox(moneyBoxId: Int): MoneyBoxDbModel
+    suspend fun getMoneyBox(moneyBoxId: Int): MoneyBoxDbModel?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addMoneyBox(moneyBox: MoneyBoxDbModel)

@@ -15,8 +15,9 @@ import com.elliemoritz.coinbook.domain.entities.operations.MoneyBoxOperation
 import com.elliemoritz.coinbook.domain.entities.operations.Operation
 import com.elliemoritz.coinbook.domain.repositories.OperationsRepository
 import java.sql.Timestamp
+import javax.inject.Inject
 
-class OperationsRepositoryImpl(
+class OperationsRepositoryImpl @Inject constructor(
     private val dao: OperationsDao,
     private val mapper: OperationsMapper
 ) : OperationsRepository {

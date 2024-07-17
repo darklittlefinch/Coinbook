@@ -6,8 +6,9 @@ import com.elliemoritz.coinbook.data.dao.LimitsDao
 import com.elliemoritz.coinbook.data.mappers.LimitMapper
 import com.elliemoritz.coinbook.domain.entities.Limit
 import com.elliemoritz.coinbook.domain.repositories.LimitsRepository
+import javax.inject.Inject
 
-class LimitsRepositoryImpl(
+class LimitsRepositoryImpl @Inject constructor(
     private val dao: LimitsDao,
     private val mapper: LimitMapper
 ) : LimitsRepository {
