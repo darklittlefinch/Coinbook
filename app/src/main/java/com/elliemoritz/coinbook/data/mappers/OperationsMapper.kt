@@ -7,8 +7,6 @@ import com.elliemoritz.coinbook.data.util.OPERATION_FORM_INCOME
 import com.elliemoritz.coinbook.data.util.OPERATION_FORM_MONEY_BOX_OPERATION
 import com.elliemoritz.coinbook.data.util.TYPE_EXPENSE
 import com.elliemoritz.coinbook.data.util.TYPE_INCOME
-import com.elliemoritz.coinbook.data.util.formatTime
-import com.elliemoritz.coinbook.data.util.parseTime
 import com.elliemoritz.coinbook.domain.entities.helpers.OperationForm
 import com.elliemoritz.coinbook.domain.entities.helpers.Type
 import com.elliemoritz.coinbook.domain.entities.operations.DebtOperation
@@ -16,6 +14,7 @@ import com.elliemoritz.coinbook.domain.entities.operations.Expense
 import com.elliemoritz.coinbook.domain.entities.operations.Income
 import com.elliemoritz.coinbook.domain.entities.operations.MoneyBoxOperation
 import com.elliemoritz.coinbook.domain.entities.operations.Operation
+import java.sql.Timestamp
 
 class OperationsMapper {
 
@@ -49,7 +48,7 @@ class OperationsMapper {
 
     private fun mapDbModelToIncome(dbModel: OperationDbModel) = Income(
         incId = dbModel.id,
-        incDate = parseTime(dbModel.date),
+        incDate = Timestamp(dbModel.dateTimeMillis),
         incAmount = dbModel.amount,
         incSource = dbModel.info
     )
@@ -62,7 +61,7 @@ class OperationsMapper {
 
     fun mapDbModelToExpense(dbModel: OperationDbModel) = Expense(
         expId = dbModel.id,
-        expDate = parseTime(dbModel.date),
+        expDate = Timestamp(dbModel.dateTimeMillis),
         expAmount = dbModel.amount,
         expCategoryName = dbModel.info
     )
@@ -75,7 +74,7 @@ class OperationsMapper {
 
     private fun mapDbModelToMoneyBoxOperation(dbModel: OperationDbModel) = MoneyBoxOperation(
         mbId = dbModel.id,
-        mbDate = parseTime(dbModel.date),
+        mbDate = Timestamp(dbModel.dateTimeMillis),
         mbAmount = dbModel.amount,
         mbType = defineEntityType(dbModel.type)
     )
@@ -88,7 +87,7 @@ class OperationsMapper {
 
     private fun mapDbModelToDebtOperation(dbModel: OperationDbModel) = DebtOperation(
         debtId = dbModel.id,
-        debtDate = parseTime(dbModel.date),
+        debtDate = Timestamp(dbModel.dateTimeMillis),
         debtAmount = dbModel.amount,
         debtType = defineEntityType(dbModel.type),
         debtCreditor = dbModel.info
@@ -104,7 +103,7 @@ class OperationsMapper {
         id = income.id,
         operationForm = defineOperationForm(income.operationForm),
         type = defineDbModelType(income.type),
-        date = formatTime(income.date),
+        dateTimeMillis = income.date.time,
         amount = income.amount,
         info = income.info
     )

@@ -1,11 +1,11 @@
 package com.elliemoritz.coinbook.domain.entities
 
-import java.time.LocalDateTime
+import java.sql.Timestamp
 
 data class Debt(
     var amount: Int,
     var creditor: String,
-    var deadline: LocalDateTime,
+    var deadline: Timestamp,
     val id: Int = UNDEFINED_ID
 ) {
     companion object {

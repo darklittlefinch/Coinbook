@@ -1,11 +1,11 @@
 package com.elliemoritz.coinbook.domain.entities
 
-import java.time.LocalDateTime
+import java.sql.Timestamp
 
 data class MoneyBox(
     var amount: Int,
     var goal: String,
-    var deadline: LocalDateTime,
+    var deadline: Timestamp,
     val id: Int = MONEY_BOX_ID
 ) {
     companion object {

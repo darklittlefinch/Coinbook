@@ -2,11 +2,11 @@ package com.elliemoritz.coinbook.domain.entities.operations
 
 import com.elliemoritz.coinbook.domain.entities.helpers.OperationForm
 import com.elliemoritz.coinbook.domain.entities.helpers.Type
-import java.time.LocalDateTime
+import java.sql.Timestamp
 
 data class MoneyBoxOperation(
     val mbType: Type,
-    val mbDate: LocalDateTime,
+    val mbDate: Timestamp,
     var mbAmount: Int,
     val mbId: Int = UNDEFINED_ID
 ) : Operation(

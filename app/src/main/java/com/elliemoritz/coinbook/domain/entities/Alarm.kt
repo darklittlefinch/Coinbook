@@ -1,9 +1,9 @@
 package com.elliemoritz.coinbook.domain.entities
 
-import java.time.LocalDateTime
+import java.sql.Timestamp
 
 data class Alarm(
-    val dateTime: LocalDateTime,
+    val dateTime: Timestamp,
     var description: String,
     var amount: Int,
     val id: Int = UNDEFINED_ID

@@ -1,9 +1,8 @@
 package com.elliemoritz.coinbook.data.mappers
 
 import com.elliemoritz.coinbook.data.dbModels.DebtDbModel
-import com.elliemoritz.coinbook.data.util.formatTime
-import com.elliemoritz.coinbook.data.util.parseTime
 import com.elliemoritz.coinbook.domain.entities.Debt
+import java.sql.Timestamp
 
 class DebtMapper {
 
@@ -11,14 +10,14 @@ class DebtMapper {
         id = debt.id,
         amount = debt.amount,
         creditor = debt.creditor,
-        deadline = formatTime(debt.deadline)
+        deadlineMillis = debt.deadline.time
     )
 
     fun mapDbModelToEntity(dbModel: DebtDbModel) = Debt(
         id = dbModel.id,
         amount = dbModel.amount,
         creditor = dbModel.creditor,
-        deadline = parseTime(dbModel.deadline)
+        deadline = Timestamp(dbModel.deadlineMillis)
     )
 
     fun mapListDbModelToListEntities(list: List<DebtDbModel>) = list.map {

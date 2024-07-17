@@ -2,7 +2,6 @@ package com.elliemoritz.coinbook.data.dbModels
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.time.LocalDateTime
 
 @Entity(tableName = "debts")
 data class DebtDbModel(
@@ -10,5 +9,5 @@ data class DebtDbModel(
     val id: Int,
     val amount: Int,
     val creditor: String,
-    val deadline: String
+    val deadlineMillis: Long
 )

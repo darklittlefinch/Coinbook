@@ -2,10 +2,10 @@ package com.elliemoritz.coinbook.domain.entities.operations
 
 import com.elliemoritz.coinbook.domain.entities.helpers.OperationForm
 import com.elliemoritz.coinbook.domain.entities.helpers.Type
-import java.time.LocalDateTime
+import java.sql.Timestamp
 
 data class Expense(
-    val expDate: LocalDateTime,
+    val expDate: Timestamp,
     var expAmount: Int,
     var expCategoryName: String,
     val expId: Int = UNDEFINED_ID

@@ -2,13 +2,13 @@ package com.elliemoritz.coinbook.data.dbModels
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.time.LocalDateTime
+import java.sql.Timestamp
 
 @Entity(tableName = "alarms")
 data class AlarmDbModel(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
-    val dateTime: String,
+    val dateTimeMillis: Long,
     val description: String,
     val amount: Int
 )

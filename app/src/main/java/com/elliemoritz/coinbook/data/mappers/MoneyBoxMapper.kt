@@ -1,9 +1,8 @@
 package com.elliemoritz.coinbook.data.mappers
 
 import com.elliemoritz.coinbook.data.dbModels.MoneyBoxDbModel
-import com.elliemoritz.coinbook.data.util.formatTime
-import com.elliemoritz.coinbook.data.util.parseTime
 import com.elliemoritz.coinbook.domain.entities.MoneyBox
+import java.sql.Timestamp
 
 class MoneyBoxMapper {
 
@@ -11,13 +10,13 @@ class MoneyBoxMapper {
         id = moneyBox.id,
         amount = moneyBox.amount,
         goal = moneyBox.goal,
-        deadline = formatTime(moneyBox.deadline)
+        deadlineMillis = moneyBox.deadline.time
     )
 
     fun mapDbModelToEntity(dbModel: MoneyBoxDbModel) = MoneyBox(
         id = dbModel.id,
         amount = dbModel.amount,
         goal = dbModel.goal,
-        deadline = parseTime(dbModel.deadline)
+        deadline = Timestamp(dbModel.deadlineMillis)
     )
 }
