@@ -49,7 +49,9 @@ class MainActivity : AppCompatActivity() {
         observeBalanceAmount()
         observeIncomeAmount()
         observeExpensesAmount()
+        observeHasMoneyBox()
         observeMoneyBoxAmount()
+        observeHasDebts()
         observeDebtsAmount()
         observeHasLimits()
         observeHasAlarms()
@@ -97,29 +99,39 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun observeMoneyBoxAmount() {
-        viewModel.moneyBoxAmount.observe(this) {
-            binding.tvMoneyBoxAmount.text = it.toString()
-            val colorResId = if (it == 0) {
-                R.color.creamy
-            } else {
+    private fun observeHasMoneyBox() {
+        viewModel.hasMoneyBox.observe(this) {
+            val colorResId = if (it) {
                 R.color.yellow
+            } else {
+                R.color.creamy
             }
             val color = ContextCompat.getColor(this, colorResId)
-            binding.cvLimits.background.setTint(color)
+            binding.cvMoneyBox.background.setTint(color)
+        }
+    }
+
+    private fun observeMoneyBoxAmount() {
+        viewModel.moneyBoxAmount.observe(this) {
+            binding.tvMoneyBoxAmount.text = it
+        }
+    }
+
+    private fun observeHasDebts() {
+        viewModel.hasDebts.observe(this) {
+            val colorResId = if (it) {
+                R.color.orange
+            } else {
+                R.color.creamy
+            }
+            val color = ContextCompat.getColor(this, colorResId)
+            binding.cvDebts.background.setTint(color)
         }
     }
 
     private fun observeDebtsAmount() {
         viewModel.debtsAmount.observe(this) {
-            binding.tvDebtsAmount.text = it.toString()
-            val colorResId = if (it == 0) {
-                R.color.creamy
-            } else {
-                R.color.orange
-            }
-            val color = ContextCompat.getColor(this, colorResId)
-            binding.cvLimits.background.setTint(color)
+            binding.tvDebtsAmount.text = it
         }
     }
 

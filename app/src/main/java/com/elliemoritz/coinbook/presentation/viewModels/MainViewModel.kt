@@ -44,12 +44,20 @@ class MainViewModel @Inject constructor(
     val expensesAmount: LiveData<String>
         get() = _expensesAmount
 
-    private val _moneyBoxAmount = MutableLiveData<Int>()
-    val moneyBoxAmount: LiveData<Int>
+    private val _hasMoneyBox = MutableLiveData<Boolean>()
+    val hasMoneyBox: LiveData<Boolean>
+        get() = _hasMoneyBox
+
+    private val _moneyBoxAmount = MutableLiveData<String>()
+    val moneyBoxAmount: LiveData<String>
         get() = _moneyBoxAmount
 
-    private val _debtsAmount = MutableLiveData<Int>()
-    val debtsAmount: LiveData<Int>
+    private val _hasDebts = MutableLiveData<Boolean>()
+    val hasDebts: LiveData<Boolean>
+        get() = _hasDebts
+
+    private val _debtsAmount = MutableLiveData<String>()
+    val debtsAmount: LiveData<String>
         get() = _debtsAmount
 
     private val _hasLimits = MutableLiveData<Boolean>()
@@ -85,17 +93,25 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             val moneyBox = getMoneyBoxUseCase.getMoneyBox(MoneyBox.MONEY_BOX_ID)
             var amount = 0
+
             if (moneyBox != null) {
                 amount = moneyBox.amount
             }
-            _moneyBoxAmount.value = amount
+
+            if (amount == 0) {
+                _hasMoneyBox.value = false
+            } else {
+                _hasMoneyBox.value = true
+            }
+            _moneyBoxAmount.value = amount.toString()
         }
     }
 
     fun getDebtsTotalAmount() {
         val debts = getDebtsListUseCase.getDebtsList().value
         val sum = debts?.sumOf { it.amount } ?: 0
-        _debtsAmount.value = sum
+        _hasDebts.value = (sum != 0)
+        _debtsAmount.value = sum.toString()
     }
 
     fun checkLimitsActive() {
