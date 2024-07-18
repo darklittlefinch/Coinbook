@@ -5,8 +5,6 @@ import androidx.lifecycle.map
 import com.elliemoritz.coinbook.data.dao.OperationsDao
 import com.elliemoritz.coinbook.data.mappers.OperationsMapper
 import com.elliemoritz.coinbook.data.util.OPERATION_FORM_DEBT
-import com.elliemoritz.coinbook.data.util.OPERATION_FORM_EXPENSE
-import com.elliemoritz.coinbook.data.util.OPERATION_FORM_INCOME
 import com.elliemoritz.coinbook.data.util.OPERATION_FORM_MONEY_BOX_OPERATION
 import com.elliemoritz.coinbook.data.util.TYPE_EXPENSE
 import com.elliemoritz.coinbook.data.util.TYPE_INCOME
