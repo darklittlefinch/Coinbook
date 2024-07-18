@@ -2,16 +2,16 @@ package com.elliemoritz.coinbook.presentation.states
 
 import com.elliemoritz.coinbook.domain.entities.Limit
 
-sealed class LimitState
+sealed class LimitsState
 
-data object NoLimitsData : LimitState()
+data object NoLimits : LimitsState()
 
-class LimitData(
+class LimitsData(
     limits: List<Limit>,
     totalLimitRemains: Int = 0
-) : LimitState()
+) : LimitsState()
 
-class LimitDataExceeded(
+class LimitsDataExceeded(
     limits: List<Limit>,
     totalLimitExceeded: Int
-) : LimitState()
+) : LimitsState()

@@ -14,6 +14,8 @@ import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetExpensesLi
 import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetIncomeListFromDateUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.EditBalanceUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetBalanceUseCase
+import com.elliemoritz.coinbook.presentation.states.MainData
+import com.elliemoritz.coinbook.presentation.states.MainState
 import kotlinx.coroutines.launch
 import java.sql.Timestamp
 import java.time.LocalDateTime
@@ -32,106 +34,73 @@ class MainViewModel @Inject constructor(
     private val getAlarmsListUseCase: GetAlarmsListUseCase
 ) : AndroidViewModel(application) {
 
-    private val _balanceAmount = MutableLiveData<String>()
-    val balanceAmount: LiveData<String>
-        get() = _balanceAmount
-
-    private val _incomeAmount = MutableLiveData<String>()
-    val incomeAmount: LiveData<String>
-        get() = _incomeAmount
-
-    private val _expensesAmount = MutableLiveData<String>()
-    val expensesAmount: LiveData<String>
-        get() = _expensesAmount
-
-    private val _hasMoneyBox = MutableLiveData<Boolean>()
-    val hasMoneyBox: LiveData<Boolean>
-        get() = _hasMoneyBox
-
-    private val _moneyBoxAmount = MutableLiveData<String>()
-    val moneyBoxAmount: LiveData<String>
-        get() = _moneyBoxAmount
-
-    private val _hasDebts = MutableLiveData<Boolean>()
-    val hasDebts: LiveData<Boolean>
-        get() = _hasDebts
-
-    private val _debtsAmount = MutableLiveData<String>()
-    val debtsAmount: LiveData<String>
-        get() = _debtsAmount
-
-    private val _hasLimits = MutableLiveData<Boolean>()
-    val hasLimits: LiveData<Boolean>
-        get() = _hasLimits
-
-    private val _hasAlarms = MutableLiveData<Boolean>()
-    val hasAlarms: LiveData<Boolean>
-        get() = _hasAlarms
+    private val _mainState = MutableLiveData<MainState>()
+    val mainState: LiveData<MainState>
+        get() = _mainState
 
     fun setValues() {
-        getBalance()
-        getIncome()
-        getExpenses()
-        getMoneyBoxTotalAmount()
-        getDebtsTotalAmount()
-        checkLimitsActive()
-        checkAlarmsActive()
-    }
-
-    private fun getBalance() {
         viewModelScope.launch {
-            _balanceAmount.value = getBalanceUseCase.getBalance().toString()
+            val moneyBox = getMoneyBox()
+            val moneyBoxAmount = moneyBox?.amount ?: NO_OPERATIONS
+            val debtsAmount = getDebtsAmount()
+            _mainState.value = MainData(
+                balance = getBalance().toString(),
+                income = getIncome().toString(),
+                expenses = getExpenses().toString(),
+                hasMoneyBox = moneyBox != null,
+                moneyBoxAmount = moneyBoxAmount.toString(),
+                hasDebts = debtsAmount > NO_OPERATIONS,
+                debtsAmount = debtsAmount.toString(),
+                hasLimits = checkLimitsActive(),
+                hasAlarms = checkAlarmsActive()
+            )
         }
     }
 
-    private fun getIncome() {
-        val beginOfMonthDate = getBeginOfMonthTimestamp()
-        val incomeList = getIncomeListFromDateUseCase.getIncomeListFromDate(beginOfMonthDate).value
-        val sum = incomeList?.sumOf { it.incAmount } ?: 0
-        _incomeAmount.value = sum.toString()
+    fun editBalance(newAmount: Int) {
+        viewModelScope.launch {
+            editBalanceUseCase.editBalance(newAmount)
+            setValues()
+        }
     }
 
-    private fun getExpenses() {
+    private suspend fun getBalance(): Int {
+        return getBalanceUseCase.getBalance()
+    }
+
+    private fun getIncome(): Int {
+        val beginOfMonthDate = getBeginOfMonthTimestamp()
+        val incomeList = getIncomeListFromDateUseCase.getIncomeListFromDate(beginOfMonthDate).value
+        val sum = incomeList?.sumOf { it.incAmount } ?: NO_OPERATIONS
+        return sum
+    }
+
+    private fun getExpenses(): Int {
         val beginOfMonthDate = getBeginOfMonthTimestamp()
         val expensesList = getExpensesListFromDateUseCase
             .getOperationsListFromDate(beginOfMonthDate).value
-        val sum = expensesList?.sumOf { it.expAmount } ?: 0
-        _expensesAmount.value = sum.toString()
+        val sum = expensesList?.sumOf { it.expAmount } ?: NO_OPERATIONS
+        return sum
     }
 
-    private fun getMoneyBoxTotalAmount() {
-        viewModelScope.launch {
-            val moneyBox = getMoneyBoxUseCase.getMoneyBox(MoneyBox.MONEY_BOX_ID)
-            var amount = 0
-
-            if (moneyBox != null) {
-                amount = moneyBox.amount
-            }
-
-            if (amount == 0) {
-                _hasMoneyBox.value = false
-            } else {
-                _hasMoneyBox.value = true
-            }
-            _moneyBoxAmount.value = amount.toString()
-        }
+    private suspend fun getMoneyBox(): MoneyBox? {
+        return getMoneyBoxUseCase.getMoneyBox(MoneyBox.MONEY_BOX_ID)
     }
 
-    private fun getDebtsTotalAmount() {
+    private fun getDebtsAmount(): Int {
         val debts = getDebtsListUseCase.getDebtsList().value
-        val sum = debts?.sumOf { it.amount } ?: 0
-        _hasDebts.value = (sum != 0)
-        _debtsAmount.value = sum.toString()
+        val sum = debts?.sumOf { it.amount } ?: NO_OPERATIONS
+        return sum
     }
 
-    private fun checkLimitsActive() {
+    private fun checkLimitsActive(): Boolean {
         val limits = getLimitsListUserCase.getLimitsList().value
-        _hasLimits.value = !limits.isNullOrEmpty()
+        return !limits.isNullOrEmpty()
     }
 
-    private fun checkAlarmsActive() {
+    private fun checkAlarmsActive(): Boolean {
         val alarms = getAlarmsListUseCase.getAlarmsList().value
-        _hasAlarms.value = !alarms.isNullOrEmpty()
+        return !alarms.isNullOrEmpty()
     }
 
     private fun getBeginOfMonthTimestamp(): Timestamp {
@@ -148,16 +117,11 @@ class MainViewModel @Inject constructor(
         return Timestamp(beginOfMonthMillis)
     }
 
-    fun editBalance(newAmount: Int) {
-        viewModelScope.launch {
-            editBalanceUseCase.editBalance(newAmount)
-            _balanceAmount.value = getBalanceUseCase.getBalance().toString()
-        }
-    }
-
     companion object {
         private const val FIRST_DAY_OF_MONTH = 1
         private const val FIRST_HOUR_OF_MONTH = 0
         private const val FIRST_MINUTE_OF_MONTH = 0
+
+        private const val NO_OPERATIONS = 0
     }
 }

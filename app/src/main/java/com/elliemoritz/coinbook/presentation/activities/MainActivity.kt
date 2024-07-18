@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.elliemoritz.coinbook.R
 import com.elliemoritz.coinbook.databinding.ActivityMainBinding
 import com.elliemoritz.coinbook.presentation.CoinBookApp
+import com.elliemoritz.coinbook.presentation.states.MainData
 import com.elliemoritz.coinbook.presentation.viewModels.MainViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.ViewModelFactory
 import javax.inject.Inject
@@ -46,15 +47,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
-        observeBalanceAmount()
-        observeIncomeAmount()
-        observeExpensesAmount()
-        observeHasMoneyBox()
-        observeMoneyBoxAmount()
-        observeHasDebts()
-        observeDebtsAmount()
-        observeHasLimits()
-        observeHasAlarms()
+        viewModel.mainState.observe(this) {
+            when (it) {
+                is MainData -> {
+                    with(binding) {
+                        tvBalanceNumber.text = it.balance
+                        tvIncomeNumber.text = it.income
+                        tvExpensesNumber.text = it.expenses
+                        cvMoneyBox.background.setTint(getMoneyBoxColor(it.hasMoneyBox))
+                        tvMoneyBoxAmount.text = it.moneyBoxAmount
+                        cvDebts.background.setTint(getDebtsColor(it.hasDebts))
+                        tvDebtsAmount.text = it.debtsAmount
+                        cvLimits.background.setTint(getLimitsColor(it.hasLimits))
+                        cvAlarms.background.setTint(getAlarmsColor(it.hasAlarms))
+                    }
+                }
+            }
+        }
     }
 
     private fun setOnClickListeners() {
@@ -71,83 +80,45 @@ class MainActivity : AppCompatActivity() {
         setOnSettingsClickListener()
     }
 
-    private fun observeBalanceAmount() {
-        viewModel.balanceAmount.observe(this) {
-            binding.tvBalanceNumber.text = it
+    // SETTINGS COLORS
+
+    private fun getMoneyBoxColor(hasMoneyBox: Boolean): Int {
+        val colorResId = if (hasMoneyBox) {
+            R.color.yellow
+        } else {
+            R.color.creamy
         }
+        return ContextCompat.getColor(this, colorResId)
     }
 
-    private fun observeIncomeAmount() {
-        viewModel.incomeAmount.observe(this) {
-            binding.tvIncomeNumber.text = it
+    private fun getDebtsColor(hasDebts: Boolean): Int {
+        val colorResId = if (hasDebts) {
+            R.color.orange
+        } else {
+            R.color.creamy
         }
+        return ContextCompat.getColor(this, colorResId)
     }
 
-    private fun observeExpensesAmount() {
-        viewModel.expensesAmount.observe(this) {
-            binding.tvExpensesNumber.text = it
+    private fun getLimitsColor(hasLimits: Boolean): Int {
+        val colorResId = if (hasLimits) {
+            R.color.orange
+        } else {
+            R.color.creamy
         }
+        return ContextCompat.getColor(this, colorResId)
     }
 
-    private fun observeHasMoneyBox() {
-        viewModel.hasMoneyBox.observe(this) {
-            val colorResId = if (it) {
-                R.color.yellow
-            } else {
-                R.color.creamy
-            }
-            val color = ContextCompat.getColor(this, colorResId)
-            binding.cvMoneyBox.background.setTint(color)
+    private fun getAlarmsColor(hasAlarms: Boolean): Int {
+        val colorResId = if (hasAlarms) {
+            R.color.purple
+        } else {
+            R.color.creamy
         }
+        return ContextCompat.getColor(this, colorResId)
     }
 
-    private fun observeMoneyBoxAmount() {
-        viewModel.moneyBoxAmount.observe(this) {
-            binding.tvMoneyBoxAmount.text = it
-        }
-    }
-
-    private fun observeHasDebts() {
-        viewModel.hasDebts.observe(this) {
-            val colorResId = if (it) {
-                R.color.orange
-            } else {
-                R.color.creamy
-            }
-            val color = ContextCompat.getColor(this, colorResId)
-            binding.cvDebts.background.setTint(color)
-        }
-    }
-
-    private fun observeDebtsAmount() {
-        viewModel.debtsAmount.observe(this) {
-            binding.tvDebtsAmount.text = it
-        }
-    }
-
-    private fun observeHasLimits() {
-        viewModel.hasLimits.observe(this) {
-            val colorResId = if (it) {
-                R.color.orange
-            } else {
-                R.color.creamy
-            }
-            val color = ContextCompat.getColor(this, colorResId)
-            binding.cvLimits.background.setTint(color)
-        }
-    }
-
-    private fun observeHasAlarms() {
-        viewModel.hasAlarms.observe(this) {
-            val colorResId = if (it) {
-                R.color.purple
-            } else {
-                R.color.creamy
-            }
-            val color = ContextCompat.getColor(this, colorResId)
-            binding.cvLimits.background.setTint(color)
-        }
-    }
+    // CLICK LISTENERS
 
     private fun setOnBalanceClickListener() {
         binding.cvBalance.setOnClickListener {

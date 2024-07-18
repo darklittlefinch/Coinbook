@@ -2,11 +2,11 @@ package com.elliemoritz.coinbook.presentation.states
 
 import com.elliemoritz.coinbook.domain.entities.Alarm
 
-sealed class AlarmState
+sealed class AlarmsState
 
-data object NoAlarmsData : AlarmState()
+data object NoAlarms : AlarmsState()
 
-class AlarmData(
+class AlarmsData(
     nextAlarm: String,
     alarms: List<Alarm>
-) : AlarmState()
+) : AlarmsState()
