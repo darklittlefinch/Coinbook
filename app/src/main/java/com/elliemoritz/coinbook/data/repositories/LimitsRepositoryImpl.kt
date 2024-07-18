@@ -38,4 +38,8 @@ class LimitsRepositoryImpl @Inject constructor(
     override suspend fun removeLimit(limit: Limit) {
         dao.removeLimit(limit.id)
     }
+
+    override suspend fun getLimitsCount(): Int {
+        return dao.getLimitsCount()
+    }
 }

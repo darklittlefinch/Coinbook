@@ -9,4 +9,5 @@ interface LimitsRepository {
     suspend fun addLimit(limit: Limit)
     suspend fun editLimit(limit: Limit)
     suspend fun removeLimit(limit: Limit)
+    suspend fun getLimitsCount(): Int
 }

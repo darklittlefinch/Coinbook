@@ -9,4 +9,5 @@ interface AlarmsRepository {
     suspend fun addAlarm(alarm: Alarm)
     suspend fun editAlarm(alarm: Alarm)
     suspend fun removeAlarm(alarm: Alarm)
+    suspend fun getAlarmsCount(): Int
 }

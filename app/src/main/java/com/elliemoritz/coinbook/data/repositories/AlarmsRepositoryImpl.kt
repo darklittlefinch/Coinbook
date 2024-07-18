@@ -38,4 +38,8 @@ class AlarmsRepositoryImpl @Inject constructor(
     override suspend fun removeAlarm(alarm: Alarm) {
         dao.removeAlarm(alarm.id)
     }
+
+    override suspend fun getAlarmsCount(): Int {
+        return dao.getAlarmsCount()
+    }
 }

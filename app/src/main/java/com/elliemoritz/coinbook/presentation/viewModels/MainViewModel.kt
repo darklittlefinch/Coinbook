@@ -6,9 +6,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.elliemoritz.coinbook.domain.entities.MoneyBox
-import com.elliemoritz.coinbook.domain.useCases.alarmsUseCases.GetAlarmsListUseCase
+import com.elliemoritz.coinbook.domain.useCases.alarmsUseCases.GetAlarmsCountUseCase
 import com.elliemoritz.coinbook.domain.useCases.debtsUseCases.GetTotalDebtsAmountUseCase
-import com.elliemoritz.coinbook.domain.useCases.limitsUseCases.GetLimitsListUseCase
+import com.elliemoritz.coinbook.domain.useCases.limitsUseCases.GetLimitsCountUseCase
 import com.elliemoritz.coinbook.domain.useCases.moneyBoxUseCases.GetMoneyBoxUseCase
 import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetTotalExpensesAmountFromDateUseCase
 import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetTotalIncomeAmountFromDateUseCase
@@ -32,8 +32,8 @@ class MainViewModel @Inject constructor(
     private val getMoneyBoxUseCase: GetMoneyBoxUseCase,
     private val getTotalMoneyBoxAmountFromDateUseCase: GetTotalMoneyBoxAmountFromDateUseCase,
     private val getTotalDebtsAmountUseCase: GetTotalDebtsAmountUseCase,
-    private val getLimitsListUserCase: GetLimitsListUseCase,
-    private val getAlarmsListUseCase: GetAlarmsListUseCase
+    private val getLimitsCountUseCase: GetLimitsCountUseCase,
+    private val getAlarmsCountUseCase: GetAlarmsCountUseCase
 ) : AndroidViewModel(application) {
 
     private val _mainState = MutableLiveData<MainState>()
@@ -52,8 +52,8 @@ class MainViewModel @Inject constructor(
                 moneyBoxAmount = getMoneyBoxAmount(moneyBox?.started).toString(),
                 hasDebts = debtsAmount > NO_OPERATIONS,
                 debtsAmount = debtsAmount.toString(),
-                hasLimits = checkLimitsActive(),
-                hasAlarms = checkAlarmsActive()
+                hasLimits = hasLimits(),
+                hasAlarms = hasAlarms()
             )
         }
     }
@@ -94,14 +94,14 @@ class MainViewModel @Inject constructor(
         return getTotalDebtsAmountUseCase()
     }
 
-    private fun checkLimitsActive(): Boolean {
-        val limits = getLimitsListUserCase().value
-        return !limits.isNullOrEmpty()
+    private suspend fun hasLimits(): Boolean {
+        val limitsCount = getLimitsCountUseCase()
+        return limitsCount > 0
     }
 
-    private fun checkAlarmsActive(): Boolean {
-        val alarms = getAlarmsListUseCase().value
-        return !alarms.isNullOrEmpty()
+    private suspend fun hasAlarms(): Boolean {
+        val alarmsCount = getAlarmsCountUseCase()
+        return alarmsCount > 0
     }
 
     private fun getBeginOfMonthTimestamp(): Timestamp {
