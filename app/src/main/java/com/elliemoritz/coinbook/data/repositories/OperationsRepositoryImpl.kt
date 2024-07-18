@@ -55,14 +55,14 @@ class OperationsRepositoryImpl @Inject constructor(
     }
 
     override fun getIncomeListFromDate(date: Timestamp): LiveData<List<Income>> {
-        val operationsList = dao.getOperationFormList(OPERATION_FORM_INCOME, date.time)
+        val operationsList = dao.getOperationsListByType(TYPE_INCOME, date.time)
         return operationsList.map {
             mapper.mapListDbModelToListIncome(it)
         }
     }
 
     override fun getExpensesListFromDate(date: Timestamp): LiveData<List<Expense>> {
-        val operationsList = dao.getOperationFormList(OPERATION_FORM_EXPENSE, date.time)
+        val operationsList = dao.getOperationsListByType(TYPE_EXPENSE, date.time)
         return operationsList.map {
             mapper.mapListDbModelToListExpenses(it)
         }
@@ -71,7 +71,7 @@ class OperationsRepositoryImpl @Inject constructor(
     override fun getMoneyBoxOperationsListFromDate(
         date: Timestamp
     ): LiveData<List<MoneyBoxOperation>> {
-        val operationsList = dao.getOperationFormList(
+        val operationsList = dao.getOperationsListByOperationForm(
             OPERATION_FORM_MONEY_BOX_OPERATION,
             date.time
         )
@@ -81,7 +81,7 @@ class OperationsRepositoryImpl @Inject constructor(
     }
 
     override fun getDebtOperationsList(): LiveData<List<DebtOperation>> {
-        val operationsList = dao.getOperationFormList(OPERATION_FORM_DEBT)
+        val operationsList = dao.getOperationsListByOperationForm(OPERATION_FORM_DEBT)
         return operationsList.map {
             mapper.mapListDbModelToListDebtOperations(it)
         }
