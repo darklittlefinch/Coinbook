@@ -5,6 +5,7 @@ import java.sql.Timestamp
 data class MoneyBox(
     var amount: Int,
     var goal: String,
+    val started: Timestamp,
     var deadline: Timestamp,
     val id: Int = MONEY_BOX_ID
 ) {

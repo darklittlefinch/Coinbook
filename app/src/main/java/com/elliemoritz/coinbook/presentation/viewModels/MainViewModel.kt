@@ -7,11 +7,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.elliemoritz.coinbook.domain.entities.MoneyBox
 import com.elliemoritz.coinbook.domain.useCases.alarmsUseCases.GetAlarmsListUseCase
-import com.elliemoritz.coinbook.domain.useCases.debtsUseCases.GetDebtsListUseCase
+import com.elliemoritz.coinbook.domain.useCases.debtsUseCases.GetTotalDebtsAmountUseCase
 import com.elliemoritz.coinbook.domain.useCases.limitsUseCases.GetLimitsListUseCase
 import com.elliemoritz.coinbook.domain.useCases.moneyBoxUseCases.GetMoneyBoxUseCase
-import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetExpensesListFromDateUseCase
-import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetIncomeListFromDateUseCase
+import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetTotalExpensesAmountFromDateUseCase
+import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetTotalIncomeAmountFromDateUseCase
+import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetTotalMoneyBoxAmountFromDateUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.EditBalanceUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetBalanceUseCase
 import com.elliemoritz.coinbook.presentation.states.MainData
@@ -26,10 +27,11 @@ class MainViewModel @Inject constructor(
     application: Application,
     private val getBalanceUseCase: GetBalanceUseCase,
     private val editBalanceUseCase: EditBalanceUseCase,
-    private val getIncomeListFromDateUseCase: GetIncomeListFromDateUseCase,
-    private val getExpensesListFromDateUseCase: GetExpensesListFromDateUseCase,
+    private val getTotalIncomeAmountFromDateUseCase: GetTotalIncomeAmountFromDateUseCase,
+    private val getTotalExpensesAmountFromDateUseCase: GetTotalExpensesAmountFromDateUseCase,
     private val getMoneyBoxUseCase: GetMoneyBoxUseCase,
-    private val getDebtsListUseCase: GetDebtsListUseCase,
+    private val getTotalMoneyBoxAmountFromDateUseCase: GetTotalMoneyBoxAmountFromDateUseCase,
+    private val getTotalDebtsAmountUseCase: GetTotalDebtsAmountUseCase,
     private val getLimitsListUserCase: GetLimitsListUseCase,
     private val getAlarmsListUseCase: GetAlarmsListUseCase
 ) : AndroidViewModel(application) {
@@ -41,14 +43,13 @@ class MainViewModel @Inject constructor(
     fun setValues() {
         viewModelScope.launch {
             val moneyBox = getMoneyBox()
-            val moneyBoxAmount = moneyBox?.amount ?: NO_OPERATIONS
             val debtsAmount = getDebtsAmount()
             _mainState.value = MainData(
                 balance = getBalance().toString(),
                 income = getIncome().toString(),
                 expenses = getExpenses().toString(),
                 hasMoneyBox = moneyBox != null,
-                moneyBoxAmount = moneyBoxAmount.toString(),
+                moneyBoxAmount = getMoneyBoxAmount().toString(),
                 hasDebts = debtsAmount > NO_OPERATIONS,
                 debtsAmount = debtsAmount.toString(),
                 hasLimits = checkLimitsActive(),
@@ -68,29 +69,27 @@ class MainViewModel @Inject constructor(
         return getBalanceUseCase.getBalance()
     }
 
-    private fun getIncome(): Int {
-        val beginOfMonthDate = getBeginOfMonthTimestamp()
-        val incomeList = getIncomeListFromDateUseCase.getIncomeListFromDate(beginOfMonthDate).value
-        val sum = incomeList?.sumOf { it.incAmount } ?: NO_OPERATIONS
-        return sum
+    private suspend fun getIncome(): Int {
+        val beginOfMonth = getBeginOfMonthTimestamp()
+        return getTotalIncomeAmountFromDateUseCase.getTotalIncomeAmountFromDate(beginOfMonth)
     }
 
-    private fun getExpenses(): Int {
-        val beginOfMonthDate = getBeginOfMonthTimestamp()
-        val expensesList = getExpensesListFromDateUseCase
-            .getOperationsListFromDate(beginOfMonthDate).value
-        val sum = expensesList?.sumOf { it.expAmount } ?: NO_OPERATIONS
-        return sum
+    private suspend fun getExpenses(): Int {
+        val beginOfMonth = getBeginOfMonthTimestamp()
+        return getTotalExpensesAmountFromDateUseCase.getTotalExpensesAmountFromDate(beginOfMonth)
     }
 
     private suspend fun getMoneyBox(): MoneyBox? {
         return getMoneyBoxUseCase.getMoneyBox(MoneyBox.MONEY_BOX_ID)
     }
 
-    private fun getDebtsAmount(): Int {
-        val debts = getDebtsListUseCase.getDebtsList().value
-        val sum = debts?.sumOf { it.amount } ?: NO_OPERATIONS
-        return sum
+    private suspend fun getMoneyBoxAmount(): Int {
+        val beginOfMonth = getBeginOfMonthTimestamp()
+        return getTotalMoneyBoxAmountFromDateUseCase.getTotalMoneyBoxAmountFromDate(beginOfMonth)
+    }
+
+    private suspend fun getDebtsAmount(): Int {
+        return getTotalDebtsAmountUseCase.getTotalDebtsAmount()
     }
 
     private fun checkLimitsActive(): Boolean {

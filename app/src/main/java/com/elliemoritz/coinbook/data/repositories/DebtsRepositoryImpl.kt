@@ -38,4 +38,12 @@ class DebtsRepositoryImpl @Inject constructor(
     override suspend fun removeDebt(debt: Debt) {
         dao.removeDebt(debt.id)
     }
+
+    override suspend fun getTotalDebtsAmount(): Int {
+        return dao.getDebtsAmount() ?: DEBTS_AMOUNT_DEFAULT_VALUE
+    }
+
+    companion object {
+        private const val DEBTS_AMOUNT_DEFAULT_VALUE = 0
+    }
 }

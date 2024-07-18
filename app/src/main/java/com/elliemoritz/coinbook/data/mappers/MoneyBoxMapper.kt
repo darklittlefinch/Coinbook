@@ -11,13 +11,15 @@ class MoneyBoxMapper @Inject constructor() {
         id = moneyBox.id,
         amount = moneyBox.amount,
         goal = moneyBox.goal,
-        deadlineMillis = moneyBox.deadline.time
+        deadlineMillis = moneyBox.deadline.time,
+        startedMillis = moneyBox.started.time
     )
 
     fun mapDbModelToEntity(dbModel: MoneyBoxDbModel) = MoneyBox(
         id = dbModel.id,
         amount = dbModel.amount,
         goal = dbModel.goal,
-        deadline = Timestamp(dbModel.deadlineMillis)
+        deadline = Timestamp(dbModel.deadlineMillis),
+        started = Timestamp(dbModel.startedMillis)
     )
 }

@@ -13,19 +13,6 @@ interface OperationsDao {
     @Query("SELECT * FROM operations")
     fun getOperationsList(): LiveData<List<OperationDbModel>>
 
-    @Query("SELECT * FROM operations " +
-            "WHERE operationForm = :operationForm AND dateTimeMillis >= :dateMillis")
-    fun getOperationFormList(
-        operationForm: String,
-        dateMillis: Long = 0)
-    : LiveData<List<OperationDbModel>>
-
-    @Query("SELECT * FROM operations WHERE info = :categoryName AND dateTimeMillis >= :dateMillis")
-    fun getCategoryExpensesList(
-        categoryName: String,
-        dateMillis: Long
-    ): LiveData<List<OperationDbModel>>
-
     @Query("SELECT * FROM operations WHERE id=:operationId LIMIT 1")
     suspend fun getOperation(operationId: Int): OperationDbModel
 
@@ -37,4 +24,31 @@ interface OperationsDao {
 
     @Query("DELETE FROM operations")
     suspend fun removeAllOperations()
+
+    @Query("SELECT * FROM operations " +
+            "WHERE operationForm = :operationForm AND dateTimeMillis >= :dateMillis")
+    fun getOperationFormList(
+        operationForm: String,
+        dateMillis: Long = 0)
+            : LiveData<List<OperationDbModel>>
+
+    @Query("SELECT * FROM operations WHERE info = :categoryName AND dateTimeMillis >= :dateMillis")
+    fun getCategoryExpensesList(
+        categoryName: String,
+        dateMillis: Long
+    ): LiveData<List<OperationDbModel>>
+
+    @Query("SELECT SUM(amount) FROM operations " +
+            "WHERE type = :type AND dateTimeMillis >= :dateMillis")
+    suspend fun getOperationsAmountByType(type: String, dateMillis: Long = 0): Int?
+
+    @Query("SELECT SUM(amount) FROM operations " +
+            "WHERE operationForm = :operationForm " +
+            "AND type = :type " +
+            "AND dateTimeMillis >= :dateMillis")
+    suspend fun getOperationsAmountByOperationFormAndType(
+        operationForm: String,
+        type: String,
+        dateMillis: Long
+    ): Int?
 }

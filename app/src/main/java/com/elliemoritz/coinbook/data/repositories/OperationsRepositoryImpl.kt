@@ -8,6 +8,8 @@ import com.elliemoritz.coinbook.data.util.OPERATION_FORM_DEBT
 import com.elliemoritz.coinbook.data.util.OPERATION_FORM_EXPENSE
 import com.elliemoritz.coinbook.data.util.OPERATION_FORM_INCOME
 import com.elliemoritz.coinbook.data.util.OPERATION_FORM_MONEY_BOX_OPERATION
+import com.elliemoritz.coinbook.data.util.TYPE_EXPENSE
+import com.elliemoritz.coinbook.data.util.TYPE_INCOME
 import com.elliemoritz.coinbook.domain.entities.operations.DebtOperation
 import com.elliemoritz.coinbook.domain.entities.operations.Expense
 import com.elliemoritz.coinbook.domain.entities.operations.Income
@@ -82,6 +84,28 @@ class OperationsRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getTotalIncomeAmountFromDate(date: Timestamp): Int {
+        return dao.getOperationsAmountByType(
+            TYPE_INCOME,
+            date.time
+        ) ?: OPERATIONS_AMOUNT_DEFAULT_VALUE
+    }
+
+    override suspend fun getTotalExpensesAmountFromDate(date: Timestamp): Int {
+        return dao.getOperationsAmountByType(
+            TYPE_EXPENSE,
+            date.time
+        ) ?: OPERATIONS_AMOUNT_DEFAULT_VALUE
+    }
+
+    override suspend fun getTotalMoneyBoxAmountFromDate(dateFrom: Timestamp): Int {
+        return dao.getOperationsAmountByOperationFormAndType(
+            OPERATION_FORM_MONEY_BOX_OPERATION,
+            TYPE_INCOME,
+            dateFrom.time
+        ) ?: OPERATIONS_AMOUNT_DEFAULT_VALUE
+    }
+
     override fun getCategoryExpensesListFromDate(
         categoryName: String,
         date: Timestamp
@@ -90,5 +114,9 @@ class OperationsRepositoryImpl @Inject constructor(
         return expensesList.map {
             mapper.mapListDbModelToListExpenses(it)
         }
+    }
+
+    companion object {
+        private const val OPERATIONS_AMOUNT_DEFAULT_VALUE = 0
     }
 }
