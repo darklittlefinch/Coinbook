@@ -18,7 +18,7 @@ interface OperationsRepository {
 
     fun getIncomeListFromDate(date: Timestamp): LiveData<List<Income>>
     fun getExpensesListFromDate(date: Timestamp): LiveData<List<Expense>>
-    fun getMoneyBoxOperationsList(): LiveData<List<MoneyBoxOperation>>
+    fun getMoneyBoxOperationsListFromDate(date: Timestamp): LiveData<List<MoneyBoxOperation>>
     fun getDebtOperationsList(): LiveData<List<DebtOperation>>
 
     suspend fun getTotalIncomeAmountFromDate(date: Timestamp): Int

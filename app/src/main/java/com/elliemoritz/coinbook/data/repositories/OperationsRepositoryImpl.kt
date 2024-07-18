@@ -68,9 +68,12 @@ class OperationsRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getMoneyBoxOperationsList(): LiveData<List<MoneyBoxOperation>> {
+    override fun getMoneyBoxOperationsListFromDate(
+        date: Timestamp
+    ): LiveData<List<MoneyBoxOperation>> {
         val operationsList = dao.getOperationFormList(
-            OPERATION_FORM_MONEY_BOX_OPERATION
+            OPERATION_FORM_MONEY_BOX_OPERATION,
+            date.time
         )
         return operationsList.map {
             mapper.mapListDbModelToListMoneyBoxOperations(it)
