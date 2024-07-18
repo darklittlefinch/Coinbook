@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetIncomeListFromDateUseCase @Inject constructor(
     private val operationsRepository: OperationsRepository
 ) {
-    fun getIncomeListFromDate(date: Timestamp): LiveData<List<Income>> {
+    operator fun invoke(date: Timestamp): LiveData<List<Income>> {
         return operationsRepository.getIncomeListFromDate(date)
     }
 }

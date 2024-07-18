@@ -7,7 +7,7 @@ import javax.inject.Inject
 class GetMoneyBoxUseCase @Inject constructor(
     private val moneyBoxRepository: MoneyBoxRepository
 ) {
-    suspend fun getMoneyBox(id: Int): MoneyBox? {
+    suspend operator fun invoke(id: Int): MoneyBox? {
         return moneyBoxRepository.getMoneyBox(id)
     }
 }

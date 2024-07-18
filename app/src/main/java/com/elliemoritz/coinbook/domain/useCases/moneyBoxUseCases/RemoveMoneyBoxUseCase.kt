@@ -7,7 +7,7 @@ import javax.inject.Inject
 class RemoveMoneyBoxUseCase @Inject constructor(
     private val moneyBoxRepository: MoneyBoxRepository
 ) {
-    suspend fun removeMoneyBox(moneyBox: MoneyBox) {
+    suspend operator fun invoke(moneyBox: MoneyBox) {
         moneyBoxRepository.removeMoneyBox(moneyBox)
     }
 }

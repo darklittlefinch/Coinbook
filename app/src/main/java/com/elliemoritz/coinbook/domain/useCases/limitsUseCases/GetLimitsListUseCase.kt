@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetLimitsListUseCase @Inject constructor(
     private val limitsRepository: LimitsRepository
 ) {
-    fun getLimitsList(): LiveData<List<Limit>> {
+    operator fun invoke(): LiveData<List<Limit>> {
         return limitsRepository.getLimitsList()
     }
 }

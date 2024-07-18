@@ -6,7 +6,7 @@ import javax.inject.Inject
 class RemoveFromBalanceUseCase @Inject constructor(
     private val userPreferencesRepository: UserPreferencesRepository
 ) {
-    suspend fun removeFromBalance(amount: Int) {
+    suspend operator fun invoke(amount: Int) {
         return userPreferencesRepository.removeFromBalance(amount)
     }
 }

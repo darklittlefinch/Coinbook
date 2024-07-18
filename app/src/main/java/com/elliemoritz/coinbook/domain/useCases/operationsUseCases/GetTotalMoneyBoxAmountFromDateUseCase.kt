@@ -7,7 +7,7 @@ import javax.inject.Inject
 class GetTotalMoneyBoxAmountFromDateUseCase @Inject constructor(
     private val operationsRepository: OperationsRepository
 ) {
-    suspend fun getTotalMoneyBoxAmountFromDate(date: Timestamp): Int {
+    suspend operator fun invoke(date: Timestamp): Int {
         return operationsRepository.getTotalMoneyBoxAmountFromDate(date)
     }
 }

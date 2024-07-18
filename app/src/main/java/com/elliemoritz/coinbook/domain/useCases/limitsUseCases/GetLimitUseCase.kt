@@ -7,7 +7,7 @@ import javax.inject.Inject
 class GetLimitUseCase @Inject constructor(
     private val limitsRepository: LimitsRepository
 ) {
-    suspend fun getLimit(id: Int): Limit {
+    suspend operator fun invoke(id: Int): Limit {
         return limitsRepository.getLimit(id)
     }
 }

@@ -60,47 +60,47 @@ class MainViewModel @Inject constructor(
 
     fun editBalance(newAmount: Int) {
         viewModelScope.launch {
-            editBalanceUseCase.editBalance(newAmount)
+            editBalanceUseCase(newAmount)
             setValues()
         }
     }
 
     private suspend fun getBalance(): Int {
-        return getBalanceUseCase.getBalance()
+        return getBalanceUseCase()
     }
 
     private suspend fun getIncome(): Int {
         val beginOfMonth = getBeginOfMonthTimestamp()
-        return getTotalIncomeAmountFromDateUseCase.getTotalIncomeAmountFromDate(beginOfMonth)
+        return getTotalIncomeAmountFromDateUseCase(beginOfMonth)
     }
 
     private suspend fun getExpenses(): Int {
         val beginOfMonth = getBeginOfMonthTimestamp()
-        return getTotalExpensesAmountFromDateUseCase.getTotalExpensesAmountFromDate(beginOfMonth)
+        return getTotalExpensesAmountFromDateUseCase(beginOfMonth)
     }
 
     private suspend fun getMoneyBox(): MoneyBox? {
-        return getMoneyBoxUseCase.getMoneyBox(MoneyBox.MONEY_BOX_ID)
+        return getMoneyBoxUseCase(MoneyBox.MONEY_BOX_ID)
     }
 
     private suspend fun getMoneyBoxAmount(started: Timestamp?): Int {
         if (started != null) {
-            return getTotalMoneyBoxAmountFromDateUseCase.getTotalMoneyBoxAmountFromDate(started)
+            return getTotalMoneyBoxAmountFromDateUseCase(started)
         }
         return NO_OPERATIONS
     }
 
     private suspend fun getDebtsAmount(): Int {
-        return getTotalDebtsAmountUseCase.getTotalDebtsAmount()
+        return getTotalDebtsAmountUseCase()
     }
 
     private fun checkLimitsActive(): Boolean {
-        val limits = getLimitsListUserCase.getLimitsList().value
+        val limits = getLimitsListUserCase().value
         return !limits.isNullOrEmpty()
     }
 
     private fun checkAlarmsActive(): Boolean {
-        val alarms = getAlarmsListUseCase.getAlarmsList().value
+        val alarms = getAlarmsListUseCase().value
         return !alarms.isNullOrEmpty()
     }
 

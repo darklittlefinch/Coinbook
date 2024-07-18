@@ -6,7 +6,7 @@ import javax.inject.Inject
 class GetBalanceUseCase @Inject constructor(
     private val userPreferencesRepository: UserPreferencesRepository
 ) {
-    suspend fun getBalance(): Int {
+    suspend operator fun invoke(): Int {
         return userPreferencesRepository.getBalance()
     }
 }

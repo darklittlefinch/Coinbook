@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetDebtsListUseCase @Inject constructor(
     private val debtsRepository: DebtsRepository
 ) {
-    fun getDebtsList(): LiveData<List<Debt>> {
+    operator fun invoke(): LiveData<List<Debt>> {
         return debtsRepository.getDebtsList()
     }
 }

@@ -7,7 +7,7 @@ import javax.inject.Inject
 class RemoveAlarmUseCase @Inject constructor(
     private val alarmsRepository: AlarmsRepository
 ) {
-    suspend fun removeAlarm(alarm: Alarm) {
+    suspend operator fun invoke(alarm: Alarm) {
         alarmsRepository.removeAlarm(alarm)
     }
 }

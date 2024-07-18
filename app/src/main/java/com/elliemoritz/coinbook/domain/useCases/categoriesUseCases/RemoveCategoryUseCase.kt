@@ -7,7 +7,7 @@ import javax.inject.Inject
 class RemoveCategoryUseCase @Inject constructor(
     private val categoriesRepository: CategoriesRepository
 ) {
-    suspend fun removeCategory(category: Category) {
+    suspend operator fun invoke(category: Category) {
         categoriesRepository.removeCategory(category)
     }
 }

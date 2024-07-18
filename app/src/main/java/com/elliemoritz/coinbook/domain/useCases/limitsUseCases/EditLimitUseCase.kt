@@ -7,7 +7,7 @@ import javax.inject.Inject
 class EditLimitUseCase @Inject constructor(
     private val limitsRepository: LimitsRepository
 ) {
-    suspend fun editLimit(limit: Limit) {
+    suspend operator fun invoke(limit: Limit) {
         limitsRepository.editLimit(limit)
     }
 }

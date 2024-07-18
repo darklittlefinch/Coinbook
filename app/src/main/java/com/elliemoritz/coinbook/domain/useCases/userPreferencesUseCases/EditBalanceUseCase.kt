@@ -6,7 +6,7 @@ import javax.inject.Inject
 class EditBalanceUseCase @Inject constructor(
     private val userPreferencesRepository: UserPreferencesRepository
 ) {
-    suspend fun editBalance(newAmount: Int) {
+    suspend operator fun invoke(newAmount: Int) {
         return userPreferencesRepository.editBalance(newAmount)
     }
 }

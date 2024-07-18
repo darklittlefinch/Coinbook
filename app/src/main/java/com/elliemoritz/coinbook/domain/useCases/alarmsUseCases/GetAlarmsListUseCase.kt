@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetAlarmsListUseCase @Inject constructor(
     private val alarmsRepository: AlarmsRepository
 ) {
-    fun getAlarmsList(): LiveData<List<Alarm>> {
+    operator fun invoke(): LiveData<List<Alarm>> {
         return alarmsRepository.getAlarmsList()
     }
 }

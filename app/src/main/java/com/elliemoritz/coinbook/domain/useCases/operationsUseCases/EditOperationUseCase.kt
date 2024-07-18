@@ -7,7 +7,7 @@ import javax.inject.Inject
 class EditOperationUseCase @Inject constructor(
     private val operationsRepository: OperationsRepository
 ) {
-    suspend fun editOperation(operation: Operation) {
+    suspend operator fun invoke(operation: Operation) {
         operationsRepository.editOperation(operation)
     }
 }

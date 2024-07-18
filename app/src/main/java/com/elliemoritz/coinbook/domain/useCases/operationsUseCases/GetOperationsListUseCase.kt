@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetOperationsListUseCase @Inject constructor(
     private val operationsRepository: OperationsRepository
 ) {
-    fun getOperationsList(): LiveData<List<Operation>> {
+    operator fun invoke(): LiveData<List<Operation>> {
         return operationsRepository.getOperationsList()
     }
 }

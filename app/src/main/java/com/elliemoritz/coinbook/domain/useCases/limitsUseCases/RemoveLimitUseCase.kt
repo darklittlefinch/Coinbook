@@ -7,7 +7,7 @@ import javax.inject.Inject
 class RemoveLimitUseCase @Inject constructor(
     private val limitsRepository: LimitsRepository
 ) {
-    suspend fun removeLimit(limit: Limit) {
+    suspend operator fun invoke(limit: Limit) {
         limitsRepository.removeLimit(limit)
     }
 }

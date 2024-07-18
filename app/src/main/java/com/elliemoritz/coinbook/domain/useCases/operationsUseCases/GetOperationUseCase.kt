@@ -7,7 +7,7 @@ import javax.inject.Inject
 class GetOperationUseCase @Inject constructor(
     private val operationsRepository: OperationsRepository
 ) {
-    suspend fun getOperation(id: Int): Operation {
+    suspend operator fun invoke(id: Int): Operation {
         return operationsRepository.getOperation(id)
     }
 }

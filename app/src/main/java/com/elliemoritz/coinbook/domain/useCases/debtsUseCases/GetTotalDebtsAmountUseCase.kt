@@ -6,7 +6,7 @@ import javax.inject.Inject
 class GetTotalDebtsAmountUseCase @Inject constructor(
     private val debtsRepository: DebtsRepository
 ) {
-    suspend fun getTotalDebtsAmount(): Int {
+    suspend operator fun invoke(): Int {
         return debtsRepository.getTotalDebtsAmount()
     }
 }
