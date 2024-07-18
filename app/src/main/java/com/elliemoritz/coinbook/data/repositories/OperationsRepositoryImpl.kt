@@ -48,6 +48,10 @@ class OperationsRepositoryImpl @Inject constructor(
         dao.removeOperation(operation.id)
     }
 
+    override suspend fun removeAllOperations() {
+        dao.removeAllOperations()
+    }
+
     override fun getIncomeListFromDate(date: Timestamp): LiveData<List<Income>> {
         val operationsList = dao.getOperationFormList(OPERATION_FORM_INCOME, date.time)
         return operationsList.map {

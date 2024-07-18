@@ -14,6 +14,7 @@ interface OperationsRepository {
     suspend fun addOperation(operation: Operation)
     suspend fun editOperation(operation: Operation)
     suspend fun removeOperation(operation: Operation)
+    suspend fun removeAllOperations()
 
     fun getIncomeListFromDate(date: Timestamp): LiveData<List<Income>>
     fun getExpensesListFromDate(date: Timestamp): LiveData<List<Expense>>

@@ -34,4 +34,7 @@ interface OperationsDao {
 
     @Query("DELETE FROM operations WHERE id = :operationId")
     suspend fun removeOperation(operationId: Int)
+
+    @Query("DELETE FROM operations")
+    suspend fun removeAllOperations()
 }
