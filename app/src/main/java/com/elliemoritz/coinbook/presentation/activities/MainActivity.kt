@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
         observeViewModel()
         setOnClickListeners()
-        setValues()
+        viewModel.setValues()
     }
 
     private fun observeViewModel() {
@@ -55,16 +55,6 @@ class MainActivity : AppCompatActivity() {
         observeDebtsAmount()
         observeHasLimits()
         observeHasAlarms()
-    }
-
-    private fun setValues() {
-        viewModel.getBalance()
-        viewModel.getIncome()
-        viewModel.getExpenses()
-        viewModel.getMoneyBoxTotalAmount()
-        viewModel.getDebtsTotalAmount()
-        viewModel.checkLimitsActive()
-        viewModel.checkAlarmsActive()
     }
 
     private fun setOnClickListeners() {

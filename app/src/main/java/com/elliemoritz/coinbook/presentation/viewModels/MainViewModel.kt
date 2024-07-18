@@ -68,20 +68,30 @@ class MainViewModel @Inject constructor(
     val hasAlarms: LiveData<Boolean>
         get() = _hasAlarms
 
-    fun getBalance() {
+    fun setValues() {
+        getBalance()
+        getIncome()
+        getExpenses()
+        getMoneyBoxTotalAmount()
+        getDebtsTotalAmount()
+        checkLimitsActive()
+        checkAlarmsActive()
+    }
+
+    private fun getBalance() {
         viewModelScope.launch {
             _balanceAmount.value = getBalanceUseCase.getBalance().toString()
         }
     }
 
-    fun getIncome() {
+    private fun getIncome() {
         val beginOfMonthDate = getBeginOfMonthTimestamp()
         val incomeList = getIncomeListFromDateUseCase.getIncomeListFromDate(beginOfMonthDate).value
         val sum = incomeList?.sumOf { it.incAmount } ?: 0
         _incomeAmount.value = sum.toString()
     }
 
-    fun getExpenses() {
+    private fun getExpenses() {
         val beginOfMonthDate = getBeginOfMonthTimestamp()
         val expensesList = getExpensesListFromDateUseCase
             .getOperationsListFromDate(beginOfMonthDate).value
@@ -89,7 +99,7 @@ class MainViewModel @Inject constructor(
         _expensesAmount.value = sum.toString()
     }
 
-    fun getMoneyBoxTotalAmount() {
+    private fun getMoneyBoxTotalAmount() {
         viewModelScope.launch {
             val moneyBox = getMoneyBoxUseCase.getMoneyBox(MoneyBox.MONEY_BOX_ID)
             var amount = 0
@@ -107,19 +117,19 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun getDebtsTotalAmount() {
+    private fun getDebtsTotalAmount() {
         val debts = getDebtsListUseCase.getDebtsList().value
         val sum = debts?.sumOf { it.amount } ?: 0
         _hasDebts.value = (sum != 0)
         _debtsAmount.value = sum.toString()
     }
 
-    fun checkLimitsActive() {
+    private fun checkLimitsActive() {
         val limits = getLimitsListUserCase.getLimitsList().value
         _hasLimits.value = !limits.isNullOrEmpty()
     }
 
-    fun checkAlarmsActive() {
+    private fun checkAlarmsActive() {
         val alarms = getAlarmsListUseCase.getAlarmsList().value
         _hasAlarms.value = !alarms.isNullOrEmpty()
     }
