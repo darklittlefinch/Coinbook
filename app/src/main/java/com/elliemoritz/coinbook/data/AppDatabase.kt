@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.elliemoritz.coinbook.data.dao.AlarmsDao
 import com.elliemoritz.coinbook.data.dao.DebtsDao
-import com.elliemoritz.coinbook.data.dao.ExpenseCategoriesDao
+import com.elliemoritz.coinbook.data.dao.CategoriesDao
 import com.elliemoritz.coinbook.data.dao.LimitsDao
 import com.elliemoritz.coinbook.data.dao.MoneyBoxDao
 import com.elliemoritz.coinbook.data.dao.OperationsDao
@@ -33,7 +33,7 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun alarmsDao(): AlarmsDao
     abstract fun debtsDao(): DebtsDao
-    abstract fun expenseCategoriesDao(): ExpenseCategoriesDao
+    abstract fun categoriesDao(): CategoriesDao
     abstract fun limitsDao(): LimitsDao
     abstract fun moneyBoxDao(): MoneyBoxDao
     abstract fun operationsDao(): OperationsDao

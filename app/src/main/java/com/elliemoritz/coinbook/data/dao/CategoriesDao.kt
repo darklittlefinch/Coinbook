@@ -8,7 +8,7 @@ import androidx.room.Query
 import com.elliemoritz.coinbook.data.dbModels.CategoryDbModel
 
 @Dao
-interface ExpenseCategoriesDao {
+interface CategoriesDao {
 
     @Query("SELECT * FROM categories")
     fun getCategoriesList(): LiveData<List<CategoryDbModel>>

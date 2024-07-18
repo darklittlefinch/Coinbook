@@ -2,8 +2,9 @@ package com.elliemoritz.coinbook.data.mappers
 
 import com.elliemoritz.coinbook.data.dbModels.CategoryDbModel
 import com.elliemoritz.coinbook.domain.entities.Category
+import javax.inject.Inject
 
-class CategoryMapper {
+class CategoryMapper @Inject constructor() {
 
     fun mapEntityToDbModel(category: Category) = CategoryDbModel(
         id = category.id,
