@@ -49,7 +49,7 @@ class MainViewModel @Inject constructor(
                 income = getIncome().toString(),
                 expenses = getExpenses().toString(),
                 hasMoneyBox = moneyBox != null,
-                moneyBoxAmount = getMoneyBoxAmount().toString(),
+                moneyBoxAmount = getMoneyBoxAmount(moneyBox?.started).toString(),
                 hasDebts = debtsAmount > NO_OPERATIONS,
                 debtsAmount = debtsAmount.toString(),
                 hasLimits = checkLimitsActive(),
@@ -83,9 +83,11 @@ class MainViewModel @Inject constructor(
         return getMoneyBoxUseCase.getMoneyBox(MoneyBox.MONEY_BOX_ID)
     }
 
-    private suspend fun getMoneyBoxAmount(): Int {
-        val beginOfMonth = getBeginOfMonthTimestamp()
-        return getTotalMoneyBoxAmountFromDateUseCase.getTotalMoneyBoxAmountFromDate(beginOfMonth)
+    private suspend fun getMoneyBoxAmount(started: Timestamp?): Int {
+        if (started != null) {
+            return getTotalMoneyBoxAmountFromDateUseCase.getTotalMoneyBoxAmountFromDate(started)
+        }
+        return NO_OPERATIONS
     }
 
     private suspend fun getDebtsAmount(): Int {
