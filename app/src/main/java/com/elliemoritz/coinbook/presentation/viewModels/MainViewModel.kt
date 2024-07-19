@@ -1,9 +1,8 @@
 package com.elliemoritz.coinbook.presentation.viewModels
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elliemoritz.coinbook.domain.entities.MoneyBox
 import com.elliemoritz.coinbook.domain.useCases.alarmsUseCases.GetAlarmsCountUseCase
@@ -27,7 +26,6 @@ import java.time.ZoneOffset
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
-    application: Application,
     private val getBalanceUseCase: GetBalanceUseCase,
     private val editBalanceUseCase: EditBalanceUseCase,
     private val getCurrencyUseCase: GetCurrencyUseCase,
@@ -38,7 +36,7 @@ class MainViewModel @Inject constructor(
     private val getTotalDebtsAmountUseCase: GetTotalDebtsAmountUseCase,
     private val getLimitsCountUseCase: GetLimitsCountUseCase,
     private val getAlarmsCountUseCase: GetAlarmsCountUseCase
-) : AndroidViewModel(application) {
+) : ViewModel() {
 
     private val _mainState = MutableLiveData<MainState>()
     val mainState: LiveData<MainState>

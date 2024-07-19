@@ -1,9 +1,8 @@
 package com.elliemoritz.coinbook.presentation.viewModels
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.EditBalanceUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.EditCurrencyUseCase
@@ -14,13 +13,12 @@ import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetCurre
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetNotificationsEnabledUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetNotificationsSoundsEnabledUseCase
 import com.elliemoritz.coinbook.presentation.states.SettingsData
-import com.elliemoritz.coinbook.presentation.states.SettingsState
 import com.elliemoritz.coinbook.presentation.states.SettingsShouldClose
+import com.elliemoritz.coinbook.presentation.states.SettingsState
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SettingsViewModel @Inject constructor(
-    application: Application,
     private val getBalanceUseCase: GetBalanceUseCase,
     private val editBalanceUseCase: EditBalanceUseCase,
     private val getCurrencyUseCase: GetCurrencyUseCase,
@@ -29,7 +27,7 @@ class SettingsViewModel @Inject constructor(
     private val editNotificationsEnabledUseCase: EditNotificationsEnabledUseCase,
     private val getNotificationsSoundsEnabledUseCase: GetNotificationsSoundsEnabledUseCase,
     private val editNotificationsSoundsEnabledUseCase: EditNotificationsSoundsEnabledUseCase
-) : AndroidViewModel(application) {
+) : ViewModel() {
 
     private val _settingsState = MutableLiveData<SettingsState>()
     val settingsState: LiveData<SettingsState>
