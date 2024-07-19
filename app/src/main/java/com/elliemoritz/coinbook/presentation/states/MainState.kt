@@ -2,6 +2,8 @@ package com.elliemoritz.coinbook.presentation.states
 
 sealed class MainState
 
+data object Loading : MainState()
+
 class MainData(
     val balance: String,
     val income: String,

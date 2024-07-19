@@ -1,6 +1,7 @@
 package com.elliemoritz.coinbook.presentation.activities
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -10,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.elliemoritz.coinbook.R
 import com.elliemoritz.coinbook.databinding.ActivityMainBinding
 import com.elliemoritz.coinbook.presentation.CoinBookApp
+import com.elliemoritz.coinbook.presentation.states.Loading
 import com.elliemoritz.coinbook.presentation.states.MainData
 import com.elliemoritz.coinbook.presentation.viewModels.MainViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.ViewModelFactory
@@ -48,7 +50,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun observeViewModel() {
         viewModel.mainState.observe(this) {
+            binding.mainProgressBar?.visibility = View.GONE
             when (it) {
+                is Loading -> {
+                    binding.mainProgressBar?.visibility = View.VISIBLE
+                }
                 is MainData -> {
                     with(binding) {
                         tvBalanceNumber.text = it.balance

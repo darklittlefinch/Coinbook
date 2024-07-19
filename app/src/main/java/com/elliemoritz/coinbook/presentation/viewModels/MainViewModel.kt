@@ -15,6 +15,7 @@ import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetTotalIncom
 import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetTotalMoneyBoxAmountFromDateUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.EditBalanceUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetBalanceUseCase
+import com.elliemoritz.coinbook.presentation.states.Loading
 import com.elliemoritz.coinbook.presentation.states.MainData
 import com.elliemoritz.coinbook.presentation.states.MainState
 import kotlinx.coroutines.launch
@@ -42,19 +43,9 @@ class MainViewModel @Inject constructor(
 
     fun setValues() {
         viewModelScope.launch {
-            val moneyBox = getMoneyBox()
-            val debtsAmount = getDebtsAmount()
-            _mainState.value = MainData(
-                balance = getBalance().toString(),
-                income = getIncome().toString(),
-                expenses = getExpenses().toString(),
-                hasMoneyBox = moneyBox != null,
-                moneyBoxAmount = getMoneyBoxAmount(moneyBox?.started).toString(),
-                hasDebts = debtsAmount > NO_OPERATIONS,
-                debtsAmount = debtsAmount.toString(),
-                hasLimits = hasLimits(),
-                hasAlarms = hasAlarms()
-            )
+            _mainState.value = Loading
+            val mainDataState = getMainDataState()
+            _mainState.value = mainDataState
         }
     }
 
@@ -63,6 +54,22 @@ class MainViewModel @Inject constructor(
             editBalanceUseCase(newAmount)
             setValues()
         }
+    }
+
+    private suspend fun getMainDataState(): MainState {
+        val moneyBox = getMoneyBox()
+        val debtsAmount = getDebtsAmount()
+        return MainData(
+            balance = getBalance().toString(),
+            income = getIncome().toString(),
+            expenses = getExpenses().toString(),
+            hasMoneyBox = moneyBox != null,
+            moneyBoxAmount = getMoneyBoxAmount(moneyBox?.started).toString(),
+            hasDebts = debtsAmount > NO_OPERATIONS,
+            debtsAmount = debtsAmount.toString(),
+            hasLimits = hasLimits(),
+            hasAlarms = hasAlarms()
+        )
     }
 
     private suspend fun getBalance(): Int {
