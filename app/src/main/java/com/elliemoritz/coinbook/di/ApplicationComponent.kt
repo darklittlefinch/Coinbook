@@ -2,6 +2,7 @@ package com.elliemoritz.coinbook.di
 
 import android.app.Application
 import com.elliemoritz.coinbook.presentation.activities.MainActivity
+import com.elliemoritz.coinbook.presentation.activities.SettingsActivity
 import dagger.BindsInstance
 import dagger.Component
 
@@ -15,6 +16,7 @@ import dagger.Component
 interface ApplicationComponent {
 
     fun inject(activity: MainActivity)
+    fun inject(activity: SettingsActivity)
 
     @Component.Factory
     interface Factory {

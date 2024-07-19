@@ -38,8 +38,8 @@
         app:layout_constraintTop_toBottomOf="@id/tv_settings_title" />
 
     <EditText
+        android:id="@+id/et_balance"
         style="settings"
-        android:id="@+id/editTextNumber"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ems="10"
