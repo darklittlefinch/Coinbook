@@ -18,6 +18,7 @@ import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetBalan
 import com.elliemoritz.coinbook.presentation.states.Loading
 import com.elliemoritz.coinbook.presentation.states.MainData
 import com.elliemoritz.coinbook.presentation.states.MainState
+import com.elliemoritz.coinbook.presentation.util.formatAmount
 import kotlinx.coroutines.launch
 import java.sql.Timestamp
 import java.time.LocalDateTime
@@ -60,13 +61,13 @@ class MainViewModel @Inject constructor(
         val moneyBox = getMoneyBox()
         val debtsAmount = getDebtsAmount()
         return MainData(
-            balance = getBalance().toString(),
-            income = getIncome().toString(),
-            expenses = getExpenses().toString(),
+            balance = formatAmount(getBalance()),
+            income = formatAmount(getIncome()),
+            expenses = formatAmount(getExpenses()),
             hasMoneyBox = moneyBox != null,
-            moneyBoxAmount = getMoneyBoxAmount(moneyBox?.started).toString(),
+            moneyBoxAmount = formatAmount(getMoneyBoxAmount(moneyBox?.started)),
             hasDebts = debtsAmount > NO_OPERATIONS,
-            debtsAmount = debtsAmount.toString(),
+            debtsAmount = formatAmount(debtsAmount),
             hasLimits = hasLimits(),
             hasAlarms = hasAlarms()
         )
