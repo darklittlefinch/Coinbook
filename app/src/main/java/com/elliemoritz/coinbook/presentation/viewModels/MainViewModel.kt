@@ -15,6 +15,7 @@ import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetTotalIncom
 import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetTotalMoneyBoxAmountFromDateUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.EditBalanceUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetBalanceUseCase
+import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetCurrencyUseCase
 import com.elliemoritz.coinbook.presentation.states.Loading
 import com.elliemoritz.coinbook.presentation.states.MainData
 import com.elliemoritz.coinbook.presentation.states.MainState
@@ -29,6 +30,7 @@ class MainViewModel @Inject constructor(
     application: Application,
     private val getBalanceUseCase: GetBalanceUseCase,
     private val editBalanceUseCase: EditBalanceUseCase,
+    private val getCurrencyUseCase: GetCurrencyUseCase,
     private val getTotalIncomeAmountFromDateUseCase: GetTotalIncomeAmountFromDateUseCase,
     private val getTotalExpensesAmountFromDateUseCase: GetTotalExpensesAmountFromDateUseCase,
     private val getMoneyBoxUseCase: GetMoneyBoxUseCase,
@@ -58,16 +60,17 @@ class MainViewModel @Inject constructor(
     }
 
     private suspend fun getMainDataState(): MainState {
+        val currency = getCurrencyUseCase()
         val moneyBox = getMoneyBox()
         val debtsAmount = getDebtsAmount()
         return MainData(
-            balance = formatAmount(getBalance()),
-            income = formatAmount(getIncome()),
-            expenses = formatAmount(getExpenses()),
+            balance = formatAmount(getBalance(), currency),
+            income = formatAmount(getIncome(), currency),
+            expenses = formatAmount(getExpenses(), currency),
             hasMoneyBox = moneyBox != null,
-            moneyBoxAmount = formatAmount(getMoneyBoxAmount(moneyBox?.started)),
+            moneyBoxAmount = formatAmount(getMoneyBoxAmount(moneyBox?.started), currency),
             hasDebts = debtsAmount > NO_OPERATIONS,
-            debtsAmount = formatAmount(debtsAmount),
+            debtsAmount = formatAmount(debtsAmount, currency),
             hasLimits = hasLimits(),
             hasAlarms = hasAlarms()
         )
