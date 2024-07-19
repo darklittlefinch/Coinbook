@@ -113,7 +113,7 @@ class UserPreferencesRepositoryImpl @Inject constructor(
     }
 
     companion object {
-        private const val PREFERENCES_NAME = "balance"
+        private const val PREFERENCES_NAME = "settings"
 
         private val BALANCE_KEY = intPreferencesKey("amount")
         private val CURRENCY_KEY = stringPreferencesKey("currency")
