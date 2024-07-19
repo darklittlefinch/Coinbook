@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.elliemoritz.coinbook.R
 import com.elliemoritz.coinbook.databinding.ActivityMainBinding
 import com.elliemoritz.coinbook.presentation.CoinBookApp
-import com.elliemoritz.coinbook.presentation.states.Loading
+import com.elliemoritz.coinbook.presentation.states.MainLoading
 import com.elliemoritz.coinbook.presentation.states.MainData
 import com.elliemoritz.coinbook.presentation.viewModels.MainViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.ViewModelFactory
@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.mainState.observe(this) {
             binding.mainProgressBar?.visibility = View.GONE
             when (it) {
-                is Loading -> {
+                is MainLoading -> {
                     binding.mainProgressBar?.visibility = View.VISIBLE
                 }
                 is MainData -> {

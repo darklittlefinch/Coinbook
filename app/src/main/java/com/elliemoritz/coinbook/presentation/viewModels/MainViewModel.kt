@@ -15,7 +15,7 @@ import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetTotalMoney
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.EditBalanceUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetBalanceUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetCurrencyUseCase
-import com.elliemoritz.coinbook.presentation.states.Loading
+import com.elliemoritz.coinbook.presentation.states.MainLoading
 import com.elliemoritz.coinbook.presentation.states.MainData
 import com.elliemoritz.coinbook.presentation.states.MainState
 import com.elliemoritz.coinbook.presentation.util.formatAmount
@@ -44,7 +44,7 @@ class MainViewModel @Inject constructor(
 
     fun setValues() {
         viewModelScope.launch {
-            _mainState.value = Loading
+            _mainState.value = MainLoading
             val mainDataState = getMainDataState()
             _mainState.value = mainDataState
         }
