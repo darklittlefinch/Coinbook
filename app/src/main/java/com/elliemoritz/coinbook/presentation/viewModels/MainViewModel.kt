@@ -15,8 +15,6 @@ import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetTotalMoney
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.EditBalanceUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetBalanceUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetCurrencyUseCase
-import com.elliemoritz.coinbook.presentation.states.MainLoading
-import com.elliemoritz.coinbook.presentation.states.MainData
 import com.elliemoritz.coinbook.presentation.states.MainState
 import com.elliemoritz.coinbook.presentation.util.formatAmount
 import kotlinx.coroutines.launch
@@ -38,15 +36,14 @@ class MainViewModel @Inject constructor(
     private val getAlarmsCountUseCase: GetAlarmsCountUseCase
 ) : ViewModel() {
 
-    private val _mainState = MutableLiveData<MainState>()
-    val mainState: LiveData<MainState>
-        get() = _mainState
+    private val _state = MutableLiveData<MainState>()
+    val state: LiveData<MainState>
+        get() = _state
 
     fun setValues() {
         viewModelScope.launch {
-            _mainState.value = MainLoading
-            val mainDataState = getMainDataState()
-            _mainState.value = mainDataState
+            _state.value = MainState.Loading
+            getMainDataStates()
         }
     }
 
@@ -57,60 +54,74 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getMainDataState(): MainState {
+    private suspend fun getMainDataStates() {
         val currency = getCurrencyUseCase()
-        val moneyBox = getMoneyBox()
-        val debtsAmount = getDebtsAmount()
-        return MainData(
-            balance = formatAmount(getBalance(), currency),
-            income = formatAmount(getIncome(), currency),
-            expenses = formatAmount(getExpenses(), currency),
-            hasMoneyBox = moneyBox != null,
-            moneyBoxAmount = formatAmount(getMoneyBoxAmount(moneyBox?.started), currency),
-            hasDebts = debtsAmount > NO_OPERATIONS,
-            debtsAmount = formatAmount(debtsAmount, currency),
-            hasLimits = hasLimits(),
-            hasAlarms = hasAlarms()
+        val beginOfMonth = getBeginOfMonthTimestamp()
+        setBalanceAmount(currency)
+        setIncomeAmount(currency, beginOfMonth)
+        setExpensesAmount(currency, beginOfMonth)
+        setMoneyBoxAmount(currency)
+        setDebtsAmount(currency)
+        setLimitsPresent()
+        setAlarmsPresent()
+    }
+
+    private suspend fun setBalanceAmount(currency: String) {
+        val balanceAmount = getBalanceUseCase()
+        val formattedBalanceAmount = formatAmount(balanceAmount, currency)
+        _state.value = MainState.Balance(formattedBalanceAmount)
+    }
+
+    private suspend fun setIncomeAmount(currency: String, beginOfMonth: Timestamp) {
+        val incomeAmount = getTotalIncomeAmountFromDateUseCase(beginOfMonth)
+        val formattedIncomeAmount = formatAmount(incomeAmount, currency)
+        _state.value = MainState.Income(formattedIncomeAmount)
+    }
+
+    private suspend fun setExpensesAmount(currency: String, beginOfMonth: Timestamp) {
+        val expensesAmount = getTotalExpensesAmountFromDateUseCase(beginOfMonth)
+        val formattedExpensesAmount = formatAmount(expensesAmount, currency)
+        _state.value = MainState.Expenses(formattedExpensesAmount)
+    }
+
+    private suspend fun setMoneyBoxAmount(currency: String) {
+        val moneyBox = getMoneyBoxUseCase(MoneyBox.MONEY_BOX_ID)
+
+        val moneyBoxAmount: Int
+        val wasMoneyBoxStarted: Boolean
+
+        if (moneyBox != null) {
+            moneyBoxAmount = getTotalMoneyBoxAmountFromDateUseCase(moneyBox.started)
+            wasMoneyBoxStarted = true
+        } else {
+            moneyBoxAmount = NO_OPERATIONS
+            wasMoneyBoxStarted = false
+        }
+
+        val formattedMoneyBoxAmount = formatAmount(moneyBoxAmount, currency)
+        _state.value = MainState.MoneyBox(
+            formattedMoneyBoxAmount,
+            wasMoneyBoxStarted
         )
     }
 
-    private suspend fun getBalance(): Int {
-        return getBalanceUseCase()
+    private suspend fun setDebtsAmount(currency: String) {
+        val debtsAmount = getTotalDebtsAmountUseCase()
+        val formattedDebtsAmount = formatAmount(debtsAmount, currency)
+        val userHasDebts = debtsAmount != 0
+        _state.value = MainState.Debts(formattedDebtsAmount, userHasDebts)
     }
 
-    private suspend fun getIncome(): Int {
-        val beginOfMonth = getBeginOfMonthTimestamp()
-        return getTotalIncomeAmountFromDateUseCase(beginOfMonth)
-    }
-
-    private suspend fun getExpenses(): Int {
-        val beginOfMonth = getBeginOfMonthTimestamp()
-        return getTotalExpensesAmountFromDateUseCase(beginOfMonth)
-    }
-
-    private suspend fun getMoneyBox(): MoneyBox? {
-        return getMoneyBoxUseCase(MoneyBox.MONEY_BOX_ID)
-    }
-
-    private suspend fun getMoneyBoxAmount(started: Timestamp?): Int {
-        if (started != null) {
-            return getTotalMoneyBoxAmountFromDateUseCase(started)
-        }
-        return NO_OPERATIONS
-    }
-
-    private suspend fun getDebtsAmount(): Int {
-        return getTotalDebtsAmountUseCase()
-    }
-
-    private suspend fun hasLimits(): Boolean {
+    private suspend fun setLimitsPresent() {
         val limitsCount = getLimitsCountUseCase()
-        return limitsCount > 0
+        val userHasLimits = limitsCount > 0
+        _state.value = MainState.Limits(userHasLimits)
     }
 
-    private suspend fun hasAlarms(): Boolean {
+    private suspend fun setAlarmsPresent() {
         val alarmsCount = getAlarmsCountUseCase()
-        return alarmsCount > 0
+        val userHasAlarms = alarmsCount > 0
+        _state.value = MainState.Alarms(userHasAlarms)
     }
 
     private fun getBeginOfMonthTimestamp(): Timestamp {

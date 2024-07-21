@@ -11,8 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.elliemoritz.coinbook.R
 import com.elliemoritz.coinbook.databinding.ActivityMainBinding
 import com.elliemoritz.coinbook.presentation.CoinBookApp
-import com.elliemoritz.coinbook.presentation.states.MainLoading
-import com.elliemoritz.coinbook.presentation.states.MainData
+import com.elliemoritz.coinbook.presentation.states.MainState
 import com.elliemoritz.coinbook.presentation.viewModels.MainViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.ViewModelFactory
 import javax.inject.Inject
@@ -49,24 +48,33 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
-        viewModel.mainState.observe(this) {
+        viewModel.state.observe(this) {
             binding.mainProgressBar?.visibility = View.GONE
             when (it) {
-                is MainLoading -> {
-                    binding.mainProgressBar?.visibility = View.VISIBLE
+                is MainState.Loading -> binding.mainProgressBar?.visibility = View.VISIBLE
+                is MainState.Balance -> binding.tvBalanceNumber.text = it.amount
+                is MainState.Income -> binding.tvIncomeNumber.text = it.amount
+                is MainState.Expenses -> binding.tvExpensesNumber.text = it.amount
+                is MainState.MoneyBox -> {
+                    binding.tvMoneyBoxAmount.text = it.amount
+                    val backgroundColor = getMoneyBoxColor(it.wasStarted)
+                    binding.cvMoneyBox.background.setTint(backgroundColor)
                 }
-                is MainData -> {
-                    with(binding) {
-                        tvBalanceNumber.text = it.balance
-                        tvIncomeNumber.text = it.income
-                        tvExpensesNumber.text = it.expenses
-                        cvMoneyBox.background.setTint(getMoneyBoxColor(it.hasMoneyBox))
-                        tvMoneyBoxAmount.text = it.moneyBoxAmount
-                        cvDebts.background.setTint(getDebtsColor(it.hasDebts))
-                        tvDebtsAmount.text = it.debtsAmount
-                        cvLimits.background.setTint(getLimitsColor(it.hasLimits))
-                        cvAlarms.background.setTint(getAlarmsColor(it.hasAlarms))
-                    }
+
+                is MainState.Debts -> {
+                    binding.tvDebtsAmount.text = it.amount
+                    val backgroundColor = getDebtsColor(it.userHasDebts)
+                    binding.cvDebts.background.setTint(backgroundColor)
+                }
+
+                is MainState.Limits -> {
+                    val backgroundColor = getLimitsColor(it.userHasLimits)
+                    binding.cvLimits.background.setTint(backgroundColor)
+                }
+
+                is MainState.Alarms -> {
+                    val backgroundColor = getAlarmsColor(it.userHasAlarms)
+                    binding.cvAlarms.background.setTint(backgroundColor)
                 }
             }
         }
