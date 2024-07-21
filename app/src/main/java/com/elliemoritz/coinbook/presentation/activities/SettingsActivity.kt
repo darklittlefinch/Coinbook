@@ -55,7 +55,7 @@ class SettingsActivity : AppCompatActivity() {
             when (it) {
                 is SettingsData -> {
                     with(binding) {
-                        etBalance.setText(it.balance)
+                        etBalance.hint = it.balance
                         spinnerCurrency.setSelection(it.currencyIndex)
                         toggleSettingsNotifications.isChecked = it.notificationsEnabled
                         toggleSettingsNotificationsSound.isChecked = it.notificationsSoundsEnabled

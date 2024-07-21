@@ -52,7 +52,9 @@ class SettingsViewModel @Inject constructor(
         notificationsSoundsEnabled: Boolean
     ) {
         viewModelScope.launch {
-            editBalanceUseCase(balance.toInt())
+            if (balance.isNotBlank()) {
+                editBalanceUseCase(balance.toInt())
+            }
             editCurrencyUseCase(currency)
             editNotificationsEnabledUseCase(notificationsEnabled)
             editNotificationsSoundsEnabledUseCase(notificationsSoundsEnabled)
