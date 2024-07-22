@@ -7,7 +7,8 @@ import androidx.room.PrimaryKey
 data class MoneyBoxDbModel(
     @PrimaryKey(autoGenerate = false)
     val id: Int,
-    val amount: Int,
+    val goalAmount: Int,
+    val totalAmount: Int,
     val goal: String,
     val startedMillis: Long,
     val deadlineMillis: Long

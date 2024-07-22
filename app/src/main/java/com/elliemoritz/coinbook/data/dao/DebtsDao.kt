@@ -1,6 +1,5 @@
 package com.elliemoritz.coinbook.data.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -11,7 +10,7 @@ import com.elliemoritz.coinbook.data.dbModels.DebtDbModel
 interface DebtsDao {
 
     @Query("SELECT * FROM debts")
-    fun getDebtsList(): LiveData<List<DebtDbModel>>
+    fun getDebtsList(): List<DebtDbModel>
 
     @Query("SELECT * FROM debts WHERE id=:debtId LIMIT 1")
     suspend fun getDebt(debtId: Int): DebtDbModel

@@ -1,6 +1,5 @@
 package com.elliemoritz.coinbook.data.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -11,7 +10,7 @@ import com.elliemoritz.coinbook.data.dbModels.OperationDbModel
 interface OperationsDao {
 
     @Query("SELECT * FROM operations")
-    fun getOperationsList(): LiveData<List<OperationDbModel>>
+    suspend fun getOperationsList(): List<OperationDbModel>
 
     @Query("SELECT * FROM operations WHERE id=:operationId LIMIT 1")
     suspend fun getOperation(operationId: Int): OperationDbModel
@@ -30,28 +29,28 @@ interface OperationsDao {
                 "WHERE operationForm = :operationForm " +
                 "AND dateTimeMillis >= :dateMillis"
     )
-    fun getOperationsListByOperationForm(
+    suspend fun getOperationsListByOperationForm(
         operationForm: String,
         dateMillis: Long = 0
     )
-            : LiveData<List<OperationDbModel>>
+            : List<OperationDbModel>
 
     @Query(
         "SELECT * FROM operations " +
                 "WHERE type = :type " +
                 "AND dateTimeMillis >= :dateMillis"
     )
-    fun getOperationsListByType(
+    suspend fun getOperationsListByType(
         type: String,
         dateMillis: Long = 0
     )
-            : LiveData<List<OperationDbModel>>
+            : List<OperationDbModel>
 
     @Query("SELECT * FROM operations WHERE info = :categoryName AND dateTimeMillis >= :dateMillis")
-    fun getCategoryExpensesList(
+    suspend fun getCategoryExpensesList(
         categoryName: String,
         dateMillis: Long
-    ): LiveData<List<OperationDbModel>>
+    ): List<OperationDbModel>
 
     @Query(
         "SELECT SUM(amount) FROM operations " +

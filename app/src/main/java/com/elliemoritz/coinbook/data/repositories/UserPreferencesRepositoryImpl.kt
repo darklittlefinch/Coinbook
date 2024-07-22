@@ -7,7 +7,10 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.elliemoritz.coinbook.domain.repositories.UserPreferencesRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -20,8 +23,21 @@ class UserPreferencesRepositoryImpl @Inject constructor(
     )
     private val dataStore = application.dataStore
 
-    override suspend fun getBalance(): Int {
-        return readBalanceValue()
+    private val refreshBalanceEvents = MutableSharedFlow<Unit>()
+    private val refreshCurrencyEvents = MutableSharedFlow<Unit>()
+
+    override fun getBalance(): Flow<Int> = flow {
+        val balanceValue = readBalanceValue()
+        emit(balanceValue)
+        refreshBalanceEvents.collect {
+            val updatedBalanceValue = readBalanceValue()
+            emit(updatedBalanceValue)
+        }
+    }
+
+    override suspend fun refreshUserPreferencesData() {
+        refreshBalanceEvents.emit(Unit)
+        refreshCurrencyEvents.emit(Unit)
     }
 
     override suspend fun addToBalance(amount: Int) {
@@ -40,8 +56,13 @@ class UserPreferencesRepositoryImpl @Inject constructor(
         writeBalanceValue(newAmount)
     }
 
-    override suspend fun getCurrency(): String {
-        return readCurrencyValue()
+    override fun getCurrency(): Flow<String> = flow {
+        val currencyValue = readCurrencyValue()
+        emit(currencyValue)
+        refreshCurrencyEvents.collect {
+            val updatedCurrencyValue = readCurrencyValue()
+            emit(updatedCurrencyValue)
+        }
     }
 
     override suspend fun editCurrency(newCurrency: String) {

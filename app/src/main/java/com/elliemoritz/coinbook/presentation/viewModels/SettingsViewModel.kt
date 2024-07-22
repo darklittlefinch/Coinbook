@@ -15,6 +15,7 @@ import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetNotif
 import com.elliemoritz.coinbook.presentation.states.SettingsData
 import com.elliemoritz.coinbook.presentation.states.SettingsShouldClose
 import com.elliemoritz.coinbook.presentation.states.SettingsState
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -37,8 +38,8 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             val currentCurrency = getCurrencyUseCase()
             _settingsState.value = SettingsData(
-                balance = getBalanceUseCase().toString(),
-                currencyIndex = getCurrencyPosition(currencies, currentCurrency),
+                balance = getBalanceUseCase().first().toString(),
+                currencyIndex = getCurrencyPosition(currencies, currentCurrency.first()),
                 notificationsEnabled = getNotificationsEnabledUseCase(),
                 notificationsSoundsEnabled = getNotificationsSoundsEnabledUseCase()
             )

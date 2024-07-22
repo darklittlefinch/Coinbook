@@ -1,13 +1,15 @@
 package com.elliemoritz.coinbook.domain.repositories
 
-import androidx.lifecycle.LiveData
 import com.elliemoritz.coinbook.domain.entities.Limit
+import kotlinx.coroutines.flow.Flow
 
 interface LimitsRepository {
-    fun getLimitsList(): LiveData<List<Limit>>
-    suspend fun getLimit(id: Int): Limit
+    fun getLimitsList(): Flow<List<Limit>>
+    fun getLimit(id: Int): Flow<Limit>
     suspend fun addLimit(limit: Limit)
     suspend fun editLimit(limit: Limit)
     suspend fun removeLimit(limit: Limit)
-    suspend fun getLimitsCount(): Int
+    fun getLimitsCount(): Flow<Int>
+
+    suspend fun refreshLimitsData()
 }

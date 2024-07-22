@@ -3,7 +3,8 @@ package com.elliemoritz.coinbook.domain.entities
 import java.sql.Timestamp
 
 data class MoneyBox(
-    var amount: Int,
+    var goalAmount: Int,
+    var totalAmount: Int,
     var goal: String,
     val started: Timestamp,
     var deadline: Timestamp,

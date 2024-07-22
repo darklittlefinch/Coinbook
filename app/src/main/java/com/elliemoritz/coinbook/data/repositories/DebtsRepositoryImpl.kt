@@ -1,11 +1,12 @@
 package com.elliemoritz.coinbook.data.repositories
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.map
 import com.elliemoritz.coinbook.data.dao.DebtsDao
 import com.elliemoritz.coinbook.data.mappers.DebtMapper
 import com.elliemoritz.coinbook.domain.entities.Debt
 import com.elliemoritz.coinbook.domain.repositories.DebtsRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class DebtsRepositoryImpl @Inject constructor(
@@ -13,16 +14,30 @@ class DebtsRepositoryImpl @Inject constructor(
     private val mapper: DebtMapper
 ) : DebtsRepository {
 
-    override fun getDebtsList(): LiveData<List<Debt>> {
-        val debtsLiveData = dao.getDebtsList()
-        return debtsLiveData.map {
-            mapper.mapListDbModelToListEntities(it)
+    private val refreshListEvents = MutableSharedFlow<Unit>()
+    private val refreshDebtEvents = MutableSharedFlow<Unit>()
+    private val refreshTotalAmountEvents = MutableSharedFlow<Unit>()
+
+    override fun getDebtsList(): Flow<List<Debt>> = flow {
+        val list = dao.getDebtsList()
+        val result = mapper.mapListDbModelToListEntities(list)
+        emit(result)
+        refreshListEvents.collect {
+            val updatedList = dao.getDebtsList()
+            val updatedResult = mapper.mapListDbModelToListEntities(updatedList)
+            emit(updatedResult)
         }
     }
 
-    override suspend fun getDebt(id: Int): Debt {
+    override fun getDebt(id: Int): Flow<Debt> = flow {
         val dbModel = dao.getDebt(id)
-        return mapper.mapDbModelToEntity(dbModel)
+        val result = mapper.mapDbModelToEntity(dbModel)
+        emit(result)
+        refreshDebtEvents.collect {
+            val updatedDbModel = dao.getDebt(id)
+            val updatedResult = mapper.mapDbModelToEntity(updatedDbModel)
+            emit(updatedResult)
+        }
     }
 
     override suspend fun addDebt(debt: Debt) {
@@ -39,8 +54,19 @@ class DebtsRepositoryImpl @Inject constructor(
         dao.removeDebt(debt.id)
     }
 
-    override suspend fun getTotalDebtsAmount(): Int {
-        return dao.getDebtsAmount() ?: DEBTS_AMOUNT_DEFAULT_VALUE
+    override fun getTotalDebtsAmount(): Flow<Int> = flow {
+        val totalAmount = dao.getDebtsAmount() ?: DEBTS_AMOUNT_DEFAULT_VALUE
+        emit(totalAmount)
+        refreshTotalAmountEvents.collect {
+            val updatedTotalAmount = dao.getDebtsAmount() ?: DEBTS_AMOUNT_DEFAULT_VALUE
+            emit(updatedTotalAmount)
+        }
+    }
+
+    override suspend fun refreshDebtsData() {
+        refreshListEvents.emit(Unit)
+        refreshDebtEvents.emit(Unit)
+        refreshTotalAmountEvents.emit(Unit)
     }
 
     companion object {

@@ -1,6 +1,5 @@
 package com.elliemoritz.coinbook.data.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -11,7 +10,7 @@ import com.elliemoritz.coinbook.data.dbModels.CategoryDbModel
 interface CategoriesDao {
 
     @Query("SELECT * FROM categories")
-    fun getCategoriesList(): LiveData<List<CategoryDbModel>>
+    fun getCategoriesList(): List<CategoryDbModel>
 
     @Query("SELECT * FROM categories WHERE id=:categoryId LIMIT 1")
     suspend fun getCategory(categoryId: Int): CategoryDbModel

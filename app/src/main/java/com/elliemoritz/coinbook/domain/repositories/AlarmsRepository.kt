@@ -1,13 +1,15 @@
 package com.elliemoritz.coinbook.domain.repositories
 
-import androidx.lifecycle.LiveData
 import com.elliemoritz.coinbook.domain.entities.Alarm
+import kotlinx.coroutines.flow.Flow
 
 interface AlarmsRepository {
-    fun getAlarmsList(): LiveData<List<Alarm>>
-    suspend fun getAlarm(id: Int): Alarm
+    fun getAlarmsList(): Flow<List<Alarm>>
+    fun getAlarm(id: Int): Flow<Alarm>
     suspend fun addAlarm(alarm: Alarm)
     suspend fun editAlarm(alarm: Alarm)
     suspend fun removeAlarm(alarm: Alarm)
-    suspend fun getAlarmsCount(): Int
+    fun getAlarmsCount(): Flow<Int>
+
+    suspend fun refreshAlarmsData()
 }

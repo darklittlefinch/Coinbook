@@ -1,11 +1,12 @@
 package com.elliemoritz.coinbook.data.repositories
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.map
 import com.elliemoritz.coinbook.data.dao.AlarmsDao
 import com.elliemoritz.coinbook.data.mappers.AlarmMapper
 import com.elliemoritz.coinbook.domain.entities.Alarm
 import com.elliemoritz.coinbook.domain.repositories.AlarmsRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class AlarmsRepositoryImpl @Inject constructor(
@@ -13,16 +14,30 @@ class AlarmsRepositoryImpl @Inject constructor(
     private val mapper: AlarmMapper
 ) : AlarmsRepository {
 
-    override fun getAlarmsList(): LiveData<List<Alarm>> {
-        val alarmsLiveData = dao.getAlarmsList()
-        return alarmsLiveData.map {
-            mapper.mapListDbModelToListEntities(it)
+    private val refreshListEvents = MutableSharedFlow<Unit>()
+    private val refreshAlarmEvents = MutableSharedFlow<Unit>()
+    private val refreshCountEvents = MutableSharedFlow<Unit>()
+
+    override fun getAlarmsList(): Flow<List<Alarm>> = flow {
+        val list = dao.getAlarmsList()
+        val result = mapper.mapListDbModelToListEntities(list)
+        emit(result)
+        refreshListEvents.collect {
+            val updatedList = dao.getAlarmsList()
+            val updatedResult = mapper.mapListDbModelToListEntities(updatedList)
+            emit(updatedResult)
         }
     }
 
-    override suspend fun getAlarm(id: Int): Alarm {
+    override fun getAlarm(id: Int): Flow<Alarm> = flow {
         val dbModel = dao.getAlarm(id)
-        return mapper.mapDbModelToEntity(dbModel)
+        val result = mapper.mapDbModelToEntity(dbModel)
+        emit(result)
+        refreshAlarmEvents.collect {
+            val updatedDbModel = dao.getAlarm(id)
+            val updatedResult = mapper.mapDbModelToEntity(updatedDbModel)
+            emit(updatedResult)
+        }
     }
 
     override suspend fun addAlarm(alarm: Alarm) {
@@ -39,7 +54,18 @@ class AlarmsRepositoryImpl @Inject constructor(
         dao.removeAlarm(alarm.id)
     }
 
-    override suspend fun getAlarmsCount(): Int {
-        return dao.getAlarmsCount()
+    override fun getAlarmsCount(): Flow<Int> = flow {
+        val result = dao.getAlarmsCount()
+        emit(result)
+        refreshCountEvents.collect {
+            val updatedResult = dao.getAlarmsCount()
+            emit(updatedResult)
+        }
+    }
+
+    override suspend fun refreshAlarmsData() {
+        refreshListEvents.emit(Unit)
+        refreshAlarmEvents.emit(Unit)
+        refreshCountEvents.emit(Unit)
     }
 }

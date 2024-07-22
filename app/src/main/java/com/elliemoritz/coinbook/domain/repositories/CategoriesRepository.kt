@@ -1,12 +1,14 @@
 package com.elliemoritz.coinbook.domain.repositories
 
-import androidx.lifecycle.LiveData
 import com.elliemoritz.coinbook.domain.entities.Category
+import kotlinx.coroutines.flow.Flow
 
 interface CategoriesRepository {
-    fun getCategoriesList(): LiveData<List<Category>>
-    suspend fun getCategory(id: Int): Category
+    fun getCategoriesList(): Flow<List<Category>>
+    fun getCategory(id: Int): Flow<Category>
     suspend fun addCategory(category: Category)
     suspend fun editCategory(category: Category)
     suspend fun removeCategory(category: Category)
+
+    suspend fun refreshCategoriesData()
 }

@@ -1,19 +1,21 @@
 package com.elliemoritz.coinbook.data.repositories
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.map
 import com.elliemoritz.coinbook.data.dao.OperationsDao
 import com.elliemoritz.coinbook.data.mappers.OperationsMapper
 import com.elliemoritz.coinbook.data.util.OPERATION_FORM_DEBT
 import com.elliemoritz.coinbook.data.util.OPERATION_FORM_MONEY_BOX_OPERATION
 import com.elliemoritz.coinbook.data.util.TYPE_EXPENSE
 import com.elliemoritz.coinbook.data.util.TYPE_INCOME
+import com.elliemoritz.coinbook.data.util.getBeginOfMonthMillis
 import com.elliemoritz.coinbook.domain.entities.operations.DebtOperation
 import com.elliemoritz.coinbook.domain.entities.operations.Expense
 import com.elliemoritz.coinbook.domain.entities.operations.Income
 import com.elliemoritz.coinbook.domain.entities.operations.MoneyBoxOperation
 import com.elliemoritz.coinbook.domain.entities.operations.Operation
 import com.elliemoritz.coinbook.domain.repositories.OperationsRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.flow
 import java.sql.Timestamp
 import javax.inject.Inject
 
@@ -22,16 +24,36 @@ class OperationsRepositoryImpl @Inject constructor(
     private val mapper: OperationsMapper
 ) : OperationsRepository {
 
-    override fun getOperationsList(): LiveData<List<Operation>> {
-        val operationsLiveData = dao.getOperationsList()
-        return operationsLiveData.map {
-            mapper.mapListDbModelToListOperations(it)
+    private val refreshOperationsListEvents = MutableSharedFlow<Unit>()
+    private val refreshOperationEvents = MutableSharedFlow<Unit>()
+    private val refreshIncomeListEvents = MutableSharedFlow<Unit>()
+    private val refreshExpensesListEvents = MutableSharedFlow<Unit>()
+    private val refreshMoneyBoxOperationsListEvents = MutableSharedFlow<Unit>()
+    private val refreshDebtsOperationsListEvents = MutableSharedFlow<Unit>()
+    private val refreshTotalIncomeEvents = MutableSharedFlow<Unit>()
+    private val refreshTotalExpenseEvents = MutableSharedFlow<Unit>()
+    private val refreshCategoryExpensesListEvents = MutableSharedFlow<Unit>()
+
+    override fun getOperationsList(): Flow<List<Operation>> = flow {
+        val list = dao.getOperationsList()
+        val result = mapper.mapListDbModelToListOperations(list)
+        emit(result)
+        refreshOperationsListEvents.collect {
+            val updatedList = dao.getOperationsList()
+            val updatedResult = mapper.mapListDbModelToListOperations(updatedList)
+            emit(updatedResult)
         }
     }
 
-    override suspend fun getOperation(id: Int): Operation {
+    override fun getOperation(id: Int): Flow<Operation> = flow {
         val dbModel = dao.getOperation(id)
-        return mapper.mapDbModelToOperation(dbModel)
+        val result = mapper.mapDbModelToOperation(dbModel)
+        emit(result)
+        refreshOperationEvents.collect {
+            val updatedDbModel = dao.getOperation(id)
+            val updatedResult = mapper.mapDbModelToOperation(updatedDbModel)
+            emit(updatedResult)
+        }
     }
 
     override suspend fun addOperation(operation: Operation) {
@@ -52,69 +74,119 @@ class OperationsRepositoryImpl @Inject constructor(
         dao.removeAllOperations()
     }
 
-    override fun getIncomeListFromDate(date: Timestamp): LiveData<List<Income>> {
-        val operationsList = dao.getOperationsListByType(TYPE_INCOME, date.time)
-        return operationsList.map {
-            mapper.mapListDbModelToListIncome(it)
+    override fun getIncomeListForMonth(): Flow<List<Income>> = flow {
+        val beginOfMonthMillis = getBeginOfMonthMillis()
+        val list = dao.getOperationsListByType(TYPE_INCOME, beginOfMonthMillis)
+        val result = mapper.mapListDbModelToListIncome(list)
+        emit(result)
+        refreshIncomeListEvents.collect {
+            val updatedBeginOfMonthMillis = getBeginOfMonthMillis()
+            val updatedList = dao.getOperationsListByType(TYPE_INCOME, updatedBeginOfMonthMillis)
+            val updatedResult = mapper.mapListDbModelToListIncome(updatedList)
+            emit(updatedResult)
         }
     }
 
-    override fun getExpensesListFromDate(date: Timestamp): LiveData<List<Expense>> {
-        val operationsList = dao.getOperationsListByType(TYPE_EXPENSE, date.time)
-        return operationsList.map {
-            mapper.mapListDbModelToListExpenses(it)
+    override fun getExpensesListForMonth(): Flow<List<Expense>> = flow {
+        val beginOfMonthMillis = getBeginOfMonthMillis()
+        val list = dao.getOperationsListByType(TYPE_EXPENSE, beginOfMonthMillis)
+        val result = mapper.mapListDbModelToListExpenses(list)
+        emit(result)
+        refreshExpensesListEvents.collect {
+            val updatedBeginOfMonthMillis = getBeginOfMonthMillis()
+            val updatedList = dao.getOperationsListByType(TYPE_EXPENSE, updatedBeginOfMonthMillis)
+            val updatedResult = mapper.mapListDbModelToListExpenses(updatedList)
+            emit(updatedResult)
         }
     }
 
     override fun getMoneyBoxOperationsListFromDate(
         date: Timestamp
-    ): LiveData<List<MoneyBoxOperation>> {
-        val operationsList = dao.getOperationsListByOperationForm(
+    ): Flow<List<MoneyBoxOperation>> = flow {
+        val list = dao.getOperationsListByOperationForm(
             OPERATION_FORM_MONEY_BOX_OPERATION,
             date.time
         )
-        return operationsList.map {
-            mapper.mapListDbModelToListMoneyBoxOperations(it)
+        val result = mapper.mapListDbModelToListMoneyBoxOperations(list)
+        emit(result)
+        refreshMoneyBoxOperationsListEvents.collect {
+            val updatedList = dao.getOperationsListByOperationForm(
+                OPERATION_FORM_MONEY_BOX_OPERATION,
+                date.time
+            )
+            val updatedResult = mapper.mapListDbModelToListMoneyBoxOperations(updatedList)
+            emit(updatedResult)
         }
     }
 
-    override fun getDebtOperationsList(): LiveData<List<DebtOperation>> {
-        val operationsList = dao.getOperationsListByOperationForm(OPERATION_FORM_DEBT)
-        return operationsList.map {
-            mapper.mapListDbModelToListDebtOperations(it)
+    override fun getDebtOperationsList(): Flow<List<DebtOperation>> = flow {
+        val list = dao.getOperationsListByOperationForm(OPERATION_FORM_DEBT)
+        val result = mapper.mapListDbModelToListDebtOperations(list)
+        emit(result)
+        refreshDebtsOperationsListEvents.collect {
+            val updatedList = dao.getOperationsListByOperationForm(OPERATION_FORM_DEBT)
+            val updatedResult = mapper.mapListDbModelToListDebtOperations(updatedList)
+            emit(updatedResult)
         }
     }
 
-    override suspend fun getTotalIncomeAmountFromDate(date: Timestamp): Int {
-        return dao.getOperationsAmountByType(
+    override fun getTotalIncomeAmountForMonth(): Flow<Int> = flow {
+        val beginOfMonthMillis = getBeginOfMonthMillis()
+        val result = dao.getOperationsAmountByType(
             TYPE_INCOME,
-            date.time
+            beginOfMonthMillis
         ) ?: OPERATIONS_AMOUNT_DEFAULT_VALUE
+        emit(result)
+        refreshTotalIncomeEvents.collect {
+            val updatedBeginOfMonthMillis = getBeginOfMonthMillis()
+            val updatedResult = dao.getOperationsAmountByType(
+                TYPE_INCOME,
+                updatedBeginOfMonthMillis
+            ) ?: OPERATIONS_AMOUNT_DEFAULT_VALUE
+            emit(updatedResult)
+        }
     }
 
-    override suspend fun getTotalExpensesAmountFromDate(date: Timestamp): Int {
-        return dao.getOperationsAmountByType(
+    override fun getTotalExpensesAmountForMonth(): Flow<Int> = flow {
+        val beginOfMonthMillis = getBeginOfMonthMillis()
+        val result = dao.getOperationsAmountByType(
             TYPE_EXPENSE,
-            date.time
+            beginOfMonthMillis
         ) ?: OPERATIONS_AMOUNT_DEFAULT_VALUE
-    }
-
-    override suspend fun getTotalMoneyBoxAmountFromDate(dateFrom: Timestamp): Int {
-        return dao.getOperationsAmountByOperationFormAndType(
-            OPERATION_FORM_MONEY_BOX_OPERATION,
-            TYPE_INCOME,
-            dateFrom.time
-        ) ?: OPERATIONS_AMOUNT_DEFAULT_VALUE
-    }
-
-    override fun getCategoryExpensesListFromDate(
-        categoryName: String,
-        date: Timestamp
-    ): LiveData<List<Expense>> {
-        val expensesList = dao.getCategoryExpensesList(categoryName, date.time)
-        return expensesList.map {
-            mapper.mapListDbModelToListExpenses(it)
+        emit(result)
+        refreshTotalExpenseEvents.collect {
+            val updatedBeginOfMonthMillis = getBeginOfMonthMillis()
+            val updatedResult = dao.getOperationsAmountByType(
+                TYPE_EXPENSE,
+                updatedBeginOfMonthMillis
+            ) ?: OPERATIONS_AMOUNT_DEFAULT_VALUE
+            emit(updatedResult)
         }
+    }
+
+    override fun getCategoryExpensesListForMonth(categoryName: String): Flow<List<Expense>> = flow {
+        val beginOfMonthMillis = getBeginOfMonthMillis()
+        val list = dao.getCategoryExpensesList(categoryName, beginOfMonthMillis)
+        val result = mapper.mapListDbModelToListExpenses(list)
+        emit(result)
+        refreshCategoryExpensesListEvents.collect {
+            val updatedBeginOfMonthMillis = getBeginOfMonthMillis()
+            val updatedList = dao.getCategoryExpensesList(categoryName, updatedBeginOfMonthMillis)
+            val updatedResult = mapper.mapListDbModelToListExpenses(updatedList)
+            emit(updatedResult)
+        }
+    }
+
+    override suspend fun refreshOperationData() {
+        refreshOperationsListEvents.emit(Unit)
+        refreshOperationEvents.emit(Unit)
+        refreshIncomeListEvents.emit(Unit)
+        refreshExpensesListEvents.emit(Unit)
+        refreshMoneyBoxOperationsListEvents.emit(Unit)
+        refreshDebtsOperationsListEvents.emit(Unit)
+        refreshTotalIncomeEvents.emit(Unit)
+        refreshTotalExpenseEvents.emit(Unit)
+        refreshCategoryExpensesListEvents.emit(Unit)
     }
 
     companion object {

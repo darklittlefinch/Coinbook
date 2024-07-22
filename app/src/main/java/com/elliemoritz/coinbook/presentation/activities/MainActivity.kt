@@ -7,13 +7,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.elliemoritz.coinbook.R
 import com.elliemoritz.coinbook.databinding.ActivityMainBinding
 import com.elliemoritz.coinbook.presentation.CoinBookApp
 import com.elliemoritz.coinbook.presentation.states.MainState
 import com.elliemoritz.coinbook.presentation.viewModels.MainViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.ViewModelFactory
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
@@ -44,37 +48,40 @@ class MainActivity : AppCompatActivity() {
 
         observeViewModel()
         setOnClickListeners()
-        viewModel.setValues()
     }
 
     private fun observeViewModel() {
-        viewModel.state.observe(this) {
-            when (it) {
-                is MainState.StartLoading -> binding.mainProgressBar?.visibility = View.VISIBLE
-                is MainState.EndLoading -> binding.mainProgressBar?.visibility = View.GONE
-                is MainState.Balance -> binding.tvBalanceNumber.text = it.amount
-                is MainState.Income -> binding.tvIncomeNumber.text = it.amount
-                is MainState.Expenses -> binding.tvExpensesNumber.text = it.amount
-                is MainState.MoneyBox -> {
-                    binding.tvMoneyBoxAmount.text = it.amount
-                    val backgroundColor = getMoneyBoxColor(it.wasStarted)
-                    binding.cvMoneyBox.background.setTint(backgroundColor)
-                }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.state.collect {
+                    binding.mainProgressBar?.visibility = View.GONE
+                    when (it) {
+                        is MainState.Loading -> binding.mainProgressBar?.visibility = View.VISIBLE
+                        is MainState.Balance -> binding.tvBalanceNumber.text = it.amount
+                        is MainState.Income -> binding.tvIncomeNumber.text = it.amount
+                        is MainState.Expenses -> binding.tvExpensesNumber.text = it.amount
+                        is MainState.MoneyBox -> {
+                            binding.tvMoneyBoxAmount.text = it.amount
+                            val backgroundColor = getMoneyBoxColor(it.wasStarted)
+                            binding.cvMoneyBox.background.setTint(backgroundColor)
+                        }
 
-                is MainState.Debts -> {
-                    binding.tvDebtsAmount.text = it.amount
-                    val backgroundColor = getDebtsColor(it.userHasDebts)
-                    binding.cvDebts.background.setTint(backgroundColor)
-                }
+                        is MainState.Debts -> {
+                            binding.tvDebtsAmount.text = it.amount
+                            val backgroundColor = getDebtsColor(it.userHasDebts)
+                            binding.cvDebts.background.setTint(backgroundColor)
+                        }
 
-                is MainState.Limits -> {
-                    val backgroundColor = getLimitsColor(it.userHasLimits)
-                    binding.cvLimits.background.setTint(backgroundColor)
-                }
+                        is MainState.Limits -> {
+                            val backgroundColor = getLimitsColor(it.userHasLimits)
+                            binding.cvLimits.background.setTint(backgroundColor)
+                        }
 
-                is MainState.Alarms -> {
-                    val backgroundColor = getAlarmsColor(it.userHasAlarms)
-                    binding.cvAlarms.background.setTint(backgroundColor)
+                        is MainState.Alarms -> {
+                            val backgroundColor = getAlarmsColor(it.userHasAlarms)
+                            binding.cvAlarms.background.setTint(backgroundColor)
+                        }
+                    }
                 }
             }
         }

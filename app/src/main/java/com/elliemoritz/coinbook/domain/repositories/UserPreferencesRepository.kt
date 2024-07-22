@@ -1,13 +1,15 @@
 package com.elliemoritz.coinbook.domain.repositories
 
+import kotlinx.coroutines.flow.Flow
+
 interface UserPreferencesRepository {
 
-    suspend fun getBalance(): Int
+    fun getBalance(): Flow<Int>
     suspend fun addToBalance(amount: Int)
     suspend fun removeFromBalance(amount: Int)
     suspend fun editBalance(newAmount: Int)
 
-    suspend fun getCurrency(): String
+    fun getCurrency(): Flow<String>
     suspend fun editCurrency(newCurrency: String)
 
     suspend fun getNotificationsEnabled(): Boolean
@@ -15,4 +17,6 @@ interface UserPreferencesRepository {
 
     suspend fun getNotificationsSoundsEnabled(): Boolean
     suspend fun editNotificationsSoundsEnabled(enabled: Boolean)
+
+    suspend fun refreshUserPreferencesData()
 }

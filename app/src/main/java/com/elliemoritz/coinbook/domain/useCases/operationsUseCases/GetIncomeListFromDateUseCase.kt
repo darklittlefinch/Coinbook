@@ -1,15 +1,14 @@
 package com.elliemoritz.coinbook.domain.useCases.operationsUseCases
 
-import androidx.lifecycle.LiveData
 import com.elliemoritz.coinbook.domain.entities.operations.Income
 import com.elliemoritz.coinbook.domain.repositories.OperationsRepository
-import java.sql.Timestamp
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GetIncomeListFromDateUseCase @Inject constructor(
     private val operationsRepository: OperationsRepository
 ) {
-    operator fun invoke(date: Timestamp): LiveData<List<Income>> {
-        return operationsRepository.getIncomeListFromDate(date)
+    operator fun invoke(): Flow<List<Income>> {
+        return operationsRepository.getIncomeListForMonth()
     }
 }

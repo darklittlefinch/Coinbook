@@ -1,6 +1,5 @@
 package com.elliemoritz.coinbook.data.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -11,7 +10,7 @@ import com.elliemoritz.coinbook.data.dbModels.AlarmDbModel
 interface AlarmsDao {
 
     @Query("SELECT * FROM alarms")
-    fun getAlarmsList(): LiveData<List<AlarmDbModel>>
+    fun getAlarmsList(): List<AlarmDbModel>
 
     @Query("SELECT * FROM alarms WHERE id=:alarmId LIMIT 1")
     suspend fun getAlarm(alarmId: Int): AlarmDbModel
