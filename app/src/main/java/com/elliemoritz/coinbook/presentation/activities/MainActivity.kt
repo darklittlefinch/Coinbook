@@ -49,9 +49,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun observeViewModel() {
         viewModel.state.observe(this) {
-            binding.mainProgressBar?.visibility = View.GONE
             when (it) {
-                is MainState.Loading -> binding.mainProgressBar?.visibility = View.VISIBLE
+                is MainState.StartLoading -> binding.mainProgressBar?.visibility = View.VISIBLE
+                is MainState.EndLoading -> binding.mainProgressBar?.visibility = View.GONE
                 is MainState.Balance -> binding.tvBalanceNumber.text = it.amount
                 is MainState.Income -> binding.tvIncomeNumber.text = it.amount
                 is MainState.Expenses -> binding.tvExpensesNumber.text = it.amount

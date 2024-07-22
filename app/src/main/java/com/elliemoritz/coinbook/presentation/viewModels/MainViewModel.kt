@@ -42,8 +42,9 @@ class MainViewModel @Inject constructor(
 
     fun setValues() {
         viewModelScope.launch {
-            _state.value = MainState.Loading
+            _state.value = MainState.StartLoading
             getMainDataStates()
+            _state.value = MainState.EndLoading
         }
     }
 
