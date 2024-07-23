@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
+        android:name=".presentation.CoinBookApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -13,13 +14,34 @@
         android:theme="@style/Theme.Coinbook"
         tools:targetApi="31">
         <activity
-            android:name=".AddOperationActivity"
+            android:name=".presentation.activities.SettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".OperationsActivity"
+            android:name=".presentation.activities.HistoryActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".presentation.activities.AlarmsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.activities.LimitsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.activities.IncomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.activities.DebtsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.activities.MoneyBoxActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.activities.OperationsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.activities.ExpensesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

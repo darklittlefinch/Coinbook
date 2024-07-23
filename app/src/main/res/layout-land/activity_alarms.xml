@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.activities.AlarmsActivity">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_alarms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <TextView
+        android:id="@+id/tv_alarms_title"
+        style="@style/details_titles"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/purple"
+        android:text="@string/title_alarm"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_alarms"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_back"
+        style="@style/details_navigation_images"
+        android:contentDescription="@string/content_description_left_arrow_image"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_alarms_title"
+        app:layout_constraintStart_toStartOf="@+id/tv_alarms_title"
+        app:layout_constraintTop_toTopOf="@+id/tv_alarms_title"
+        app:srcCompat="@drawable/ic_left_arrow" />
+
+    <ImageView
+        android:id="@+id/iv_add_new_alarm"
+        style="@style/details_navigation_images"
+        android:contentDescription="@string/content_description_add_new_alarm"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_alarms_title"
+        app:layout_constraintEnd_toEndOf="@+id/tv_alarms_title"
+        app:layout_constraintTop_toTopOf="@+id/tv_alarms_title"
+        app:srcCompat="@drawable/ic_plus_rounded" />
+
+    <ImageView
+        android:id="@+id/iv_alarms"
+        style="@style/details_medium_image"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/content_description_simple_alarm_image"
+        android:src="@drawable/ic_bell_ring"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_alarms"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_alarms_title" />
+
+    <TextView
+        android:id="@+id/tv_alarms_info"
+        style="@style/details_without_numbers_info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textColor="@color/dark_gray"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_alarms"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_alarms"
+        tools:text="The next event will be 01.11.2024" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_alarms"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_alarms"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_alarms_info"
+        tools:listitem="@layout/item_alarm" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/alarms_container"
+        android:name="com.elliemoritz.coinbook.presentation.fragments.AddAlarmFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline_alarms"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

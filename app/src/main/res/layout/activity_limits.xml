@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.activities.LimitsActivity">
+
+    <TextView
+        android:id="@+id/tv_limits_title"
+        style="@style/details_titles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/orange"
+        android:text="@string/title_limits"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_back"
+        style="@style/details_navigation_images"
+        android:contentDescription="@string/content_description_left_arrow_image"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_limits_title"
+        app:layout_constraintStart_toStartOf="@+id/tv_limits_title"
+        app:layout_constraintTop_toTopOf="@+id/tv_limits_title"
+        app:srcCompat="@drawable/ic_left_arrow" />
+
+    <ImageView
+        android:id="@+id/iv_add_new_limit"
+        style="@style/details_navigation_images"
+        android:contentDescription="@string/content_description_add_new_limit"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_limits_title"
+        app:layout_constraintEnd_toEndOf="@+id/tv_limits_title"
+        app:layout_constraintTop_toTopOf="@+id/tv_limits_title"
+        app:srcCompat="@drawable/ic_plus_rounded" />
+
+    <ImageView
+        android:id="@+id/iv_limits"
+        style="@style/details_medium_image"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/content_description_simple_limit_image"
+        android:src="@drawable/ic_limit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_limits_title" />
+
+    <TextView
+        android:id="@+id/tv_limits_info"
+        style="@style/details_without_numbers_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/no_limits"
+        android:textAlignment="center"
+        android:textColor="@color/dark_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_limits"
+        tools:text="You can spend 7 473 ₽ more this month" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_limits"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_limits_info"
+        tools:listitem="@layout/item_limit" />
+
+    <ImageView
+        android:id="@+id/iv_no_limits"
+        style="@style/details_giant_image"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/content_description_add_new_limit"
+        android:src="@drawable/ic_plus_rounded_gray"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
