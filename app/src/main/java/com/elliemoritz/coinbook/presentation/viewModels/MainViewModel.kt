@@ -12,11 +12,11 @@ import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetBalan
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetCurrencyUseCase
 import com.elliemoritz.coinbook.presentation.states.MainState
 import com.elliemoritz.coinbook.presentation.util.formatAmount
+import com.elliemoritz.coinbook.presentation.util.mergeWith
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
@@ -95,10 +95,6 @@ class MainViewModel @Inject constructor(
         .mergeWith(debtsAmountFlow)
         .mergeWith(limitsFlow)
         .mergeWith(alarmsFlow)
-
-    private fun <T> Flow<T>.mergeWith(another: Flow<T>): Flow<T> {
-        return merge(this, another)
-    }
 
     val state: Flow<MainState>
         get() = _state
