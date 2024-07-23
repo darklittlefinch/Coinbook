@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Coinbook</string>
 
+    <string name="toast_settings_saved">Settings were successfully saved!</string>
+    <string name="toast_error">Fields must not be empty!</string>
+    <string name="toast_success">Editing completed successfully!</string>
+
     <string name="title_balance">Balance</string>
     <string name="title_expenses">Expenses</string>
     <string name="title_income">Income</string>
@@ -68,8 +72,6 @@
     <string name="settings_enable_notifications">Enable notifications</string>
     <string name="settings_enable_notifications_sound">Turn on notifications sound</string>
     <string name="settings_hint_enter_new_balance">Enter new balance</string>
-
-    <string name="toast_settings_saved">Settings were successfully saved!</string>
 
     <string name="content_description_balance_image">Check your balance</string>
     <string name="content_description_income_image">Check your income stats</string>

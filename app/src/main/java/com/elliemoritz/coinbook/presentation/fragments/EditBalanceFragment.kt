@@ -1,60 +1,94 @@
 package com.elliemoritz.coinbook.presentation.fragments
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.elliemoritz.coinbook.R
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.elliemoritz.coinbook.databinding.FragmentEditBalanceBinding
+import com.elliemoritz.coinbook.presentation.CoinBookApp
+import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentBalanceState
+import com.elliemoritz.coinbook.presentation.util.OnEditingListener
+import com.elliemoritz.coinbook.presentation.viewModels.ViewModelFactory
+import com.elliemoritz.coinbook.presentation.viewModels.fragmentsViewModels.EditBalanceViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [EditBalanceFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class EditBalanceFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    private lateinit var onEditingListener: OnEditingListener
+
+    private val component by lazy {
+        (requireActivity().application as CoinBookApp).component
+    }
+
+    private var _binding: FragmentEditBalanceBinding? = null
+    private val binding
+        get() = _binding!!
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    private val viewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[EditBalanceViewModel::class.java]
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        component.inject(this)
+
+        if (context is OnEditingListener) {
+            onEditingListener = context
+        } else {
+            throw RuntimeException("Activity must implement OnEditingFinishedListener")
         }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_balance, container, false)
+    ): View {
+        _binding = FragmentEditBalanceBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        observeViewModel()
+
+        binding.buttonEditBalance.setOnClickListener {
+            val newBalance = binding.etEditBalanceAmount.text.toString()
+            viewModel.editBalance(newBalance)
+        }
+    }
+
+    private fun observeViewModel() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.state.collect {
+                    when (it) {
+                        is FragmentBalanceState.Data -> {
+                            binding.etEditBalanceAmount.hint = it.amount
+                        }
+                        is FragmentBalanceState.Error -> {
+                            onEditingListener.onError()
+                        }
+                        is FragmentBalanceState.Finish -> {
+                            onEditingListener.onEditingFinished()
+                        }
+                    }
+                }
+            }
+        }
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment EditBalanceFragment.
-         */
-        // TODO: Rename and change types and number of parameters
+
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            EditBalanceFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        fun newInstance() = EditBalanceFragment()
     }
 }

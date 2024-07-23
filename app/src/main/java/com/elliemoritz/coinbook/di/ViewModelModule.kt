@@ -3,6 +3,7 @@ package com.elliemoritz.coinbook.di
 import androidx.lifecycle.ViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.MainViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.SettingsViewModel
+import com.elliemoritz.coinbook.presentation.viewModels.fragmentsViewModels.EditBalanceViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -19,4 +20,9 @@ interface ViewModelModule {
     @IntoMap
     @ViewModelKey(SettingsViewModel::class)
     fun bindSettingsViewModel(viewModel: SettingsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(EditBalanceViewModel::class)
+    fun bindEditBalanceViewModel(viewModel: EditBalanceViewModel): ViewModel
 }
