@@ -31,6 +31,7 @@ class EditBalanceViewModel @Inject constructor(
 
             if (amountString.isEmpty()) {
                 setErrorState()
+                return@launch
             }
 
             try {
