@@ -143,7 +143,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun setOnBalanceClickListener() {
         binding.cvBalance.setOnClickListener {
-            val intent = OperationsActivity.newIntent(this, OperationsActivity.MODE_BALANCE)
+            val intent = OperationsActivity.newIntent(
+                this,
+                OperationsActivity.FRAGMENT_TYPE_BALANCE,
+                OperationsActivity.MODE_EDIT
+            )
             startActivity(intent)
         }
     }
@@ -157,7 +161,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun setOnPlusClickListener() {
         binding.cvPlus.setOnClickListener {
-            val intent = OperationsActivity.newIntent(this, OperationsActivity.MODE_INCOME)
+            val intent = OperationsActivity.newIntent(
+                this,
+                OperationsActivity.FRAGMENT_TYPE_INCOME,
+                OperationsActivity.MODE_ADD
+            )
             startActivity(intent)
         }
     }
@@ -171,7 +179,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun setOnMinusClickListener() {
         binding.cvMinus.setOnClickListener {
-            val intent = OperationsActivity.newIntent(this, OperationsActivity.MODE_EXPENSE)
+            val intent = OperationsActivity.newIntent(
+                this,
+                OperationsActivity.FRAGMENT_TYPE_EXPENSE,
+                OperationsActivity.MODE_ADD
+            )
             startActivity(intent)
         }
     }

@@ -10,13 +10,23 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.elliemoritz.coinbook.R
+import com.elliemoritz.coinbook.domain.entities.helpers.UNDEFINED_ID
+import com.elliemoritz.coinbook.presentation.fragments.AddIncomeFragment
 import com.elliemoritz.coinbook.presentation.fragments.EditBalanceFragment
 import com.elliemoritz.coinbook.presentation.util.OnEditingListener
 
 class OperationsActivity : AppCompatActivity(), OnEditingListener {
 
+    private val fragmentType by lazy {
+        intent.getStringExtra(EXTRA_FRAGMENT_TYPE)
+    }
+
     private val mode by lazy {
         intent.getStringExtra(EXTRA_MODE)
+    }
+
+    private val id by lazy {
+        intent.getIntExtra(EXTRA_ID, UNDEFINED_ID)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,8 +44,8 @@ class OperationsActivity : AppCompatActivity(), OnEditingListener {
     }
 
     private fun launchFragment() {
-        when (mode) {
-            MODE_BALANCE -> launchEditBalanceFragment()
+        when (fragmentType) {
+            FRAGMENT_TYPE_BALANCE -> launchEditBalanceFragment()
             else -> Log.d(
                 "OperationsActivity",
                 "Mode not found or yet not implemented"
@@ -51,21 +61,34 @@ class OperationsActivity : AppCompatActivity(), OnEditingListener {
     }
 
     companion object {
+        private const val EXTRA_FRAGMENT_TYPE = "fragment"
         private const val EXTRA_MODE = "mode"
-        const val MODE_BALANCE = "balance"
-        const val MODE_INCOME = "income"
-        const val MODE_EXPENSE = "expense"
-        const val MODE_MONEY_BOX = "money_box"
-        const val MODE_ADD_MONEY_BOX = "add_money_box"
-        const val MODE_REMOVE_MONEY_BOX = "remove_money_box"
-        const val MODE_DEBT = "debt"
-        const val MODE_LIMIT = "limit"
-        const val MODE_ALARM = "alarm"
-        const val MODE_CATEGORY = "category"
+        private const val EXTRA_ID = "id"
 
-        fun newIntent(context: Context, mode: String): Intent {
+        const val FRAGMENT_TYPE_BALANCE = "balance"
+        const val FRAGMENT_TYPE_INCOME = "income"
+        const val FRAGMENT_TYPE_EXPENSE = "expense"
+        const val FRAGMENT_TYPE_MONEY_BOX = "money_box"
+        const val FRAGMENT_TYPE_ADD_MONEY_BOX = "add_money_box"
+        const val FRAGMENT_TYPE_REMOVE_MONEY_BOX = "remove_money_box"
+        const val FRAGMENT_TYPE_DEBT = "debt"
+        const val FRAGMENT_TYPE_LIMIT = "limit"
+        const val FRAGMENT_TYPE_ALARM = "alarm"
+        const val FRAGMENT_TYPE_CATEGORY = "category"
+
+        const val MODE_ADD = "add"
+        const val MODE_EDIT = "edit"
+
+        fun newIntent(
+            context: Context,
+            fragment: String,
+            mode: String,
+            id: Int = UNDEFINED_ID
+        ): Intent {
             val intent = Intent(context, OperationsActivity::class.java)
+            intent.putExtra(EXTRA_FRAGMENT_TYPE, fragment)
             intent.putExtra(EXTRA_MODE, mode)
+            intent.putExtra(EXTRA_ID, id)
             return intent
         }
     }
