@@ -1,5 +1,6 @@
 package com.elliemoritz.coinbook.domain.entities
 
+import com.elliemoritz.coinbook.domain.entities.helpers.UNDEFINED_ID
 import java.sql.Timestamp
 
 data class Debt(
@@ -7,8 +8,4 @@ data class Debt(
     var creditor: String,
     var deadline: Timestamp,
     val id: Int = UNDEFINED_ID
-) {
-    companion object {
-        const val UNDEFINED_ID = 0
-    }
-}
+)

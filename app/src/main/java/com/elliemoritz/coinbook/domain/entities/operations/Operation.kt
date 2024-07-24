@@ -2,6 +2,7 @@ package com.elliemoritz.coinbook.domain.entities.operations
 
 import com.elliemoritz.coinbook.domain.entities.helpers.OperationForm
 import com.elliemoritz.coinbook.domain.entities.helpers.Type
+import com.elliemoritz.coinbook.domain.entities.helpers.UNDEFINED_ID
 import java.sql.Timestamp
 import java.time.LocalDateTime
 
@@ -12,8 +13,4 @@ abstract class Operation(
     var amount: Int,
     var info: String = "",
     val id: Int = UNDEFINED_ID
-) {
-    companion object {
-        const val UNDEFINED_ID = 0
-    }
-}
+)
