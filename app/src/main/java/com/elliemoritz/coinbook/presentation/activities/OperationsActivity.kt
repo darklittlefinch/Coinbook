@@ -46,6 +46,7 @@ class OperationsActivity : AppCompatActivity(), OnEditingListener {
     private fun launchFragment() {
         when (fragmentType) {
             FRAGMENT_TYPE_BALANCE -> launchEditBalanceFragment()
+            FRAGMENT_TYPE_INCOME -> launchAddIncomeFragment()
             else -> Log.d(
                 "OperationsActivity",
                 "Mode not found or yet not implemented"
@@ -55,6 +56,18 @@ class OperationsActivity : AppCompatActivity(), OnEditingListener {
 
     private fun launchEditBalanceFragment() {
         val fragment = EditBalanceFragment.newInstance()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container_operations, fragment)
+            .commit()
+    }
+
+    private fun launchAddIncomeFragment() {
+        val fragment = when (mode) {
+            MODE_ADD -> { AddIncomeFragment.newInstanceAdd() }
+            MODE_EDIT -> { AddIncomeFragment.newInstanceEdit(id) }
+            else -> { throw RuntimeException("Unknown mode for AddIncomeFragment") }
+        }
+
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container_operations, fragment)
             .commit()
