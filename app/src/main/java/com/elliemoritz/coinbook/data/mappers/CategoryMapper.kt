@@ -8,16 +8,12 @@ class CategoryMapper @Inject constructor() {
 
     fun mapEntityToDbModel(category: Category) = CategoryDbModel(
         id = category.id,
-        name = category.name,
-        amount = category.amount,
-        limit = category.limit
+        name = category.name
     )
 
     fun mapDbModelToEntity(categoryDbModel: CategoryDbModel) = Category(
         id = categoryDbModel.id,
-        name = categoryDbModel.name,
-        amount = categoryDbModel.amount,
-        limit = categoryDbModel.limit
+        name = categoryDbModel.name
     )
 
     fun mapListDbModelToListEntities(list: List<CategoryDbModel>) = list.map {

@@ -16,6 +16,7 @@ class LimitsRepositoryImpl @Inject constructor(
 
     private val refreshListEvents = MutableSharedFlow<Unit>()
     private val refreshLimitEvents = MutableSharedFlow<Unit>()
+    private val refreshLimitByCategoryEvents = MutableSharedFlow<Unit>()
     private val refreshCountEvents = MutableSharedFlow<Unit>()
 
     override fun getLimitsList(): Flow<List<Limit>> = flow {
@@ -36,6 +37,25 @@ class LimitsRepositoryImpl @Inject constructor(
         refreshLimitEvents.collect {
             val updatedDbModel = dao.getLimit(id)
             val updatedResult = mapper.mapDbModelToEntity(updatedDbModel)
+            emit(updatedResult)
+        }
+    }
+
+    override fun getLimitByCategoryId(categoryId: Int): Flow<Limit?> = flow {
+        val dbModel = dao.getLimitByCategoryId(categoryId)
+        val result = if (dbModel != null) {
+            mapper.mapDbModelToEntity(dbModel)
+        } else {
+            null
+        }
+        emit(result)
+        refreshLimitByCategoryEvents.collect {
+            val updatedDbModel = dao.getLimitByCategoryId(categoryId)
+            val updatedResult = if (updatedDbModel != null) {
+                mapper.mapDbModelToEntity(updatedDbModel)
+            } else {
+                null
+            }
             emit(updatedResult)
         }
     }
@@ -67,5 +87,6 @@ class LimitsRepositoryImpl @Inject constructor(
         refreshListEvents.emit(Unit)
         refreshLimitEvents.emit(Unit)
         refreshCountEvents.emit(Unit)
+        refreshLimitByCategoryEvents.emit(Unit)
     }
 }

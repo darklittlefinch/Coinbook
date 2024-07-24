@@ -15,6 +15,9 @@ interface LimitsDao {
     @Query("SELECT * FROM limits WHERE id=:limitId LIMIT 1")
     suspend fun getLimit(limitId: Int): LimitDbModel
 
+    @Query("SELECT * FROM limits WHERE categoryId = :categoryId")
+    suspend fun getLimitByCategoryId(categoryId: Int): LimitDbModel?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addLimit(limit: LimitDbModel)
 

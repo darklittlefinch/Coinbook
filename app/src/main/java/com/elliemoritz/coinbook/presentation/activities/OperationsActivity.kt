@@ -9,8 +9,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
 import com.elliemoritz.coinbook.R
 import com.elliemoritz.coinbook.domain.entities.helpers.UNDEFINED_ID
+import com.elliemoritz.coinbook.presentation.fragments.AddCategoryFragment
 import com.elliemoritz.coinbook.presentation.fragments.AddIncomeFragment
 import com.elliemoritz.coinbook.presentation.fragments.EditBalanceFragment
 import com.elliemoritz.coinbook.presentation.util.OnEditingListener
@@ -47,6 +49,7 @@ class OperationsActivity : AppCompatActivity(), OnEditingListener {
         when (fragmentType) {
             FRAGMENT_TYPE_BALANCE -> launchEditBalanceFragment()
             FRAGMENT_TYPE_INCOME -> launchAddIncomeFragment()
+            FRAGMENT_TYPE_CATEGORY -> launchAddCategoryFragment()
             else -> Log.d(
                 "OperationsActivity",
                 "Mode not found or yet not implemented"
@@ -56,9 +59,7 @@ class OperationsActivity : AppCompatActivity(), OnEditingListener {
 
     private fun launchEditBalanceFragment() {
         val fragment = EditBalanceFragment.newInstance()
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container_operations, fragment)
-            .commit()
+        beginFragmentTransaction(fragment)
     }
 
     private fun launchAddIncomeFragment() {
@@ -67,7 +68,19 @@ class OperationsActivity : AppCompatActivity(), OnEditingListener {
             MODE_EDIT -> { AddIncomeFragment.newInstanceEdit(id) }
             else -> { throw RuntimeException("Unknown mode for AddIncomeFragment") }
         }
+        beginFragmentTransaction(fragment)
+    }
 
+    private fun launchAddCategoryFragment() {
+        val fragment = when (mode) {
+            MODE_ADD -> { AddCategoryFragment.newInstanceAdd() }
+            MODE_EDIT -> { AddCategoryFragment.newInstanceEdit(id) }
+            else -> { throw RuntimeException("Unknown mode for AddCategoryFragment") }
+        }
+        beginFragmentTransaction(fragment)
+    }
+
+    private fun beginFragmentTransaction(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container_operations, fragment)
             .commit()

@@ -26,7 +26,7 @@ import com.elliemoritz.coinbook.data.dbModels.OperationDbModel
         MoneyBoxDbModel::class,
         OperationDbModel::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
