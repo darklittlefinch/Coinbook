@@ -1,8 +1,10 @@
 package com.elliemoritz.coinbook.presentation.viewModels
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.elliemoritz.coinbook.domain.entities.MoneyBox
 import com.elliemoritz.coinbook.domain.useCases.alarmsUseCases.GetAlarmsCountUseCase
+import com.elliemoritz.coinbook.domain.useCases.categoriesUseCases.GetCategoriesListUseCase
 import com.elliemoritz.coinbook.domain.useCases.debtsUseCases.GetTotalDebtsAmountUseCase
 import com.elliemoritz.coinbook.domain.useCases.limitsUseCases.GetLimitsCountUseCase
 import com.elliemoritz.coinbook.domain.useCases.moneyBoxUseCases.GetMoneyBoxUseCase
@@ -18,6 +20,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
@@ -28,7 +31,8 @@ class MainViewModel @Inject constructor(
     getMoneyBoxUseCase: GetMoneyBoxUseCase,
     getTotalDebtsAmountUseCase: GetTotalDebtsAmountUseCase,
     getLimitsCountUseCase: GetLimitsCountUseCase,
-    getAlarmsCountUseCase: GetAlarmsCountUseCase
+    getAlarmsCountUseCase: GetAlarmsCountUseCase,
+    private val getCategoriesListUseCase: GetCategoriesListUseCase
 ) : ViewModel() {
 
     companion object {
@@ -86,6 +90,8 @@ class MainViewModel @Inject constructor(
     private val alarmsFlow = getAlarmsCountUseCase()
         .map { MainState.Alarms(it > NO_DATA) }
 
+    private val categoriesFlow = MutableSharedFlow<MainState>()
+
     private val _state = MutableSharedFlow<MainState>()
         .onStart { emit(MainState.Loading) }
         .mergeWith(balanceFlow)
@@ -95,7 +101,19 @@ class MainViewModel @Inject constructor(
         .mergeWith(debtsAmountFlow)
         .mergeWith(limitsFlow)
         .mergeWith(alarmsFlow)
+        .mergeWith(categoriesFlow)
 
     val state: Flow<MainState>
         get() = _state
+
+    fun checkCategories() {
+        viewModelScope.launch {
+            val categories = getCategoriesListUseCase().first()
+            if (categories.isEmpty()) {
+                categoriesFlow.emit(MainState.NoCategoriesError)
+            } else {
+                categoriesFlow.emit(MainState.PermitAddExpense)
+            }
+        }
+    }
 }

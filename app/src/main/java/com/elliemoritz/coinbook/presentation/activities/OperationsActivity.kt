@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import com.elliemoritz.coinbook.R
 import com.elliemoritz.coinbook.domain.entities.helpers.UNDEFINED_ID
 import com.elliemoritz.coinbook.presentation.fragments.AddCategoryFragment
+import com.elliemoritz.coinbook.presentation.fragments.AddExpenseFragment
 import com.elliemoritz.coinbook.presentation.fragments.AddIncomeFragment
 import com.elliemoritz.coinbook.presentation.fragments.EditBalanceFragment
 import com.elliemoritz.coinbook.presentation.util.OnEditingListener
@@ -49,6 +50,7 @@ class OperationsActivity : AppCompatActivity(), OnEditingListener {
         when (fragmentType) {
             FRAGMENT_TYPE_BALANCE -> launchEditBalanceFragment()
             FRAGMENT_TYPE_INCOME -> launchAddIncomeFragment()
+            FRAGMENT_TYPE_EXPENSE -> launchAddExpenseFragment()
             FRAGMENT_TYPE_CATEGORY -> launchAddCategoryFragment()
             else -> Log.d(
                 "OperationsActivity",
@@ -67,6 +69,15 @@ class OperationsActivity : AppCompatActivity(), OnEditingListener {
             MODE_ADD -> { AddIncomeFragment.newInstanceAdd() }
             MODE_EDIT -> { AddIncomeFragment.newInstanceEdit(id) }
             else -> { throw RuntimeException("Unknown mode for AddIncomeFragment") }
+        }
+        beginFragmentTransaction(fragment)
+    }
+
+    private fun launchAddExpenseFragment() {
+        val fragment = when (mode) {
+            MODE_ADD -> { AddExpenseFragment.newInstanceAdd() }
+            MODE_EDIT -> { AddExpenseFragment.newInstanceEdit(id) }
+            else -> { throw RuntimeException("Unknown mode for AddExpenseFragment") }
         }
         beginFragmentTransaction(fragment)
     }
