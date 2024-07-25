@@ -2,7 +2,6 @@ package com.elliemoritz.coinbook.data.mappers
 
 import com.elliemoritz.coinbook.data.dbModels.DebtDbModel
 import com.elliemoritz.coinbook.domain.entities.Debt
-import java.sql.Timestamp
 import javax.inject.Inject
 
 class DebtMapper @Inject constructor() {
