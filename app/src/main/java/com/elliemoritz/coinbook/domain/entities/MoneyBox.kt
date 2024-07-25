@@ -4,10 +4,10 @@ import java.sql.Timestamp
 
 data class MoneyBox(
     var goalAmount: Int,
-    var totalAmount: Int,
     var goal: String,
     val started: Timestamp,
     var deadline: Timestamp,
+    var totalAmount: Int = 0,
     val id: Int = MONEY_BOX_ID
 ) {
     companion object {

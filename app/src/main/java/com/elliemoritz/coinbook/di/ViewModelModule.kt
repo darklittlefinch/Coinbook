@@ -6,6 +6,7 @@ import com.elliemoritz.coinbook.presentation.viewModels.MainViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.SettingsViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.fragmentsViewModels.AddCategoryViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.fragmentsViewModels.AddIncomeViewModel
+import com.elliemoritz.coinbook.presentation.viewModels.fragmentsViewModels.AddMoneyBoxViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.fragmentsViewModels.EditBalanceViewModel
 import dagger.Binds
 import dagger.Module
@@ -38,6 +39,11 @@ interface ViewModelModule {
     @IntoMap
     @ViewModelKey(AddExpenseViewModel::class)
     fun bindAddExpenseViewModel(viewModel: AddExpenseViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AddMoneyBoxViewModel::class)
+    fun bindAddMoneyBoxViewModel(viewModel: AddMoneyBoxViewModel): ViewModel
 
     @Binds
     @IntoMap

@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetMoneyBoxUseCase @Inject constructor(
     private val moneyBoxRepository: MoneyBoxRepository
 ) {
-    operator fun invoke(id: Int): Flow<MoneyBox?> {
-        return moneyBoxRepository.getMoneyBox(id)
+    operator fun invoke(): Flow<MoneyBox?> {
+        return moneyBoxRepository.getMoneyBox()
     }
 }

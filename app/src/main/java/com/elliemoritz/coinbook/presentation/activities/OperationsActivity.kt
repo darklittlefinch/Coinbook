@@ -15,8 +15,12 @@ import com.elliemoritz.coinbook.domain.entities.helpers.UNDEFINED_ID
 import com.elliemoritz.coinbook.presentation.fragments.AddCategoryFragment
 import com.elliemoritz.coinbook.presentation.fragments.AddExpenseFragment
 import com.elliemoritz.coinbook.presentation.fragments.AddIncomeFragment
+import com.elliemoritz.coinbook.presentation.fragments.AddMoneyBoxFragment
+import com.elliemoritz.coinbook.presentation.fragments.DatePickerDialogFragment
 import com.elliemoritz.coinbook.presentation.fragments.EditBalanceFragment
 import com.elliemoritz.coinbook.presentation.util.OnEditingListener
+import java.text.SimpleDateFormat
+import java.util.Calendar
 
 class OperationsActivity : AppCompatActivity(), OnEditingListener {
 
@@ -52,6 +56,7 @@ class OperationsActivity : AppCompatActivity(), OnEditingListener {
             FRAGMENT_TYPE_INCOME -> launchAddIncomeFragment()
             FRAGMENT_TYPE_EXPENSE -> launchAddExpenseFragment()
             FRAGMENT_TYPE_CATEGORY -> launchAddCategoryFragment()
+            FRAGMENT_TYPE_MONEY_BOX -> launchAddMoneyBoxFragment()
             else -> Log.d(
                 "OperationsActivity",
                 "Mode not found or yet not implemented"
@@ -66,27 +71,68 @@ class OperationsActivity : AppCompatActivity(), OnEditingListener {
 
     private fun launchAddIncomeFragment() {
         val fragment = when (mode) {
-            MODE_ADD -> { AddIncomeFragment.newInstanceAdd() }
-            MODE_EDIT -> { AddIncomeFragment.newInstanceEdit(id) }
-            else -> { throw RuntimeException("Unknown mode for AddIncomeFragment") }
+            MODE_ADD -> {
+                AddIncomeFragment.newInstanceAdd()
+            }
+
+            MODE_EDIT -> {
+                AddIncomeFragment.newInstanceEdit(id)
+            }
+
+            else -> {
+                throw RuntimeException("Unknown mode for AddIncomeFragment")
+            }
         }
         beginFragmentTransaction(fragment)
     }
 
     private fun launchAddExpenseFragment() {
         val fragment = when (mode) {
-            MODE_ADD -> { AddExpenseFragment.newInstanceAdd() }
-            MODE_EDIT -> { AddExpenseFragment.newInstanceEdit(id) }
-            else -> { throw RuntimeException("Unknown mode for AddExpenseFragment") }
+            MODE_ADD -> {
+                AddExpenseFragment.newInstanceAdd()
+            }
+
+            MODE_EDIT -> {
+                AddExpenseFragment.newInstanceEdit(id)
+            }
+
+            else -> {
+                throw RuntimeException("Unknown mode for AddExpenseFragment")
+            }
+        }
+        beginFragmentTransaction(fragment)
+    }
+
+    private fun launchAddMoneyBoxFragment() {
+        val fragment = when (mode) {
+            MODE_ADD -> {
+                AddMoneyBoxFragment.newInstanceAdd()
+            }
+
+            MODE_EDIT -> {
+                AddMoneyBoxFragment.newInstanceEdit()
+            }
+
+            else -> {
+                throw RuntimeException("Unknown mode for AddMoneyBoxFragment")
+            }
         }
         beginFragmentTransaction(fragment)
     }
 
     private fun launchAddCategoryFragment() {
         val fragment = when (mode) {
-            MODE_ADD -> { AddCategoryFragment.newInstanceAdd() }
-            MODE_EDIT -> { AddCategoryFragment.newInstanceEdit(id) }
-            else -> { throw RuntimeException("Unknown mode for AddCategoryFragment") }
+            MODE_ADD -> {
+                AddCategoryFragment.newInstanceAdd()
+            }
+
+            MODE_EDIT -> {
+                AddCategoryFragment.newInstanceEdit(id)
+            }
+
+            else -> {
+                throw RuntimeException("Unknown mode for AddCategoryFragment")
+            }
         }
         beginFragmentTransaction(fragment)
     }

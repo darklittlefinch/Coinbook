@@ -1,60 +1,159 @@
 package com.elliemoritz.coinbook.presentation.fragments
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.elliemoritz.coinbook.R
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.elliemoritz.coinbook.databinding.FragmentAddMoneyBoxBinding
+import com.elliemoritz.coinbook.presentation.CoinBookApp
+import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentMoneyBoxState
+import com.elliemoritz.coinbook.presentation.util.OnEditingListener
+import com.elliemoritz.coinbook.presentation.viewModels.ViewModelFactory
+import com.elliemoritz.coinbook.presentation.viewModels.fragmentsViewModels.AddMoneyBoxViewModel
+import kotlinx.coroutines.launch
+import java.util.Calendar
+import javax.inject.Inject
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class AddMoneyBoxFragment : Fragment(), DatePickerDialogFragment.OnDateChangedListener {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [AddMoneyBoxFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class AddMoneyBoxFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var onEditingListener: OnEditingListener
+
+    private val component by lazy {
+        (requireActivity().application as CoinBookApp).component
+    }
+
+    private var _binding: FragmentAddMoneyBoxBinding? = null
+    private val binding
+        get() = _binding!!
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    private val viewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[AddMoneyBoxViewModel::class.java]
+    }
+
+    private var mode: String = MODE_UNKNOWN
+
+    private var deadline: Calendar? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        component.inject(this)
+
+        if (context is OnEditingListener) {
+            onEditingListener = context
+        } else {
+            throw RuntimeException("Activity must implement OnEditingListener")
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            mode = it.getString(MODE, MODE_UNKNOWN)
         }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_money_box, container, false)
+    ): View {
+        _binding = FragmentAddMoneyBoxBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setOnClickListener()
+        observeViewModel()
+        setMode()
+    }
+
+    private fun setOnClickListener() {
+        binding.tvAddMoneyBoxDate.setOnClickListener {
+            val dialogFragment = DatePickerDialogFragment.newInstance(this)
+            dialogFragment.show(parentFragmentManager, DatePickerDialogFragment.TAG)
+        }
+    }
+
+    private fun observeViewModel() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.state.collect {
+                    when (it) {
+                        is FragmentMoneyBoxState.Data -> {
+                            binding.etAddMoneyBoxAmount.hint = it.goalAmount
+                            binding.etAddMoneyBoxGoal.hint = it.goal
+                            binding.tvAddMoneyBoxDate.text = it.deadline
+                        }
+
+                        is FragmentMoneyBoxState.Deadline -> {
+                            binding.tvAddMoneyBoxDate.text = it.date
+                        }
+
+                        is FragmentMoneyBoxState.Error -> onEditingListener.onError()
+                        is FragmentMoneyBoxState.Finish -> onEditingListener.onEditingFinished()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setMode() {
+        when (mode) {
+            MODE_ADD -> {
+                binding.buttonAddMoneyBox.setOnClickListener {
+                    val goalAmount = binding.etAddMoneyBoxAmount.text.toString()
+                    val goal = binding.etAddMoneyBoxAmount.text.toString()
+                    val date = deadline
+                    viewModel.createMoneyBox(goalAmount, goal, date)
+                }
+            }
+
+            MODE_EDIT -> {
+                viewModel.setData()
+                binding.buttonAddMoneyBox.setOnClickListener {
+                    val goalAmount = binding.etAddMoneyBoxAmount.text.toString()
+                    val goal = binding.etAddMoneyBoxAmount.text.toString()
+                    val date = deadline
+                    viewModel.editMoneyBox(goalAmount, goal, date)
+                }
+            }
+        }
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AddMoneyBoxFragment.
-         */
-        // TODO: Rename and change types and number of parameters
+
+        private const val MODE = "mode"
+        private const val MODE_ADD = "add"
+        private const val MODE_EDIT = "edit"
+        private const val MODE_UNKNOWN = ""
+
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstanceAdd() =
             AddMoneyBoxFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                    putString(MODE, MODE_ADD)
                 }
             }
+
+        @JvmStatic
+        fun newInstanceEdit() =
+            AddMoneyBoxFragment().apply {
+                arguments = Bundle().apply {
+                    putString(MODE, MODE_EDIT)
+                }
+            }
+    }
+
+    override fun onDateChanged(calendar: Calendar) {
+        viewModel.setNewDate(calendar)
+        deadline = calendar
     }
 }

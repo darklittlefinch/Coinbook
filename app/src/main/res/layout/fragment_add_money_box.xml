@@ -23,54 +23,53 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/tv_add_alarm_title"
+                android:id="@+id/tv_add_money_box_title"
                 style="@style/add_fragments_titles"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/dialog_create_money_box"
-                app:layout_constraintBottom_toTopOf="@id/et_add_alarm_amount"
+                app:layout_constraintBottom_toTopOf="@id/et_add_money_box_amount"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/et_add_alarm_amount"
+                android:id="@+id/et_add_money_box_amount"
                 style="@style/add_fragments_inputs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_amount"
                 android:inputType="number"
-                app:layout_constraintBottom_toTopOf="@id/et_add_alarm_creditor"
+                app:layout_constraintBottom_toTopOf="@id/et_add_money_box_goal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_add_alarm_title" />
+                app:layout_constraintTop_toBottomOf="@id/tv_add_money_box_title" />
 
             <EditText
-                android:id="@+id/et_add_alarm_creditor"
+                android:id="@+id/et_add_money_box_goal"
                 style="@style/add_fragments_inputs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_money_box"
                 android:inputType="text"
-                app:layout_constraintBottom_toTopOf="@id/et_add_alarm_date"
+                app:layout_constraintBottom_toTopOf="@id/tv_add_money_box_date"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/et_add_alarm_amount" />
+                app:layout_constraintTop_toBottomOf="@id/et_add_money_box_amount" />
 
-            <EditText
-                android:id="@+id/et_add_alarm_date"
+            <TextView
+                android:id="@+id/tv_add_money_box_date"
                 style="@style/add_fragments_inputs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_deadline"
-                android:inputType="date"
-                app:layout_constraintBottom_toTopOf="@id/button_add_alarm"
+                app:layout_constraintBottom_toTopOf="@id/button_add_money_box"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/et_add_alarm_creditor" />
+                app:layout_constraintTop_toBottomOf="@id/et_add_money_box_goal" />
 
             <Button
-                android:id="@+id/button_add_alarm"
+                android:id="@+id/button_add_money_box"
                 style="@style/add_fragments_buttons"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -78,7 +77,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/et_add_alarm_date" />
+                app:layout_constraintTop_toBottomOf="@id/tv_add_money_box_date" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

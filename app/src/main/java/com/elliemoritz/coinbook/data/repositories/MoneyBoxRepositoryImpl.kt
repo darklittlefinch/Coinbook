@@ -16,8 +16,8 @@ class MoneyBoxRepositoryImpl @Inject constructor(
 
     private val refreshEvents = MutableSharedFlow<Unit>()
 
-    override fun getMoneyBox(id: Int): Flow<MoneyBox?> = flow {
-        val dbModel = dao.getMoneyBox(id)
+    override fun getMoneyBox(): Flow<MoneyBox?> = flow {
+        val dbModel = dao.getMoneyBox(MoneyBox.MONEY_BOX_ID)
         val result = if (dbModel != null) {
             mapper.mapDbModelToEntity(dbModel)
         } else {
@@ -25,7 +25,7 @@ class MoneyBoxRepositoryImpl @Inject constructor(
         }
         emit(result)
         refreshEvents.collect {
-            val updatedDbModel = dao.getMoneyBox(id)
+            val updatedDbModel = dao.getMoneyBox(MoneyBox.MONEY_BOX_ID)
             val updatedResult = if (updatedDbModel != null) {
                 mapper.mapDbModelToEntity(updatedDbModel)
             } else {

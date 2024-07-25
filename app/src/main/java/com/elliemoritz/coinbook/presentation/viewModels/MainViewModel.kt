@@ -58,7 +58,7 @@ class MainViewModel @Inject constructor(
             MainState.Expenses(formatAmount(it, currency))
         }
 
-    private val moneyBoxFlow = getMoneyBoxUseCase(MoneyBox.MONEY_BOX_ID)
+    private val moneyBoxFlow = getMoneyBoxUseCase()
         .map {
             val moneyBoxWasStarted: Boolean
             val moneyBoxAmount: Int
