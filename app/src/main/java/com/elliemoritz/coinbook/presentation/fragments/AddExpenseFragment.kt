@@ -50,7 +50,9 @@ class AddExpenseFragment : Fragment() {
         if (context is OnEditingListener) {
             onEditingListener = context
         } else {
-            throw RuntimeException("Activity must implement OnEditingListener")
+            throw RuntimeException(
+                "AddExpenseFragment: Activity must implement OnEditingListener"
+            )
         }
     }
 
@@ -131,7 +133,9 @@ class AddExpenseFragment : Fragment() {
                 }
             }
 
-            else -> throw RuntimeException("Unknown mode for AddExpenseFragment")
+            else -> throw RuntimeException(
+                "AddExpenseFragment: Unknown mode for AddExpenseFragment"
+            )
         }
     }
 

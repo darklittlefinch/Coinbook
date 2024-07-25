@@ -40,7 +40,7 @@ class OperationsMapper @Inject constructor() {
             TYPE_INCOME -> Type.INCOME
             TYPE_EXPENSE -> Type.EXPENSE
             else -> {
-                throw RuntimeException("Unknown type")
+                throw RuntimeException("OperationsMapper: Unknown type")
             }
         }
     }
@@ -116,7 +116,7 @@ class OperationsMapper @Inject constructor() {
             OPERATION_FORM_MONEY_BOX_OPERATION -> mapDbModelToMoneyBoxOperation(dbModel)
             OPERATION_FORM_DEBT -> mapDbModelToDebtOperation(dbModel)
             else -> {
-                throw RuntimeException("Unknown operation form")
+                throw RuntimeException("OperationsMapper: Unknown operation form")
             }
         }
     }

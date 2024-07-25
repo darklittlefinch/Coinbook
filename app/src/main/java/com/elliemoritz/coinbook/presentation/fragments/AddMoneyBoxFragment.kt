@@ -46,7 +46,9 @@ class AddMoneyBoxFragment : Fragment() {
         if (context is OnEditingListener) {
             onEditingListener = context
         } else {
-            throw RuntimeException("Activity must implement OnEditingListener")
+            throw RuntimeException(
+                "AddMoneyBoxFragment: Activity must implement OnEditingListener"
+            )
         }
     }
 
@@ -116,6 +118,10 @@ class AddMoneyBoxFragment : Fragment() {
                     viewModel.editMoneyBox(goalAmount, goal)
                 }
             }
+
+            else -> throw RuntimeException(
+                "AddMoneyBoxFragment: Unknown mode for AddMoneyBoxFragment"
+            )
         }
     }
 

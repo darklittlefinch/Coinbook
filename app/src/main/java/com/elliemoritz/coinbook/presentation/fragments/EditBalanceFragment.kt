@@ -44,7 +44,9 @@ class EditBalanceFragment : Fragment() {
         if (context is OnEditingListener) {
             onEditingListener = context
         } else {
-            throw RuntimeException("Activity must implement OnEditingFinishedListener")
+            throw RuntimeException(
+                "EditBalanceFragment: Activity must implement OnEditingFinishedListener"
+            )
         }
     }
 

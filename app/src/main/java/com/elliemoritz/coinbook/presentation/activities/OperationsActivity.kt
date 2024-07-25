@@ -77,7 +77,7 @@ class OperationsActivity : AppCompatActivity(), OnEditingListener {
             }
 
             else -> {
-                throw RuntimeException("Unknown mode for AddIncomeFragment")
+                throw RuntimeException("OperationsActivity: Unknown mode for AddIncomeFragment")
             }
         }
         beginFragmentTransaction(fragment)
@@ -94,7 +94,7 @@ class OperationsActivity : AppCompatActivity(), OnEditingListener {
             }
 
             else -> {
-                throw RuntimeException("Unknown mode for AddExpenseFragment")
+                throw RuntimeException("OperationsActivity: Unknown mode for AddExpenseFragment")
             }
         }
         beginFragmentTransaction(fragment)
@@ -111,7 +111,7 @@ class OperationsActivity : AppCompatActivity(), OnEditingListener {
             }
 
             else -> {
-                throw RuntimeException("Unknown mode for AddMoneyBoxFragment")
+                throw RuntimeException("OperationsActivity: Unknown mode for AddMoneyBoxFragment")
             }
         }
         beginFragmentTransaction(fragment)
@@ -128,7 +128,7 @@ class OperationsActivity : AppCompatActivity(), OnEditingListener {
             }
 
             else -> {
-                throw RuntimeException("Unknown mode for AddCategoryFragment")
+                throw RuntimeException("OperationsActivity: Unknown mode for AddCategoryFragment")
             }
         }
         beginFragmentTransaction(fragment)

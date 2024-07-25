@@ -48,7 +48,9 @@ class AddIncomeFragment : Fragment() {
         if (context is OnEditingListener) {
             onEditingListener = context
         } else {
-            throw RuntimeException("Activity must implement OnEditingFinishedListener")
+            throw RuntimeException(
+                "AddIncomeFragment: Activity must implement OnEditingFinishedListener"
+            )
         }
     }
 
@@ -95,9 +97,9 @@ class AddIncomeFragment : Fragment() {
                 }
             }
 
-            else -> {
-                throw RuntimeException("Unknown mode for AddIncomeFragment")
-            }
+            else -> throw RuntimeException(
+                "AddIncomeFragment: Unknown mode for AddIncomeFragment"
+            )
         }
     }
 

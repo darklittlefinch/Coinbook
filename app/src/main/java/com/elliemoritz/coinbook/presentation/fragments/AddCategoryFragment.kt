@@ -48,7 +48,9 @@ class AddCategoryFragment : Fragment() {
         if (context is OnEditingListener) {
             onEditingListener = context
         } else {
-            throw RuntimeException("Activity must implement OnEditingListener")
+            throw RuntimeException(
+                "AddCategoryFragment: Activity must implement OnEditingListener"
+            )
         }
     }
 
@@ -124,9 +126,9 @@ class AddCategoryFragment : Fragment() {
                 }
             }
 
-            else -> {
-                throw RuntimeException("Unknown mode for AddIncomeFragment")
-            }
+            else -> throw RuntimeException(
+                "AddCategoryFragment: Unknown mode for AddCategoryFragment"
+            )
         }
     }
 
