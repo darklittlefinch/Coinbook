@@ -1,5 +1,6 @@
 package com.elliemoritz.coinbook.presentation.fragments
 
+import android.R
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -83,7 +84,7 @@ class AddExpenseFragment : Fragment() {
                         is FragmentExpenseState.Categories -> {
                             val adapter = ArrayAdapter(
                                 requireContext(),
-                                android.R.layout.simple_spinner_item,
+                                R.layout.simple_spinner_item,
                                 it.categories
                             )
                             binding.spinnerAddExpenses.adapter = adapter
@@ -93,13 +94,18 @@ class AddExpenseFragment : Fragment() {
                             binding.etAddExpenseAmount.hint = it.amount
                         }
 
-                        is FragmentExpenseState.Error -> {
-                            onEditingListener.onError()
+                        is FragmentExpenseState.EmptyFields -> {
+                            onEditingListener.onEmptyFields()
+                        }
+
+                        is FragmentExpenseState.IncorrectNumber -> {
+                            onEditingListener.onIncorrectNumber()
                         }
 
                         is FragmentExpenseState.Finish -> {
-                            onEditingListener.onEditingFinished()
+                            onEditingListener.onFinished()
                         }
+
                     }
                 }
             }

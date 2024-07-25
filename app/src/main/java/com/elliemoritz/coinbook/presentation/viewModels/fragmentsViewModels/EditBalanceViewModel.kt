@@ -31,7 +31,7 @@ class EditBalanceViewModel @Inject constructor(
         viewModelScope.launch {
 
             if (amountString.isEmpty()) {
-                setErrorState()
+                setEmptyFieldsState()
                 return@launch
             }
 
@@ -40,7 +40,7 @@ class EditBalanceViewModel @Inject constructor(
                 editBalanceUseCase(amount)
                 setFinishState()
             } catch (e: NumberFormatException) {
-                setErrorState()
+                setIncorrectNumberState()
             }
         }
     }
@@ -49,7 +49,11 @@ class EditBalanceViewModel @Inject constructor(
         _state.emit(FragmentBalanceState.Finish)
     }
 
-    private suspend fun setErrorState() {
-        _state.emit(FragmentBalanceState.Error)
+    private suspend fun setEmptyFieldsState() {
+        _state.emit(FragmentBalanceState.EmptyField)
+    }
+
+    private suspend fun setIncorrectNumberState() {
+        _state.emit(FragmentBalanceState.IncorrectNumber)
     }
 }

@@ -1,6 +1,7 @@
 package com.elliemoritz.coinbook.presentation.util
 
 interface OnEditingListener {
-    fun onEditingFinished()
-    fun onError()
+    fun onFinished()
+    fun onEmptyFields()
+    fun onIncorrectNumber()
 }

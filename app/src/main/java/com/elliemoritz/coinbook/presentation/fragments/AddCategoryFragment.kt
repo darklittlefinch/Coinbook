@@ -87,8 +87,17 @@ class AddCategoryFragment : Fragment() {
                             binding.etAddCategoryLimit.hint = it.limit
                         }
 
-                        is FragmentCategoryState.Error -> onEditingListener.onError()
-                        is FragmentCategoryState.Finish -> onEditingListener.onEditingFinished()
+                        is FragmentCategoryState.EmptyFields -> {
+                            onEditingListener.onEmptyFields()
+                        }
+
+                        is FragmentCategoryState.IncorrectNumber -> {
+                            onEditingListener.onIncorrectNumber()
+                        }
+
+                        is FragmentCategoryState.Finish -> {
+                            onEditingListener.onFinished()
+                        }
                     }
                 }
             }
@@ -115,7 +124,9 @@ class AddCategoryFragment : Fragment() {
                 }
             }
 
-            else -> { throw RuntimeException("Unknown mode for AddIncomeFragment") }
+            else -> {
+                throw RuntimeException("Unknown mode for AddIncomeFragment")
+            }
         }
     }
 

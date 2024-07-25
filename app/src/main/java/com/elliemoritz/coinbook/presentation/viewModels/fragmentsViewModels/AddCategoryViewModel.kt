@@ -58,45 +58,49 @@ class AddCategoryViewModel @Inject constructor(
         }
     }
 
-    fun createCategory(name: String, limitString: String) {
+    fun createCategory(name: String, limitAmountString: String) {
         viewModelScope.launch {
 
-            if (name.isEmpty() || limitString.isEmpty()) {
-                setErrorState()
+            if (name.isEmpty() || limitAmountString.isEmpty()) {
+                setEmptyFieldsState()
                 return@launch
             }
 
             try {
-                val limit = limitString.toInt()
+                val limitAmount = limitAmountString.toInt()
                 val category = Category(name)
                 addCategoryUseCase(category)
-                createLimit(limit, category.id)
+
+                if (limitAmount != 0) {
+                    createLimit(limitAmount, category.id)
+                }
+
                 setFinishState()
             } catch (e: NumberFormatException) {
-                setErrorState()
+                setIncorrectNumberState()
             }
         }
     }
 
-    fun editCategory(id: Int, name: String, newLimitString: String) {
+    fun editCategory(id: Int, newName: String, newLimitAmountString: String) {
         viewModelScope.launch {
 
-            if (name.isEmpty() || newLimitString.isEmpty()) {
-                setErrorState()
+            if (newName.isEmpty() || newLimitAmountString.isEmpty()) {
+                setEmptyFieldsState()
                 return@launch
             }
 
             try {
-                val newLimit = newLimitString.toInt()
-                val category = Category(name, id)
+                val newLimitAmount = newLimitAmountString.toInt()
+                val category = Category(newName, id)
                 editCategoryUseCase(category)
 
                 val oldLimit = limitData.first()
-                handleLimit(oldLimit, newLimit, id)
+                handleLimit(oldLimit, newLimitAmount, id)
 
                 setFinishState()
             } catch (e: NumberFormatException) {
-                setErrorState()
+                setIncorrectNumberState()
             }
         }
     }
@@ -108,7 +112,7 @@ class AddCategoryViewModel @Inject constructor(
         if (oldLimitAmount == 0 && newAmount != 0) {
             createLimit(newAmount, categoryId)
         } else if (oldLimitAmount != 0 && newAmount == 0) {
-            oldLimit?.let { removeLimit(it) }
+            oldLimit?.let { removeLimitUseCase(it) }
         } else if (oldLimitAmount != newAmount) {
             oldLimit?.let { editLimit(it, newAmount) }
         }
@@ -124,15 +128,15 @@ class AddCategoryViewModel @Inject constructor(
         editLimitUseCase(limit)
     }
 
-    private suspend fun removeLimit(limit: Limit) {
-        removeLimitUseCase(limit)
-    }
-
-    private suspend fun setErrorState() {
-        _state.emit(FragmentCategoryState.Error)
-    }
-
     private suspend fun setFinishState() {
         _state.emit(FragmentCategoryState.Finish)
+    }
+
+    private suspend fun setEmptyFieldsState() {
+        _state.emit(FragmentCategoryState.EmptyFields)
+    }
+
+    private suspend fun setIncorrectNumberState() {
+        _state.emit(FragmentCategoryState.IncorrectNumber)
     }
 }

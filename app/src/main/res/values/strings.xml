@@ -2,8 +2,9 @@
     <string name="app_name">Coinbook</string>
 
     <string name="toast_settings_saved">Settings were successfully saved!</string>
-    <string name="toast_error">Fields must not be empty!</string>
-    <string name="toast_success">Editing completed successfully!</string>
+    <string name="toast_success">Data saved successfully</string>
+    <string name="toast_error_empty_fields">Fields must not be empty</string>
+    <string name="toast_error_incorrect_number">Field for numbers must not contain other characters</string>
     <string name="toast_create_category">Create at least one category</string>
 
     <string name="title_balance">Balance</string>

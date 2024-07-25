@@ -111,12 +111,16 @@ class AddIncomeFragment : Fragment() {
                             binding.etAddIncomeSource.hint = it.source
                         }
 
-                        is FragmentIncomeState.Error -> {
-                            onEditingListener.onError()
+                        is FragmentIncomeState.EmptyFields -> {
+                            onEditingListener.onEmptyFields()
+                        }
+
+                        is FragmentIncomeState.IncorrectNumber -> {
+                            onEditingListener.onIncorrectNumber()
                         }
 
                         is FragmentIncomeState.Finish -> {
-                            onEditingListener.onEditingFinished()
+                            onEditingListener.onFinished()
                         }
                     }
                 }

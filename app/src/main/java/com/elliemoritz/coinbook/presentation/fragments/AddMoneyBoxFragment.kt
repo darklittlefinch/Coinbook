@@ -81,8 +81,17 @@ class AddMoneyBoxFragment : Fragment() {
                             binding.etAddMoneyBoxGoal.hint = it.goal
                         }
 
-                        is FragmentMoneyBoxState.Error -> onEditingListener.onError()
-                        is FragmentMoneyBoxState.Finish -> onEditingListener.onEditingFinished()
+                        is FragmentMoneyBoxState.EmptyFields -> {
+                            onEditingListener.onEmptyFields()
+                        }
+
+                        is FragmentMoneyBoxState.IncorrectNumber -> {
+                            onEditingListener.onIncorrectNumber()
+                        }
+
+                        is FragmentMoneyBoxState.Finish -> {
+                            onEditingListener.onFinished()
+                        }
                     }
                 }
             }

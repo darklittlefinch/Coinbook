@@ -65,7 +65,7 @@ class AddExpenseViewModel @Inject constructor(
         viewModelScope.launch {
 
             if (amountString.isEmpty()) {
-                setErrorState()
+                setEmptyFieldsState()
                 return@launch
             }
 
@@ -76,7 +76,7 @@ class AddExpenseViewModel @Inject constructor(
                 removeFromBalanceUseCase(amount)
                 setFinishState()
             } catch (e: NumberFormatException) {
-                setErrorState()
+                setIncorrectNumberState()
             }
         }
     }
@@ -85,7 +85,7 @@ class AddExpenseViewModel @Inject constructor(
         viewModelScope.launch {
 
             if (newAmountString.isEmpty()) {
-                setErrorState()
+                setEmptyFieldsState()
                 return@launch
             }
 
@@ -99,7 +99,7 @@ class AddExpenseViewModel @Inject constructor(
 
                 setFinishState()
             } catch (e: NumberFormatException) {
-                setErrorState()
+                setIncorrectNumberState()
             }
         }
     }
@@ -117,7 +117,11 @@ class AddExpenseViewModel @Inject constructor(
         _state.emit(FragmentExpenseState.Finish)
     }
 
-    private suspend fun setErrorState() {
-        _state.emit(FragmentExpenseState.Error)
+    private suspend fun setEmptyFieldsState() {
+        _state.emit(FragmentExpenseState.EmptyFields)
+    }
+
+    private suspend fun setIncorrectNumberState() {
+        _state.emit(FragmentExpenseState.IncorrectNumber)
     }
 }

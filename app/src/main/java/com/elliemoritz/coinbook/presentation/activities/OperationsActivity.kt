@@ -173,7 +173,7 @@ class OperationsActivity : AppCompatActivity(), OnEditingListener {
         }
     }
 
-    override fun onEditingFinished() {
+    override fun onFinished() {
         Toast.makeText(
             this,
             getString(R.string.toast_success),
@@ -183,10 +183,18 @@ class OperationsActivity : AppCompatActivity(), OnEditingListener {
         finish()
     }
 
-    override fun onError() {
+    override fun onEmptyFields() {
         Toast.makeText(
             this,
-            getString(R.string.toast_error),
+            getString(R.string.toast_error_empty_fields),
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    override fun onIncorrectNumber() {
+        Toast.makeText(
+            this,
+            getString(R.string.toast_error_incorrect_number),
             Toast.LENGTH_SHORT
         ).show()
     }

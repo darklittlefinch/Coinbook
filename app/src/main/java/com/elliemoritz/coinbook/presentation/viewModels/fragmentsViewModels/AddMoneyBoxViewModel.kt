@@ -51,7 +51,7 @@ class AddMoneyBoxViewModel @Inject constructor(
         viewModelScope.launch {
 
             if (goalAmountString.isEmpty() || goal.isEmpty()) {
-                setErrorState()
+                setEmptyFieldsState()
                 return@launch
             }
 
@@ -66,7 +66,7 @@ class AddMoneyBoxViewModel @Inject constructor(
 
                 setFinishState()
             } catch (e: NumberFormatException) {
-                setErrorState()
+                setIncorrectNumberState()
             }
         }
     }
@@ -75,7 +75,7 @@ class AddMoneyBoxViewModel @Inject constructor(
         viewModelScope.launch {
 
             if (newGoalAmountString.isEmpty() || newGoal.isEmpty()) {
-                setErrorState()
+                setEmptyFieldsState()
                 return@launch
             }
 
@@ -90,16 +90,20 @@ class AddMoneyBoxViewModel @Inject constructor(
 
                 setFinishState()
             } catch (e: NumberFormatException) {
-                setErrorState()
+                setIncorrectNumberState()
             }
         }
     }
 
-    private suspend fun setErrorState() {
-        _state.emit(FragmentMoneyBoxState.Error)
-    }
-
     private suspend fun setFinishState() {
         _state.emit(FragmentMoneyBoxState.Finish)
+    }
+
+    private suspend fun setEmptyFieldsState() {
+        _state.emit(FragmentMoneyBoxState.EmptyFields)
+    }
+
+    private suspend fun setIncorrectNumberState() {
+        _state.emit(FragmentMoneyBoxState.IncorrectNumber)
     }
 }
