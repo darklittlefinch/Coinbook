@@ -79,11 +79,11 @@ class AddCategoryFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.state.collect {
                     when (it) {
-                        is FragmentCategoryState.NameData -> {
+                        is FragmentCategoryState.Name -> {
                             binding.etAddCategoryName.hint = it.name
                         }
 
-                        is FragmentCategoryState.LimitData -> {
+                        is FragmentCategoryState.Limit -> {
                             binding.etAddCategoryLimit.hint = it.limit
                         }
 

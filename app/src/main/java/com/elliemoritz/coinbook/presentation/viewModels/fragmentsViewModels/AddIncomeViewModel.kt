@@ -1,6 +1,5 @@
 package com.elliemoritz.coinbook.presentation.viewModels.fragmentsViewModels
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elliemoritz.coinbook.domain.entities.operations.Income
@@ -28,36 +27,31 @@ class AddIncomeViewModel @Inject constructor(
     private val removeFromBalanceUseCase: RemoveFromBalanceUseCase
 ) : ViewModel() {
 
-    private val oldData = MutableSharedFlow<Income>()
+    private val dataFlow = MutableSharedFlow<Income>()
 
-    private val dataFlow = oldData
+    private val dataStateFlow = dataFlow
         .map {
             FragmentIncomeState.Data(
                 it.incAmount.toString(),
                 it.incSource
             )
         }
-    private val finishFlow = MutableSharedFlow<FragmentIncomeState>()
-    private val errorFlow = MutableSharedFlow<FragmentIncomeState>()
 
     private val _state = MutableSharedFlow<FragmentIncomeState>()
-        .mergeWith(dataFlow)
-        .mergeWith(finishFlow)
-        .mergeWith(errorFlow)
 
     val state: Flow<FragmentIncomeState>
         get() = _state
+            .mergeWith(dataStateFlow)
 
     fun setData(id: Int) {
         viewModelScope.launch {
             val data = getOperationUseCase(id).first() as Income
-            oldData.emit(data)
+            this@AddIncomeViewModel.dataFlow.emit(data)
         }
     }
 
     fun addIncome(amountString: String, source: String) {
         viewModelScope.launch {
-            Log.d("vm", "call method: addIncome")
 
             if (amountString.isEmpty() || source.isEmpty()) {
                 setErrorState()
@@ -89,7 +83,7 @@ class AddIncomeViewModel @Inject constructor(
                 val income = Income(getCurrentTimestamp(), newAmount, source, id)
                 editOperationUseCase(income)
 
-                val oldAmount = oldData.first().amount
+                val oldAmount = dataFlow.first().amount
                 editBalance(oldAmount, newAmount)
 
                 setFinishState()
@@ -109,11 +103,10 @@ class AddIncomeViewModel @Inject constructor(
     }
 
     private suspend fun setFinishState() {
-        finishFlow.emit(FragmentIncomeState.Finish)
+        _state.emit(FragmentIncomeState.Finish)
     }
 
     private suspend fun setErrorState() {
-        errorFlow.emit(FragmentIncomeState.Error)
-        Log.d("vm", "call method: setErrorState")
+        _state.emit(FragmentIncomeState.Error)
     }
 }

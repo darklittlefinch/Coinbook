@@ -40,25 +40,25 @@ class MainViewModel @Inject constructor(
 
     private val currencyFlow = getCurrencyUseCase()
 
-    private val balanceFlow = getBalanceUseCase()
+    private val balanceStateFlow = getBalanceUseCase()
         .map {
             val currency = currencyFlow.first()
             MainState.Balance(formatAmount(it, currency))
         }
 
-    private val incomeFlow = getTotalIncomeAmountForMonthUseCase()
+    private val incomeStateFlow = getTotalIncomeAmountForMonthUseCase()
         .map {
             val currency = currencyFlow.first()
             MainState.Income(formatAmount(it, currency))
         }
 
-    private val expensesFlow = getTotalExpensesAmountForMonthUseCase()
+    private val expensesStateFlow = getTotalExpensesAmountForMonthUseCase()
         .map {
             val currency = currencyFlow.first()
             MainState.Expenses(formatAmount(it, currency))
         }
 
-    private val moneyBoxFlow = getMoneyBoxUseCase()
+    private val moneyBoxStateFlow = getMoneyBoxUseCase()
         .map {
             val moneyBoxWasStarted: Boolean
             val moneyBoxAmount: Int
@@ -78,41 +78,41 @@ class MainViewModel @Inject constructor(
             )
         }
 
-    private val debtsAmountFlow = getTotalDebtsAmountUseCase()
+    private val debtsAmountStateFlow = getTotalDebtsAmountUseCase()
         .map {
             val currency = currencyFlow.first()
             MainState.Debts(formatAmount(it, currency), it > NO_DATA)
         }
 
-    private val limitsFlow = getLimitsCountUseCase()
+    private val limitsStateFlow = getLimitsCountUseCase()
         .map { MainState.Limits(it > NO_DATA) }
 
-    private val alarmsFlow = getAlarmsCountUseCase()
+    private val alarmsStateFlow = getAlarmsCountUseCase()
         .map { MainState.Alarms(it > NO_DATA) }
 
-    private val categoriesFlow = MutableSharedFlow<MainState>()
+    private val categoriesStateFlow = MutableSharedFlow<MainState>()
 
     private val _state = MutableSharedFlow<MainState>()
         .onStart { emit(MainState.Loading) }
-        .mergeWith(balanceFlow)
-        .mergeWith(incomeFlow)
-        .mergeWith(expensesFlow)
-        .mergeWith(moneyBoxFlow)
-        .mergeWith(debtsAmountFlow)
-        .mergeWith(limitsFlow)
-        .mergeWith(alarmsFlow)
-        .mergeWith(categoriesFlow)
 
     val state: Flow<MainState>
         get() = _state
+            .mergeWith(balanceStateFlow)
+            .mergeWith(incomeStateFlow)
+            .mergeWith(expensesStateFlow)
+            .mergeWith(moneyBoxStateFlow)
+            .mergeWith(debtsAmountStateFlow)
+            .mergeWith(limitsStateFlow)
+            .mergeWith(alarmsStateFlow)
+            .mergeWith(categoriesStateFlow)
 
     fun checkCategories() {
         viewModelScope.launch {
             val categories = getCategoriesListUseCase().first()
             if (categories.isEmpty()) {
-                categoriesFlow.emit(MainState.NoCategoriesError)
+                categoriesStateFlow.emit(MainState.NoCategoriesError)
             } else {
-                categoriesFlow.emit(MainState.PermitAddExpense)
+                categoriesStateFlow.emit(MainState.PermitAddExpense)
             }
         }
     }

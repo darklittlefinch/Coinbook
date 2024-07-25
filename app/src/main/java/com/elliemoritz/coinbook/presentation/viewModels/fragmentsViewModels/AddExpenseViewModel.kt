@@ -24,14 +24,14 @@ class AddExpenseViewModel @Inject constructor(
     private val getOperationUseCase: GetOperationUseCase,
     private val addOperationUseCase: AddOperationUseCase,
     private val editOperationUseCase: EditOperationUseCase,
-    private val getCategoriesListUseCase: GetCategoriesListUseCase,
+    getCategoriesListUseCase: GetCategoriesListUseCase,
     private val addToBalanceUseCase: AddToBalanceUseCase,
     private val removeFromBalanceUseCase: RemoveFromBalanceUseCase
 ) : ViewModel() {
 
-    private val oldData = MutableSharedFlow<Expense>()
+    private val dataFlow = MutableSharedFlow<Expense>()
 
-    private val dataFlow = oldData
+    private val dataStateFlow = dataFlow
         .map {
             FragmentExpenseState.Data(
                 it.amount.toString(),
@@ -39,7 +39,7 @@ class AddExpenseViewModel @Inject constructor(
             )
         }
 
-    private val categoriesFlow = getCategoriesListUseCase()
+    private val categoriesStateFlow = getCategoriesListUseCase()
         .map { categoriesList ->
             FragmentExpenseState.Categories(categoriesList
                 .map { category ->
@@ -47,22 +47,17 @@ class AddExpenseViewModel @Inject constructor(
                 })
         }
 
-    private val errorFlow = MutableSharedFlow<FragmentExpenseState>()
-    private val finishFlow = MutableSharedFlow<FragmentExpenseState>()
-
     private val _state = MutableSharedFlow<FragmentExpenseState>()
-        .mergeWith(categoriesFlow)
-        .mergeWith(dataFlow)
-        .mergeWith(finishFlow)
-        .mergeWith(errorFlow)
 
     val state: Flow<FragmentExpenseState>
         get() = _state
+            .mergeWith(categoriesStateFlow)
+            .mergeWith(dataStateFlow)
 
     fun setData(id: Int) {
         viewModelScope.launch {
             val data = getOperationUseCase(id).first() as Expense
-            oldData.emit(data)
+            dataFlow.emit(data)
         }
     }
 
@@ -99,7 +94,7 @@ class AddExpenseViewModel @Inject constructor(
                 val expense = Expense(getCurrentTimestamp(), newAmount, categoryName, id)
                 editOperationUseCase(expense)
 
-                val oldAmount = oldData.first().amount
+                val oldAmount = dataFlow.first().amount
                 editBalance(oldAmount, newAmount)
 
                 setFinishState()
@@ -119,10 +114,10 @@ class AddExpenseViewModel @Inject constructor(
     }
 
     private suspend fun setFinishState() {
-        finishFlow.emit(FragmentExpenseState.Finish)
+        _state.emit(FragmentExpenseState.Finish)
     }
 
     private suspend fun setErrorState() {
-        errorFlow.emit(FragmentExpenseState.Error)
+        _state.emit(FragmentExpenseState.Error)
     }
 }

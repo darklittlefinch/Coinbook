@@ -17,13 +17,14 @@ class EditBalanceViewModel @Inject constructor(
     private val editBalanceUseCase: EditBalanceUseCase
 ) : ViewModel() {
 
-    private val shouldCloseScreenFlow = MutableSharedFlow<FragmentBalanceState>()
-    private val errorFlow = MutableSharedFlow<FragmentBalanceState>()
+    private val balanceStateFlow = getBalanceUseCase()
+        .map { FragmentBalanceState.Data(it.toString()) }
 
-    val state: Flow<FragmentBalanceState> = getBalanceUseCase()
-        .map { FragmentBalanceState.Data(it.toString()) as FragmentBalanceState }
-        .mergeWith(shouldCloseScreenFlow)
-        .mergeWith(errorFlow)
+    private val _state = MutableSharedFlow<FragmentBalanceState>()
+
+    val state: Flow<FragmentBalanceState>
+        get() = _state
+            .mergeWith(balanceStateFlow)
 
     fun editBalance(amountString: String) {
 
@@ -45,10 +46,10 @@ class EditBalanceViewModel @Inject constructor(
     }
 
     private suspend fun setFinishState() {
-        shouldCloseScreenFlow.emit(FragmentBalanceState.Finish)
+        _state.emit(FragmentBalanceState.Finish)
     }
 
     private suspend fun setErrorState() {
-        errorFlow.emit(FragmentBalanceState.Error)
+        _state.emit(FragmentBalanceState.Error)
     }
 }

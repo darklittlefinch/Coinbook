@@ -30,36 +30,31 @@ class AddCategoryViewModel @Inject constructor(
     private val removeLimitUseCase: RemoveLimitUseCase
 ) : ViewModel() {
 
-    private val oldCategoryData = MutableSharedFlow<Category>()
-    private val oldLimitData = MutableSharedFlow<Limit?>()
+    private val categoryData = MutableSharedFlow<Category>()
+    private val limitData = MutableSharedFlow<Limit?>()
 
-    private val nameDataFlow = oldCategoryData
-        .map { FragmentCategoryState.NameData(it.name) }
+    private val nameStateFlow = categoryData
+        .map { FragmentCategoryState.Name(it.name) }
 
-    private val limitDataFlow = oldLimitData
+    private val limitStateFlow = limitData
         .map {
             val limitAmount = it?.amount ?: 0
-            FragmentCategoryState.LimitData(limitAmount.toString())
+            FragmentCategoryState.Limit(limitAmount.toString())
         }
 
-    private val errorFlow = MutableSharedFlow<FragmentCategoryState>()
-    private val finishFlow = MutableSharedFlow<FragmentCategoryState>()
-
     private val _state = MutableSharedFlow<FragmentCategoryState>()
-        .mergeWith(nameDataFlow)
-        .mergeWith(limitDataFlow)
-        .mergeWith(errorFlow)
-        .mergeWith(finishFlow)
 
     val state: Flow<FragmentCategoryState>
         get() = _state
+            .mergeWith(nameStateFlow)
+            .mergeWith(limitStateFlow)
 
     fun setData(id: Int) {
         viewModelScope.launch {
             val categoryData = getCategoryUseCase(id).first()
-            oldCategoryData.emit(categoryData)
+            this@AddCategoryViewModel.categoryData.emit(categoryData)
             val limitData = getLimitByCategoryIdUseCase(categoryData.id).first()
-            oldLimitData.emit(limitData)
+            this@AddCategoryViewModel.limitData.emit(limitData)
         }
     }
 
@@ -96,7 +91,7 @@ class AddCategoryViewModel @Inject constructor(
                 val category = Category(name, id)
                 editCategoryUseCase(category)
 
-                val oldLimit = oldLimitData.first()
+                val oldLimit = limitData.first()
                 handleLimit(oldLimit, newLimit, id)
 
                 setFinishState()
@@ -134,10 +129,10 @@ class AddCategoryViewModel @Inject constructor(
     }
 
     private suspend fun setErrorState() {
-        errorFlow.emit(FragmentCategoryState.Error)
+        _state.emit(FragmentCategoryState.Error)
     }
 
     private suspend fun setFinishState() {
-        finishFlow.emit(FragmentCategoryState.Finish)
+        _state.emit(FragmentCategoryState.Finish)
     }
 }

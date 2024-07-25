@@ -22,8 +22,9 @@ class AddMoneyBoxViewModel @Inject constructor(
     private val editMoneyBoxUseCase: EditMoneyBoxUseCase
 ) : ViewModel() {
 
-    private val oldData = MutableSharedFlow<MoneyBox>()
-    private val dataFlow = oldData
+    private val dataFlow = MutableSharedFlow<MoneyBox>()
+
+    private val dataStateFlow = dataFlow
         .map {
             FragmentMoneyBoxState.Data(
                 it.goalAmount.toString(),
@@ -31,22 +32,17 @@ class AddMoneyBoxViewModel @Inject constructor(
             )
         }
 
-    private val errorFlow = MutableSharedFlow<FragmentMoneyBoxState>()
-    private val finishFlow = MutableSharedFlow<FragmentMoneyBoxState>()
-
     private val _state = MutableSharedFlow<FragmentMoneyBoxState>()
-        .mergeWith(dataFlow)
-        .mergeWith(errorFlow)
-        .mergeWith(finishFlow)
 
     val state: Flow<FragmentMoneyBoxState>
         get() = _state
+            .mergeWith(dataStateFlow)
 
     fun setData() {
         viewModelScope.launch {
             val moneyBox = getMoneyBoxUseCase().first()
             moneyBox?.let {
-                oldData.emit(it)
+                dataFlow.emit(it)
             }
         }
     }
@@ -100,10 +96,10 @@ class AddMoneyBoxViewModel @Inject constructor(
     }
 
     private suspend fun setErrorState() {
-        errorFlow.emit(FragmentMoneyBoxState.Error)
+        _state.emit(FragmentMoneyBoxState.Error)
     }
 
     private suspend fun setFinishState() {
-        errorFlow.emit(FragmentMoneyBoxState.Finish)
+        _state.emit(FragmentMoneyBoxState.Finish)
     }
 }
