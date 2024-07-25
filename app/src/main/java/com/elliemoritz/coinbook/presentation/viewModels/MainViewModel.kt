@@ -2,7 +2,6 @@ package com.elliemoritz.coinbook.presentation.viewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.elliemoritz.coinbook.domain.entities.MoneyBox
 import com.elliemoritz.coinbook.domain.useCases.alarmsUseCases.GetAlarmsCountUseCase
 import com.elliemoritz.coinbook.domain.useCases.categoriesUseCases.GetCategoriesListUseCase
 import com.elliemoritz.coinbook.domain.useCases.debtsUseCases.GetTotalDebtsAmountUseCase
@@ -50,7 +49,8 @@ class MainViewModel @Inject constructor(
     private val incomeFlow = getTotalIncomeAmountForMonthUseCase()
         .map {
             val currency = currencyFlow.first()
-            MainState.Income(formatAmount(it, currency)) }
+            MainState.Income(formatAmount(it, currency))
+        }
 
     private val expensesFlow = getTotalExpensesAmountForMonthUseCase()
         .map {

@@ -16,11 +16,8 @@ import com.elliemoritz.coinbook.presentation.fragments.AddCategoryFragment
 import com.elliemoritz.coinbook.presentation.fragments.AddExpenseFragment
 import com.elliemoritz.coinbook.presentation.fragments.AddIncomeFragment
 import com.elliemoritz.coinbook.presentation.fragments.AddMoneyBoxFragment
-import com.elliemoritz.coinbook.presentation.fragments.DatePickerDialogFragment
 import com.elliemoritz.coinbook.presentation.fragments.EditBalanceFragment
 import com.elliemoritz.coinbook.presentation.util.OnEditingListener
-import java.text.SimpleDateFormat
-import java.util.Calendar
 
 class OperationsActivity : AppCompatActivity(), OnEditingListener {
 
