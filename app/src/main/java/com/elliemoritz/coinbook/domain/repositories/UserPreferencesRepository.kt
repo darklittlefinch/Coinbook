@@ -12,10 +12,10 @@ interface UserPreferencesRepository {
     fun getCurrency(): Flow<String>
     suspend fun editCurrency(newCurrency: String)
 
-    suspend fun getNotificationsEnabled(): Boolean
+    fun getNotificationsEnabled(): Flow<Boolean>
     suspend fun editNotificationsEnabled(enabled: Boolean)
 
-    suspend fun getNotificationsSoundsEnabled(): Boolean
+    fun getNotificationsSoundsEnabled(): Flow<Boolean>
     suspend fun editNotificationsSoundsEnabled(enabled: Boolean)
 
     suspend fun refreshUserPreferencesData()

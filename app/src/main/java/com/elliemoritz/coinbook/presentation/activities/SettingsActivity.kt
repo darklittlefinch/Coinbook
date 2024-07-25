@@ -8,14 +8,17 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.elliemoritz.coinbook.R
 import com.elliemoritz.coinbook.databinding.ActivitySettingsBinding
 import com.elliemoritz.coinbook.presentation.CoinBookApp
-import com.elliemoritz.coinbook.presentation.states.SettingsData
-import com.elliemoritz.coinbook.presentation.states.SettingsShouldClose
+import com.elliemoritz.coinbook.presentation.states.SettingsState
 import com.elliemoritz.coinbook.presentation.viewModels.SettingsViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.ViewModelFactory
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SettingsActivity : AppCompatActivity() {
@@ -47,23 +50,29 @@ class SettingsActivity : AppCompatActivity() {
         setOnClickListeners()
 
         val currencies = resources.getStringArray(R.array.currencies)
-        viewModel.setInitialSettingsState(currencies)
+        viewModel.setCurrencyPosition(currencies)
     }
 
     private fun observeViewModel() {
-        viewModel.settingsState.observe(this) {
-            when (it) {
-                is SettingsData -> {
-                    with(binding) {
-                        etBalance.hint = it.balance
-                        spinnerCurrency.setSelection(it.currencyIndex)
-                        toggleSettingsNotifications.isChecked = it.notificationsEnabled
-                        toggleSettingsNotificationsSound.isChecked = it.notificationsSoundsEnabled
-                    }
-                }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.state.collect {
+                    when (it) {
+                        is SettingsState.Balance -> binding.etBalance.hint = it.value
+                        is SettingsState.CurrencyPosition -> {
+                            binding.spinnerCurrency.setSelection(it.value)
+                        }
 
-                is SettingsShouldClose -> {
-                    onBackPressedDispatcher.onBackPressed()
+                        is SettingsState.Notifications -> {
+                            binding.toggleSettingsNotifications.isChecked = it.enabled
+                        }
+
+                        is SettingsState.NotificationsSounds -> {
+                            binding.toggleSettingsNotificationsSound.isChecked = it.enabled
+                        }
+
+                        is SettingsState.Finish -> finish()
+                    }
                 }
             }
         }

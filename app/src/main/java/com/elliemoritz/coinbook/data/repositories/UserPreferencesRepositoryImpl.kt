@@ -69,16 +69,18 @@ class UserPreferencesRepositoryImpl @Inject constructor(
         writeCurrencyValue(newCurrency)
     }
 
-    override suspend fun getNotificationsEnabled(): Boolean {
-        return readNotificationsEnabledValue()
+    override fun getNotificationsEnabled(): Flow<Boolean> = flow {
+        val value = readNotificationsEnabledValue()
+        emit(value)
     }
 
     override suspend fun editNotificationsEnabled(enabled: Boolean) {
         writeNotificationsEnabledValue(enabled)
     }
 
-    override suspend fun getNotificationsSoundsEnabled(): Boolean {
-        return readNotificationsSoundsEnabledValue()
+    override fun getNotificationsSoundsEnabled(): Flow<Boolean> = flow {
+        val value = readNotificationsSoundsEnabledValue()
+        emit(value)
     }
 
     override suspend fun editNotificationsSoundsEnabled(enabled: Boolean) {
