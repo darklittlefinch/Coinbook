@@ -40,22 +40,10 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_amount"
                 android:inputType="number"
-                app:layout_constraintBottom_toTopOf="@id/et_add_debt_date"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_add_debt_title" />
-
-            <EditText
-                android:id="@+id/et_add_debt_date"
-                style="@style/add_fragments_inputs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/hint_deadline"
-                android:inputType="date"
                 app:layout_constraintBottom_toTopOf="@id/et_add_debt_creditor"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/et_add_debt_amount" />
+                app:layout_constraintTop_toBottomOf="@id/tv_add_debt_title" />
 
             <EditText
                 android:id="@+id/et_add_debt_creditor"
@@ -67,7 +55,7 @@
                 app:layout_constraintBottom_toTopOf="@id/button_add_debt"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/et_add_debt_date" />
+                app:layout_constraintTop_toBottomOf="@id/et_add_debt_amount" />
 
             <Button
                 android:id="@+id/button_add_debt"

@@ -14,9 +14,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import java.sql.Timestamp
-import java.text.SimpleDateFormat
-import java.util.Calendar
 import javax.inject.Inject
 
 class AddMoneyBoxViewModel @Inject constructor(
@@ -28,22 +25,10 @@ class AddMoneyBoxViewModel @Inject constructor(
     private val oldData = MutableSharedFlow<MoneyBox>()
     private val dataFlow = oldData
         .map {
-            val sdf = SimpleDateFormat.getDateInstance()
-            val formattedDeadline = sdf.format(it.deadline)
-
             FragmentMoneyBoxState.Data(
                 it.goalAmount.toString(),
-                it.goal,
-                formattedDeadline
+                it.goal
             )
-        }
-
-    private val newDeadline = MutableSharedFlow<Calendar>()
-    private val newDeadlineFlow = newDeadline
-        .map {
-            val sdf = SimpleDateFormat.getDateInstance()
-            val formattedDate = sdf.format(it.time)
-            FragmentMoneyBoxState.Deadline(formattedDate)
         }
 
     private val errorFlow = MutableSharedFlow<FragmentMoneyBoxState>()
@@ -51,7 +36,6 @@ class AddMoneyBoxViewModel @Inject constructor(
 
     private val _state = MutableSharedFlow<FragmentMoneyBoxState>()
         .mergeWith(dataFlow)
-        .mergeWith(newDeadlineFlow)
         .mergeWith(errorFlow)
         .mergeWith(finishFlow)
 
@@ -67,16 +51,10 @@ class AddMoneyBoxViewModel @Inject constructor(
         }
     }
 
-    fun setNewDate(date: Calendar) {
-        viewModelScope.launch {
-            newDeadline.emit(date)
-        }
-    }
-
-    fun createMoneyBox(goalAmountString: String, goal: String, deadlineValue: Calendar?) {
+    fun createMoneyBox(goalAmountString: String, goal: String) {
         viewModelScope.launch {
 
-            if (goalAmountString.isEmpty() || goal.isEmpty() || deadlineValue == null) {
+            if (goalAmountString.isEmpty() || goal.isEmpty()) {
                 setErrorState()
                 return@launch
             }
@@ -86,8 +64,7 @@ class AddMoneyBoxViewModel @Inject constructor(
                 val moneyBox = MoneyBox(
                     goalAmount,
                     goal,
-                    getCurrentTimestamp(),
-                    Timestamp(deadlineValue.timeInMillis)
+                    getCurrentTimestamp()
                 )
                 addMoneyBoxUseCase(moneyBox)
 
@@ -98,7 +75,7 @@ class AddMoneyBoxViewModel @Inject constructor(
         }
     }
 
-    fun editMoneyBox(newGoalAmountString: String, newGoal: String, newDeadlineValue: Calendar?) {
+    fun editMoneyBox(newGoalAmountString: String, newGoal: String) {
         viewModelScope.launch {
 
             if (newGoalAmountString.isEmpty() || newGoal.isEmpty()) {
@@ -106,15 +83,12 @@ class AddMoneyBoxViewModel @Inject constructor(
                 return@launch
             }
 
-            val deadlineMillis = newDeadlineValue?.timeInMillis ?: oldData.first().deadline.time
-
             try {
                 val goalAmount = newGoalAmountString.toInt()
                 val moneyBox = MoneyBox(
                     goalAmount,
                     newGoal,
-                    getCurrentTimestamp(),
-                    Timestamp(deadlineMillis)
+                    getCurrentTimestamp()
                 )
                 editMoneyBoxUseCase(moneyBox)
 

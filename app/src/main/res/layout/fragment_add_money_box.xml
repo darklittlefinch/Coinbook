@@ -52,21 +52,10 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_money_box"
                 android:inputType="text"
-                app:layout_constraintBottom_toTopOf="@id/tv_add_money_box_date"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/et_add_money_box_amount" />
-
-            <TextView
-                android:id="@+id/tv_add_money_box_date"
-                style="@style/add_fragments_inputs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/hint_deadline"
                 app:layout_constraintBottom_toTopOf="@id/button_add_money_box"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/et_add_money_box_goal" />
+                app:layout_constraintTop_toBottomOf="@id/et_add_money_box_amount" />
 
             <Button
                 android:id="@+id/button_add_money_box"
@@ -77,7 +66,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_add_money_box_date" />
+                app:layout_constraintTop_toBottomOf="@id/et_add_money_box_goal" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

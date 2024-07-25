@@ -17,10 +17,9 @@ import com.elliemoritz.coinbook.presentation.util.OnEditingListener
 import com.elliemoritz.coinbook.presentation.viewModels.ViewModelFactory
 import com.elliemoritz.coinbook.presentation.viewModels.fragmentsViewModels.AddMoneyBoxViewModel
 import kotlinx.coroutines.launch
-import java.util.Calendar
 import javax.inject.Inject
 
-class AddMoneyBoxFragment : Fragment(), DatePickerDialogFragment.OnDateChangedListener {
+class AddMoneyBoxFragment : Fragment() {
 
     private lateinit var onEditingListener: OnEditingListener
 
@@ -39,8 +38,6 @@ class AddMoneyBoxFragment : Fragment(), DatePickerDialogFragment.OnDateChangedLi
     }
 
     private var mode: String = MODE_UNKNOWN
-
-    private var deadline: Calendar? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -70,16 +67,8 @@ class AddMoneyBoxFragment : Fragment(), DatePickerDialogFragment.OnDateChangedLi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setOnClickListener()
         observeViewModel()
         setMode()
-    }
-
-    private fun setOnClickListener() {
-        binding.tvAddMoneyBoxDate.setOnClickListener {
-            val dialogFragment = DatePickerDialogFragment.newInstance(this)
-            dialogFragment.show(parentFragmentManager, DatePickerDialogFragment.TAG)
-        }
     }
 
     private fun observeViewModel() {
@@ -90,11 +79,6 @@ class AddMoneyBoxFragment : Fragment(), DatePickerDialogFragment.OnDateChangedLi
                         is FragmentMoneyBoxState.Data -> {
                             binding.etAddMoneyBoxAmount.hint = it.goalAmount
                             binding.etAddMoneyBoxGoal.hint = it.goal
-                            binding.tvAddMoneyBoxDate.text = it.deadline
-                        }
-
-                        is FragmentMoneyBoxState.Deadline -> {
-                            binding.tvAddMoneyBoxDate.text = it.date
                         }
 
                         is FragmentMoneyBoxState.Error -> onEditingListener.onError()
@@ -111,8 +95,7 @@ class AddMoneyBoxFragment : Fragment(), DatePickerDialogFragment.OnDateChangedLi
                 binding.buttonAddMoneyBox.setOnClickListener {
                     val goalAmount = binding.etAddMoneyBoxAmount.text.toString()
                     val goal = binding.etAddMoneyBoxAmount.text.toString()
-                    val date = deadline
-                    viewModel.createMoneyBox(goalAmount, goal, date)
+                    viewModel.createMoneyBox(goalAmount, goal)
                 }
             }
 
@@ -121,8 +104,7 @@ class AddMoneyBoxFragment : Fragment(), DatePickerDialogFragment.OnDateChangedLi
                 binding.buttonAddMoneyBox.setOnClickListener {
                     val goalAmount = binding.etAddMoneyBoxAmount.text.toString()
                     val goal = binding.etAddMoneyBoxAmount.text.toString()
-                    val date = deadline
-                    viewModel.editMoneyBox(goalAmount, goal, date)
+                    viewModel.editMoneyBox(goalAmount, goal)
                 }
             }
         }
@@ -150,10 +132,5 @@ class AddMoneyBoxFragment : Fragment(), DatePickerDialogFragment.OnDateChangedLi
                     putString(MODE, MODE_EDIT)
                 }
             }
-    }
-
-    override fun onDateChanged(calendar: Calendar) {
-        viewModel.setNewDate(calendar)
-        deadline = calendar
     }
 }

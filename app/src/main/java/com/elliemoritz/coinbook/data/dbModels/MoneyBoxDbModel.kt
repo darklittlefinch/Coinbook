@@ -10,6 +10,5 @@ data class MoneyBoxDbModel(
     val goalAmount: Int,
     val totalAmount: Int,
     val goal: String,
-    val startedMillis: Long,
-    val deadlineMillis: Long
+    val startedMillis: Long
 )
