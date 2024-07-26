@@ -74,6 +74,30 @@ class OperationsRepositoryImpl @Inject constructor(
         dao.removeAllOperations()
     }
 
+    override fun getIncome(id: Int): Flow<Income> = flow {
+        val dbModel = dao.getOperation(id)
+        val income = mapper.mapDbModelToIncome(dbModel)
+        emit(income)
+    }
+
+    override fun getExpense(id: Int): Flow<Expense> = flow {
+        val dbModel = dao.getOperation(id)
+        val expense = mapper.mapDbModelToExpense(dbModel)
+        emit(expense)
+    }
+
+    override fun getMoneyBoxOperation(id: Int): Flow<MoneyBoxOperation> = flow {
+        val dbModel = dao.getOperation(id)
+        val moneyBoxOperation = mapper.mapDbModelToMoneyBoxOperation(dbModel)
+        emit(moneyBoxOperation)
+    }
+
+    override fun getDebtOperation(id: Int): Flow<DebtOperation> = flow {
+        val dbModel = dao.getOperation(id)
+        val debtOperation = mapper.mapDbModelToDebtOperation(dbModel)
+        emit(debtOperation)
+    }
+
     override fun getIncomeListForMonth(): Flow<List<Income>> = flow {
         val beginOfMonthMillis = getBeginOfMonthMillis()
         val list = dao.getOperationsListByType(TYPE_INCOME, beginOfMonthMillis)

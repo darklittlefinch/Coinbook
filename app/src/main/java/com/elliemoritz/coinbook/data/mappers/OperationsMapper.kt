@@ -47,7 +47,7 @@ class OperationsMapper @Inject constructor() {
 
     // INCOME
 
-    private fun mapDbModelToIncome(dbModel: OperationDbModel) = Income(
+    fun mapDbModelToIncome(dbModel: OperationDbModel) = Income(
         incId = dbModel.id,
         incDate = Timestamp(dbModel.dateTimeMillis),
         incAmount = dbModel.amount,
@@ -73,7 +73,7 @@ class OperationsMapper @Inject constructor() {
 
     // MONEY BOX OPERATION
 
-    private fun mapDbModelToMoneyBoxOperation(dbModel: OperationDbModel) = MoneyBoxOperation(
+    fun mapDbModelToMoneyBoxOperation(dbModel: OperationDbModel) = MoneyBoxOperation(
         mbId = dbModel.id,
         mbDate = Timestamp(dbModel.dateTimeMillis),
         mbAmount = dbModel.amount,
@@ -86,7 +86,7 @@ class OperationsMapper @Inject constructor() {
 
     // DEBT OPERATION
 
-    private fun mapDbModelToDebtOperation(dbModel: OperationDbModel) = DebtOperation(
+    fun mapDbModelToDebtOperation(dbModel: OperationDbModel) = DebtOperation(
         debtId = dbModel.id,
         debtDate = Timestamp(dbModel.dateTimeMillis),
         debtAmount = dbModel.amount,

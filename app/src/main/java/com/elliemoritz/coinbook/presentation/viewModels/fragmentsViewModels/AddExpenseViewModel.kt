@@ -6,7 +6,7 @@ import com.elliemoritz.coinbook.domain.entities.operations.Expense
 import com.elliemoritz.coinbook.domain.useCases.categoriesUseCases.GetCategoriesListUseCase
 import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.AddOperationUseCase
 import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.EditOperationUseCase
-import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetOperationUseCase
+import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetExpenseUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.AddToBalanceUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.RemoveFromBalanceUseCase
 import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentExpenseState
@@ -21,7 +21,7 @@ import javax.inject.Inject
 import kotlin.math.abs
 
 class AddExpenseViewModel @Inject constructor(
-    private val getOperationUseCase: GetOperationUseCase,
+    private val getExpenseUseCase: GetExpenseUseCase,
     private val addOperationUseCase: AddOperationUseCase,
     private val editOperationUseCase: EditOperationUseCase,
     getCategoriesListUseCase: GetCategoriesListUseCase,
@@ -56,7 +56,7 @@ class AddExpenseViewModel @Inject constructor(
 
     fun setData(id: Int) {
         viewModelScope.launch {
-            val data = getOperationUseCase(id).first() as Expense
+            val data = getExpenseUseCase(id).first()
             dataFlow.emit(data)
         }
     }

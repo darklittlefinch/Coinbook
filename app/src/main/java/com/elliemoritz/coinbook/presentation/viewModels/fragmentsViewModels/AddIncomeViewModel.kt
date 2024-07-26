@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.elliemoritz.coinbook.domain.entities.operations.Income
 import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.AddOperationUseCase
 import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.EditOperationUseCase
-import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetOperationUseCase
+import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetIncomeUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.AddToBalanceUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.RemoveFromBalanceUseCase
 import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentIncomeState
@@ -20,7 +20,7 @@ import javax.inject.Inject
 import kotlin.math.abs
 
 class AddIncomeViewModel @Inject constructor(
-    private val getOperationUseCase: GetOperationUseCase,
+    private val getIncomeUseCase: GetIncomeUseCase,
     private val addOperationUseCase: AddOperationUseCase,
     private val editOperationUseCase: EditOperationUseCase,
     private val addToBalanceUseCase: AddToBalanceUseCase,
@@ -45,7 +45,7 @@ class AddIncomeViewModel @Inject constructor(
 
     fun setData(id: Int) {
         viewModelScope.launch {
-            val data = getOperationUseCase(id).first() as Income
+            val data = getIncomeUseCase(id).first()
             this@AddIncomeViewModel.dataFlow.emit(data)
         }
     }
