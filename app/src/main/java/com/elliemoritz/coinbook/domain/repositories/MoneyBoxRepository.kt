@@ -8,6 +8,4 @@ interface MoneyBoxRepository {
     suspend fun addMoneyBox(moneyBox: MoneyBox)
     suspend fun editMoneyBox(moneyBox: MoneyBox)
     suspend fun removeMoneyBox(moneyBox: MoneyBox)
-
-    suspend fun refreshMoneyBox()
 }

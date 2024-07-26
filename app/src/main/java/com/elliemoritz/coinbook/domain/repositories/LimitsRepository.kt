@@ -11,6 +11,4 @@ interface LimitsRepository {
     suspend fun editLimit(limit: Limit)
     suspend fun removeLimit(limit: Limit)
     fun getLimitsCount(): Flow<Int>
-
-    suspend fun refreshLimitsData()
 }

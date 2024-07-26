@@ -17,6 +17,4 @@ interface UserPreferencesRepository {
 
     fun getNotificationsSoundsEnabled(): Flow<Boolean>
     suspend fun editNotificationsSoundsEnabled(enabled: Boolean)
-
-    suspend fun refreshUserPreferencesData()
 }

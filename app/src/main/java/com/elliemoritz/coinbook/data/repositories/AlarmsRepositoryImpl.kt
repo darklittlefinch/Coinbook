@@ -5,7 +5,6 @@ import com.elliemoritz.coinbook.data.mappers.AlarmMapper
 import com.elliemoritz.coinbook.domain.entities.Alarm
 import com.elliemoritz.coinbook.domain.repositories.AlarmsRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
@@ -14,30 +13,16 @@ class AlarmsRepositoryImpl @Inject constructor(
     private val mapper: AlarmMapper
 ) : AlarmsRepository {
 
-    private val refreshListEvents = MutableSharedFlow<Unit>()
-    private val refreshAlarmEvents = MutableSharedFlow<Unit>()
-    private val refreshCountEvents = MutableSharedFlow<Unit>()
-
     override fun getAlarmsList(): Flow<List<Alarm>> = flow {
-        val list = dao.getAlarmsList()
-        val result = mapper.mapListDbModelToListEntities(list)
-        emit(result)
-        refreshListEvents.collect {
-            val updatedList = dao.getAlarmsList()
-            val updatedResult = mapper.mapListDbModelToListEntities(updatedList)
-            emit(updatedResult)
-        }
+        val dbModelsList = dao.getAlarmsList()
+        val alarmsList = mapper.mapListDbModelToListEntities(dbModelsList)
+        emit(alarmsList)
     }
 
     override fun getAlarm(id: Int): Flow<Alarm> = flow {
         val dbModel = dao.getAlarm(id)
-        val result = mapper.mapDbModelToEntity(dbModel)
-        emit(result)
-        refreshAlarmEvents.collect {
-            val updatedDbModel = dao.getAlarm(id)
-            val updatedResult = mapper.mapDbModelToEntity(updatedDbModel)
-            emit(updatedResult)
-        }
+        val alarm = mapper.mapDbModelToEntity(dbModel)
+        emit(alarm)
     }
 
     override suspend fun addAlarm(alarm: Alarm) {
@@ -55,17 +40,7 @@ class AlarmsRepositoryImpl @Inject constructor(
     }
 
     override fun getAlarmsCount(): Flow<Int> = flow {
-        val result = dao.getAlarmsCount()
-        emit(result)
-        refreshCountEvents.collect {
-            val updatedResult = dao.getAlarmsCount()
-            emit(updatedResult)
-        }
-    }
-
-    override suspend fun refreshAlarmsData() {
-        refreshListEvents.emit(Unit)
-        refreshAlarmEvents.emit(Unit)
-        refreshCountEvents.emit(Unit)
+        val alarmsCount = dao.getAlarmsCount()
+        emit(alarmsCount)
     }
 }

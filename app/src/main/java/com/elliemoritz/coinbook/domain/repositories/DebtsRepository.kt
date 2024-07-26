@@ -10,6 +10,4 @@ interface DebtsRepository {
     suspend fun editDebt(debt: Debt)
     suspend fun removeDebt(debt: Debt)
     fun getTotalDebtsAmount(): Flow<Int>
-
-    suspend fun refreshDebtsData()
 }

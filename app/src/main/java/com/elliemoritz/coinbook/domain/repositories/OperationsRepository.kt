@@ -30,6 +30,4 @@ interface OperationsRepository {
     fun getTotalExpensesAmountForMonth(): Flow<Int>
 
     fun getCategoryExpensesListForMonth(categoryName: String): Flow<List<Expense>>
-
-    suspend fun refreshOperationData()
 }
