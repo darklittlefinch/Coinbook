@@ -12,13 +12,13 @@ interface DebtsDao {
     @Query("SELECT * FROM debts")
     fun getDebtsList(): List<DebtDbModel>
 
-    @Query("SELECT * FROM debts WHERE id=:debtId LIMIT 1")
+    @Query("SELECT * FROM debts WHERE id = :debtId LIMIT 1")
     suspend fun getDebt(debtId: Int): DebtDbModel
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addDebt(debt: DebtDbModel)
 
-    @Query("DELETE FROM debts WHERE id=:debtId")
+    @Query("DELETE FROM debts WHERE id = :debtId")
     suspend fun removeDebt(debtId: Int)
 
     @Query("SELECT SUM(amount) FROM debts")

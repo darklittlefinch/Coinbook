@@ -12,7 +12,7 @@ interface OperationsDao {
     @Query("SELECT * FROM operations")
     suspend fun getOperationsList(): List<OperationDbModel>
 
-    @Query("SELECT * FROM operations WHERE id=:operationId LIMIT 1")
+    @Query("SELECT * FROM operations WHERE id = :operationId LIMIT 1")
     suspend fun getOperation(operationId: Int): OperationDbModel
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
