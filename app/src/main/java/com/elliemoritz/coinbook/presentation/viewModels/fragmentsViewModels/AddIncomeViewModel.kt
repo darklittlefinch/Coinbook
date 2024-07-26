@@ -50,7 +50,7 @@ class AddIncomeViewModel @Inject constructor(
         }
     }
 
-    fun addIncome(amountString: String, source: String) {
+    fun createIncome(amountString: String, source: String) {
         viewModelScope.launch {
 
             if (amountString.isEmpty() || source.isEmpty()) {

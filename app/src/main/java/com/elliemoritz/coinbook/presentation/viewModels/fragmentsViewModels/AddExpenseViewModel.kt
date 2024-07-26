@@ -61,7 +61,7 @@ class AddExpenseViewModel @Inject constructor(
         }
     }
 
-    fun addExpense(amountString: String, categoryName: String) {
+    fun createExpense(amountString: String, categoryName: String) {
         viewModelScope.launch {
 
             if (amountString.isEmpty()) {
