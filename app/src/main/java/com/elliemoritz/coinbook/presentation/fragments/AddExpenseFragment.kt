@@ -1,6 +1,5 @@
 package com.elliemoritz.coinbook.presentation.fragments
 
-import android.R
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -86,7 +85,7 @@ class AddExpenseFragment : Fragment() {
                         is FragmentExpenseState.Categories -> {
                             val adapter = ArrayAdapter(
                                 requireContext(),
-                                R.layout.simple_spinner_item,
+                                android.R.layout.simple_spinner_item,
                                 it.categories
                             )
                             binding.spinnerAddExpenses.adapter = adapter
