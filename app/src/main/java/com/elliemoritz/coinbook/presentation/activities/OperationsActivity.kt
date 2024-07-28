@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import com.elliemoritz.coinbook.R
 import com.elliemoritz.coinbook.domain.entities.helpers.UNDEFINED_ID
 import com.elliemoritz.coinbook.presentation.fragments.AddCategoryFragment
+import com.elliemoritz.coinbook.presentation.fragments.AddDebtFragment
 import com.elliemoritz.coinbook.presentation.fragments.AddExpenseFragment
 import com.elliemoritz.coinbook.presentation.fragments.AddIncomeFragment
 import com.elliemoritz.coinbook.presentation.fragments.AddMoneyBoxFragment
@@ -56,6 +57,7 @@ class OperationsActivity : AppCompatActivity(), OnEditingListener {
             FRAGMENT_TYPE_CATEGORY -> launchAddCategoryFragment()
             FRAGMENT_TYPE_MONEY_BOX -> launchAddMoneyBoxFragment()
             FRAGMENT_TYPE_MONEY_BOX_OPERATION -> launchAddMoneyBoxOperationFragment()
+            FRAGMENT_TYPE_DEBT -> launchAddDebtFragment()
             else -> Log.d(
                 "OperationsActivity",
                 "Mode not found or yet not implemented"
@@ -119,6 +121,17 @@ class OperationsActivity : AppCompatActivity(), OnEditingListener {
             MODE_EDIT -> AddMoneyBoxOperationFragment.newInstanceEdit(id)
             else -> throw RuntimeException(
                 "OperationsActivity: Unknown mode for AddCategoryFragment"
+            )
+        }
+        beginFragmentTransaction(fragment)
+    }
+
+    private fun launchAddDebtFragment() {
+        val fragment = when (mode) {
+            MODE_ADD -> AddDebtFragment.newInstanceAdd()
+            MODE_EDIT -> AddDebtFragment.newInstanceEdit(id)
+            else -> throw RuntimeException(
+                "OperationsActivity: Unknown mode for AddDebtFragment"
             )
         }
         beginFragmentTransaction(fragment)
