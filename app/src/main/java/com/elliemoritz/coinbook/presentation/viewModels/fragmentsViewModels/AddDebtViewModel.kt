@@ -49,6 +49,7 @@ class AddDebtViewModel @Inject constructor(
 
             if (amountString.isEmpty() || creditor.isEmpty()) {
                 setEmptyFieldsState()
+                return@launch
             }
 
             try {
@@ -68,6 +69,7 @@ class AddDebtViewModel @Inject constructor(
 
             if (amountString.isEmpty() || creditor.isEmpty()) {
                 setEmptyFieldsState()
+                return@launch
             }
 
             try {

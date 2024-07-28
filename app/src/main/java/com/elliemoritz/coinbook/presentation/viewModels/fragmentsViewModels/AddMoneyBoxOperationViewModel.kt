@@ -55,6 +55,7 @@ class AddMoneyBoxOperationViewModel @Inject constructor(
 
             if (amountString.isEmpty()) {
                 setEmptyFieldsState()
+                return@launch
             }
 
             try {
@@ -78,6 +79,7 @@ class AddMoneyBoxOperationViewModel @Inject constructor(
 
             if (newAmountString.isEmpty()) {
                 setEmptyFieldsState()
+                return@launch
             }
 
             try {
