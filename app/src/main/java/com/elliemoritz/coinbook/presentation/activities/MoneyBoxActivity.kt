@@ -49,7 +49,7 @@ class MoneyBoxActivity : AppCompatActivity() {
         binding.ivAddToMoneyBox.setOnClickListener {
             val intent = OperationsActivity.newIntent(
                 this,
-                OperationsActivity.FRAGMENT_TYPE_ADD_MONEY_BOX,
+                OperationsActivity.FRAGMENT_TYPE_MONEY_BOX_OPERATION,
                 OperationsActivity.MODE_ADD
             )
             startActivity(intent)
@@ -60,8 +60,8 @@ class MoneyBoxActivity : AppCompatActivity() {
         binding.ivRemoveFromMoneyBox.setOnClickListener {
             val intent = OperationsActivity.newIntent(
                 this,
-                OperationsActivity.FRAGMENT_TYPE_REMOVE_MONEY_BOX,
-                OperationsActivity.MODE_ADD
+                OperationsActivity.FRAGMENT_TYPE_MONEY_BOX_OPERATION,
+                OperationsActivity.MODE_REMOVE
             )
             startActivity(intent)
         }

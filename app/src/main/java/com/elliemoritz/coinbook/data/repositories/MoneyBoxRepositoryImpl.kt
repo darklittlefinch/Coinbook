@@ -28,6 +28,20 @@ class MoneyBoxRepositoryImpl @Inject constructor(
         dao.addMoneyBox(dbModel)
     }
 
+    override suspend fun addToMoneyBox(amount: Int) {
+        val dbModel = dao.getMoneyBox(MoneyBox.MONEY_BOX_ID) ?: return
+        val newAmount = dbModel.totalAmount + amount
+        val newDbModel = dbModel.copy(totalAmount = newAmount)
+        dao.addMoneyBox(newDbModel)
+    }
+
+    override suspend fun removeFromMoneyBox(amount: Int) {
+        val dbModel = dao.getMoneyBox(MoneyBox.MONEY_BOX_ID) ?: return
+        val newAmount = dbModel.totalAmount - amount
+        val newDbModel = dbModel.copy(totalAmount = newAmount)
+        dao.addMoneyBox(newDbModel)
+    }
+
     override suspend fun editMoneyBox(moneyBox: MoneyBox) {
         val dbModel = mapper.mapEntityToDbModel(moneyBox)
         dao.addMoneyBox(dbModel)

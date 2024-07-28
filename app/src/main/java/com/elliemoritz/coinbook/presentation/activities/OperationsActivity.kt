@@ -16,6 +16,7 @@ import com.elliemoritz.coinbook.presentation.fragments.AddCategoryFragment
 import com.elliemoritz.coinbook.presentation.fragments.AddExpenseFragment
 import com.elliemoritz.coinbook.presentation.fragments.AddIncomeFragment
 import com.elliemoritz.coinbook.presentation.fragments.AddMoneyBoxFragment
+import com.elliemoritz.coinbook.presentation.fragments.AddMoneyBoxOperationFragment
 import com.elliemoritz.coinbook.presentation.fragments.EditBalanceFragment
 import com.elliemoritz.coinbook.presentation.util.OnEditingListener
 
@@ -54,6 +55,7 @@ class OperationsActivity : AppCompatActivity(), OnEditingListener {
             FRAGMENT_TYPE_EXPENSE -> launchAddExpenseFragment()
             FRAGMENT_TYPE_CATEGORY -> launchAddCategoryFragment()
             FRAGMENT_TYPE_MONEY_BOX -> launchAddMoneyBoxFragment()
+            FRAGMENT_TYPE_MONEY_BOX_OPERATION -> launchAddMoneyBoxOperationFragment()
             else -> Log.d(
                 "OperationsActivity",
                 "Mode not found or yet not implemented"
@@ -68,68 +70,56 @@ class OperationsActivity : AppCompatActivity(), OnEditingListener {
 
     private fun launchAddIncomeFragment() {
         val fragment = when (mode) {
-            MODE_ADD -> {
-                AddIncomeFragment.newInstanceAdd()
-            }
-
-            MODE_EDIT -> {
-                AddIncomeFragment.newInstanceEdit(id)
-            }
-
-            else -> {
-                throw RuntimeException("OperationsActivity: Unknown mode for AddIncomeFragment")
-            }
+            MODE_ADD -> AddIncomeFragment.newInstanceAdd()
+            MODE_EDIT -> AddIncomeFragment.newInstanceEdit(id)
+            else -> throw RuntimeException(
+                "OperationsActivity: Unknown mode for AddIncomeFragment"
+            )
         }
         beginFragmentTransaction(fragment)
     }
 
     private fun launchAddExpenseFragment() {
         val fragment = when (mode) {
-            MODE_ADD -> {
-                AddExpenseFragment.newInstanceAdd()
-            }
-
-            MODE_EDIT -> {
-                AddExpenseFragment.newInstanceEdit(id)
-            }
-
-            else -> {
-                throw RuntimeException("OperationsActivity: Unknown mode for AddExpenseFragment")
-            }
+            MODE_ADD -> AddExpenseFragment.newInstanceAdd()
+            MODE_EDIT -> AddExpenseFragment.newInstanceEdit(id)
+            else -> throw RuntimeException(
+                "OperationsActivity: Unknown mode for AddExpenseFragment"
+            )
         }
         beginFragmentTransaction(fragment)
     }
 
     private fun launchAddMoneyBoxFragment() {
         val fragment = when (mode) {
-            MODE_ADD -> {
-                AddMoneyBoxFragment.newInstanceAdd()
-            }
-
-            MODE_EDIT -> {
-                AddMoneyBoxFragment.newInstanceEdit()
-            }
-
-            else -> {
-                throw RuntimeException("OperationsActivity: Unknown mode for AddMoneyBoxFragment")
-            }
+            MODE_ADD -> AddMoneyBoxFragment.newInstanceAdd()
+            MODE_EDIT -> AddMoneyBoxFragment.newInstanceEdit()
+            else -> throw RuntimeException(
+                "OperationsActivity: Unknown mode for AddMoneyBoxFragment"
+            )
         }
         beginFragmentTransaction(fragment)
     }
 
     private fun launchAddCategoryFragment() {
         val fragment = when (mode) {
-            MODE_ADD -> {
-                AddCategoryFragment.newInstanceAdd()
-            }
+            MODE_ADD -> AddCategoryFragment.newInstanceAdd()
+            MODE_EDIT -> AddCategoryFragment.newInstanceEdit(id)
+            else -> throw RuntimeException(
+                "OperationsActivity: Unknown mode for AddCategoryFragment"
+            )
+        }
+        beginFragmentTransaction(fragment)
+    }
 
-            MODE_EDIT -> {
-                AddCategoryFragment.newInstanceEdit(id)
-            }
-
-            else -> {
-                throw RuntimeException("OperationsActivity: Unknown mode for AddCategoryFragment")
-            }
+    private fun launchAddMoneyBoxOperationFragment() {
+        val fragment = when (mode) {
+            MODE_ADD -> AddMoneyBoxOperationFragment.newInstanceAdd()
+            MODE_REMOVE -> AddMoneyBoxOperationFragment.newInstanceRemove()
+            MODE_EDIT -> AddMoneyBoxOperationFragment.newInstanceEdit(id)
+            else -> throw RuntimeException(
+                "OperationsActivity: Unknown mode for AddCategoryFragment"
+            )
         }
         beginFragmentTransaction(fragment)
     }
@@ -149,14 +139,14 @@ class OperationsActivity : AppCompatActivity(), OnEditingListener {
         const val FRAGMENT_TYPE_INCOME = "income"
         const val FRAGMENT_TYPE_EXPENSE = "expense"
         const val FRAGMENT_TYPE_MONEY_BOX = "money_box"
-        const val FRAGMENT_TYPE_ADD_MONEY_BOX = "add_money_box"
-        const val FRAGMENT_TYPE_REMOVE_MONEY_BOX = "remove_money_box"
+        const val FRAGMENT_TYPE_MONEY_BOX_OPERATION = "add_money_box"
         const val FRAGMENT_TYPE_DEBT = "debt"
         const val FRAGMENT_TYPE_LIMIT = "limit"
         const val FRAGMENT_TYPE_ALARM = "alarm"
         const val FRAGMENT_TYPE_CATEGORY = "category"
 
         const val MODE_ADD = "add"
+        const val MODE_REMOVE = "remove"
         const val MODE_EDIT = "edit"
 
         fun newIntent(
