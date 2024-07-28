@@ -131,6 +131,7 @@ class AddMoneyBoxOperationFragment : Fragment() {
             }
 
             MODE_EDIT -> {
+                viewModel.setData(id)
                 binding.tvAddMoneyBoxOperationTitle.text = requireContext().getString(
                     R.string.dialog_edit_money_box_operation
                 )
