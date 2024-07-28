@@ -16,6 +16,7 @@ import com.elliemoritz.coinbook.presentation.fragments.AddCategoryFragment
 import com.elliemoritz.coinbook.presentation.fragments.AddDebtFragment
 import com.elliemoritz.coinbook.presentation.fragments.AddExpenseFragment
 import com.elliemoritz.coinbook.presentation.fragments.AddIncomeFragment
+import com.elliemoritz.coinbook.presentation.fragments.AddLimitFragment
 import com.elliemoritz.coinbook.presentation.fragments.AddMoneyBoxFragment
 import com.elliemoritz.coinbook.presentation.fragments.AddMoneyBoxOperationFragment
 import com.elliemoritz.coinbook.presentation.fragments.EditBalanceFragment
@@ -58,6 +59,7 @@ class OperationsActivity : AppCompatActivity(), OnEditingListener {
             FRAGMENT_TYPE_MONEY_BOX -> launchAddMoneyBoxFragment()
             FRAGMENT_TYPE_MONEY_BOX_OPERATION -> launchAddMoneyBoxOperationFragment()
             FRAGMENT_TYPE_DEBT -> launchAddDebtFragment()
+            FRAGMENT_TYPE_LIMIT -> launchAddLimitFragment()
             else -> Log.d(
                 "OperationsActivity",
                 "Mode not found or yet not implemented"
@@ -132,6 +134,17 @@ class OperationsActivity : AppCompatActivity(), OnEditingListener {
             MODE_EDIT -> AddDebtFragment.newInstanceEdit(id)
             else -> throw RuntimeException(
                 "OperationsActivity: Unknown mode for AddDebtFragment"
+            )
+        }
+        beginFragmentTransaction(fragment)
+    }
+
+    private fun launchAddLimitFragment() {
+        val fragment = when (mode) {
+            MODE_ADD -> AddLimitFragment.newInstanceAdd()
+            MODE_EDIT -> AddLimitFragment.newInstanceEdit(id)
+            else -> throw RuntimeException(
+                "OperationsActivity: Unknown mode for AddLimitFragment"
             )
         }
         beginFragmentTransaction(fragment)

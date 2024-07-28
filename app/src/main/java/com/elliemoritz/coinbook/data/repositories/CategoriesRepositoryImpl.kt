@@ -25,6 +25,16 @@ class CategoriesRepositoryImpl @Inject constructor(
         emit(category)
     }
 
+    override fun getCategoryByName(name: String): Flow<Category?> = flow {
+        val dbModel = dao.getCategoryByName(name)
+        val category = if (dbModel != null) {
+            mapper.mapDbModelToEntity(dbModel)
+        } else {
+            null
+        }
+        emit(category)
+    }
+
     override suspend fun addCategory(category: Category) {
         val dbModel = mapper.mapEntityToDbModel(category)
         dao.addCategory(dbModel)

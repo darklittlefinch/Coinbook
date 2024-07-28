@@ -7,6 +7,7 @@ import com.elliemoritz.coinbook.presentation.viewModels.SettingsViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.fragmentsViewModels.AddCategoryViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.fragmentsViewModels.AddDebtViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.fragmentsViewModels.AddIncomeViewModel
+import com.elliemoritz.coinbook.presentation.viewModels.fragmentsViewModels.AddLimitViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.fragmentsViewModels.AddMoneyBoxOperationViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.fragmentsViewModels.AddMoneyBoxViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.fragmentsViewModels.EditBalanceViewModel
@@ -61,4 +62,9 @@ interface ViewModelModule {
     @IntoMap
     @ViewModelKey(AddDebtViewModel::class)
     fun bindAddDebtViewModel(viewModel: AddDebtViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AddLimitViewModel::class)
+    fun bindAddLimitViewModel(viewModel: AddLimitViewModel): ViewModel
 }

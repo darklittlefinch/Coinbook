@@ -15,6 +15,9 @@ interface CategoriesDao {
     @Query("SELECT * FROM categories WHERE id = :categoryId LIMIT 1")
     suspend fun getCategory(categoryId: Int): CategoryDbModel
 
+    @Query("SELECT * FROM categories WHERE name = :name LIMIT 1")
+    suspend fun getCategoryByName(name: String): CategoryDbModel?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addCategory(category: CategoryDbModel)
 
