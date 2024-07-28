@@ -129,7 +129,7 @@ class AddExpenseFragment : Fragment() {
                 binding.buttonAddExpense.setOnClickListener {
                     val amount = binding.etAddExpenseAmount.text.toString()
                     val categoryName = binding.spinnerAddExpenses.selectedItem.toString()
-                    viewModel.editExpense(id, amount, categoryName)
+                    viewModel.editExpense(amount, categoryName)
                 }
             }
 

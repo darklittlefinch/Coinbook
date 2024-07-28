@@ -30,13 +30,13 @@ class AddCategoryViewModel @Inject constructor(
     private val removeLimitUseCase: RemoveLimitUseCase
 ) : ViewModel() {
 
-    private val categoryData = MutableSharedFlow<Category>()
-    private val limitData = MutableSharedFlow<Limit?>()
+    private val categoryDataFlow = MutableSharedFlow<Category>()
+    private val limitDataFlow = MutableSharedFlow<Limit?>()
 
-    private val nameStateFlow = categoryData
+    private val nameStateFlow = categoryDataFlow
         .map { FragmentCategoryState.Name(it.name) }
 
-    private val limitStateFlow = limitData
+    private val limitStateFlow = limitDataFlow
         .map {
             val limitAmount = it?.amount ?: 0
             FragmentCategoryState.Limit(limitAmount.toString())
@@ -52,9 +52,9 @@ class AddCategoryViewModel @Inject constructor(
     fun setData(id: Int) {
         viewModelScope.launch {
             val categoryData = getCategoryUseCase(id).first()
-            this@AddCategoryViewModel.categoryData.emit(categoryData)
+            this@AddCategoryViewModel.categoryDataFlow.emit(categoryData)
             val limitData = getLimitByCategoryIdUseCase(categoryData.id).first()
-            this@AddCategoryViewModel.limitData.emit(limitData)
+            this@AddCategoryViewModel.limitDataFlow.emit(limitData)
         }
     }
 
@@ -82,7 +82,7 @@ class AddCategoryViewModel @Inject constructor(
         }
     }
 
-    fun editCategory(id: Int, newName: String, newLimitAmountString: String) {
+    fun editCategory(newName: String, newLimitAmountString: String) {
         viewModelScope.launch {
 
             if (newName.isEmpty() || newLimitAmountString.isEmpty()) {
@@ -91,11 +91,12 @@ class AddCategoryViewModel @Inject constructor(
             }
 
             try {
+                val id = categoryDataFlow.first().id
                 val newLimitAmount = newLimitAmountString.toInt()
                 val category = Category(newName, id)
                 editCategoryUseCase(category)
 
-                val oldLimit = limitData.first()
+                val oldLimit = limitDataFlow.first()
                 handleLimit(oldLimit, newLimitAmount, id)
 
                 setFinishState()

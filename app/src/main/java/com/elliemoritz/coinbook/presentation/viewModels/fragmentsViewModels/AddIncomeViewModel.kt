@@ -70,7 +70,7 @@ class AddIncomeViewModel @Inject constructor(
         }
     }
 
-    fun editIncome(id: Int, newAmountString: String, source: String) {
+    fun editIncome(newAmountString: String, source: String) {
         viewModelScope.launch {
 
             if (newAmountString.isEmpty() || source.isEmpty()) {
@@ -79,6 +79,7 @@ class AddIncomeViewModel @Inject constructor(
             }
 
             try {
+                val id = dataFlow.first().id
                 val newAmount = newAmountString.toInt()
                 val income = Income(getCurrentTimestamp(), newAmount, source, id)
                 editOperationUseCase(income)

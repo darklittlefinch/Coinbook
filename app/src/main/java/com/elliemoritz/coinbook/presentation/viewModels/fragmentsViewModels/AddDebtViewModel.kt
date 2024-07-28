@@ -73,8 +73,9 @@ class AddDebtViewModel @Inject constructor(
             }
 
             try {
-                val amount = amountString.toInt()
                 val oldData = dataFlow.first()
+                val amount = amountString.toInt()
+
                 val debt = Debt(amount, creditor, oldData.id)
                 editDebtUseCase(debt)
                 handleBalance(oldData.amount, amount)
