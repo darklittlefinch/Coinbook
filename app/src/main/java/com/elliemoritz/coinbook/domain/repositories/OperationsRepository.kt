@@ -16,6 +16,11 @@ interface OperationsRepository {
     suspend fun removeOperation(operation: Operation)
     suspend fun removeAllOperations()
 
+    fun getIncome(id: Int): Flow<Income>
+    fun getExpense(id: Int): Flow<Expense>
+    fun getMoneyBoxOperation(id: Int): Flow<MoneyBoxOperation>
+    fun getDebtOperation(id: Int): Flow<DebtOperation>
+
     fun getIncomeListForMonth(): Flow<List<Income>>
     fun getExpensesListForMonth(): Flow<List<Expense>>
     fun getMoneyBoxOperationsListFromDate(date: Timestamp): Flow<List<MoneyBoxOperation>>
@@ -25,6 +30,4 @@ interface OperationsRepository {
     fun getTotalExpensesAmountForMonth(): Flow<Int>
 
     fun getCategoryExpensesListForMonth(categoryName: String): Flow<List<Expense>>
-
-    suspend fun refreshOperationData()
 }

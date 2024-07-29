@@ -3,10 +3,10 @@ package com.elliemoritz.coinbook.domain.useCases.moneyBoxUseCases
 import com.elliemoritz.coinbook.domain.repositories.MoneyBoxRepository
 import javax.inject.Inject
 
-class RefreshMoneyBoxUseCase @Inject constructor(
+class RemoveFromMoneyBoxUseCase @Inject constructor(
     private val moneyBoxRepository: MoneyBoxRepository
 ) {
-    suspend operator fun invoke() {
-        moneyBoxRepository.refreshMoneyBox()
+    suspend operator fun invoke(amount: Int) {
+        moneyBoxRepository.removeFromMoneyBox(amount)
     }
 }

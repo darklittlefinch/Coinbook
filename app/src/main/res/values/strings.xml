@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">Coinbook</string>
 
+    <string name="toast_settings_saved">Settings were successfully saved!</string>
+    <string name="toast_success">Data saved successfully</string>
+    <string name="toast_error_empty_fields">Fields must not be empty</string>
+    <string name="toast_error_incorrect_number">Field for numbers must not contain other characters</string>
+    <string name="toast_error_no_changes">Nothing has changed</string>
+    <string name="toast_create_category">Create at least one category</string>
+
     <string name="title_balance">Balance</string>
     <string name="title_expenses">Expenses</string>
     <string name="title_income">Income</string>
@@ -46,6 +53,8 @@
     <string name="dialog_add_new_expense">Add new expense</string>
     <string name="dialog_create_money_box">Create money box</string>
     <string name="dialog_put_in_money_box">Put money in money box</string>
+    <string name="dialog_remove_from_money_box">Take money out of money box</string>
+    <string name="dialog_edit_money_box_operation">Edit money box operation</string>
     <string name="dialog_add_new_debt">Add new debt</string>
     <string name="dialog_add_new_limit">Add new limit</string>
     <string name="dialog_add_new_alarm">Add new alarm</string>
@@ -68,8 +77,6 @@
     <string name="settings_enable_notifications">Enable notifications</string>
     <string name="settings_enable_notifications_sound">Turn on notifications sound</string>
     <string name="settings_hint_enter_new_balance">Enter new balance</string>
-
-    <string name="toast_settings_saved">Settings were successfully saved!</string>
 
     <string name="content_description_balance_image">Check your balance</string>
     <string name="content_description_income_image">Check your income stats</string>

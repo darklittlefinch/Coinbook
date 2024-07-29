@@ -42,7 +42,11 @@ class IncomeActivity : AppCompatActivity() {
 
     private fun setOnAddClickListener() {
         binding.ivAddNewIncome.setOnClickListener {
-            val intent = OperationsActivity.newIntent(this, OperationsActivity.MODE_INCOME)
+            val intent = OperationsActivity.newIntent(
+                this,
+                OperationsActivity.FRAGMENT_TYPE_INCOME,
+                OperationsActivity.MODE_ADD
+            )
             startActivity(intent)
         }
     }

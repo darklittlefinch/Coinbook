@@ -3,6 +3,7 @@ package com.elliemoritz.coinbook.presentation.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -26,6 +27,7 @@ class MoneyBoxActivity : AppCompatActivity() {
             insets
         }
 
+        binding.ivNoMoneyBox?.visibility = View.VISIBLE
         setOnClickListeners()
     }
 
@@ -47,7 +49,8 @@ class MoneyBoxActivity : AppCompatActivity() {
         binding.ivAddToMoneyBox.setOnClickListener {
             val intent = OperationsActivity.newIntent(
                 this,
-                OperationsActivity.MODE_ADD_MONEY_BOX
+                OperationsActivity.FRAGMENT_TYPE_MONEY_BOX_OPERATION,
+                OperationsActivity.MODE_ADD
             )
             startActivity(intent)
         }
@@ -57,7 +60,19 @@ class MoneyBoxActivity : AppCompatActivity() {
         binding.ivRemoveFromMoneyBox.setOnClickListener {
             val intent = OperationsActivity.newIntent(
                 this,
-                OperationsActivity.MODE_REMOVE_MONEY_BOX
+                OperationsActivity.FRAGMENT_TYPE_MONEY_BOX_OPERATION,
+                OperationsActivity.MODE_REMOVE
+            )
+            startActivity(intent)
+        }
+    }
+
+    private fun setOnEditMoneyBoxClickListener() {
+        binding.ivMoneyBox.setOnClickListener {
+            val intent = OperationsActivity.newIntent(
+                this,
+                OperationsActivity.FRAGMENT_TYPE_MONEY_BOX,
+                OperationsActivity.MODE_EDIT
             )
             startActivity(intent)
         }
@@ -67,7 +82,8 @@ class MoneyBoxActivity : AppCompatActivity() {
         binding.ivNoMoneyBox?.setOnClickListener {
             val intent = OperationsActivity.newIntent(
                 this,
-                OperationsActivity.MODE_MONEY_BOX
+                OperationsActivity.FRAGMENT_TYPE_MONEY_BOX,
+                OperationsActivity.MODE_ADD
             )
             startActivity(intent)
         }

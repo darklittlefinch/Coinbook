@@ -9,4 +9,6 @@ sealed class MainState {
     class Debts(val amount: String, val userHasDebts: Boolean) : MainState()
     class Limits(val userHasLimits: Boolean) : MainState()
     class Alarms(val userHasAlarms: Boolean) : MainState()
+    data object NoCategoriesError : MainState()
+    data object PermitAddExpense : MainState()
 }

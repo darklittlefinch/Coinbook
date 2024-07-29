@@ -1,8 +1,9 @@
 package com.elliemoritz.coinbook.presentation.viewModels
 
 import androidx.lifecycle.ViewModel
-import com.elliemoritz.coinbook.domain.entities.MoneyBox
+import androidx.lifecycle.viewModelScope
 import com.elliemoritz.coinbook.domain.useCases.alarmsUseCases.GetAlarmsCountUseCase
+import com.elliemoritz.coinbook.domain.useCases.categoriesUseCases.GetCategoriesListUseCase
 import com.elliemoritz.coinbook.domain.useCases.debtsUseCases.GetTotalDebtsAmountUseCase
 import com.elliemoritz.coinbook.domain.useCases.limitsUseCases.GetLimitsCountUseCase
 import com.elliemoritz.coinbook.domain.useCases.moneyBoxUseCases.GetMoneyBoxUseCase
@@ -12,12 +13,13 @@ import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetBalan
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetCurrencyUseCase
 import com.elliemoritz.coinbook.presentation.states.MainState
 import com.elliemoritz.coinbook.presentation.util.formatAmount
+import com.elliemoritz.coinbook.presentation.util.mergeWith
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
@@ -28,7 +30,8 @@ class MainViewModel @Inject constructor(
     getMoneyBoxUseCase: GetMoneyBoxUseCase,
     getTotalDebtsAmountUseCase: GetTotalDebtsAmountUseCase,
     getLimitsCountUseCase: GetLimitsCountUseCase,
-    getAlarmsCountUseCase: GetAlarmsCountUseCase
+    getAlarmsCountUseCase: GetAlarmsCountUseCase,
+    private val getCategoriesListUseCase: GetCategoriesListUseCase
 ) : ViewModel() {
 
     companion object {
@@ -37,24 +40,25 @@ class MainViewModel @Inject constructor(
 
     private val currencyFlow = getCurrencyUseCase()
 
-    private val balanceFlow = getBalanceUseCase()
+    private val balanceStateFlow = getBalanceUseCase()
         .map {
             val currency = currencyFlow.first()
             MainState.Balance(formatAmount(it, currency))
         }
 
-    private val incomeFlow = getTotalIncomeAmountForMonthUseCase()
+    private val incomeStateFlow = getTotalIncomeAmountForMonthUseCase()
         .map {
             val currency = currencyFlow.first()
-            MainState.Income(formatAmount(it, currency)) }
+            MainState.Income(formatAmount(it, currency))
+        }
 
-    private val expensesFlow = getTotalExpensesAmountForMonthUseCase()
+    private val expensesStateFlow = getTotalExpensesAmountForMonthUseCase()
         .map {
             val currency = currencyFlow.first()
             MainState.Expenses(formatAmount(it, currency))
         }
 
-    private val moneyBoxFlow = getMoneyBoxUseCase(MoneyBox.MONEY_BOX_ID)
+    private val moneyBoxStateFlow = getMoneyBoxUseCase()
         .map {
             val moneyBoxWasStarted: Boolean
             val moneyBoxAmount: Int
@@ -74,32 +78,42 @@ class MainViewModel @Inject constructor(
             )
         }
 
-    private val debtsAmountFlow = getTotalDebtsAmountUseCase()
+    private val debtsAmountStateFlow = getTotalDebtsAmountUseCase()
         .map {
             val currency = currencyFlow.first()
             MainState.Debts(formatAmount(it, currency), it > NO_DATA)
         }
 
-    private val limitsFlow = getLimitsCountUseCase()
+    private val limitsStateFlow = getLimitsCountUseCase()
         .map { MainState.Limits(it > NO_DATA) }
 
-    private val alarmsFlow = getAlarmsCountUseCase()
+    private val alarmsStateFlow = getAlarmsCountUseCase()
         .map { MainState.Alarms(it > NO_DATA) }
+
+    private val categoriesStateFlow = MutableSharedFlow<MainState>()
 
     private val _state = MutableSharedFlow<MainState>()
         .onStart { emit(MainState.Loading) }
-        .mergeWith(balanceFlow)
-        .mergeWith(incomeFlow)
-        .mergeWith(expensesFlow)
-        .mergeWith(moneyBoxFlow)
-        .mergeWith(debtsAmountFlow)
-        .mergeWith(limitsFlow)
-        .mergeWith(alarmsFlow)
-
-    private fun <T> Flow<T>.mergeWith(another: Flow<T>): Flow<T> {
-        return merge(this, another)
-    }
 
     val state: Flow<MainState>
         get() = _state
+            .mergeWith(balanceStateFlow)
+            .mergeWith(incomeStateFlow)
+            .mergeWith(expensesStateFlow)
+            .mergeWith(moneyBoxStateFlow)
+            .mergeWith(debtsAmountStateFlow)
+            .mergeWith(limitsStateFlow)
+            .mergeWith(alarmsStateFlow)
+            .mergeWith(categoriesStateFlow)
+
+    fun checkCategories() {
+        viewModelScope.launch {
+            val categories = getCategoriesListUseCase().first()
+            if (categories.isEmpty()) {
+                categoriesStateFlow.emit(MainState.NoCategoriesError)
+            } else {
+                categoriesStateFlow.emit(MainState.PermitAddExpense)
+            }
+        }
+    }
 }

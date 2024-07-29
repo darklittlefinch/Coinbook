@@ -8,9 +8,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.elliemoritz.coinbook.domain.repositories.UserPreferencesRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -23,31 +21,15 @@ class UserPreferencesRepositoryImpl @Inject constructor(
     )
     private val dataStore = application.dataStore
 
-    private val refreshBalanceEvents = MutableSharedFlow<Unit>()
-    private val refreshCurrencyEvents = MutableSharedFlow<Unit>()
-
-    override fun getBalance(): Flow<Int> = flow {
-        val balanceValue = readBalanceValue()
-        emit(balanceValue)
-        refreshBalanceEvents.collect {
-            val updatedBalanceValue = readBalanceValue()
-            emit(updatedBalanceValue)
-        }
-    }
-
-    override suspend fun refreshUserPreferencesData() {
-        refreshBalanceEvents.emit(Unit)
-        refreshCurrencyEvents.emit(Unit)
-    }
-
+    override fun getBalance(): Flow<Int> = getBalanceFlow()
     override suspend fun addToBalance(amount: Int) {
-        val oldAmount = readBalanceValue()
+        val oldAmount = getBalanceFlow().first()
         val newAmount = oldAmount + amount
         writeBalanceValue(newAmount)
     }
 
     override suspend fun removeFromBalance(amount: Int) {
-        val oldAmount = readBalanceValue()
+        val oldAmount = getBalanceFlow().first()
         val newAmount = oldAmount - amount
         writeBalanceValue(newAmount)
     }
@@ -56,80 +38,44 @@ class UserPreferencesRepositoryImpl @Inject constructor(
         writeBalanceValue(newAmount)
     }
 
-    override fun getCurrency(): Flow<String> = flow {
-        val currencyValue = readCurrencyValue()
-        emit(currencyValue)
-        refreshCurrencyEvents.collect {
-            val updatedCurrencyValue = readCurrencyValue()
-            emit(updatedCurrencyValue)
-        }
+    override fun getCurrency(): Flow<String> = dataStore.data.map { preferences ->
+        preferences[CURRENCY_KEY] ?: DEFAULT_CURRENCY
     }
 
     override suspend fun editCurrency(newCurrency: String) {
-        writeCurrencyValue(newCurrency)
-    }
-
-    override suspend fun getNotificationsEnabled(): Boolean {
-        return readNotificationsEnabledValue()
-    }
-
-    override suspend fun editNotificationsEnabled(enabled: Boolean) {
-        writeNotificationsEnabledValue(enabled)
-    }
-
-    override suspend fun getNotificationsSoundsEnabled(): Boolean {
-        return readNotificationsSoundsEnabledValue()
-    }
-
-    override suspend fun editNotificationsSoundsEnabled(enabled: Boolean) {
-        writeNotificationsSoundsEnabledValue(enabled)
-    }
-
-    private suspend fun readBalanceValue(): Int {
-        return dataStore.data.map { preferences ->
-            preferences[BALANCE_KEY] ?: DEFAULT_BALANCE
-        }.first()
-    }
-
-    private suspend fun writeBalanceValue(newValue: Int) {
-        dataStore.edit { preferences ->
-            preferences[BALANCE_KEY] = newValue
-        }
-    }
-
-    private suspend fun readCurrencyValue(): String {
-        return dataStore.data.map { preferences ->
-            preferences[CURRENCY_KEY] ?: DEFAULT_CURRENCY
-        }.first()
-    }
-
-    private suspend fun writeCurrencyValue(newCurrency: String) {
         dataStore.edit { preferences ->
             preferences[CURRENCY_KEY] = newCurrency
         }
     }
 
-    private suspend fun readNotificationsEnabledValue(): Boolean {
-        return dataStore.data.map { preferences ->
-            preferences[NOTIFICATIONS_KEY] ?: DEFAULT_NOTIFICATIONS
-        }.first()
+    override fun getNotificationsEnabled(): Flow<Boolean> = dataStore.data.map { preferences ->
+        preferences[NOTIFICATIONS_KEY] ?: DEFAULT_NOTIFICATIONS
     }
 
-    private suspend fun writeNotificationsEnabledValue(enabled: Boolean) {
+    override suspend fun editNotificationsEnabled(enabled: Boolean) {
         dataStore.edit { preferences ->
             preferences[NOTIFICATIONS_KEY] = enabled
         }
     }
 
-    private suspend fun readNotificationsSoundsEnabledValue(): Boolean {
-        return dataStore.data.map { preferences ->
+    override fun getNotificationsSoundsEnabled(): Flow<Boolean> =
+        dataStore.data.map { preferences ->
             preferences[NOTIFICATIONS_SOUNDS_KEY] ?: DEFAULT_NOTIFICATIONS_SOUNDS
-        }.first()
-    }
+        }
 
-    private suspend fun writeNotificationsSoundsEnabledValue(enabled: Boolean) {
+    override suspend fun editNotificationsSoundsEnabled(enabled: Boolean) {
         dataStore.edit { preferences ->
             preferences[NOTIFICATIONS_SOUNDS_KEY] = enabled
+        }
+    }
+
+    private fun getBalanceFlow(): Flow<Int> = dataStore.data.map { preferences ->
+        preferences[BALANCE_KEY] ?: DEFAULT_BALANCE
+    }
+
+    private suspend fun writeBalanceValue(newValue: Int) {
+        dataStore.edit { preferences ->
+            preferences[BALANCE_KEY] = newValue
         }
     }
 

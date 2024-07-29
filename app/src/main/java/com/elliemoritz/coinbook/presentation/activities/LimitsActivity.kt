@@ -42,7 +42,11 @@ class LimitsActivity : AppCompatActivity() {
 
     private fun setOnAddClickListener() {
         binding.ivAddNewLimit.setOnClickListener {
-            val intent = OperationsActivity.newIntent(this, OperationsActivity.MODE_LIMIT)
+            val intent = OperationsActivity.newIntent(
+                this,
+                OperationsActivity.FRAGMENT_TYPE_LIMIT,
+                OperationsActivity.MODE_ADD
+            )
             startActivity(intent)
         }
     }

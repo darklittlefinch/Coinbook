@@ -1,7 +1,5 @@
 package com.elliemoritz.coinbook.presentation.viewModels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.EditBalanceUseCase
@@ -12,37 +10,48 @@ import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetBalan
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetCurrencyUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetNotificationsEnabledUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetNotificationsSoundsEnabledUseCase
-import com.elliemoritz.coinbook.presentation.states.SettingsData
-import com.elliemoritz.coinbook.presentation.states.SettingsShouldClose
 import com.elliemoritz.coinbook.presentation.states.SettingsState
+import com.elliemoritz.coinbook.presentation.util.mergeWith
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SettingsViewModel @Inject constructor(
-    private val getBalanceUseCase: GetBalanceUseCase,
+    getBalanceUseCase: GetBalanceUseCase,
     private val editBalanceUseCase: EditBalanceUseCase,
     private val getCurrencyUseCase: GetCurrencyUseCase,
     private val editCurrencyUseCase: EditCurrencyUseCase,
-    private val getNotificationsEnabledUseCase: GetNotificationsEnabledUseCase,
+    getNotificationsEnabledUseCase: GetNotificationsEnabledUseCase,
     private val editNotificationsEnabledUseCase: EditNotificationsEnabledUseCase,
-    private val getNotificationsSoundsEnabledUseCase: GetNotificationsSoundsEnabledUseCase,
+    getNotificationsSoundsEnabledUseCase: GetNotificationsSoundsEnabledUseCase,
     private val editNotificationsSoundsEnabledUseCase: EditNotificationsSoundsEnabledUseCase
 ) : ViewModel() {
 
-    private val _settingsState = MutableLiveData<SettingsState>()
-    val settingsState: LiveData<SettingsState>
-        get() = _settingsState
+    private val balanceStateFlow = getBalanceUseCase()
+        .map { SettingsState.Balance(it.toString()) }
 
-    fun setInitialSettingsState(currencies: Array<String>) {
+    private val notificationsStateFlow = getNotificationsEnabledUseCase()
+        .map { SettingsState.Notifications(it) }
+
+    private val notificationsSoundsStateFlow = getNotificationsSoundsEnabledUseCase()
+        .map { SettingsState.NotificationsSounds(it) }
+
+    private val _state = MutableSharedFlow<SettingsState>()
+
+    val state: Flow<SettingsState>
+        get() = _state
+            .mergeWith(balanceStateFlow)
+            .mergeWith(notificationsStateFlow)
+            .mergeWith(notificationsSoundsStateFlow)
+
+    fun setCurrencyPosition(currencies: Array<String>) {
         viewModelScope.launch {
-            val currentCurrency = getCurrencyUseCase()
-            _settingsState.value = SettingsData(
-                balance = getBalanceUseCase().first().toString(),
-                currencyIndex = getCurrencyPosition(currencies, currentCurrency.first()),
-                notificationsEnabled = getNotificationsEnabledUseCase(),
-                notificationsSoundsEnabled = getNotificationsSoundsEnabledUseCase()
-            )
+            val currentCurrency = getCurrencyUseCase().first()
+            val currencyPosition = getCurrencyPosition(currencies, currentCurrency)
+            _state.emit(SettingsState.CurrencyPosition(currencyPosition))
         }
     }
 
@@ -64,7 +73,9 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun closeSettings() {
-        _settingsState.value = SettingsShouldClose
+        viewModelScope.launch {
+            _state.emit(SettingsState.Finish)
+        }
     }
 
     private fun getCurrencyPosition(currencies: Array<String>, currentCurrency: String): Int {

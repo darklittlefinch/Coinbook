@@ -7,7 +7,5 @@ import androidx.room.PrimaryKey
 data class CategoryDbModel(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
-    val name: String,
-    val amount: Int,
-    val limit: Int
+    val name: String
 )

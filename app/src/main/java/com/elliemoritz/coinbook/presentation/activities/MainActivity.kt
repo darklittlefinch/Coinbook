@@ -1,7 +1,9 @@
 package com.elliemoritz.coinbook.presentation.activities
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -81,6 +83,23 @@ class MainActivity : AppCompatActivity() {
                             val backgroundColor = getAlarmsColor(it.userHasAlarms)
                             binding.cvAlarms.background.setTint(backgroundColor)
                         }
+
+                        MainState.NoCategoriesError -> {
+                            Toast.makeText(
+                                this@MainActivity,
+                                getString(R.string.toast_create_category),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+
+                        MainState.PermitAddExpense -> {
+                            val intent = OperationsActivity.newIntent(
+                                this@MainActivity,
+                                OperationsActivity.FRAGMENT_TYPE_EXPENSE,
+                                OperationsActivity.MODE_ADD
+                            )
+                            startActivity(intent)
+                        }
                     }
                 }
             }
@@ -143,7 +162,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun setOnBalanceClickListener() {
         binding.cvBalance.setOnClickListener {
-            val intent = OperationsActivity.newIntent(this, OperationsActivity.MODE_BALANCE)
+            val intent = OperationsActivity.newIntent(
+                this,
+                OperationsActivity.FRAGMENT_TYPE_BALANCE,
+                OperationsActivity.MODE_EDIT
+            )
             startActivity(intent)
         }
     }
@@ -157,7 +180,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun setOnPlusClickListener() {
         binding.cvPlus.setOnClickListener {
-            val intent = OperationsActivity.newIntent(this, OperationsActivity.MODE_INCOME)
+            val intent = OperationsActivity.newIntent(
+                this,
+                OperationsActivity.FRAGMENT_TYPE_INCOME,
+                OperationsActivity.MODE_ADD
+            )
             startActivity(intent)
         }
     }
@@ -171,8 +198,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setOnMinusClickListener() {
         binding.cvMinus.setOnClickListener {
-            val intent = OperationsActivity.newIntent(this, OperationsActivity.MODE_EXPENSE)
-            startActivity(intent)
+            viewModel.checkCategories()
         }
     }
 

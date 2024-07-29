@@ -12,13 +12,13 @@ interface AlarmsDao {
     @Query("SELECT * FROM alarms")
     fun getAlarmsList(): List<AlarmDbModel>
 
-    @Query("SELECT * FROM alarms WHERE id=:alarmId LIMIT 1")
+    @Query("SELECT * FROM alarms WHERE id = :alarmId LIMIT 1")
     suspend fun getAlarm(alarmId: Int): AlarmDbModel
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addAlarm(alarm: AlarmDbModel)
 
-    @Query("DELETE FROM alarms WHERE id=:alarmId")
+    @Query("DELETE FROM alarms WHERE id = :alarmId")
     suspend fun removeAlarm(alarmId: Int)
 
     @Query("SELECT COUNT(*) FROM alarms")

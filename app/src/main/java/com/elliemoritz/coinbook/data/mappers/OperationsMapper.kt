@@ -40,14 +40,14 @@ class OperationsMapper @Inject constructor() {
             TYPE_INCOME -> Type.INCOME
             TYPE_EXPENSE -> Type.EXPENSE
             else -> {
-                throw RuntimeException("Unknown type")
+                throw RuntimeException("OperationsMapper: Unknown type")
             }
         }
     }
 
     // INCOME
 
-    private fun mapDbModelToIncome(dbModel: OperationDbModel) = Income(
+    fun mapDbModelToIncome(dbModel: OperationDbModel) = Income(
         incId = dbModel.id,
         incDate = Timestamp(dbModel.dateTimeMillis),
         incAmount = dbModel.amount,
@@ -73,7 +73,7 @@ class OperationsMapper @Inject constructor() {
 
     // MONEY BOX OPERATION
 
-    private fun mapDbModelToMoneyBoxOperation(dbModel: OperationDbModel) = MoneyBoxOperation(
+    fun mapDbModelToMoneyBoxOperation(dbModel: OperationDbModel) = MoneyBoxOperation(
         mbId = dbModel.id,
         mbDate = Timestamp(dbModel.dateTimeMillis),
         mbAmount = dbModel.amount,
@@ -86,7 +86,7 @@ class OperationsMapper @Inject constructor() {
 
     // DEBT OPERATION
 
-    private fun mapDbModelToDebtOperation(dbModel: OperationDbModel) = DebtOperation(
+    fun mapDbModelToDebtOperation(dbModel: OperationDbModel) = DebtOperation(
         debtId = dbModel.id,
         debtDate = Timestamp(dbModel.dateTimeMillis),
         debtAmount = dbModel.amount,
@@ -116,7 +116,7 @@ class OperationsMapper @Inject constructor() {
             OPERATION_FORM_MONEY_BOX_OPERATION -> mapDbModelToMoneyBoxOperation(dbModel)
             OPERATION_FORM_DEBT -> mapDbModelToDebtOperation(dbModel)
             else -> {
-                throw RuntimeException("Unknown operation form")
+                throw RuntimeException("OperationsMapper: Unknown operation form")
             }
         }
     }

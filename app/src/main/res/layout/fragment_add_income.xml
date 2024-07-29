@@ -39,18 +39,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_amount"
+                android:importantForAutofill="no"
                 android:inputType="number"
-                app:layout_constraintBottom_toTopOf="@id/tv_add_income_source"
+                app:layout_constraintBottom_toTopOf="@id/et_add_income_source"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_add_income_title" />
 
             <EditText
-                android:id="@+id/tv_add_income_source"
+                android:id="@+id/et_add_income_source"
                 style="@style/add_fragments_inputs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_source"
+                android:importantForAutofill="no"
                 android:inputType="textAutoCorrect"
                 app:layout_constraintBottom_toTopOf="@id/button_add_income"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -66,7 +68,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_add_income_source" />
+                app:layout_constraintTop_toBottomOf="@id/et_add_income_source" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

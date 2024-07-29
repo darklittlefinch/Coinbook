@@ -12,7 +12,6 @@ class MoneyBoxMapper @Inject constructor() {
         goalAmount = moneyBox.goalAmount,
         totalAmount = moneyBox.totalAmount,
         goal = moneyBox.goal,
-        deadlineMillis = moneyBox.deadline.time,
         startedMillis = moneyBox.started.time
     )
 
@@ -21,7 +20,6 @@ class MoneyBoxMapper @Inject constructor() {
         goalAmount = dbModel.goalAmount,
         totalAmount = dbModel.totalAmount,
         goal = dbModel.goal,
-        deadline = Timestamp(dbModel.deadlineMillis),
         started = Timestamp(dbModel.startedMillis)
     )
 }

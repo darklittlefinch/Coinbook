@@ -10,14 +10,17 @@ import com.elliemoritz.coinbook.data.dbModels.CategoryDbModel
 interface CategoriesDao {
 
     @Query("SELECT * FROM categories")
-    fun getCategoriesList(): List<CategoryDbModel>
+    suspend fun getCategoriesList(): List<CategoryDbModel>
 
-    @Query("SELECT * FROM categories WHERE id=:categoryId LIMIT 1")
+    @Query("SELECT * FROM categories WHERE id = :categoryId LIMIT 1")
     suspend fun getCategory(categoryId: Int): CategoryDbModel
+
+    @Query("SELECT * FROM categories WHERE name = :name LIMIT 1")
+    suspend fun getCategoryByName(name: String): CategoryDbModel?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addCategory(category: CategoryDbModel)
 
-    @Query("DELETE FROM categories WHERE id=:categoryId")
+    @Query("DELETE FROM categories WHERE id = :categoryId")
     suspend fun removeCategory(categoryId: Int)
 }

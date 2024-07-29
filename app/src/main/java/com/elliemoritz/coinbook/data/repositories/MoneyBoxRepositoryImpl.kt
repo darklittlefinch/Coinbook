@@ -5,7 +5,6 @@ import com.elliemoritz.coinbook.data.mappers.MoneyBoxMapper
 import com.elliemoritz.coinbook.domain.entities.MoneyBox
 import com.elliemoritz.coinbook.domain.repositories.MoneyBoxRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
@@ -14,30 +13,33 @@ class MoneyBoxRepositoryImpl @Inject constructor(
     private val mapper: MoneyBoxMapper
 ) : MoneyBoxRepository {
 
-    private val refreshEvents = MutableSharedFlow<Unit>()
-
-    override fun getMoneyBox(id: Int): Flow<MoneyBox?> = flow {
-        val dbModel = dao.getMoneyBox(id)
-        val result = if (dbModel != null) {
+    override fun getMoneyBox(): Flow<MoneyBox?> = flow {
+        val dbModel = dao.getMoneyBox(MoneyBox.MONEY_BOX_ID)
+        val moneyBox = if (dbModel != null) {
             mapper.mapDbModelToEntity(dbModel)
         } else {
             null
         }
-        emit(result)
-        refreshEvents.collect {
-            val updatedDbModel = dao.getMoneyBox(id)
-            val updatedResult = if (updatedDbModel != null) {
-                mapper.mapDbModelToEntity(updatedDbModel)
-            } else {
-                null
-            }
-            emit(updatedResult)
-        }
+        emit(moneyBox)
     }
 
     override suspend fun addMoneyBox(moneyBox: MoneyBox) {
         val dbModel = mapper.mapEntityToDbModel(moneyBox)
         dao.addMoneyBox(dbModel)
+    }
+
+    override suspend fun addToMoneyBox(amount: Int) {
+        val dbModel = dao.getMoneyBox(MoneyBox.MONEY_BOX_ID) ?: return
+        val newAmount = dbModel.totalAmount + amount
+        val newDbModel = dbModel.copy(totalAmount = newAmount)
+        dao.addMoneyBox(newDbModel)
+    }
+
+    override suspend fun removeFromMoneyBox(amount: Int) {
+        val dbModel = dao.getMoneyBox(MoneyBox.MONEY_BOX_ID) ?: return
+        val newAmount = dbModel.totalAmount - amount
+        val newDbModel = dbModel.copy(totalAmount = newAmount)
+        dao.addMoneyBox(newDbModel)
     }
 
     override suspend fun editMoneyBox(moneyBox: MoneyBox) {
@@ -47,9 +49,5 @@ class MoneyBoxRepositoryImpl @Inject constructor(
 
     override suspend fun removeMoneyBox(moneyBox: MoneyBox) {
         dao.removeMoneyBox(moneyBox.id)
-    }
-
-    override suspend fun refreshMoneyBox() {
-        refreshEvents.emit(Unit)
     }
 }

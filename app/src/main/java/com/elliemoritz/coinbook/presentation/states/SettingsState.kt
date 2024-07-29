@@ -1,12 +1,9 @@
 package com.elliemoritz.coinbook.presentation.states
 
-sealed class SettingsState
-
-class SettingsData(
-    val balance: String,
-    val currencyIndex: Int,
-    val notificationsEnabled: Boolean,
-    val notificationsSoundsEnabled: Boolean
-) : SettingsState()
-
-data object SettingsShouldClose: SettingsState()
+sealed class SettingsState {
+    class Balance(val value: String) : SettingsState()
+    class CurrencyPosition(val value: Int) : SettingsState()
+    class Notifications(val enabled: Boolean) : SettingsState()
+    class NotificationsSounds(val enabled: Boolean) : SettingsState()
+    data object Finish : SettingsState()
+}

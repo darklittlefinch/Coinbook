@@ -5,7 +5,6 @@ import com.elliemoritz.coinbook.data.mappers.CategoryMapper
 import com.elliemoritz.coinbook.domain.entities.Category
 import com.elliemoritz.coinbook.domain.repositories.CategoriesRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
@@ -14,29 +13,26 @@ class CategoriesRepositoryImpl @Inject constructor(
     private val mapper: CategoryMapper
 ) : CategoriesRepository {
 
-    private val refreshListEvents = MutableSharedFlow<Unit>()
-    private val refreshCategoryEvents = MutableSharedFlow<Unit>()
-
     override fun getCategoriesList(): Flow<List<Category>> = flow {
-        val list = dao.getCategoriesList()
-        val result = mapper.mapListDbModelToListEntities(list)
-        emit(result)
-        refreshListEvents.collect {
-            val updatedList = dao.getCategoriesList()
-            val updatedResult = mapper.mapListDbModelToListEntities(updatedList)
-            emit(updatedResult)
-        }
+        val dbModelsList = dao.getCategoriesList()
+        val categoriesList = mapper.mapListDbModelToListEntities(dbModelsList)
+        emit(categoriesList)
     }
 
     override fun getCategory(id: Int): Flow<Category> = flow {
         val dbModel = dao.getCategory(id)
-        val result = mapper.mapDbModelToEntity(dbModel)
-        emit(result)
-        refreshCategoryEvents.collect {
-            val updatedDbModel = dao.getCategory(id)
-            val updatedResult = mapper.mapDbModelToEntity(updatedDbModel)
-            emit(updatedResult)
+        val category = mapper.mapDbModelToEntity(dbModel)
+        emit(category)
+    }
+
+    override fun getCategoryByName(name: String): Flow<Category?> = flow {
+        val dbModel = dao.getCategoryByName(name)
+        val category = if (dbModel != null) {
+            mapper.mapDbModelToEntity(dbModel)
+        } else {
+            null
         }
+        emit(category)
     }
 
     override suspend fun addCategory(category: Category) {
@@ -51,10 +47,5 @@ class CategoriesRepositoryImpl @Inject constructor(
 
     override suspend fun removeCategory(category: Category) {
         dao.removeCategory(category.id)
-    }
-
-    override suspend fun refreshCategoriesData() {
-        refreshListEvents.emit(Unit)
-        refreshCategoryEvents.emit(Unit)
     }
 }
