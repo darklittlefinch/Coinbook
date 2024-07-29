@@ -91,8 +91,12 @@ class AddExpenseFragment : Fragment() {
                             binding.spinnerAddExpenses.adapter = adapter
                         }
 
-                        is FragmentExpenseState.Data -> {
+                        is FragmentExpenseState.Amount -> {
                             binding.etAddExpenseAmount.setText(it.amount)
+                        }
+
+                        is FragmentExpenseState.CategoryPosition -> {
+                            binding.spinnerAddExpenses.setSelection(it.position)
                         }
 
                         is FragmentExpenseState.EmptyFields -> {

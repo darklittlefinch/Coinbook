@@ -29,17 +29,9 @@ class AddExpenseViewModel @Inject constructor(
     private val removeFromBalanceUseCase: RemoveFromBalanceUseCase
 ) : ViewModel() {
 
-    private val dataFlow = MutableSharedFlow<Expense>()
+    private val categoriesFlow = getCategoriesListUseCase()
 
-    private val dataStateFlow = dataFlow
-        .map {
-            FragmentExpenseState.Data(
-                it.amount.toString(),
-                it.expCategoryName
-            )
-        }
-
-    private val categoriesStateFlow = getCategoriesListUseCase()
+    private val categoriesStateFlow = categoriesFlow
         .map { categoriesList ->
             FragmentExpenseState.Categories(categoriesList
                 .map { category ->
@@ -47,12 +39,32 @@ class AddExpenseViewModel @Inject constructor(
                 })
         }
 
+    private val dataFlow = MutableSharedFlow<Expense>()
+
+    private val amountStateFlow = dataFlow
+        .map { FragmentExpenseState.Amount(it.amount.toString()) }
+
+    private val categoryPositionStateFlow = dataFlow
+        .map {
+            val currentCategoryName = it.expCategoryName
+            val categories = categoriesFlow.first()
+            var categoryPosition = 0
+            for ((index, category) in categories.withIndex()) {
+                if (category.name === currentCategoryName) {
+                    categoryPosition = index
+                    break
+                }
+            }
+            FragmentExpenseState.CategoryPosition(categoryPosition)
+        }
+
     private val _state = MutableSharedFlow<FragmentExpenseState>()
 
     val state: Flow<FragmentExpenseState>
         get() = _state
             .mergeWith(categoriesStateFlow)
-            .mergeWith(dataStateFlow)
+            .mergeWith(amountStateFlow)
+            .mergeWith(categoryPositionStateFlow)
 
     fun setData(id: Int) {
         viewModelScope.launch {
