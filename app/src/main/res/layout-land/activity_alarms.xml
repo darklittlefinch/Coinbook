@@ -76,8 +76,7 @@
         tools:listitem="@layout/item_alarm" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/alarms_container"
-        android:name="com.elliemoritz.coinbook.presentation.fragments.AddAlarmFragment"
+        android:id="@+id/fragment_container_alarms"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"

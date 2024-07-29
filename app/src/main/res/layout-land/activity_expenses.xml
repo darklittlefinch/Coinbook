@@ -86,8 +86,7 @@
         tools:listitem="@layout/item_expense" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/expenses_container"
-        android:name="com.elliemoritz.coinbook.presentation.fragments.AddExpenseFragment"
+        android:id="@+id/fragment_container_expenses"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"

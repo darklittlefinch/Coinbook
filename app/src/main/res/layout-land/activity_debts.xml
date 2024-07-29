@@ -86,8 +86,7 @@
         tools:listitem="@layout/item_debt" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/debts_container"
-        android:name="com.elliemoritz.coinbook.presentation.fragments.AddDebtFragment"
+        android:id="@+id/fragment_container_debts"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
