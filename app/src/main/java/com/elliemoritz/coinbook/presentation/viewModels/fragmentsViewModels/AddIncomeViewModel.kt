@@ -3,12 +3,18 @@ package com.elliemoritz.coinbook.presentation.viewModels.fragmentsViewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elliemoritz.coinbook.domain.entities.operations.Income
+import com.elliemoritz.coinbook.domain.exceptions.EmptyFieldsException
+import com.elliemoritz.coinbook.domain.exceptions.IncorrectNumberException
+import com.elliemoritz.coinbook.domain.exceptions.NoChangesException
 import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.AddOperationUseCase
 import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.EditOperationUseCase
 import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetIncomeUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.AddToBalanceUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.RemoveFromBalanceUseCase
 import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentIncomeState
+import com.elliemoritz.coinbook.presentation.util.checkEmptyFields
+import com.elliemoritz.coinbook.presentation.util.checkIncorrectNumbers
+import com.elliemoritz.coinbook.presentation.util.checkNoChanges
 import com.elliemoritz.coinbook.presentation.util.getCurrentTimestamp
 import com.elliemoritz.coinbook.presentation.util.mergeWith
 import kotlinx.coroutines.flow.Flow
@@ -51,41 +57,43 @@ class AddIncomeViewModel @Inject constructor(
     }
 
     fun createIncome(amountString: String, source: String) {
+
         viewModelScope.launch {
 
-            if (amountString.isEmpty() || source.isEmpty()) {
-                setEmptyFieldsState()
-                return@launch
-            }
-
             try {
+                checkEmptyFields(amountString, source)
+                checkIncorrectNumbers(amountString)
+
                 val amount = amountString.toInt()
                 val income = Income(getCurrentTimestamp(), amount, source)
                 addOperationUseCase(income)
                 addToBalanceUseCase(amount)
+
                 setFinishState()
-            } catch (e: NumberFormatException) {
+
+            } catch (e: EmptyFieldsException) {
+                setEmptyFieldsState()
+            } catch (e: IncorrectNumberException) {
                 setIncorrectNumberState()
             }
         }
     }
 
     fun editIncome(newAmountString: String, newSource: String) {
+
         viewModelScope.launch {
 
-            if (newAmountString.isEmpty() || newSource.isEmpty()) {
-                setEmptyFieldsState()
-                return@launch
-            }
-
             try {
+                checkEmptyFields(newAmountString, newSource)
+                checkIncorrectNumbers(newAmountString)
+
                 val oldData = dataFlow.first()
                 val newAmount = newAmountString.toInt()
 
-                if (newAmount == oldData.amount && newSource == oldData.incSource) {
-                    setNoChangesState()
-                    return@launch
-                }
+                checkNoChanges(
+                    listOf(newAmount, newSource),
+                    listOf(oldData.amount, oldData.incSource)
+                )
 
                 val income = Income(oldData.date, newAmount, newSource, oldData.id)
                 editOperationUseCase(income)
@@ -94,8 +102,13 @@ class AddIncomeViewModel @Inject constructor(
                 editBalance(oldAmount, newAmount)
 
                 setFinishState()
-            } catch (e: NumberFormatException) {
+
+            } catch (e: EmptyFieldsException) {
+                setEmptyFieldsState()
+            } catch (e: IncorrectNumberException) {
                 setIncorrectNumberState()
+            } catch (e: NoChangesException) {
+                setNoChangesState()
             }
         }
     }

@@ -3,6 +3,9 @@ package com.elliemoritz.coinbook.presentation.viewModels.fragmentsViewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elliemoritz.coinbook.domain.entities.Limit
+import com.elliemoritz.coinbook.domain.exceptions.EmptyFieldsException
+import com.elliemoritz.coinbook.domain.exceptions.IncorrectNumberException
+import com.elliemoritz.coinbook.domain.exceptions.NoChangesException
 import com.elliemoritz.coinbook.domain.useCases.categoriesUseCases.GetCategoriesListUseCase
 import com.elliemoritz.coinbook.domain.useCases.categoriesUseCases.GetCategoryByNameUseCase
 import com.elliemoritz.coinbook.domain.useCases.categoriesUseCases.GetCategoryUseCase
@@ -11,6 +14,9 @@ import com.elliemoritz.coinbook.domain.useCases.limitsUseCases.EditLimitUseCase
 import com.elliemoritz.coinbook.domain.useCases.limitsUseCases.GetLimitByCategoryIdUseCase
 import com.elliemoritz.coinbook.domain.useCases.limitsUseCases.GetLimitUseCase
 import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentLimitState
+import com.elliemoritz.coinbook.presentation.util.checkEmptyFields
+import com.elliemoritz.coinbook.presentation.util.checkIncorrectNumbers
+import com.elliemoritz.coinbook.presentation.util.checkNoChanges
 import com.elliemoritz.coinbook.presentation.util.mergeWith
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -77,14 +83,16 @@ class AddLimitViewModel @Inject constructor(
 
         viewModelScope.launch {
 
-            val category = getCategoryByNameUseCase(categoryName).first()
-
-            if (amountString.isEmpty() || category == null) {
-                setEmptyFieldsState()
-                return@launch
-            }
-
             try {
+                val category = getCategoryByNameUseCase(categoryName).first()
+
+                checkEmptyFields(amountString, categoryName)
+                checkIncorrectNumbers(amountString)
+
+                if (category == null) {
+                    throw RuntimeException("Somehow user selected a non-existent category...")
+                }
+
                 val amount = amountString.toInt()
                 val possibleLimit = getLimitByCategoryIdUseCase(category.id).first()
 
@@ -97,37 +105,48 @@ class AddLimitViewModel @Inject constructor(
                 }
 
                 setFinishState()
-            } catch (e: NumberFormatException) {
+
+            } catch (e: EmptyFieldsException) {
+                setEmptyFieldsState()
+            } catch (e: IncorrectNumberException) {
                 setIncorrectNumberState()
             }
         }
     }
 
-    fun editLimit(amountString: String, newCategoryName: String) {
+    fun editLimit(newAmountString: String, newCategoryName: String) {
 
         viewModelScope.launch {
 
-            val newCategory = getCategoryByNameUseCase(newCategoryName).first()
-
-            if (amountString.isEmpty() || newCategory == null) {
-                setEmptyFieldsState()
-                return@launch
-            }
-
             try {
-                val oldData = dataFlow.first()
-                val newAmount = amountString.toInt()
+                val newCategory = getCategoryByNameUseCase(newCategoryName).first()
 
-                if (newAmount == oldData.amount && newCategory.id == oldData.categoryId) {
-                    setNoChangesState()
-                    return@launch
+                checkEmptyFields(newAmountString, newCategoryName)
+                checkIncorrectNumbers(newAmountString)
+
+                if (newCategory == null) {
+                    throw RuntimeException("Somehow user selected a non-existent category...")
                 }
+
+                val oldData = dataFlow.first()
+                val newAmount = newAmountString.toInt()
+
+                checkNoChanges(
+                    listOf(newAmount, newCategory.id),
+                    listOf(oldData.amount, oldData.categoryId)
+                )
 
                 val limit = Limit(newAmount, newCategory.id, oldData.id)
                 editLimitUseCase(limit)
+
                 setFinishState()
-            } catch (e: NumberFormatException) {
+
+            } catch (e: EmptyFieldsException) {
+                setEmptyFieldsState()
+            } catch (e: IncorrectNumberException) {
                 setIncorrectNumberState()
+            } catch (e: NoChangesException) {
+                setNoChangesState()
             }
         }
     }

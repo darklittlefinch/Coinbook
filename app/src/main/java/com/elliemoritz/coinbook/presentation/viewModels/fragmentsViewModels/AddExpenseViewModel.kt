@@ -3,6 +3,9 @@ package com.elliemoritz.coinbook.presentation.viewModels.fragmentsViewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elliemoritz.coinbook.domain.entities.operations.Expense
+import com.elliemoritz.coinbook.domain.exceptions.EmptyFieldsException
+import com.elliemoritz.coinbook.domain.exceptions.IncorrectNumberException
+import com.elliemoritz.coinbook.domain.exceptions.NoChangesException
 import com.elliemoritz.coinbook.domain.useCases.categoriesUseCases.GetCategoriesListUseCase
 import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.AddOperationUseCase
 import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.EditOperationUseCase
@@ -10,6 +13,9 @@ import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetExpenseUse
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.AddToBalanceUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.RemoveFromBalanceUseCase
 import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentExpenseState
+import com.elliemoritz.coinbook.presentation.util.checkEmptyFields
+import com.elliemoritz.coinbook.presentation.util.checkIncorrectNumbers
+import com.elliemoritz.coinbook.presentation.util.checkNoChanges
 import com.elliemoritz.coinbook.presentation.util.getCurrentTimestamp
 import com.elliemoritz.coinbook.presentation.util.mergeWith
 import kotlinx.coroutines.flow.Flow
@@ -74,51 +80,58 @@ class AddExpenseViewModel @Inject constructor(
     }
 
     fun createExpense(amountString: String, categoryName: String) {
+
         viewModelScope.launch {
 
-            if (amountString.isEmpty()) {
-                setEmptyFieldsState()
-                return@launch
-            }
-
             try {
+                checkEmptyFields(amountString, categoryName)
+                checkIncorrectNumbers(amountString)
+
                 val amount = amountString.toInt()
                 val expense = Expense(getCurrentTimestamp(), amount, categoryName)
                 addOperationUseCase(expense)
                 removeFromBalanceUseCase(amount)
+
                 setFinishState()
-            } catch (e: NumberFormatException) {
+
+            } catch (e: EmptyFieldsException) {
+                setEmptyFieldsState()
+            } catch (e: IncorrectNumberException) {
                 setIncorrectNumberState()
             }
         }
     }
 
-    fun editExpense(newAmountString: String, categoryName: String) {
+    fun editExpense(newAmountString: String, newCategoryName: String) {
+
         viewModelScope.launch {
 
-            if (newAmountString.isEmpty()) {
-                setEmptyFieldsState()
-                return@launch
-            }
-
             try {
+                checkEmptyFields(newAmountString, newCategoryName)
+                checkIncorrectNumbers(newAmountString)
+
                 val oldData = dataFlow.first()
                 val newAmount = newAmountString.toInt()
 
-                if (newAmount == oldData.amount && categoryName == oldData.expCategoryName) {
-                    setNoChangesState()
-                    return@launch
-                }
+                checkNoChanges(
+                    listOf(newAmount, newCategoryName),
+                    listOf(oldData.amount, oldData.expCategoryName)
+                )
 
-                val expense = Expense(oldData.date, newAmount, categoryName, oldData.id)
+                val expense = Expense(oldData.date, newAmount, newCategoryName, oldData.id)
                 editOperationUseCase(expense)
 
                 val oldAmount = oldData.amount
                 editBalance(oldAmount, newAmount)
 
                 setFinishState()
-            } catch (e: NumberFormatException) {
+
+            } catch (e: EmptyFieldsException) {
+                setEmptyFieldsState()
+            } catch (e: IncorrectNumberException) {
                 setIncorrectNumberState()
+            } catch (e: NoChangesException) {
+                setNoChangesState()
             }
         }
     }

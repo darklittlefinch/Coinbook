@@ -4,6 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elliemoritz.coinbook.domain.entities.helpers.Type
 import com.elliemoritz.coinbook.domain.entities.operations.MoneyBoxOperation
+import com.elliemoritz.coinbook.domain.exceptions.EmptyFieldsException
+import com.elliemoritz.coinbook.domain.exceptions.IncorrectNumberException
+import com.elliemoritz.coinbook.domain.exceptions.NoChangesException
 import com.elliemoritz.coinbook.domain.useCases.moneyBoxUseCases.AddToMoneyBoxUseCase
 import com.elliemoritz.coinbook.domain.useCases.moneyBoxUseCases.RemoveFromMoneyBoxUseCase
 import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.AddOperationUseCase
@@ -12,6 +15,9 @@ import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetMoneyBoxOp
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.AddToBalanceUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.RemoveFromBalanceUseCase
 import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentMoneyBoxOperationState
+import com.elliemoritz.coinbook.presentation.util.checkEmptyFields
+import com.elliemoritz.coinbook.presentation.util.checkIncorrectNumbers
+import com.elliemoritz.coinbook.presentation.util.checkNoChanges
 import com.elliemoritz.coinbook.presentation.util.getCurrentTimestamp
 import com.elliemoritz.coinbook.presentation.util.mergeWith
 import kotlinx.coroutines.flow.Flow
@@ -51,14 +57,13 @@ class AddMoneyBoxOperationViewModel @Inject constructor(
     }
 
     fun createMoneyBoxOperation(amountString: String, type: Type) {
+
         viewModelScope.launch {
 
-            if (amountString.isEmpty()) {
-                setEmptyFieldsState()
-                return@launch
-            }
-
             try {
+                checkEmptyFields(amountString)
+                checkIncorrectNumbers(amountString)
+
                 val amount = amountString.toInt()
                 val moneyBoxOperation = MoneyBoxOperation(
                     type,
@@ -67,29 +72,32 @@ class AddMoneyBoxOperationViewModel @Inject constructor(
                 )
                 addOperationUseCase(moneyBoxOperation)
                 handleCreateOperationType(type, amount)
+
                 setFinishState()
-            } catch (e: NumberFormatException) {
+
+            } catch (e: EmptyFieldsException) {
+                setEmptyFieldsState()
+            } catch (e: IncorrectNumberException) {
                 setIncorrectNumberState()
             }
         }
     }
 
     fun editMoneyBoxOperation(newAmountString: String) {
+
         viewModelScope.launch {
 
-            if (newAmountString.isEmpty()) {
-                setEmptyFieldsState()
-                return@launch
-            }
-
             try {
+                checkEmptyFields(newAmountString)
+                checkIncorrectNumbers(newAmountString)
+
                 val oldData = dataFlow.first()
                 val newAmount = newAmountString.toInt()
 
-                if (newAmount == oldData.amount) {
-                    setNoChangesState()
-                    return@launch
-                }
+                checkNoChanges(
+                    listOf(newAmount),
+                    listOf(oldData.amount)
+                )
 
                 val moneyBoxOperation = MoneyBoxOperation(
                     oldData.type,
@@ -99,14 +107,21 @@ class AddMoneyBoxOperationViewModel @Inject constructor(
                 )
                 editOperationUseCase(moneyBoxOperation)
                 handleEditOperationType(oldData.type, newAmount, oldData.amount)
+
                 setFinishState()
-            } catch (e: NumberFormatException) {
+
+            } catch (e: EmptyFieldsException) {
+                setEmptyFieldsState()
+            } catch (e: IncorrectNumberException) {
                 setIncorrectNumberState()
+            } catch (e: NoChangesException) {
+                setNoChangesState()
             }
         }
     }
 
     private suspend fun handleCreateOperationType(type: Type, amount: Int) {
+
         when (type) {
             Type.INCOME -> {
                 addMoney(amount)
@@ -119,7 +134,9 @@ class AddMoneyBoxOperationViewModel @Inject constructor(
     }
 
     private suspend fun handleEditOperationType(type: Type, oldAmount: Int, newAmount: Int) {
+
         val difference = abs(newAmount - oldAmount)
+
         when (type) {
             Type.INCOME -> {
                 if (newAmount > oldAmount) {

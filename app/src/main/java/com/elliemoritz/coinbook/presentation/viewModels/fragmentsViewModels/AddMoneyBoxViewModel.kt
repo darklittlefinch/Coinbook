@@ -3,10 +3,16 @@ package com.elliemoritz.coinbook.presentation.viewModels.fragmentsViewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elliemoritz.coinbook.domain.entities.MoneyBox
+import com.elliemoritz.coinbook.domain.exceptions.EmptyFieldsException
+import com.elliemoritz.coinbook.domain.exceptions.IncorrectNumberException
+import com.elliemoritz.coinbook.domain.exceptions.NoChangesException
 import com.elliemoritz.coinbook.domain.useCases.moneyBoxUseCases.AddMoneyBoxUseCase
 import com.elliemoritz.coinbook.domain.useCases.moneyBoxUseCases.EditMoneyBoxUseCase
 import com.elliemoritz.coinbook.domain.useCases.moneyBoxUseCases.GetMoneyBoxUseCase
 import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentMoneyBoxState
+import com.elliemoritz.coinbook.presentation.util.checkEmptyFields
+import com.elliemoritz.coinbook.presentation.util.checkIncorrectNumbers
+import com.elliemoritz.coinbook.presentation.util.checkNoChanges
 import com.elliemoritz.coinbook.presentation.util.getCurrentTimestamp
 import com.elliemoritz.coinbook.presentation.util.mergeWith
 import kotlinx.coroutines.flow.Flow
@@ -48,14 +54,13 @@ class AddMoneyBoxViewModel @Inject constructor(
     }
 
     fun createMoneyBox(goalAmountString: String, goal: String) {
+
         viewModelScope.launch {
 
-            if (goalAmountString.isEmpty() || goal.isEmpty()) {
-                setEmptyFieldsState()
-                return@launch
-            }
-
             try {
+                checkEmptyFields(goalAmountString, goal)
+                checkIncorrectNumbers(goalAmountString)
+
                 val goalAmount = goalAmountString.toInt()
                 val moneyBox = MoneyBox(
                     goalAmount,
@@ -65,28 +70,30 @@ class AddMoneyBoxViewModel @Inject constructor(
                 addMoneyBoxUseCase(moneyBox)
 
                 setFinishState()
-            } catch (e: NumberFormatException) {
+
+            } catch (e: EmptyFieldsException) {
+                setEmptyFieldsState()
+            } catch (e: IncorrectNumberException) {
                 setIncorrectNumberState()
             }
         }
     }
 
     fun editMoneyBox(newGoalAmountString: String, newGoal: String) {
+
         viewModelScope.launch {
 
-            if (newGoalAmountString.isEmpty() || newGoal.isEmpty()) {
-                setEmptyFieldsState()
-                return@launch
-            }
-
             try {
+                checkEmptyFields(newGoalAmountString, newGoal)
+                checkIncorrectNumbers(newGoalAmountString)
+
                 val oldData = dataFlow.first()
                 val newGoalAmount = newGoalAmountString.toInt()
 
-                if (newGoalAmount == oldData.goalAmount && newGoal == oldData.goal) {
-                    setNoChangesState()
-                    return@launch
-                }
+                checkNoChanges(
+                    listOf(newGoalAmount, newGoal),
+                    listOf(oldData.goalAmount, oldData.goal)
+                )
 
                 val moneyBox = MoneyBox(
                     newGoalAmount,
@@ -96,8 +103,13 @@ class AddMoneyBoxViewModel @Inject constructor(
                 editMoneyBoxUseCase(moneyBox)
 
                 setFinishState()
-            } catch (e: NumberFormatException) {
+
+            } catch (e: EmptyFieldsException) {
+                setEmptyFieldsState()
+            } catch (e: IncorrectNumberException) {
                 setIncorrectNumberState()
+            } catch (e: NoChangesException) {
+                setNoChangesState()
             }
         }
     }

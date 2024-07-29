@@ -4,6 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elliemoritz.coinbook.domain.entities.Category
 import com.elliemoritz.coinbook.domain.entities.Limit
+import com.elliemoritz.coinbook.domain.exceptions.EmptyFieldsException
+import com.elliemoritz.coinbook.domain.exceptions.IncorrectNumberException
+import com.elliemoritz.coinbook.domain.exceptions.NoChangesException
 import com.elliemoritz.coinbook.domain.useCases.categoriesUseCases.AddCategoryUseCase
 import com.elliemoritz.coinbook.domain.useCases.categoriesUseCases.EditCategoryUseCase
 import com.elliemoritz.coinbook.domain.useCases.categoriesUseCases.GetCategoryUseCase
@@ -12,6 +15,9 @@ import com.elliemoritz.coinbook.domain.useCases.limitsUseCases.EditLimitUseCase
 import com.elliemoritz.coinbook.domain.useCases.limitsUseCases.GetLimitByCategoryIdUseCase
 import com.elliemoritz.coinbook.domain.useCases.limitsUseCases.RemoveLimitUseCase
 import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentCategoryState
+import com.elliemoritz.coinbook.presentation.util.checkEmptyFields
+import com.elliemoritz.coinbook.presentation.util.checkIncorrectNumbers
+import com.elliemoritz.coinbook.presentation.util.checkNoChanges
 import com.elliemoritz.coinbook.presentation.util.mergeWith
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -59,14 +65,13 @@ class AddCategoryViewModel @Inject constructor(
     }
 
     fun createCategory(name: String, limitAmountString: String) {
+
         viewModelScope.launch {
 
-            if (name.isEmpty() || limitAmountString.isEmpty()) {
-                setEmptyFieldsState()
-                return@launch
-            }
-
             try {
+                checkEmptyFields(name, limitAmountString)
+                checkIncorrectNumbers(limitAmountString)
+
                 val limitAmount = limitAmountString.toInt()
                 val category = Category(name)
                 addCategoryUseCase(category)
@@ -76,39 +81,45 @@ class AddCategoryViewModel @Inject constructor(
                 }
 
                 setFinishState()
-            } catch (e: NumberFormatException) {
+
+            } catch (e: EmptyFieldsException) {
+                setEmptyFieldsState()
+            } catch (e: IncorrectNumberException) {
                 setIncorrectNumberState()
             }
         }
     }
 
     fun editCategory(newName: String, newLimitAmountString: String) {
+
         viewModelScope.launch {
 
-            if (newName.isEmpty() || newLimitAmountString.isEmpty()) {
-                setEmptyFieldsState()
-                return@launch
-            }
-
             try {
+                checkEmptyFields(newName, newLimitAmountString)
+                checkIncorrectNumbers(newLimitAmountString)
+
                 val oldData = categoryDataFlow.first()
                 val oldLimit = limitDataFlow.first()
                 val oldLimitAmount = oldLimit?.amount ?: 0
                 val newLimitAmount = newLimitAmountString.toInt()
 
-                if (newName == oldData.name && newLimitAmount == oldLimitAmount) {
-                    setNoChangesState()
-                    return@launch
-                }
+                checkNoChanges(
+                    listOf(newName, newLimitAmount),
+                    listOf(oldData.name, oldLimitAmount)
+                )
 
                 val category = Category(newName, oldData.id)
                 editCategoryUseCase(category)
-
                 handleLimit(oldLimit, newLimitAmount, oldData.id)
 
                 setFinishState()
-            } catch (e: NumberFormatException) {
+
+            } catch (e: EmptyFieldsException) {
+                setEmptyFieldsState()
+            } catch (e: IncorrectNumberException) {
                 setIncorrectNumberState()
+            } catch (e: NoChangesException) {
+                setNoChangesState()
             }
         }
     }

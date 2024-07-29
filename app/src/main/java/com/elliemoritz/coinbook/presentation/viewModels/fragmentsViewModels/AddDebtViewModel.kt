@@ -3,12 +3,18 @@ package com.elliemoritz.coinbook.presentation.viewModels.fragmentsViewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elliemoritz.coinbook.domain.entities.Debt
+import com.elliemoritz.coinbook.domain.exceptions.EmptyFieldsException
+import com.elliemoritz.coinbook.domain.exceptions.IncorrectNumberException
+import com.elliemoritz.coinbook.domain.exceptions.NoChangesException
 import com.elliemoritz.coinbook.domain.useCases.debtsUseCases.AddDebtUseCase
 import com.elliemoritz.coinbook.domain.useCases.debtsUseCases.EditDebtUseCase
 import com.elliemoritz.coinbook.domain.useCases.debtsUseCases.GetDebtUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.AddToBalanceUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.RemoveFromBalanceUseCase
 import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentDebtState
+import com.elliemoritz.coinbook.presentation.util.checkEmptyFields
+import com.elliemoritz.coinbook.presentation.util.checkIncorrectNumbers
+import com.elliemoritz.coinbook.presentation.util.checkNoChanges
 import com.elliemoritz.coinbook.presentation.util.mergeWith
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -45,67 +51,67 @@ class AddDebtViewModel @Inject constructor(
     }
 
     fun createDebt(amountString: String, creditor: String) {
+
         viewModelScope.launch {
 
-            if (amountString.isEmpty() || creditor.isEmpty()) {
-                setEmptyFieldsState()
-                return@launch
-            }
-
             try {
+                checkEmptyFields(amountString, creditor)
+                checkIncorrectNumbers(amountString)
+
                 val amount = amountString.toInt()
                 val debt = Debt(amount, creditor)
                 addDebtUseCase(debt)
-                addToBalance(amount)
+                addToBalanceUseCase(amount)
+
                 setFinishState()
-            } catch (e: NumberFormatException) {
+
+            } catch (e: EmptyFieldsException) {
+                setEmptyFieldsState()
+            } catch (e: IncorrectNumberException) {
                 setIncorrectNumberState()
             }
         }
     }
 
     fun editDebt(newAmountString: String, newCreditor: String) {
+
         viewModelScope.launch {
 
-            if (newAmountString.isEmpty() || newCreditor.isEmpty()) {
-                setEmptyFieldsState()
-                return@launch
-            }
-
             try {
+                checkEmptyFields(newAmountString, newCreditor)
+                checkIncorrectNumbers(newAmountString)
+
                 val oldData = dataFlow.first()
                 val newAmount = newAmountString.toInt()
 
-                if (newAmount == oldData.amount && newCreditor == oldData.creditor) {
-                    setNoChangesState()
-                    return@launch
-                }
+                checkNoChanges(
+                    listOf(newAmount, newCreditor),
+                    listOf(oldData.amount, oldData.creditor)
+                )
 
                 val debt = Debt(newAmount, newCreditor, oldData.id)
                 editDebtUseCase(debt)
-                handleBalance(oldData.amount, newAmount)
+                handleBalance(newAmount, oldData.amount)
+
                 setFinishState()
-            } catch (e: NumberFormatException) {
+
+            } catch (e: EmptyFieldsException) {
+                setEmptyFieldsState()
+            } catch (e: IncorrectNumberException) {
                 setIncorrectNumberState()
+            } catch (e: NoChangesException) {
+                setNoChangesState()
             }
         }
     }
 
-    private suspend fun handleBalance(oldBalance: Int, newBalance: Int) {
+    private suspend fun handleBalance(newBalance: Int, oldBalance: Int) {
         val difference = abs(oldBalance - newBalance)
         if (newBalance > oldBalance) {
-            addToBalance(difference)
+            addToBalanceUseCase(difference)
         } else if (oldBalance > newBalance) {
-            removeFromBalance(difference)
+            removeFromBalanceUseCase(difference)
         }
-    }
-
-    private suspend fun addToBalance(amount: Int) {
-        addToBalanceUseCase(amount)
-    }
-
-    private suspend fun removeFromBalance(amount: Int) {
-        removeFromBalanceUseCase(amount)
     }
 
     private suspend fun setFinishState() {

@@ -2,9 +2,15 @@ package com.elliemoritz.coinbook.presentation.viewModels.fragmentsViewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.elliemoritz.coinbook.domain.exceptions.EmptyFieldsException
+import com.elliemoritz.coinbook.domain.exceptions.IncorrectNumberException
+import com.elliemoritz.coinbook.domain.exceptions.NoChangesException
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.EditBalanceUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetBalanceUseCase
 import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentBalanceState
+import com.elliemoritz.coinbook.presentation.util.checkEmptyFields
+import com.elliemoritz.coinbook.presentation.util.checkIncorrectNumbers
+import com.elliemoritz.coinbook.presentation.util.checkNoChanges
 import com.elliemoritz.coinbook.presentation.util.mergeWith
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -33,24 +39,27 @@ class EditBalanceViewModel @Inject constructor(
 
         viewModelScope.launch {
 
-            if (newAmountString.isEmpty()) {
-                setEmptyFieldsState()
-                return@launch
-            }
-
             try {
+                checkEmptyFields(newAmountString)
+                checkIncorrectNumbers(newAmountString)
+
                 val newAmount = newAmountString.toInt()
                 val oldAmount = balanceFlow.first()
 
-                if (newAmount == oldAmount) {
-                    setNoChangesState()
-                    return@launch
-                }
+                checkNoChanges(
+                    listOf(newAmount),
+                    listOf(oldAmount)
+                )
 
                 editBalanceUseCase(newAmount)
                 setFinishState()
-            } catch (e: NumberFormatException) {
+
+            } catch (e: EmptyFieldsException) {
+                setEmptyFieldsState()
+            } catch (e: IncorrectNumberException) {
                 setIncorrectNumberState()
+            } catch (e: NoChangesException) {
+                setNoChangesState()
             }
         }
     }
