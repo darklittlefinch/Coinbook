@@ -52,9 +52,9 @@ class AddCategoryViewModel @Inject constructor(
     fun setData(id: Int) {
         viewModelScope.launch {
             val categoryData = getCategoryUseCase(id).first()
-            this@AddCategoryViewModel.categoryDataFlow.emit(categoryData)
+            categoryDataFlow.emit(categoryData)
             val limitData = getLimitByCategoryIdUseCase(categoryData.id).first()
-            this@AddCategoryViewModel.limitDataFlow.emit(limitData)
+            limitDataFlow.emit(limitData)
         }
     }
 
@@ -91,13 +91,20 @@ class AddCategoryViewModel @Inject constructor(
             }
 
             try {
-                val id = categoryDataFlow.first().id
+                val oldData = categoryDataFlow.first()
+                val oldLimit = limitDataFlow.first()
+                val oldLimitAmount = oldLimit?.amount ?: 0
                 val newLimitAmount = newLimitAmountString.toInt()
-                val category = Category(newName, id)
+
+                if (newName == oldData.name && newLimitAmount == oldLimitAmount) {
+                    setNoChangesState()
+                    return@launch
+                }
+
+                val category = Category(newName, oldData.id)
                 editCategoryUseCase(category)
 
-                val oldLimit = limitDataFlow.first()
-                handleLimit(oldLimit, newLimitAmount, id)
+                handleLimit(oldLimit, newLimitAmount, oldData.id)
 
                 setFinishState()
             } catch (e: NumberFormatException) {
@@ -135,6 +142,10 @@ class AddCategoryViewModel @Inject constructor(
 
     private suspend fun setEmptyFieldsState() {
         _state.emit(FragmentCategoryState.EmptyFields)
+    }
+
+    private suspend fun setNoChangesState() {
+        _state.emit(FragmentCategoryState.NoChanges)
     }
 
     private suspend fun setIncorrectNumberState() {

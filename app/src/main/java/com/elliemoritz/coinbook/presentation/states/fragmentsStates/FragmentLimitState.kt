@@ -5,6 +5,7 @@ sealed class FragmentLimitState {
     class CategoryPosition(val categoryPosition: Int) : FragmentLimitState()
     class Categories(val categories: List<String>) : FragmentLimitState()
     data object EmptyFields : FragmentLimitState()
+    data object NoChanges : FragmentLimitState()
     data object IncorrectNumber : FragmentLimitState()
     data object Finish : FragmentLimitState()
 }

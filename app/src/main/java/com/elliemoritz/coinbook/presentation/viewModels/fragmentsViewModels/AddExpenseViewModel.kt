@@ -90,12 +90,18 @@ class AddExpenseViewModel @Inject constructor(
             }
 
             try {
-                val id = dataFlow.first().id
+                val oldData = dataFlow.first()
                 val newAmount = newAmountString.toInt()
-                val expense = Expense(getCurrentTimestamp(), newAmount, categoryName, id)
+
+                if (newAmount == oldData.amount && categoryName == oldData.expCategoryName) {
+                    setNoChangesState()
+                    return@launch
+                }
+
+                val expense = Expense(oldData.date, newAmount, categoryName, oldData.id)
                 editOperationUseCase(expense)
 
-                val oldAmount = dataFlow.first().amount
+                val oldAmount = oldData.amount
                 editBalance(oldAmount, newAmount)
 
                 setFinishState()
@@ -120,6 +126,10 @@ class AddExpenseViewModel @Inject constructor(
 
     private suspend fun setEmptyFieldsState() {
         _state.emit(FragmentExpenseState.EmptyFields)
+    }
+
+    private suspend fun setNoChangesState() {
+        _state.emit(FragmentExpenseState.NoChanges)
     }
 
     private suspend fun setIncorrectNumberState() {

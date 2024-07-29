@@ -79,12 +79,16 @@ class AddMoneyBoxFragment : Fragment() {
                 viewModel.state.collect {
                     when (it) {
                         is FragmentMoneyBoxState.Data -> {
-                            binding.etAddMoneyBoxAmount.hint = it.goalAmount
-                            binding.etAddMoneyBoxGoal.hint = it.goal
+                            binding.etAddMoneyBoxAmount.setText(it.goalAmount)
+                            binding.etAddMoneyBoxGoal.setText(it.goal)
                         }
 
                         is FragmentMoneyBoxState.EmptyFields -> {
                             onEditingListener.onEmptyFields()
+                        }
+
+                        is FragmentMoneyBoxState.NoChanges -> {
+                            onEditingListener.onNoChanges()
                         }
 
                         is FragmentMoneyBoxState.IncorrectNumber -> {

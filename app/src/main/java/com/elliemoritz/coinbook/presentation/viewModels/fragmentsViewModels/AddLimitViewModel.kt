@@ -103,21 +103,27 @@ class AddLimitViewModel @Inject constructor(
         }
     }
 
-    fun editLimit(amountString: String, categoryName: String) {
+    fun editLimit(amountString: String, newCategoryName: String) {
 
         viewModelScope.launch {
 
-            val category = getCategoryByNameUseCase(categoryName).first()
+            val newCategory = getCategoryByNameUseCase(newCategoryName).first()
 
-            if (amountString.isEmpty() || category == null) {
+            if (amountString.isEmpty() || newCategory == null) {
                 setEmptyFieldsState()
                 return@launch
             }
 
             try {
-                val id = dataFlow.first().id
-                val amount = amountString.toInt()
-                val limit = Limit(amount, category.id, id)
+                val oldData = dataFlow.first()
+                val newAmount = amountString.toInt()
+
+                if (newAmount == oldData.amount && newCategory.id == oldData.categoryId) {
+                    setNoChangesState()
+                    return@launch
+                }
+
+                val limit = Limit(newAmount, newCategory.id, oldData.id)
                 editLimitUseCase(limit)
                 setFinishState()
             } catch (e: NumberFormatException) {
@@ -132,6 +138,10 @@ class AddLimitViewModel @Inject constructor(
 
     private suspend fun setEmptyFieldsState() {
         _state.emit(FragmentLimitState.EmptyFields)
+    }
+
+    private suspend fun setNoChangesState() {
+        _state.emit(FragmentLimitState.NoChanges)
     }
 
     private suspend fun setIncorrectNumberState() {

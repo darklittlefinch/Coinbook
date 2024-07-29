@@ -88,11 +88,15 @@ class AddMoneyBoxOperationFragment : Fragment() {
                 viewModel.state.collect {
                     when (it) {
                         is FragmentMoneyBoxOperationState.Data -> {
-                            binding.etAddMoneyBoxOperationAmount.hint = it.amount
+                            binding.etAddMoneyBoxOperationAmount.setText(it.amount)
                         }
 
                         is FragmentMoneyBoxOperationState.IncorrectNumber -> {
                             onEditingListener.onIncorrectNumber()
+                        }
+
+                        is FragmentMoneyBoxOperationState.NoChanges -> {
+                            onEditingListener.onNoChanges()
                         }
 
                         is FragmentMoneyBoxOperationState.EmptyFields -> {

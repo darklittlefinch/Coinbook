@@ -85,9 +85,15 @@ class AddMoneyBoxOperationViewModel @Inject constructor(
             try {
                 val oldData = dataFlow.first()
                 val newAmount = newAmountString.toInt()
+
+                if (newAmount == oldData.amount) {
+                    setNoChangesState()
+                    return@launch
+                }
+
                 val moneyBoxOperation = MoneyBoxOperation(
                     oldData.type,
-                    getCurrentTimestamp(),
+                    oldData.date,
                     newAmount,
                     oldData.id
                 )
@@ -149,6 +155,10 @@ class AddMoneyBoxOperationViewModel @Inject constructor(
 
     private suspend fun setEmptyFieldsState() {
         _state.emit(FragmentMoneyBoxOperationState.EmptyFields)
+    }
+
+    private suspend fun setNoChangesState() {
+        _state.emit(FragmentMoneyBoxOperationState.NoChanges)
     }
 
     private suspend fun setIncorrectNumberState() {

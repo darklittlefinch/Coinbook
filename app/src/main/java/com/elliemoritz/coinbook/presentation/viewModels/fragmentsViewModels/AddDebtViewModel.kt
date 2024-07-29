@@ -64,21 +64,26 @@ class AddDebtViewModel @Inject constructor(
         }
     }
 
-    fun editDebt(amountString: String, creditor: String) {
+    fun editDebt(newAmountString: String, newCreditor: String) {
         viewModelScope.launch {
 
-            if (amountString.isEmpty() || creditor.isEmpty()) {
+            if (newAmountString.isEmpty() || newCreditor.isEmpty()) {
                 setEmptyFieldsState()
                 return@launch
             }
 
             try {
                 val oldData = dataFlow.first()
-                val amount = amountString.toInt()
+                val newAmount = newAmountString.toInt()
 
-                val debt = Debt(amount, creditor, oldData.id)
+                if (newAmount == oldData.amount && newCreditor == oldData.creditor) {
+                    setNoChangesState()
+                    return@launch
+                }
+
+                val debt = Debt(newAmount, newCreditor, oldData.id)
                 editDebtUseCase(debt)
-                handleBalance(oldData.amount, amount)
+                handleBalance(oldData.amount, newAmount)
                 setFinishState()
             } catch (e: NumberFormatException) {
                 setIncorrectNumberState()
@@ -109,6 +114,10 @@ class AddDebtViewModel @Inject constructor(
 
     private suspend fun setEmptyFieldsState() {
         _state.emit(FragmentDebtState.EmptyFields)
+    }
+
+    private suspend fun setNoChangesState() {
+        _state.emit(FragmentDebtState.NoChanges)
     }
 
     private suspend fun setIncorrectNumberState() {

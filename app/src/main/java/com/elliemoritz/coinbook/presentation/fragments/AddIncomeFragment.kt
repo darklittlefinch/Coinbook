@@ -109,12 +109,16 @@ class AddIncomeFragment : Fragment() {
                 viewModel.state.collect {
                     when (it) {
                         is FragmentIncomeState.Data -> {
-                            binding.etAddIncomeAmount.hint = it.amount
-                            binding.etAddIncomeSource.hint = it.source
+                            binding.etAddIncomeAmount.setText(it.amount)
+                            binding.etAddIncomeSource.setText(it.source)
                         }
 
                         is FragmentIncomeState.EmptyFields -> {
                             onEditingListener.onEmptyFields()
+                        }
+
+                        is FragmentIncomeState.NoChanges -> {
+                            onEditingListener.onNoChanges()
                         }
 
                         is FragmentIncomeState.IncorrectNumber -> {

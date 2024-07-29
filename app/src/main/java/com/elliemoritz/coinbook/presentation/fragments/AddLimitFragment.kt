@@ -83,7 +83,7 @@ class AddLimitFragment : Fragment() {
                 viewModel.state.collect {
                     when (it) {
                         is FragmentLimitState.Amount -> {
-                            binding.etAddLimitAmount.hint = it.amount
+                            binding.etAddLimitAmount.setText(it.amount)
                         }
 
                         is FragmentLimitState.Categories -> {
@@ -103,11 +103,16 @@ class AddLimitFragment : Fragment() {
                             onEditingListener.onEmptyFields()
                         }
 
-                        FragmentLimitState.IncorrectNumber -> {
+                        is FragmentLimitState.NoChanges -> {
+                            onEditingListener.onNoChanges()
+                        }
+
+
+                        is FragmentLimitState.IncorrectNumber -> {
                             onEditingListener.onIncorrectNumber()
                         }
 
-                        FragmentLimitState.Finish -> {
+                        is FragmentLimitState.Finish -> {
                             onEditingListener.onFinished()
                         }
                     }

@@ -80,9 +80,16 @@ class AddMoneyBoxViewModel @Inject constructor(
             }
 
             try {
-                val goalAmount = newGoalAmountString.toInt()
+                val oldData = dataFlow.first()
+                val newGoalAmount = newGoalAmountString.toInt()
+
+                if (newGoalAmount == oldData.goalAmount && newGoal == oldData.goal) {
+                    setNoChangesState()
+                    return@launch
+                }
+
                 val moneyBox = MoneyBox(
-                    goalAmount,
+                    newGoalAmount,
                     newGoal,
                     getCurrentTimestamp()
                 )
@@ -101,6 +108,10 @@ class AddMoneyBoxViewModel @Inject constructor(
 
     private suspend fun setEmptyFieldsState() {
         _state.emit(FragmentMoneyBoxState.EmptyFields)
+    }
+
+    private suspend fun setNoChangesState() {
+        _state.emit(FragmentMoneyBoxState.NoChanges)
     }
 
     private suspend fun setIncorrectNumberState() {

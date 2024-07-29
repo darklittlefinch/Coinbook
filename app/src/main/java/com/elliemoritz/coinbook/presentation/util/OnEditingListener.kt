@@ -4,4 +4,5 @@ interface OnEditingListener {
     fun onFinished()
     fun onEmptyFields()
     fun onIncorrectNumber()
+    fun onNoChanges()
 }

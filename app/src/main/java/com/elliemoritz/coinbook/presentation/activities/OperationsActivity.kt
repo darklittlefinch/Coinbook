@@ -214,4 +214,12 @@ class OperationsActivity : AppCompatActivity(), OnEditingListener {
             Toast.LENGTH_SHORT
         ).show()
     }
+
+    override fun onNoChanges() {
+        Toast.makeText(
+            this,
+            getString(R.string.toast_error_no_changes),
+            Toast.LENGTH_SHORT
+        ).show()
+    }
 }

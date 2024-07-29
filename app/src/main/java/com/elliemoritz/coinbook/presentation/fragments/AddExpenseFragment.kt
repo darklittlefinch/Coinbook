@@ -92,11 +92,15 @@ class AddExpenseFragment : Fragment() {
                         }
 
                         is FragmentExpenseState.Data -> {
-                            binding.etAddExpenseAmount.hint = it.amount
+                            binding.etAddExpenseAmount.setText(it.amount)
                         }
 
                         is FragmentExpenseState.EmptyFields -> {
                             onEditingListener.onEmptyFields()
+                        }
+
+                        FragmentExpenseState.NoChanges -> {
+                            onEditingListener.onNoChanges()
                         }
 
                         is FragmentExpenseState.IncorrectNumber -> {
@@ -106,7 +110,6 @@ class AddExpenseFragment : Fragment() {
                         is FragmentExpenseState.Finish -> {
                             onEditingListener.onFinished()
                         }
-
                     }
                 }
             }

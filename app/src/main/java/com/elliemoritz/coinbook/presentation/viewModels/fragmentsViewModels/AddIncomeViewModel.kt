@@ -70,21 +70,27 @@ class AddIncomeViewModel @Inject constructor(
         }
     }
 
-    fun editIncome(newAmountString: String, source: String) {
+    fun editIncome(newAmountString: String, newSource: String) {
         viewModelScope.launch {
 
-            if (newAmountString.isEmpty() || source.isEmpty()) {
+            if (newAmountString.isEmpty() || newSource.isEmpty()) {
                 setEmptyFieldsState()
                 return@launch
             }
 
             try {
-                val id = dataFlow.first().id
+                val oldData = dataFlow.first()
                 val newAmount = newAmountString.toInt()
-                val income = Income(getCurrentTimestamp(), newAmount, source, id)
+
+                if (newAmount == oldData.amount && newSource == oldData.incSource) {
+                    setNoChangesState()
+                    return@launch
+                }
+
+                val income = Income(oldData.date, newAmount, newSource, oldData.id)
                 editOperationUseCase(income)
 
-                val oldAmount = dataFlow.first().amount
+                val oldAmount = oldData.amount
                 editBalance(oldAmount, newAmount)
 
                 setFinishState()
@@ -109,6 +115,10 @@ class AddIncomeViewModel @Inject constructor(
 
     private suspend fun setEmptyFieldsState() {
         _state.emit(FragmentIncomeState.EmptyFields)
+    }
+
+    private suspend fun setNoChangesState() {
+        _state.emit(FragmentIncomeState.NoChanges)
     }
 
     private suspend fun setIncorrectNumberState() {

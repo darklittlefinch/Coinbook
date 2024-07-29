@@ -82,12 +82,16 @@ class AddDebtFragment : Fragment() {
                 viewModel.state.collect {
                     when (it) {
                         is FragmentDebtState.Data -> {
-                            binding.etAddDebtAmount.hint = it.amount
-                            binding.etAddDebtCreditor.hint = it.creditor
+                            binding.etAddDebtAmount.setText(it.amount)
+                            binding.etAddDebtCreditor.setText(it.creditor)
                         }
 
                         is FragmentDebtState.EmptyFields -> {
                             onEditingListener.onEmptyFields()
+                        }
+
+                        is FragmentDebtState.NoChanges -> {
+                            onEditingListener.onNoChanges()
                         }
 
                         is FragmentDebtState.IncorrectNumber -> {
@@ -97,7 +101,6 @@ class AddDebtFragment : Fragment() {
                         is FragmentDebtState.Finish -> {
                             onEditingListener.onFinished()
                         }
-
                     }
                 }
             }

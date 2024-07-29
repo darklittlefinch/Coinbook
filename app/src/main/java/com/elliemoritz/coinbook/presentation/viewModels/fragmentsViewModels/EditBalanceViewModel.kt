@@ -8,6 +8,7 @@ import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentBala
 import com.elliemoritz.coinbook.presentation.util.mergeWith
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,7 +18,9 @@ class EditBalanceViewModel @Inject constructor(
     private val editBalanceUseCase: EditBalanceUseCase
 ) : ViewModel() {
 
-    private val balanceStateFlow = getBalanceUseCase()
+    private val balanceFlow = getBalanceUseCase()
+
+    private val balanceStateFlow = balanceFlow
         .map { FragmentBalanceState.Data(it.toString()) }
 
     private val _state = MutableSharedFlow<FragmentBalanceState>()
@@ -26,18 +29,25 @@ class EditBalanceViewModel @Inject constructor(
         get() = _state
             .mergeWith(balanceStateFlow)
 
-    fun editBalance(amountString: String) {
+    fun editBalance(newAmountString: String) {
 
         viewModelScope.launch {
 
-            if (amountString.isEmpty()) {
+            if (newAmountString.isEmpty()) {
                 setEmptyFieldsState()
                 return@launch
             }
 
             try {
-                val amount = amountString.toInt()
-                editBalanceUseCase(amount)
+                val newAmount = newAmountString.toInt()
+                val oldAmount = balanceFlow.first()
+
+                if (newAmount == oldAmount) {
+                    setNoChangesState()
+                    return@launch
+                }
+
+                editBalanceUseCase(newAmount)
                 setFinishState()
             } catch (e: NumberFormatException) {
                 setIncorrectNumberState()
@@ -50,7 +60,11 @@ class EditBalanceViewModel @Inject constructor(
     }
 
     private suspend fun setEmptyFieldsState() {
-        _state.emit(FragmentBalanceState.EmptyField)
+        _state.emit(FragmentBalanceState.EmptyFields)
+    }
+
+    private suspend fun setNoChangesState() {
+        _state.emit(FragmentBalanceState.NoChanges)
     }
 
     private suspend fun setIncorrectNumberState() {

@@ -82,15 +82,19 @@ class AddCategoryFragment : Fragment() {
                 viewModel.state.collect {
                     when (it) {
                         is FragmentCategoryState.Name -> {
-                            binding.etAddCategoryName.hint = it.name
+                            binding.etAddCategoryName.setText(it.name)
                         }
 
                         is FragmentCategoryState.Limit -> {
-                            binding.etAddCategoryLimit.hint = it.limit
+                            binding.etAddCategoryLimit.setText(it.limit)
                         }
 
                         is FragmentCategoryState.EmptyFields -> {
                             onEditingListener.onEmptyFields()
+                        }
+
+                        is FragmentCategoryState.NoChanges -> {
+                            onEditingListener.onNoChanges()
                         }
 
                         is FragmentCategoryState.IncorrectNumber -> {

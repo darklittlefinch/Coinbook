@@ -74,11 +74,15 @@ class EditBalanceFragment : Fragment() {
                 viewModel.state.collect {
                     when (it) {
                         is FragmentBalanceState.Data -> {
-                            binding.etEditBalanceAmount.hint = it.amount
+                            binding.etEditBalanceAmount.setText(it.amount)
                         }
 
-                        is FragmentBalanceState.EmptyField -> {
+                        is FragmentBalanceState.EmptyFields -> {
                             onEditingListener.onEmptyFields()
+                        }
+
+                        is FragmentBalanceState.NoChanges -> {
+                            onEditingListener.onNoChanges()
                         }
 
                         is FragmentBalanceState.IncorrectNumber -> {
@@ -88,7 +92,6 @@ class EditBalanceFragment : Fragment() {
                         is FragmentBalanceState.Finish -> {
                             onEditingListener.onFinished()
                         }
-
                     }
                 }
             }
