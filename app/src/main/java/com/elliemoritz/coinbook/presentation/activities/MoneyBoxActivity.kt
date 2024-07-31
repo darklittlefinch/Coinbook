@@ -27,7 +27,6 @@ class MoneyBoxActivity : AppCompatActivity() {
             insets
         }
 
-        binding.ivNoMoneyBox?.visibility = View.VISIBLE
         setOnClickListeners()
     }
 
@@ -79,7 +78,7 @@ class MoneyBoxActivity : AppCompatActivity() {
     }
 
     private fun setOnAddMoneyBoxClickListener() {
-        binding.ivNoMoneyBox?.setOnClickListener {
+        binding.ivMoneyBox.setOnClickListener {
             val intent = OperationsActivity.newIntent(
                 this,
                 OperationsActivity.FRAGMENT_TYPE_MONEY_BOX,

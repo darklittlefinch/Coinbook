@@ -53,7 +53,7 @@ class ExpensesActivity : AppCompatActivity() {
     }
 
     private fun setOnAddCategoryClickListener() {
-        binding.buttonAddCategory?.setOnClickListener {
+        binding.buttonAddCategory.setOnClickListener {
             val intent = OperationsActivity.newIntent(
                 this,
                 OperationsActivity.FRAGMENT_TYPE_CATEGORY,

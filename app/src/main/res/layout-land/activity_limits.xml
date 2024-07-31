@@ -43,33 +43,24 @@
         app:layout_constraintTop_toTopOf="@+id/tv_limits_title"
         app:srcCompat="@drawable/ic_plus_rounded" />
 
-    <ImageView
-        android:id="@+id/iv_limits"
-        style="@style/details_medium_image"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/content_description_simple_limit_image"
-        android:src="@drawable/ic_limit"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_limits"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_limits_title" />
-
     <TextView
         android:id="@+id/tv_limits_info"
-        style="@style/details_with_numbers_info"
+        style="@style/details_without_numbers_info"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textColor="@color/dark_gray"
         app:layout_constraintEnd_toStartOf="@+id/guideline_limits"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_limits"
+        app:layout_constraintTop_toBottomOf="@+id/tv_limits_title"
         tools:text="You can spend 7 473 ₽ more this month" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_limits"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
+        android:layout_height="0dp"
+        android:padding="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/guideline_limits"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_limits_info"
@@ -79,6 +70,7 @@
         android:id="@+id/fragment_container_limits"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/guideline_limits"
