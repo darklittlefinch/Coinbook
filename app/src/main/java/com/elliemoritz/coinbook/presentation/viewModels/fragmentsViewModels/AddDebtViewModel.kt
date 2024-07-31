@@ -15,6 +15,7 @@ import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentDebt
 import com.elliemoritz.coinbook.presentation.util.checkEmptyFields
 import com.elliemoritz.coinbook.presentation.util.checkIncorrectNumbers
 import com.elliemoritz.coinbook.presentation.util.checkNoChanges
+import com.elliemoritz.coinbook.presentation.util.getCurrentTimestamp
 import com.elliemoritz.coinbook.presentation.util.mergeWith
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -59,7 +60,11 @@ class AddDebtViewModel @Inject constructor(
                 checkIncorrectNumbers(amountString)
 
                 val amount = amountString.toInt()
-                val debt = Debt(amount, creditor)
+                val debt = Debt(
+                    amount,
+                    creditor,
+                    getCurrentTimestamp()
+                )
                 addDebtUseCase(debt)
                 addToBalanceUseCase(amount)
 
@@ -89,7 +94,12 @@ class AddDebtViewModel @Inject constructor(
                     listOf(oldData.amount, oldData.creditor)
                 )
 
-                val debt = Debt(newAmount, newCreditor, oldData.id)
+                val debt = Debt(
+                    newAmount,
+                    newCreditor,
+                    getCurrentTimestamp(),
+                    oldData.id
+                )
                 editDebtUseCase(debt)
                 handleBalance(newAmount, oldData.amount)
 

@@ -8,5 +8,6 @@ data class DebtDbModel(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val amount: Int,
-    val creditor: String
+    val creditor: String,
+    val startedMillis: Long
 )
