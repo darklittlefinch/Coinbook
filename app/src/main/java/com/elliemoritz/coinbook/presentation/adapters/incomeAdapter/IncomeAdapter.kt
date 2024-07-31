@@ -1,0 +1,38 @@
+package com.elliemoritz.coinbook.presentation.adapters.incomeAdapter
+
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
+import com.elliemoritz.coinbook.databinding.ItemIncomeBinding
+import com.elliemoritz.coinbook.domain.entities.operations.Income
+import com.elliemoritz.coinbook.presentation.util.formatAmount
+import com.elliemoritz.coinbook.presentation.util.formatDate
+import com.elliemoritz.coinbook.presentation.util.formatTime
+
+class IncomeAdapter : ListAdapter<Income, IncomeViewHolder>(IncomeDiffCallback()) {
+
+    private lateinit var currency: String
+
+    fun setCurrency(newCurrency: String) {
+        currency = newCurrency
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IncomeViewHolder {
+        val binding = ItemIncomeBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return IncomeViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: IncomeViewHolder, position: Int) {
+        val income = getItem(position)
+        with(holder.binding) {
+            tvIncomeSource.text = income.incSource
+            tvIncomeDate.text = formatDate(income.date)
+            tvIncomeTime.text = formatTime(income.date)
+            tvIncomeAmount.text = formatAmount(income.amount, currency)
+        }
+    }
+}

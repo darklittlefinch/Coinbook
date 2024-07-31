@@ -9,7 +9,7 @@ import com.elliemoritz.coinbook.data.dbModels.OperationDbModel
 @Dao
 interface OperationsDao {
 
-    @Query("SELECT * FROM operations")
+    @Query("SELECT * FROM operations ORDER BY dateTimeMillis DESC")
     suspend fun getOperationsList(): List<OperationDbModel>
 
     @Query("SELECT * FROM operations WHERE id = :operationId LIMIT 1")
@@ -27,7 +27,7 @@ interface OperationsDao {
     @Query(
         "SELECT * FROM operations " +
                 "WHERE operationForm = :operationForm " +
-                "AND dateTimeMillis >= :dateMillis"
+                "AND dateTimeMillis <= :dateMillis"
     )
     suspend fun getOperationsListByOperationForm(
         operationForm: String,
@@ -38,15 +38,15 @@ interface OperationsDao {
     @Query(
         "SELECT * FROM operations " +
                 "WHERE type = :type " +
-                "AND dateTimeMillis >= :dateMillis"
+                "AND dateTimeMillis <= :dateMillis " +
+                "ORDER BY dateTimeMillis DESC"
     )
     suspend fun getOperationsListByType(
         type: String,
         dateMillis: Long = 0
-    )
-            : List<OperationDbModel>
+    ): List<OperationDbModel>
 
-    @Query("SELECT * FROM operations WHERE info = :categoryName AND dateTimeMillis >= :dateMillis")
+    @Query("SELECT * FROM operations WHERE info = :categoryName AND dateTimeMillis <= :dateMillis")
     suspend fun getCategoryExpensesList(
         categoryName: String,
         dateMillis: Long
@@ -54,7 +54,7 @@ interface OperationsDao {
 
     @Query(
         "SELECT SUM(amount) FROM operations " +
-                "WHERE type = :type AND dateTimeMillis >= :dateMillis"
+                "WHERE type = :type AND dateTimeMillis <= :dateMillis"
     )
     suspend fun getOperationsAmountByType(type: String, dateMillis: Long = 0): Int?
 
@@ -62,7 +62,7 @@ interface OperationsDao {
         "SELECT SUM(amount) FROM operations " +
                 "WHERE operationForm = :operationForm " +
                 "AND type = :type " +
-                "AND dateTimeMillis >= :dateMillis"
+                "AND dateTimeMillis <= :dateMillis"
     )
     suspend fun getOperationsAmountByOperationFormAndType(
         operationForm: String,

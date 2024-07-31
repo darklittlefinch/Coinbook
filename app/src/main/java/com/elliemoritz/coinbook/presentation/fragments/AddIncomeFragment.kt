@@ -136,6 +136,8 @@ class AddIncomeFragment : Fragment() {
 
     companion object {
 
+        const val NAME = "AddIncomeFragment"
+
         private const val MODE = "mode"
         private const val INCOME_ID = "id"
 

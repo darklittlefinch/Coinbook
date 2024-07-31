@@ -39,8 +39,8 @@
 
     <string name="info_alarm">The next event will be %s</string>
 
-    <string name="no_expenses">You don\'t have any expenses yet</string>
-    <string name="no_income">You don\'t have any income yet</string>
+    <string name="no_expenses">You don\'t have any expenses this month</string>
+    <string name="no_income">You don\'t have any income this month</string>
     <string name="no_money_box">You don\'t have a money box yet</string>
     <string name="no_money_box_operations">You don\'t have any operations with your money box yet</string>
     <string name="no_debts">You don\'t have any debts yet</string>
