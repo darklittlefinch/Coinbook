@@ -5,6 +5,7 @@ import com.elliemoritz.coinbook.data.mappers.DebtMapper
 import com.elliemoritz.coinbook.domain.entities.Debt
 import com.elliemoritz.coinbook.domain.repositories.DebtsRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
@@ -13,10 +14,22 @@ class DebtsRepositoryImpl @Inject constructor(
     private val mapper: DebtMapper
 ) : DebtsRepository {
 
+    private val refreshEvents = MutableSharedFlow<Unit>()
+
+    private suspend fun refreshData() {
+        refreshEvents.emit(Unit)
+    }
+
     override fun getDebtsList(): Flow<List<Debt>> = flow {
         val dbModelsList = dao.getDebtsList()
         val debtsList = mapper.mapListDbModelToListEntities(dbModelsList)
         emit(debtsList)
+
+        refreshEvents.collect {
+            val updatedDbModelsList = dao.getDebtsList()
+            val updatedDebtsList = mapper.mapListDbModelToListEntities(updatedDbModelsList)
+            emit(updatedDebtsList)
+        }
     }
 
     override fun getDebt(id: Int): Flow<Debt> = flow {
@@ -37,6 +50,7 @@ class DebtsRepositoryImpl @Inject constructor(
 
     override suspend fun removeDebt(debt: Debt) {
         dao.removeDebt(debt.id)
+        refreshData()
     }
 
     override fun getTotalDebtsAmount(): Flow<Int> = flow {

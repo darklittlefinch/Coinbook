@@ -33,6 +33,12 @@ class OperationsRepositoryImpl @Inject constructor(
         val dbModelsList = dao.getOperationsList()
         val operationsList = mapper.mapListDbModelToListOperations(dbModelsList)
         emit(operationsList)
+
+        refreshEvents.collect {
+            val updatedDbModelsList = dao.getOperationsList()
+            val updatedOperationsList = mapper.mapListDbModelToListOperations(updatedDbModelsList)
+            emit(updatedOperationsList)
+        }
     }
 
     override fun getOperation(id: Int): Flow<Operation> = flow {
@@ -106,6 +112,16 @@ class OperationsRepositoryImpl @Inject constructor(
         val dbModelsList = dao.getOperationsListByType(TYPE_EXPENSE, beginOfMonthMillis)
         val expensesList = mapper.mapListDbModelToListExpenses(dbModelsList)
         emit(expensesList)
+
+        refreshEvents.collect {
+            val updatedBeginOfMonthMillis = getBeginOfMonthMillis()
+            val updatedDbModelsList = dao.getOperationsListByType(
+                TYPE_EXPENSE,
+                updatedBeginOfMonthMillis
+            )
+            val updatedExpensesList = mapper.mapListDbModelToListExpenses(updatedDbModelsList)
+            emit(updatedExpensesList)
+        }
     }
 
     override fun getMoneyBoxOperationsListFromDate(
@@ -117,12 +133,31 @@ class OperationsRepositoryImpl @Inject constructor(
         )
         val moneyBoxOperationsList = mapper.mapListDbModelToListMoneyBoxOperations(dbModelsList)
         emit(moneyBoxOperationsList)
+
+        refreshEvents.collect {
+            val updatedDbModelsList = dao.getOperationsListByOperationForm(
+                OPERATION_FORM_MONEY_BOX_OPERATION,
+                dateTimeMillis
+            )
+            val updatedMoneyBoxOperationsList = mapper.mapListDbModelToListMoneyBoxOperations(
+                updatedDbModelsList
+            )
+            emit(updatedMoneyBoxOperationsList)
+        }
     }
 
     override fun getDebtOperationsList(): Flow<List<DebtOperation>> = flow {
         val dbModelsList = dao.getOperationsListByOperationForm(OPERATION_FORM_DEBT)
         val debtsOperationsList = mapper.mapListDbModelToListDebtOperations(dbModelsList)
         emit(debtsOperationsList)
+
+        refreshEvents.collect {
+            val updatedDbModelsList = dao.getOperationsListByOperationForm(OPERATION_FORM_DEBT)
+            val updatedDebtsOperationsList = mapper.mapListDbModelToListDebtOperations(
+                updatedDbModelsList
+            )
+            emit(updatedDebtsOperationsList)
+        }
     }
 
     override fun getTotalIncomeAmountForMonth(): Flow<Int> = flow {

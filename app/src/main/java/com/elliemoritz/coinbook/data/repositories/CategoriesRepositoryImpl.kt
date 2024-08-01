@@ -5,6 +5,7 @@ import com.elliemoritz.coinbook.data.mappers.CategoryMapper
 import com.elliemoritz.coinbook.domain.entities.Category
 import com.elliemoritz.coinbook.domain.repositories.CategoriesRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
@@ -13,10 +14,22 @@ class CategoriesRepositoryImpl @Inject constructor(
     private val mapper: CategoryMapper
 ) : CategoriesRepository {
 
+    private val refreshEvents = MutableSharedFlow<Unit>()
+
+    private suspend fun refreshData() {
+        refreshEvents.emit(Unit)
+    }
+
     override fun getCategoriesList(): Flow<List<Category>> = flow {
         val dbModelsList = dao.getCategoriesList()
         val categoriesList = mapper.mapListDbModelToListEntities(dbModelsList)
         emit(categoriesList)
+
+        refreshEvents.collect {
+            val updatedDbModelsList = dao.getCategoriesList()
+            val updatedCategoriesList = mapper.mapListDbModelToListEntities(updatedDbModelsList)
+            emit(updatedCategoriesList)
+        }
     }
 
     override fun getCategory(id: Int): Flow<Category> = flow {
@@ -47,5 +60,6 @@ class CategoriesRepositoryImpl @Inject constructor(
 
     override suspend fun removeCategory(category: Category) {
         dao.removeCategory(category.id)
+        refreshData()
     }
 }
