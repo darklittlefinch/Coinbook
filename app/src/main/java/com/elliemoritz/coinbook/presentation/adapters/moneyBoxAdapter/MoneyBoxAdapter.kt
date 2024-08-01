@@ -2,8 +2,11 @@ package com.elliemoritz.coinbook.presentation.adapters.moneyBoxAdapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ListAdapter
+import com.elliemoritz.coinbook.R
 import com.elliemoritz.coinbook.databinding.ItemMoneyBoxBinding
+import com.elliemoritz.coinbook.domain.entities.helpers.Type
 import com.elliemoritz.coinbook.domain.entities.operations.MoneyBoxOperation
 import com.elliemoritz.coinbook.presentation.util.formatAmountWithSign
 import com.elliemoritz.coinbook.presentation.util.formatDate
@@ -41,6 +44,14 @@ class MoneyBoxAdapter : ListAdapter<MoneyBoxOperation, MoneyBoxViewHolder>(Money
 
             tvMoneyBoxDate.text = formatDate(moneyBoxOperation.dateTimeMillis)
             tvMoneyBoxTime.text = formatTime(moneyBoxOperation.dateTimeMillis)
+
+            val colorResId = when (moneyBoxOperation.type) {
+                Type.INCOME -> R.color.dark_green
+                Type.EXPENSE -> R.color.dark_red
+            }
+
+            val color = ContextCompat.getColor(holder.binding.root.context, colorResId)
+            tvMoneyBoxAmount.setTextColor(color)
 
             cvItemMoneyBox.setOnClickListener {
                 onOperationClickListener?.invoke(moneyBoxOperation)
