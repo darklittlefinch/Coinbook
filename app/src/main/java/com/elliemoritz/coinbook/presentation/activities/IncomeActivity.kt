@@ -59,7 +59,6 @@ class IncomeActivity : AppCompatActivity(), OnEditingListener {
 
         setOnClickListeners()
         setRecyclerView()
-
         observeViewModel()
     }
 
@@ -87,28 +86,6 @@ class IncomeActivity : AppCompatActivity(), OnEditingListener {
                         }
                     }
                 }
-            }
-        }
-    }
-
-    private fun setOnClickListeners() {
-        setOnBackClickListener()
-        setOnAddClickListener()
-    }
-
-    private fun setOnBackClickListener() {
-        binding.ivBack.setOnClickListener {
-            onBackPressedDispatcher.onBackPressed()
-        }
-    }
-
-    private fun setOnAddClickListener() {
-        binding.ivAddNewIncome.setOnClickListener {
-
-            if (isOnePanelModel()) {
-                launchAddOperationsActivity()
-            } else {
-                launchAddIncomeFragment()
             }
         }
     }
@@ -152,6 +129,28 @@ class IncomeActivity : AppCompatActivity(), OnEditingListener {
 
         val itemTouchHelper = ItemTouchHelper(callback)
         itemTouchHelper.attachToRecyclerView(binding.rvIncome)
+    }
+
+    private fun setOnClickListeners() {
+        setOnBackClickListener()
+        setOnAddClickListener()
+    }
+
+    private fun setOnBackClickListener() {
+        binding.ivBack.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+    }
+
+    private fun setOnAddClickListener() {
+        binding.ivAddNewIncome.setOnClickListener {
+
+            if (isOnePanelModel()) {
+                launchAddOperationsActivity()
+            } else {
+                launchAddIncomeFragment()
+            }
+        }
     }
 
     private fun isOnePanelModel(): Boolean {
