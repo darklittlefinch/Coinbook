@@ -32,7 +32,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_debt_creditor"
-            tools:text="15.03.2024" />
+            tools:text="Aug 1, 2024" />
 
         <TextView
             android:id="@+id/tv_debt_amount"

@@ -34,7 +34,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
-            tools:text="01.11.2024" />
+            tools:text="Aug 1, 2024" />
 
         <TextView
             android:id="@+id/tv_alarm_time"
@@ -44,7 +44,7 @@
             android:textColor="@color/dark_gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_alarm_date"
-            tools:text="18:00" />
+            tools:text="6:34 PM" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

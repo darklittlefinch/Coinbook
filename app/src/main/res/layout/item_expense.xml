@@ -32,7 +32,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_expense_category"
-            tools:text="01.02.1999" />
+            tools:text="Aug 1, 2024" />
 
         <TextView
             android:id="@+id/tv_expense_time"
@@ -42,7 +42,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tv_expense_date"
             app:layout_constraintTop_toBottomOf="@+id/tv_expense_category"
-            tools:text="10:24:51" />
+            tools:text="6:34 PM" />
 
         <TextView
             android:id="@+id/tv_expense_amount"
@@ -53,7 +53,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="4 962 ₽" />
+            tools:text="- 4 962 ₽" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

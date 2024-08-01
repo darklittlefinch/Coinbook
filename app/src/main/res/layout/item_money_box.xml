@@ -35,7 +35,7 @@
             app:layout_constraintBottom_toTopOf="@id/tv_money_box_time"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="01.11.2023" />
+            tools:text="Aug 1, 2024" />
 
         <TextView
             android:id="@+id/tv_money_box_time"
@@ -47,7 +47,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_money_box_date"
-            tools:text="23:52" />
+            tools:text="6:34 PM" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
