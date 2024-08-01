@@ -21,7 +21,6 @@ import com.elliemoritz.coinbook.databinding.ActivityExpensesBinding
 import com.elliemoritz.coinbook.presentation.CoinBookApp
 import com.elliemoritz.coinbook.presentation.adapters.expensesAdapter.ExpensesAdapter
 import com.elliemoritz.coinbook.presentation.fragments.AddExpenseFragment
-import com.elliemoritz.coinbook.presentation.fragments.AddIncomeFragment
 import com.elliemoritz.coinbook.presentation.states.ExpenseState
 import com.elliemoritz.coinbook.presentation.util.OnEditingListener
 import com.elliemoritz.coinbook.presentation.viewModels.ExpenseViewModel
