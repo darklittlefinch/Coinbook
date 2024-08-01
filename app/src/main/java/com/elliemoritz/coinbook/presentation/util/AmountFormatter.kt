@@ -1,8 +1,13 @@
 package com.elliemoritz.coinbook.presentation.util
 
+import com.elliemoritz.coinbook.domain.entities.helpers.Type
+
 private const val NUMBER_FORMAT_STEP = 1000
 private const val MIN_STRING_LENGTH = 3
 private const val DELIMITER = " "
+
+private const val ADD_SIGN = "+"
+private const val SUBTRACT_SIGN = "-"
 
 fun formatAmount(amount: Int, currency: String): String {
 
@@ -37,4 +42,15 @@ fun formatAmount(amount: Int, currency: String): String {
     result.append(DELIMITER)
     result.append(currency)
     return result.toString()
+}
+
+fun formatAmountWithSign(amount: Int, currency: String, type: Type): String {
+    val amountWithCurrency = formatAmount(amount, currency)
+
+    val sign = when (type) {
+        Type.INCOME -> ADD_SIGN
+        Type.EXPENSE -> SUBTRACT_SIGN
+    }
+
+    return sign + DELIMITER + amountWithCurrency
 }

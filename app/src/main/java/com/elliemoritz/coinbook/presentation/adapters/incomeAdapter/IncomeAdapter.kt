@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.elliemoritz.coinbook.databinding.ItemIncomeBinding
 import com.elliemoritz.coinbook.domain.entities.operations.Income
-import com.elliemoritz.coinbook.presentation.util.formatAmount
+import com.elliemoritz.coinbook.presentation.util.formatAmountWithSign
 import com.elliemoritz.coinbook.presentation.util.formatDate
 import com.elliemoritz.coinbook.presentation.util.formatTime
 
@@ -32,7 +32,7 @@ class IncomeAdapter : ListAdapter<Income, IncomeViewHolder>(IncomeDiffCallback()
             tvIncomeSource.text = income.incSource
             tvIncomeDate.text = formatDate(income.dateTimeMillis)
             tvIncomeTime.text = formatTime(income.dateTimeMillis)
-            tvIncomeAmount.text = formatAmount(income.amount, currency)
+            tvIncomeAmount.text = formatAmountWithSign(income.amount, currency, income.type)
         }
     }
 }
