@@ -119,8 +119,8 @@ class AddMoneyBoxOperationFragment : Fragment() {
                     R.string.dialog_put_in_money_box
                 )
                 binding.buttonAddMoneyBoxOperation.setOnClickListener {
-                    val amount = binding.buttonAddMoneyBoxOperation.text.toString()
-                    viewModel.createMoneyBoxOperation(amount, Type.EXPENSE)
+                    val amount = binding.etAddMoneyBoxOperationAmount.text.toString()
+                    viewModel.createMoneyBoxOperation(amount, Type.INCOME)
                 }
             }
 
@@ -129,8 +129,8 @@ class AddMoneyBoxOperationFragment : Fragment() {
                     R.string.dialog_remove_from_money_box
                 )
                 binding.buttonAddMoneyBoxOperation.setOnClickListener {
-                    val amount = binding.buttonAddMoneyBoxOperation.text.toString()
-                    viewModel.createMoneyBoxOperation(amount, Type.INCOME)
+                    val amount = binding.etAddMoneyBoxOperationAmount.text.toString()
+                    viewModel.createMoneyBoxOperation(amount, Type.EXPENSE)
                 }
             }
 
@@ -140,7 +140,7 @@ class AddMoneyBoxOperationFragment : Fragment() {
                     R.string.dialog_edit_money_box_operation
                 )
                 binding.buttonAddMoneyBoxOperation.setOnClickListener {
-                    val amount = binding.buttonAddMoneyBoxOperation.text.toString()
+                    val amount = binding.etAddMoneyBoxOperationAmount.text.toString()
                     viewModel.editMoneyBoxOperation(amount, operationId)
                 }
             }
