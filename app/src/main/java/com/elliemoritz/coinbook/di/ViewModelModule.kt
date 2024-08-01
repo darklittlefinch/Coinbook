@@ -1,6 +1,7 @@
 package com.elliemoritz.coinbook.di
 
 import androidx.lifecycle.ViewModel
+import com.elliemoritz.coinbook.presentation.viewModels.ExpenseViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.IncomeViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.MainViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.SettingsViewModel
@@ -28,6 +29,11 @@ interface ViewModelModule {
     @IntoMap
     @ViewModelKey(IncomeViewModel::class)
     fun bindIncomeViewModel(viewModel: IncomeViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ExpenseViewModel::class)
+    fun bindExpenseViewModel(viewModel: ExpenseViewModel): ViewModel
 
     @Binds
     @IntoMap

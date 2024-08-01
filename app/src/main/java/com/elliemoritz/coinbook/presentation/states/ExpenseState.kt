@@ -1,26 +1,12 @@
 package com.elliemoritz.coinbook.presentation.states
 
-import com.elliemoritz.coinbook.domain.entities.Category
+import com.elliemoritz.coinbook.domain.entities.operations.Expense
 
-sealed class ExpenseState
-
-class NoExpensesData(
-    totalAmount: Int = 0
-) : ExpenseState()
-
-class ExpensesData(
-    totalAmount: Int,
-    categories: List<Category>
-) : ExpenseState()
-
-class ExpensesDataLimit(
-    totalAmount: Int,
-    limitRemains: Int,
-    categories: List<Category>
-) : ExpenseState()
-
-class ExpensesDataLimitExceeded(
-    totalAmount: Int,
-    limitExceeded: Int,
-    categories: List<Category>
-) : ExpenseState()
+sealed class ExpenseState {
+    class NoData(val amount: String) : ExpenseState()
+    class Amount(val amount: String) : ExpenseState()
+    class ExpensesList(val list: List<Expense>) : ExpenseState()
+    class Currency(val currency: String) : ExpenseState()
+    data object NoCategoriesError : ExpenseState()
+    data object PermitAddExpense : ExpenseState()
+}
