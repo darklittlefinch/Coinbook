@@ -36,7 +36,7 @@ class IncomeViewModel @Inject constructor(
             IncomeState.Amount(formatAmount(it, currency))
         }
 
-    private val incomeListFlow = getIncomeListForMonthUseCase()
+    private val incomeListStateFlow = getIncomeListForMonthUseCase()
         .map {
             if (it.isEmpty()) {
                 val currency = currencyFlow.first()
@@ -53,7 +53,7 @@ class IncomeViewModel @Inject constructor(
         get() = _state
             .mergeWith(amountStateFlow)
             .mergeWith(currencyStateFlow)
-            .mergeWith(incomeListFlow)
+            .mergeWith(incomeListStateFlow)
 
     fun removeIncome(income: Income) {
         viewModelScope.launch {
