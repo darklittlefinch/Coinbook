@@ -74,7 +74,7 @@ class OperationsMapper @Inject constructor() {
 
     fun mapDbModelToMoneyBoxOperation(dbModel: OperationDbModel) = MoneyBoxOperation(
         mbId = dbModel.id,
-        mbDateDateTimeMillis = dbModel.dateTimeMillis,
+        mbDateTimeMillis = dbModel.dateTimeMillis,
         mbAmount = dbModel.amount,
         mbType = defineEntityType(dbModel.type)
     )

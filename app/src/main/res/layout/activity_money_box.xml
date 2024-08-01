@@ -28,6 +28,17 @@
         app:srcCompat="@drawable/ic_left_arrow" />
 
     <ImageView
+        android:id="@+id/iv_money_box_delete"
+        style="@style/details_navigation_images"
+        android:contentDescription="@string/content_description_trash_image"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_money_box_title"
+        app:layout_constraintEnd_toEndOf="@+id/tv_money_box_title"
+        app:layout_constraintTop_toTopOf="@+id/tv_money_box_title"
+        app:srcCompat="@drawable/ic_trash"
+        tools:visibility="visible" />
+
+    <ImageView
         android:id="@+id/iv_money_box"
         style="@style/details_big_image"
         android:adjustViewBounds="true"
@@ -69,7 +80,7 @@
         tools:text="14 673 ₽" />
 
     <TextView
-        android:id="@+id/tv_money_box_goal_information"
+        android:id="@+id/tv_money_box_goal_amount_info"
         style="@style/details_with_numbers_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -78,10 +89,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_money_box_amount"
-        tools:text="Your goal: 25 000 ₽ before 25.03.2024 for vacation" />
+        tools:text="Your goal: 25 000 ₽" />
 
     <TextView
-        android:id="@+id/tv_money_box_goal_destination_information"
+        android:id="@+id/tv_money_box_goal_info"
         style="@style/details_with_numbers_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -89,8 +100,8 @@
         android:textColor="@color/dark_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_money_box_goal_information"
-        tools:text="You need to save 200 ₽ every day to reach this goal" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_money_box_goal_amount_info"
+        tools:text="You are saving money for: Vacation" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_money_box_operations"
@@ -101,7 +112,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_money_box_goal_destination_information"
+        app:layout_constraintTop_toBottomOf="@+id/tv_money_box_goal_info"
         tools:listitem="@layout/item_money_box" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

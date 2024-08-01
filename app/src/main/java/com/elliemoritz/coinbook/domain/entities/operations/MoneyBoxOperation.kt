@@ -6,9 +6,9 @@ import com.elliemoritz.coinbook.domain.entities.helpers.UNDEFINED_ID
 
 data class MoneyBoxOperation(
     val mbType: Type,
-    val mbDateDateTimeMillis: Long,
+    val mbDateTimeMillis: Long,
     var mbAmount: Int,
     val mbId: Int = UNDEFINED_ID
 ) : Operation(
-    OperationForm.MONEY_BOX, mbType, mbDateDateTimeMillis, mbAmount, id = mbId
+    OperationForm.MONEY_BOX, mbType, mbDateTimeMillis, mbAmount, id = mbId
 )

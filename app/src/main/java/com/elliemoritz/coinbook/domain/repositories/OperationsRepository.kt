@@ -22,7 +22,7 @@ interface OperationsRepository {
 
     fun getIncomeListForMonth(): Flow<List<Income>>
     fun getExpensesListForMonth(): Flow<List<Expense>>
-    fun getMoneyBoxOperationsListFromDate(dateTimeMillis: Long): Flow<List<MoneyBoxOperation>>
+    fun getMoneyBoxOperationsListFromDate(): Flow<List<MoneyBoxOperation>>
     fun getDebtOperationsList(): Flow<List<DebtOperation>>
 
     fun getTotalIncomeAmountForMonth(): Flow<Int>

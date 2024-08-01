@@ -26,12 +26,10 @@ interface OperationsDao {
 
     @Query(
         "SELECT * FROM operations " +
-                "WHERE operationForm = :operationForm " +
-                "AND dateTimeMillis >= :dateMillis"
+                "WHERE operationForm = :operationForm"
     )
     suspend fun getOperationsListByOperationForm(
-        operationForm: String,
-        dateMillis: Long = 0
+        operationForm: String
     )
             : List<OperationDbModel>
 

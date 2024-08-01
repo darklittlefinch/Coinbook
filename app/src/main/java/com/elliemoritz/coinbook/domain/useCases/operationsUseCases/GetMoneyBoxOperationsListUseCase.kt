@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetMoneyBoxOperationsListUseCase @Inject constructor(
     private val operationsRepository: OperationsRepository
 ) {
-    operator fun invoke(dateTimeMillis: Long): Flow<List<MoneyBoxOperation>> {
-        return operationsRepository.getMoneyBoxOperationsListFromDate(dateTimeMillis)
+    operator fun invoke(): Flow<List<MoneyBoxOperation>> {
+        return operationsRepository.getMoneyBoxOperationsListFromDate()
     }
 }

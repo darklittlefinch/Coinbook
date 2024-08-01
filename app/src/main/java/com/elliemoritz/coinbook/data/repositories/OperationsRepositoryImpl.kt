@@ -154,20 +154,16 @@ class OperationsRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getMoneyBoxOperationsListFromDate(
-        dateTimeMillis: Long
-    ): Flow<List<MoneyBoxOperation>> = flow {
+    override fun getMoneyBoxOperationsListFromDate(): Flow<List<MoneyBoxOperation>> = flow {
         val dbModelsList = dao.getOperationsListByOperationForm(
-            OPERATION_FORM_MONEY_BOX_OPERATION,
-            dateTimeMillis
+            OPERATION_FORM_MONEY_BOX_OPERATION
         )
         val moneyBoxOperationsList = mapper.mapListDbModelToListMoneyBoxOperations(dbModelsList)
         emit(moneyBoxOperationsList)
 
         refreshEvents.collect {
             val updatedDbModelsList = dao.getOperationsListByOperationForm(
-                OPERATION_FORM_MONEY_BOX_OPERATION,
-                dateTimeMillis
+                OPERATION_FORM_MONEY_BOX_OPERATION
             )
             val updatedMoneyBoxOperationsList = mapper.mapListDbModelToListMoneyBoxOperations(
                 updatedDbModelsList
@@ -234,7 +230,8 @@ class OperationsRepositoryImpl @Inject constructor(
 
         refreshEvents.collect {
             val updatedBeginOfMonthMillis = getBeginOfMonthMillis()
-            val updatedDbModelsList = dao.getCategoryExpensesList(categoryName, updatedBeginOfMonthMillis)
+            val updatedDbModelsList =
+                dao.getCategoryExpensesList(categoryName, updatedBeginOfMonthMillis)
             val updatedExpensesList = mapper.mapListDbModelToListExpenses(updatedDbModelsList)
             emit(updatedExpensesList)
         }
