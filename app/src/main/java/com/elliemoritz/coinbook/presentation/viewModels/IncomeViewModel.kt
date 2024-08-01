@@ -1,7 +1,6 @@
 package com.elliemoritz.coinbook.presentation.viewModels
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetIncomeListForMonthUseCase
 import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetTotalIncomeAmountForMonthUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetCurrencyUseCase
@@ -12,7 +11,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class IncomeViewModel @Inject constructor(
@@ -32,6 +30,13 @@ class IncomeViewModel @Inject constructor(
         }
 
     private val incomeListFlow = getIncomeListForMonthUseCase()
+        .map {
+            if (it.isEmpty()) {
+                IncomeState.NoData
+            } else {
+                IncomeState.IncomeList(it)
+            }
+        }
 
     private val _state = MutableSharedFlow<IncomeState>()
 
@@ -39,16 +44,5 @@ class IncomeViewModel @Inject constructor(
         get() = _state
             .mergeWith(amountStateFlow)
             .mergeWith(currencyStateFlow)
-
-    fun setData() {
-        viewModelScope.launch {
-            val incomeList = incomeListFlow.first()
-
-            if (incomeList.isEmpty()) {
-                _state.emit(IncomeState.NoData)
-            } else {
-                _state.emit(IncomeState.IncomeList(incomeList))
-            }
-        }
-    }
+            .mergeWith(incomeListFlow)
 }

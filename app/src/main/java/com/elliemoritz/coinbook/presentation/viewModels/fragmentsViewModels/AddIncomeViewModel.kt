@@ -52,7 +52,7 @@ class AddIncomeViewModel @Inject constructor(
     fun setData(id: Int) {
         viewModelScope.launch {
             val data = getIncomeUseCase(id).first()
-            this@AddIncomeViewModel.dataFlow.emit(data)
+            dataFlow.emit(data)
         }
     }
 

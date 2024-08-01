@@ -59,7 +59,6 @@ class IncomeActivity : AppCompatActivity(), OnEditingListener {
         setRecyclerView()
 
         observeViewModel()
-        viewModel.setData()
     }
 
     private fun observeViewModel() {
