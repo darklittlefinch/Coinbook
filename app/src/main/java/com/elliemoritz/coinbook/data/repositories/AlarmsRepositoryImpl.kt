@@ -36,6 +36,12 @@ class AlarmsRepositoryImpl @Inject constructor(
         val dbModel = dao.getAlarm(id)
         val alarm = mapper.mapDbModelToEntity(dbModel)
         emit(alarm)
+
+        refreshEvents.collect {
+            val updatedDbModel = dao.getAlarm(id)
+            val updatedAlarm = mapper.mapDbModelToEntity(updatedDbModel)
+            emit(updatedAlarm)
+        }
     }
 
     override suspend fun addAlarm(alarm: Alarm) {
@@ -56,5 +62,10 @@ class AlarmsRepositoryImpl @Inject constructor(
     override fun getAlarmsCount(): Flow<Int> = flow {
         val alarmsCount = dao.getAlarmsCount()
         emit(alarmsCount)
+
+        refreshEvents.collect {
+            val updatedAlarmsCount = dao.getAlarmsCount()
+            emit(updatedAlarmsCount)
+        }
     }
 }

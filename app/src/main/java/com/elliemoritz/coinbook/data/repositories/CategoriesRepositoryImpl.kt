@@ -36,6 +36,12 @@ class CategoriesRepositoryImpl @Inject constructor(
         val dbModel = dao.getCategory(id)
         val category = mapper.mapDbModelToEntity(dbModel)
         emit(category)
+
+        refreshEvents.collect {
+            val updatedDbModel = dao.getCategory(id)
+            val updatedCategory = mapper.mapDbModelToEntity(updatedDbModel)
+            emit(updatedCategory)
+        }
     }
 
     override fun getCategoryByName(name: String): Flow<Category?> = flow {
@@ -46,6 +52,16 @@ class CategoriesRepositoryImpl @Inject constructor(
             null
         }
         emit(category)
+
+        refreshEvents.collect {
+            val updatedDbModel = dao.getCategoryByName(name)
+            val updatedCategory = if (updatedDbModel != null) {
+                mapper.mapDbModelToEntity(updatedDbModel)
+            } else {
+                null
+            }
+            emit(updatedCategory)
+        }
     }
 
     override suspend fun addCategory(category: Category) {

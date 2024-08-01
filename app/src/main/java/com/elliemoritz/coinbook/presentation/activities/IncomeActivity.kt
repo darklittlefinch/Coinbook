@@ -70,6 +70,7 @@ class IncomeActivity : AppCompatActivity(), OnEditingListener {
                     when (it) {
                         is IncomeState.NoData -> {
                             binding.tvNoIncomeInfo?.visibility = View.VISIBLE
+                            binding.tvIncomeAmount.text = it.amount
                         }
 
                         is IncomeState.Currency -> {

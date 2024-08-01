@@ -37,7 +37,9 @@ class IncomeViewModel @Inject constructor(
     private val incomeListFlow = getIncomeListForMonthUseCase()
         .map {
             if (it.isEmpty()) {
-                IncomeState.NoData
+                val currency = currencyFlow.first()
+                val formattedAmount = formatAmount(NO_DATA_VALUE, currency)
+                IncomeState.NoData(formattedAmount)
             } else {
                 IncomeState.IncomeList(it)
             }
@@ -55,5 +57,9 @@ class IncomeViewModel @Inject constructor(
         viewModelScope.launch {
             removeOperationUseCase(income)
         }
+    }
+
+    companion object {
+        private const val NO_DATA_VALUE = 0
     }
 }

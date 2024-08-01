@@ -45,6 +45,12 @@ class OperationsRepositoryImpl @Inject constructor(
         val dbModel = dao.getOperation(id)
         val operation = mapper.mapDbModelToOperation(dbModel)
         emit(operation)
+
+        refreshEvents.collect {
+            val updatedDbModel = dao.getOperation(id)
+            val updatedOperation = mapper.mapDbModelToOperation(updatedDbModel)
+            emit(updatedOperation)
+        }
     }
 
     override suspend fun addOperation(operation: Operation) {
@@ -70,24 +76,48 @@ class OperationsRepositoryImpl @Inject constructor(
         val dbModel = dao.getOperation(id)
         val income = mapper.mapDbModelToIncome(dbModel)
         emit(income)
+
+        refreshEvents.collect {
+            val updatedDbModel = dao.getOperation(id)
+            val updatedIncome = mapper.mapDbModelToIncome(updatedDbModel)
+            emit(updatedIncome)
+        }
     }
 
     override fun getExpense(id: Int): Flow<Expense> = flow {
         val dbModel = dao.getOperation(id)
         val expense = mapper.mapDbModelToExpense(dbModel)
         emit(expense)
+
+        refreshEvents.collect {
+            val updatedDbModel = dao.getOperation(id)
+            val updatedExpense = mapper.mapDbModelToExpense(updatedDbModel)
+            emit(updatedExpense)
+        }
     }
 
     override fun getMoneyBoxOperation(id: Int): Flow<MoneyBoxOperation> = flow {
         val dbModel = dao.getOperation(id)
         val moneyBoxOperation = mapper.mapDbModelToMoneyBoxOperation(dbModel)
         emit(moneyBoxOperation)
+
+        refreshEvents.collect {
+            val updatedDbModel = dao.getOperation(id)
+            val updatedMoneyBoxOperation = mapper.mapDbModelToMoneyBoxOperation(updatedDbModel)
+            emit(updatedMoneyBoxOperation)
+        }
     }
 
     override fun getDebtOperation(id: Int): Flow<DebtOperation> = flow {
         val dbModel = dao.getOperation(id)
         val debtOperation = mapper.mapDbModelToDebtOperation(dbModel)
         emit(debtOperation)
+
+        refreshEvents.collect {
+            val updatedDbModel = dao.getOperation(id)
+            val updatedDebtOperation = mapper.mapDbModelToDebtOperation(updatedDbModel)
+            emit(updatedDebtOperation)
+        }
     }
 
     override fun getIncomeListForMonth(): Flow<List<Income>> = flow {
@@ -167,6 +197,15 @@ class OperationsRepositoryImpl @Inject constructor(
             beginOfMonthMillis
         ) ?: OPERATIONS_AMOUNT_DEFAULT_VALUE
         emit(incomeAmount)
+
+        refreshEvents.collect {
+            val updatedBeginOfMonthMillis = getBeginOfMonthMillis()
+            val updatedIncomeAmount = dao.getOperationsAmountByType(
+                TYPE_INCOME,
+                updatedBeginOfMonthMillis
+            ) ?: OPERATIONS_AMOUNT_DEFAULT_VALUE
+            emit(updatedIncomeAmount)
+        }
     }
 
     override fun getTotalExpensesAmountForMonth(): Flow<Int> = flow {
@@ -176,6 +215,15 @@ class OperationsRepositoryImpl @Inject constructor(
             beginOfMonthMillis
         ) ?: OPERATIONS_AMOUNT_DEFAULT_VALUE
         emit(expensesAmount)
+
+        refreshEvents.collect {
+            val updatedBeginOfMonthMillis = getBeginOfMonthMillis()
+            val updatedExpensesAmount = dao.getOperationsAmountByType(
+                TYPE_EXPENSE,
+                updatedBeginOfMonthMillis
+            ) ?: OPERATIONS_AMOUNT_DEFAULT_VALUE
+            emit(updatedExpensesAmount)
+        }
     }
 
     override fun getCategoryExpensesListForMonth(categoryName: String): Flow<List<Expense>> = flow {
@@ -183,6 +231,13 @@ class OperationsRepositoryImpl @Inject constructor(
         val dbModelsList = dao.getCategoryExpensesList(categoryName, beginOfMonthMillis)
         val expensesList = mapper.mapListDbModelToListExpenses(dbModelsList)
         emit(expensesList)
+
+        refreshEvents.collect {
+            val updatedBeginOfMonthMillis = getBeginOfMonthMillis()
+            val updatedDbModelsList = dao.getCategoryExpensesList(categoryName, updatedBeginOfMonthMillis)
+            val updatedExpensesList = mapper.mapListDbModelToListExpenses(updatedDbModelsList)
+            emit(updatedExpensesList)
+        }
     }
 
     companion object {

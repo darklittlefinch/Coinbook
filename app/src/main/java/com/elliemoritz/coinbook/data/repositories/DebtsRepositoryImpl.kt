@@ -36,6 +36,12 @@ class DebtsRepositoryImpl @Inject constructor(
         val dbModel = dao.getDebt(id)
         val debt = mapper.mapDbModelToEntity(dbModel)
         emit(debt)
+
+        refreshEvents.collect {
+            val updatedDbModel = dao.getDebt(id)
+            val updatedDebt = mapper.mapDbModelToEntity(updatedDbModel)
+            emit(updatedDebt)
+        }
     }
 
     override suspend fun addDebt(debt: Debt) {
@@ -56,7 +62,13 @@ class DebtsRepositoryImpl @Inject constructor(
     override fun getTotalDebtsAmount(): Flow<Int> = flow {
         val totalAmount = dao.getDebtsAmount() ?: DEBTS_AMOUNT_DEFAULT_VALUE
         emit(totalAmount)
+
+        refreshEvents.collect {
+            val updatedTotalAmount = dao.getDebtsAmount() ?: DEBTS_AMOUNT_DEFAULT_VALUE
+            emit(updatedTotalAmount)
+        }
     }
+
     companion object {
         private const val DEBTS_AMOUNT_DEFAULT_VALUE = 0
     }
