@@ -14,6 +14,7 @@ import com.elliemoritz.coinbook.domain.entities.operations.MoneyBoxOperation
 import com.elliemoritz.coinbook.domain.entities.operations.Operation
 import com.elliemoritz.coinbook.domain.repositories.OperationsRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
@@ -21,6 +22,12 @@ class OperationsRepositoryImpl @Inject constructor(
     private val dao: OperationsDao,
     private val mapper: OperationsMapper
 ) : OperationsRepository {
+
+    private val refreshEvents = MutableSharedFlow<Unit>()
+
+    private suspend fun refreshData() {
+        refreshEvents.emit(Unit)
+    }
 
     override fun getOperationsList(): Flow<List<Operation>> = flow {
         val dbModelsList = dao.getOperationsList()
@@ -46,6 +53,7 @@ class OperationsRepositoryImpl @Inject constructor(
 
     override suspend fun removeOperation(operation: Operation) {
         dao.removeOperation(operation.id)
+        refreshData()
     }
 
     override suspend fun removeAllOperations() {
@@ -81,6 +89,16 @@ class OperationsRepositoryImpl @Inject constructor(
         val dbModelsList = dao.getOperationsListByType(TYPE_INCOME, beginOfMonthMillis)
         val incomeList = mapper.mapListDbModelToListIncome(dbModelsList)
         emit(incomeList)
+
+        refreshEvents.collect {
+            val updatedBeginOfMonthMillis = getBeginOfMonthMillis()
+            val updatedDbModelsList = dao.getOperationsListByType(
+                TYPE_INCOME,
+                updatedBeginOfMonthMillis
+            )
+            val updatedIncomeList = mapper.mapListDbModelToListIncome(updatedDbModelsList)
+            emit(updatedIncomeList)
+        }
     }
 
     override fun getExpensesListForMonth(): Flow<List<Expense>> = flow {

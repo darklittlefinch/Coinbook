@@ -14,6 +14,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.elliemoritz.coinbook.R
 import com.elliemoritz.coinbook.databinding.ActivityIncomeBinding
 import com.elliemoritz.coinbook.presentation.CoinBookApp
@@ -112,6 +114,12 @@ class IncomeActivity : AppCompatActivity(), OnEditingListener {
 
     private fun setRecyclerView() {
         incomeAdapter = IncomeAdapter()
+        setRvClickListener()
+        setRvSwipeListener()
+        binding.rvIncome.adapter = incomeAdapter
+    }
+
+    private fun setRvClickListener() {
         incomeAdapter.onIncomeClickListener = {
             if (isOnePanelModel()) {
                 launchEditOperationsActivity(it.id)
@@ -119,7 +127,30 @@ class IncomeActivity : AppCompatActivity(), OnEditingListener {
                 launchEditIncomeFragment(it.id)
             }
         }
-        binding.rvIncome.adapter = incomeAdapter
+    }
+
+    private fun setRvSwipeListener() {
+        val callback = object : ItemTouchHelper.SimpleCallback(
+            0,
+            ItemTouchHelper.LEFT
+        ) {
+
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val item = incomeAdapter.currentList[viewHolder.adapterPosition]
+                viewModel.removeIncome(item)
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(callback)
+        itemTouchHelper.attachToRecyclerView(binding.rvIncome)
     }
 
     private fun isOnePanelModel(): Boolean {

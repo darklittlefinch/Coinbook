@@ -1,8 +1,11 @@
 package com.elliemoritz.coinbook.presentation.viewModels
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.elliemoritz.coinbook.domain.entities.operations.Income
 import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetIncomeListForMonthUseCase
 import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetTotalIncomeAmountForMonthUseCase
+import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.RemoveOperationUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetCurrencyUseCase
 import com.elliemoritz.coinbook.presentation.states.IncomeState
 import com.elliemoritz.coinbook.presentation.util.formatAmount
@@ -11,12 +14,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class IncomeViewModel @Inject constructor(
     getCurrencyUseCase: GetCurrencyUseCase,
     getTotalIncomeAmountForMonthUseCase: GetTotalIncomeAmountForMonthUseCase,
     getIncomeListForMonthUseCase: GetIncomeListForMonthUseCase,
+    private val removeOperationUseCase: RemoveOperationUseCase
 ) : ViewModel() {
 
     private val currencyFlow = getCurrencyUseCase()
@@ -45,4 +50,10 @@ class IncomeViewModel @Inject constructor(
             .mergeWith(amountStateFlow)
             .mergeWith(currencyStateFlow)
             .mergeWith(incomeListFlow)
+
+    fun removeIncome(income: Income) {
+        viewModelScope.launch {
+            removeOperationUseCase(income)
+        }
+    }
 }
