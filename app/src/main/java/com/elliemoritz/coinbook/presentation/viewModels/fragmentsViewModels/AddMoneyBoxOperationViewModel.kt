@@ -7,17 +7,21 @@ import com.elliemoritz.coinbook.domain.entities.operations.MoneyBoxOperation
 import com.elliemoritz.coinbook.domain.exceptions.EmptyFieldsException
 import com.elliemoritz.coinbook.domain.exceptions.IncorrectNumberException
 import com.elliemoritz.coinbook.domain.exceptions.NoChangesException
+import com.elliemoritz.coinbook.domain.exceptions.NotEnoughMoneyException
 import com.elliemoritz.coinbook.domain.useCases.moneyBoxUseCases.AddToMoneyBoxUseCase
+import com.elliemoritz.coinbook.domain.useCases.moneyBoxUseCases.GetMoneyBoxUseCase
 import com.elliemoritz.coinbook.domain.useCases.moneyBoxUseCases.RemoveFromMoneyBoxUseCase
 import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.AddOperationUseCase
 import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.EditOperationUseCase
 import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetMoneyBoxOperationUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.AddToBalanceUseCase
+import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetBalanceUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.RemoveFromBalanceUseCase
 import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentMoneyBoxOperationState
 import com.elliemoritz.coinbook.presentation.util.checkEmptyFields
 import com.elliemoritz.coinbook.presentation.util.checkIncorrectNumbers
 import com.elliemoritz.coinbook.presentation.util.checkNoChanges
+import com.elliemoritz.coinbook.presentation.util.checkNotEnoughMoney
 import com.elliemoritz.coinbook.presentation.util.getCurrentTimeMillis
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -27,11 +31,13 @@ import javax.inject.Inject
 import kotlin.math.abs
 
 class AddMoneyBoxOperationViewModel @Inject constructor(
+    private val getMoneyBoxUseCase: GetMoneyBoxUseCase,
     private val getMoneyBoxOperationUseCase: GetMoneyBoxOperationUseCase,
     private val addOperationUseCase: AddOperationUseCase,
     private val editOperationUseCase: EditOperationUseCase,
     private val addToMoneyBoxUseCase: AddToMoneyBoxUseCase,
     private val removeFromMoneyBoxUseCase: RemoveFromMoneyBoxUseCase,
+    private val getBalanceUseCase: GetBalanceUseCase,
     private val addToBalanceUseCase: AddToBalanceUseCase,
     private val removeFromBalanceUseCase: RemoveFromBalanceUseCase
 ) : ViewModel() {
@@ -59,6 +65,14 @@ class AddMoneyBoxOperationViewModel @Inject constructor(
                 checkIncorrectNumbers(amountString)
 
                 val amount = amountString.toInt()
+                val balance = getBalanceUseCase().first()
+                val moneyBoxAmount = getMoneyBoxUseCase().first()?.totalAmount ?: NO_DATA_VALUE
+
+                if (type == Type.EXPENSE) {
+                    checkNotEnoughMoney(amount, moneyBoxAmount)
+                    checkNotEnoughMoney(amount, balance)
+                }
+
                 val moneyBoxOperation = MoneyBoxOperation(
                     type,
                     getCurrentTimeMillis(),
@@ -73,6 +87,8 @@ class AddMoneyBoxOperationViewModel @Inject constructor(
                 setEmptyFieldsState()
             } catch (e: IncorrectNumberException) {
                 setIncorrectNumberState()
+            } catch (e: NotEnoughMoneyException) {
+                setNotEnoughMoneyState()
             }
         }
     }
@@ -93,6 +109,13 @@ class AddMoneyBoxOperationViewModel @Inject constructor(
                     listOf(oldData.amount)
                 )
 
+                if (oldData.type == Type.EXPENSE && newAmount > oldData.amount) {
+                    val balance = getBalanceUseCase().first()
+                    val moneyBoxAmount = getMoneyBoxUseCase().first()?.totalAmount ?: NO_DATA_VALUE
+                    checkNotEnoughMoney(newAmount - oldData.amount, moneyBoxAmount)
+                    checkNotEnoughMoney(newAmount - oldData.amount, balance)
+                }
+
                 val moneyBoxOperation = MoneyBoxOperation(
                     oldData.type,
                     oldData.dateTimeMillis,
@@ -110,6 +133,8 @@ class AddMoneyBoxOperationViewModel @Inject constructor(
                 setIncorrectNumberState()
             } catch (e: NoChangesException) {
                 setNoChangesState()
+            } catch (e: NotEnoughMoneyException) {
+                setNotEnoughMoneyState()
             }
         }
     }
@@ -174,5 +199,13 @@ class AddMoneyBoxOperationViewModel @Inject constructor(
 
     private suspend fun setIncorrectNumberState() {
         _state.emit(FragmentMoneyBoxOperationState.IncorrectNumber)
+    }
+
+    private suspend fun setNotEnoughMoneyState() {
+        _state.emit(FragmentMoneyBoxOperationState.NotEnoughMoney)
+    }
+
+    companion object {
+        private const val NO_DATA_VALUE = 0
     }
 }

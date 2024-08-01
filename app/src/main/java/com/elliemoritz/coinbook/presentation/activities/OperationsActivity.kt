@@ -21,8 +21,11 @@ import com.elliemoritz.coinbook.presentation.fragments.AddMoneyBoxFragment
 import com.elliemoritz.coinbook.presentation.fragments.AddMoneyBoxOperationFragment
 import com.elliemoritz.coinbook.presentation.fragments.EditBalanceFragment
 import com.elliemoritz.coinbook.presentation.util.OnEditingListener
+import com.elliemoritz.coinbook.presentation.util.OnNotEnoughMoneyListener
 
-class OperationsActivity : AppCompatActivity(), OnEditingListener {
+class OperationsActivity : AppCompatActivity(),
+    OnEditingListener,
+    OnNotEnoughMoneyListener {
 
     private val fragmentType by lazy {
         intent.getStringExtra(EXTRA_FRAGMENT_TYPE)
@@ -235,6 +238,14 @@ class OperationsActivity : AppCompatActivity(), OnEditingListener {
         Toast.makeText(
             this,
             getString(R.string.toast_error_no_changes),
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    override fun onNotEnoughMoney() {
+        Toast.makeText(
+            this,
+            getString(R.string.toast_error_not_enough_money),
             Toast.LENGTH_SHORT
         ).show()
     }

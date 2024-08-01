@@ -24,12 +24,15 @@ import com.elliemoritz.coinbook.presentation.fragments.AddMoneyBoxFragment
 import com.elliemoritz.coinbook.presentation.fragments.AddMoneyBoxOperationFragment
 import com.elliemoritz.coinbook.presentation.states.MoneyBoxState
 import com.elliemoritz.coinbook.presentation.util.OnEditingListener
+import com.elliemoritz.coinbook.presentation.util.OnNotEnoughMoneyListener
 import com.elliemoritz.coinbook.presentation.viewModels.MoneyBoxViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.ViewModelFactory
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class MoneyBoxActivity : AppCompatActivity(), OnEditingListener {
+class MoneyBoxActivity : AppCompatActivity(),
+    OnEditingListener,
+    OnNotEnoughMoneyListener {
 
     private val component by lazy {
         (application as CoinBookApp).component
@@ -332,5 +335,13 @@ class MoneyBoxActivity : AppCompatActivity(), OnEditingListener {
             val intent = Intent(context, MoneyBoxActivity::class.java)
             return intent
         }
+    }
+
+    override fun onNotEnoughMoney() {
+        Toast.makeText(
+            this,
+            getString(R.string.toast_error_not_enough_money),
+            Toast.LENGTH_SHORT
+        ).show()
     }
 }

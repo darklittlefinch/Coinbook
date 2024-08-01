@@ -4,6 +4,7 @@ import androidx.core.text.isDigitsOnly
 import com.elliemoritz.coinbook.domain.exceptions.EmptyFieldsException
 import com.elliemoritz.coinbook.domain.exceptions.IncorrectNumberException
 import com.elliemoritz.coinbook.domain.exceptions.NoChangesException
+import com.elliemoritz.coinbook.domain.exceptions.NotEnoughMoneyException
 
 fun checkEmptyFields(vararg fields: String) {
     for (field in fields) {
@@ -35,4 +36,10 @@ fun checkNoChanges(newList: List<Any>, oldList: List<Any>) {
     }
 
     throw NoChangesException()
+}
+
+fun checkNotEnoughMoney(amount: Int, balance: Int) {
+    if (amount > balance) {
+        throw NotEnoughMoneyException()
+    }
 }
