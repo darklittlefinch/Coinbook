@@ -175,16 +175,32 @@ class OperationsActivity : AppCompatActivity(), OnEditingListener {
         const val MODE_REMOVE = "remove"
         const val MODE_EDIT = "edit"
 
-        fun newIntent(
-            context: Context,
-            fragment: String,
-            mode: String,
-            id: Int = UNDEFINED_ID
-        ): Intent {
+        fun newIntentAdd(context: Context, fragmentType: String): Intent {
             val intent = Intent(context, OperationsActivity::class.java)
-            intent.putExtra(EXTRA_FRAGMENT_TYPE, fragment)
-            intent.putExtra(EXTRA_MODE, mode)
+            intent.putExtra(EXTRA_FRAGMENT_TYPE, fragmentType)
+            intent.putExtra(EXTRA_MODE, MODE_ADD)
+            return intent
+        }
+
+        fun newIntentRemove(context: Context, fragmentType: String): Intent {
+            val intent = Intent(context, OperationsActivity::class.java)
+            intent.putExtra(EXTRA_FRAGMENT_TYPE, fragmentType)
+            intent.putExtra(EXTRA_MODE, MODE_REMOVE)
+            return intent
+        }
+
+        fun newIntentEdit(context: Context, fragmentType: String, id: Int): Intent {
+            val intent = Intent(context, OperationsActivity::class.java)
+            intent.putExtra(EXTRA_FRAGMENT_TYPE, fragmentType)
+            intent.putExtra(EXTRA_MODE, MODE_EDIT)
             intent.putExtra(EXTRA_ID, id)
+            return intent
+        }
+
+        fun newIntentEditWithoutId(context: Context, fragmentType: String): Intent {
+            val intent = Intent(context, OperationsActivity::class.java)
+            intent.putExtra(EXTRA_FRAGMENT_TYPE, fragmentType)
+            intent.putExtra(EXTRA_MODE, MODE_EDIT)
             return intent
         }
     }

@@ -45,10 +45,9 @@ class MoneyBoxActivity : AppCompatActivity() {
 
     private fun setOnAddClickListener() {
         binding.ivAddToMoneyBox.setOnClickListener {
-            val intent = OperationsActivity.newIntent(
+            val intent = OperationsActivity.newIntentAdd(
                 this,
-                OperationsActivity.FRAGMENT_TYPE_MONEY_BOX_OPERATION,
-                OperationsActivity.MODE_ADD
+                OperationsActivity.FRAGMENT_TYPE_MONEY_BOX_OPERATION
             )
             startActivity(intent)
         }
@@ -56,10 +55,9 @@ class MoneyBoxActivity : AppCompatActivity() {
 
     private fun setOnRemoveClickListener() {
         binding.ivRemoveFromMoneyBox.setOnClickListener {
-            val intent = OperationsActivity.newIntent(
+            val intent = OperationsActivity.newIntentRemove(
                 this,
-                OperationsActivity.FRAGMENT_TYPE_MONEY_BOX_OPERATION,
-                OperationsActivity.MODE_REMOVE
+                OperationsActivity.FRAGMENT_TYPE_MONEY_BOX_OPERATION
             )
             startActivity(intent)
         }
@@ -67,10 +65,9 @@ class MoneyBoxActivity : AppCompatActivity() {
 
     private fun setOnEditMoneyBoxClickListener() {
         binding.ivMoneyBox.setOnClickListener {
-            val intent = OperationsActivity.newIntent(
+            val intent = OperationsActivity.newIntentEditWithoutId(
                 this,
-                OperationsActivity.FRAGMENT_TYPE_MONEY_BOX,
-                OperationsActivity.MODE_EDIT
+                OperationsActivity.FRAGMENT_TYPE_MONEY_BOX
             )
             startActivity(intent)
         }
@@ -78,10 +75,9 @@ class MoneyBoxActivity : AppCompatActivity() {
 
     private fun setOnAddMoneyBoxClickListener() {
         binding.ivMoneyBox.setOnClickListener {
-            val intent = OperationsActivity.newIntent(
+            val intent = OperationsActivity.newIntentAdd(
                 this,
-                OperationsActivity.FRAGMENT_TYPE_MONEY_BOX,
-                OperationsActivity.MODE_ADD
+                OperationsActivity.FRAGMENT_TYPE_MONEY_BOX
             )
             startActivity(intent)
         }

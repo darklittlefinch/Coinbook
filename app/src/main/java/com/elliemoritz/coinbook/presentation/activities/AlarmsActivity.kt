@@ -42,10 +42,9 @@ class AlarmsActivity : AppCompatActivity() {
 
     private fun setOnAddClickListener() {
         binding.ivAddNewAlarm.setOnClickListener {
-            val intent = OperationsActivity.newIntent(
+            val intent = OperationsActivity.newIntentAdd(
                 this,
-                OperationsActivity.FRAGMENT_TYPE_ALARM,
-                OperationsActivity.MODE_ADD
+                OperationsActivity.FRAGMENT_TYPE_ALARM
             )
             startActivity(intent)
         }

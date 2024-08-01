@@ -42,10 +42,9 @@ class DebtsActivity : AppCompatActivity() {
 
     private fun setOnAddClickListener() {
         binding.ivAddNewDebt.setOnClickListener {
-            val intent = OperationsActivity.newIntent(
+            val intent = OperationsActivity.newIntentAdd(
                 this,
-                OperationsActivity.FRAGMENT_TYPE_DEBT,
-                OperationsActivity.MODE_ADD
+                OperationsActivity.FRAGMENT_TYPE_DEBT
             )
             startActivity(intent)
         }
