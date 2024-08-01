@@ -2,6 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cv_item_alarm"
     style="@style/base_narrow_top_bottom"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
