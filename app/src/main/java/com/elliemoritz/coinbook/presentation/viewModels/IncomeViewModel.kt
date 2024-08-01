@@ -7,6 +7,7 @@ import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetIncomeList
 import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetTotalIncomeAmountForMonthUseCase
 import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.RemoveOperationUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetCurrencyUseCase
+import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.RemoveFromBalanceUseCase
 import com.elliemoritz.coinbook.presentation.states.IncomeState
 import com.elliemoritz.coinbook.presentation.util.formatAmount
 import com.elliemoritz.coinbook.presentation.util.mergeWith
@@ -21,7 +22,8 @@ class IncomeViewModel @Inject constructor(
     getCurrencyUseCase: GetCurrencyUseCase,
     getTotalIncomeAmountForMonthUseCase: GetTotalIncomeAmountForMonthUseCase,
     getIncomeListForMonthUseCase: GetIncomeListForMonthUseCase,
-    private val removeOperationUseCase: RemoveOperationUseCase
+    private val removeOperationUseCase: RemoveOperationUseCase,
+    private val removeFromBalanceUseCase: RemoveFromBalanceUseCase
 ) : ViewModel() {
 
     private val currencyFlow = getCurrencyUseCase()
@@ -56,6 +58,7 @@ class IncomeViewModel @Inject constructor(
     fun removeIncome(income: Income) {
         viewModelScope.launch {
             removeOperationUseCase(income)
+            removeFromBalanceUseCase(income.amount)
         }
     }
 
