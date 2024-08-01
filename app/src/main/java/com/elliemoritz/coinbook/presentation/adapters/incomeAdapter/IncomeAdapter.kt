@@ -11,6 +11,8 @@ import com.elliemoritz.coinbook.presentation.util.formatTime
 
 class IncomeAdapter : ListAdapter<Income, IncomeViewHolder>(IncomeDiffCallback()) {
 
+    var onIncomeClickListener: ((Income) -> Unit)? = null
+
     private lateinit var currency: String
 
     fun setCurrency(newCurrency: String) {
@@ -28,11 +30,16 @@ class IncomeAdapter : ListAdapter<Income, IncomeViewHolder>(IncomeDiffCallback()
 
     override fun onBindViewHolder(holder: IncomeViewHolder, position: Int) {
         val income = getItem(position)
+
         with(holder.binding) {
             tvIncomeSource.text = income.incSource
             tvIncomeDate.text = formatDate(income.dateTimeMillis)
             tvIncomeTime.text = formatTime(income.dateTimeMillis)
             tvIncomeAmount.text = formatAmountWithSign(income.amount, currency, income.type)
+
+            cvItemIncome.setOnClickListener {
+                onIncomeClickListener?.invoke(income)
+            }
         }
     }
 }

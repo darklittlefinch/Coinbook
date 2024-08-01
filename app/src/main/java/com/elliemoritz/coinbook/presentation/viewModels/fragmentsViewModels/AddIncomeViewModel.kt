@@ -16,11 +16,9 @@ import com.elliemoritz.coinbook.presentation.util.checkEmptyFields
 import com.elliemoritz.coinbook.presentation.util.checkIncorrectNumbers
 import com.elliemoritz.coinbook.presentation.util.checkNoChanges
 import com.elliemoritz.coinbook.presentation.util.getCurrentTimeMillis
-import com.elliemoritz.coinbook.presentation.util.mergeWith
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.abs
@@ -33,26 +31,20 @@ class AddIncomeViewModel @Inject constructor(
     private val removeFromBalanceUseCase: RemoveFromBalanceUseCase
 ) : ViewModel() {
 
-    private val dataFlow = MutableSharedFlow<Income>()
-
-    private val dataStateFlow = dataFlow
-        .map {
-            FragmentIncomeState.Data(
-                it.incAmount.toString(),
-                it.incSource
-            )
-        }
-
     private val _state = MutableSharedFlow<FragmentIncomeState>()
 
     val state: Flow<FragmentIncomeState>
         get() = _state
-            .mergeWith(dataStateFlow)
 
     fun setData(id: Int) {
         viewModelScope.launch {
             val data = getIncomeUseCase(id).first()
-            dataFlow.emit(data)
+            _state.emit(
+                FragmentIncomeState.Data(
+                    data.amount.toString(),
+                    data.incSource
+                )
+            )
         }
     }
 
@@ -79,7 +71,7 @@ class AddIncomeViewModel @Inject constructor(
         }
     }
 
-    fun editIncome(newAmountString: String, newSource: String) {
+    fun editIncome(newAmountString: String, newSource: String, id: Int) {
 
         viewModelScope.launch {
 
@@ -87,7 +79,7 @@ class AddIncomeViewModel @Inject constructor(
                 checkEmptyFields(newAmountString, newSource)
                 checkIncorrectNumbers(newAmountString)
 
-                val oldData = dataFlow.first()
+                val oldData = getIncomeUseCase(id).first()
                 val newAmount = newAmountString.toInt()
 
                 checkNoChanges(

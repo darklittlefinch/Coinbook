@@ -88,11 +88,6 @@ class IncomeActivity : AppCompatActivity(), OnEditingListener {
         }
     }
 
-    private fun setRecyclerView() {
-        incomeAdapter = IncomeAdapter()
-        binding.rvIncome.adapter = incomeAdapter
-    }
-
     private fun setOnClickListeners() {
         setOnBackClickListener()
         setOnAddClickListener()
@@ -108,28 +103,53 @@ class IncomeActivity : AppCompatActivity(), OnEditingListener {
         binding.ivAddNewIncome.setOnClickListener {
 
             if (isOnePanelModel()) {
-                launchOperationsActivity()
+                launchAddOperationsActivity()
             } else {
                 launchAddIncomeFragment()
             }
         }
     }
 
+    private fun setRecyclerView() {
+        incomeAdapter = IncomeAdapter()
+        incomeAdapter.onIncomeClickListener = {
+            if (isOnePanelModel()) {
+                launchEditOperationsActivity(it.id)
+            } else {
+                launchEditIncomeFragment(it.id)
+            }
+        }
+        binding.rvIncome.adapter = incomeAdapter
+    }
+
     private fun isOnePanelModel(): Boolean {
         return binding.fragmentContainerIncome == null
     }
 
-    private fun launchOperationsActivity() {
-        val intent = OperationsActivity.newIntent(
+    private fun launchAddOperationsActivity() {
+        val intent = OperationsActivity.newIntentAdd(
+            this,
+            OperationsActivity.FRAGMENT_TYPE_INCOME
+        )
+        startActivity(intent)
+    }
+
+    private fun launchEditOperationsActivity(incomeId: Int) {
+        val intent = OperationsActivity.newIntentEdit(
             this,
             OperationsActivity.FRAGMENT_TYPE_INCOME,
-            OperationsActivity.MODE_ADD
+            incomeId
         )
         startActivity(intent)
     }
 
     private fun launchAddIncomeFragment() {
         val fragment = AddIncomeFragment.newInstanceAdd()
+        beginFragmentTransaction(fragment)
+    }
+
+    private fun launchEditIncomeFragment(incomeId: Int) {
+        val fragment = AddIncomeFragment.newInstanceEdit(incomeId)
         beginFragmentTransaction(fragment)
     }
 

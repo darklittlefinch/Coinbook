@@ -89,11 +89,11 @@ class AddIncomeFragment : Fragment() {
             }
 
             MODE_EDIT -> {
-                viewModel.setData(id)
+                viewModel.setData(incomeId)
                 binding.buttonAddIncome.setOnClickListener {
                     val amount = binding.etAddIncomeAmount.text.toString()
                     val source = binding.etAddIncomeSource.text.toString()
-                    viewModel.editIncome(amount, source)
+                    viewModel.editIncome(amount, source, incomeId)
                 }
             }
 
