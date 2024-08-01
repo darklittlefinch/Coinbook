@@ -122,11 +122,11 @@ class AddCategoryFragment : Fragment() {
             }
 
             MODE_EDIT -> {
-                viewModel.setData(id)
+                viewModel.setData(categoryId)
                 binding.buttonAddCategory.setOnClickListener {
                     val name = binding.etAddCategoryName.text.toString()
                     val limit = binding.etAddCategoryLimit.text.toString()
-                    viewModel.editCategory(name, limit)
+                    viewModel.editCategory(name, limit, categoryId)
                 }
             }
 

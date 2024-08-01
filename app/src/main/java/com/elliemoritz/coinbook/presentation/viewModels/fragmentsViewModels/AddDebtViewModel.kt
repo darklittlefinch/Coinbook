@@ -16,11 +16,9 @@ import com.elliemoritz.coinbook.presentation.util.checkEmptyFields
 import com.elliemoritz.coinbook.presentation.util.checkIncorrectNumbers
 import com.elliemoritz.coinbook.presentation.util.checkNoChanges
 import com.elliemoritz.coinbook.presentation.util.getCurrentTimeMillis
-import com.elliemoritz.coinbook.presentation.util.mergeWith
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.abs
@@ -33,21 +31,22 @@ class AddDebtViewModel @Inject constructor(
     private val removeFromBalanceUseCase: RemoveFromBalanceUseCase
 ) : ViewModel() {
 
-    private var dataFlow = MutableSharedFlow<Debt>()
-
-    private val dataStateFlow = dataFlow
-        .map { FragmentDebtState.Data(it.amount.toString(), it.creditor) }
-
     private val _state = MutableSharedFlow<FragmentDebtState>()
 
     val state: Flow<FragmentDebtState>
         get() = _state
-            .mergeWith(dataStateFlow)
 
-    fun setData(id: Int) {
+    fun setData(debtId: Int) {
+
         viewModelScope.launch {
-            val debt = getDebtUseCase(id).first()
-            dataFlow.emit(debt)
+            val debt = getDebtUseCase(debtId).first()
+
+            _state.emit(
+                FragmentDebtState.Data(
+                    debt.amount.toString(),
+                    debt.creditor
+                )
+            )
         }
     }
 
@@ -78,7 +77,7 @@ class AddDebtViewModel @Inject constructor(
         }
     }
 
-    fun editDebt(newAmountString: String, newCreditor: String) {
+    fun editDebt(newAmountString: String, newCreditor: String, debtId: Int) {
 
         viewModelScope.launch {
 
@@ -86,7 +85,7 @@ class AddDebtViewModel @Inject constructor(
                 checkEmptyFields(newAmountString, newCreditor)
                 checkIncorrectNumbers(newAmountString)
 
-                val oldData = dataFlow.first()
+                val oldData = getDebtUseCase(debtId).first()
                 val newAmount = newAmountString.toInt()
 
                 checkNoChanges(

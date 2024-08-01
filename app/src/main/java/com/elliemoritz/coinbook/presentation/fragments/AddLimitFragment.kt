@@ -40,7 +40,7 @@ class AddLimitFragment : Fragment() {
     }
 
     private var mode: String = MODE_UNKNOWN
-    private var id: Int = UNDEFINED_ID
+    private var limitId: Int = UNDEFINED_ID
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -59,7 +59,7 @@ class AddLimitFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             mode = it.getString(MODE, MODE_UNKNOWN)
-            id = it.getInt(ID)
+            limitId = it.getInt(ID)
         }
     }
 
@@ -132,11 +132,11 @@ class AddLimitFragment : Fragment() {
             }
 
             MODE_EDIT -> {
-                viewModel.setData(id)
+                viewModel.setData(limitId)
                 binding.buttonAddLimit.setOnClickListener {
                     val amount = binding.etAddLimitAmount.text.toString()
                     val categoryName = binding.spinnerAddLimit.selectedItem.toString()
-                    viewModel.editLimit(amount, categoryName)
+                    viewModel.editLimit(amount, categoryName, limitId)
                 }
             }
 

@@ -36,9 +36,9 @@ class AddIncomeViewModel @Inject constructor(
     val state: Flow<FragmentIncomeState>
         get() = _state
 
-    fun setData(id: Int) {
+    fun setData(incomeId: Int) {
         viewModelScope.launch {
-            val data = getIncomeUseCase(id).first()
+            val data = getIncomeUseCase(incomeId).first()
             _state.emit(
                 FragmentIncomeState.Data(
                     data.amount.toString(),
@@ -71,7 +71,7 @@ class AddIncomeViewModel @Inject constructor(
         }
     }
 
-    fun editIncome(newAmountString: String, newSource: String, id: Int) {
+    fun editIncome(newAmountString: String, newSource: String, incomeId: Int) {
 
         viewModelScope.launch {
 
@@ -79,7 +79,7 @@ class AddIncomeViewModel @Inject constructor(
                 checkEmptyFields(newAmountString, newSource)
                 checkIncorrectNumbers(newAmountString)
 
-                val oldData = getIncomeUseCase(id).first()
+                val oldData = getIncomeUseCase(incomeId).first()
                 val newAmount = newAmountString.toInt()
 
                 checkNoChanges(

@@ -19,11 +19,9 @@ import com.elliemoritz.coinbook.presentation.util.checkEmptyFields
 import com.elliemoritz.coinbook.presentation.util.checkIncorrectNumbers
 import com.elliemoritz.coinbook.presentation.util.checkNoChanges
 import com.elliemoritz.coinbook.presentation.util.getCurrentTimeMillis
-import com.elliemoritz.coinbook.presentation.util.mergeWith
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.abs
@@ -38,21 +36,17 @@ class AddMoneyBoxOperationViewModel @Inject constructor(
     private val removeFromBalanceUseCase: RemoveFromBalanceUseCase
 ) : ViewModel() {
 
-    private val dataFlow = MutableSharedFlow<MoneyBoxOperation>()
-
-    private val dataStateFlow = dataFlow
-        .map { FragmentMoneyBoxOperationState.Data(it.amount.toString()) }
-
     private val _state = MutableSharedFlow<FragmentMoneyBoxOperationState>()
 
     val state: Flow<FragmentMoneyBoxOperationState>
         get() = _state
-            .mergeWith(dataStateFlow)
 
-    fun setData(id: Int) {
+    fun setData(operationId: Int) {
         viewModelScope.launch {
-            val operation = getMoneyBoxOperationUseCase(id).first()
-            dataFlow.emit(operation)
+            val operation = getMoneyBoxOperationUseCase(operationId).first()
+            _state.emit(
+                FragmentMoneyBoxOperationState.Data(operation.amount.toString())
+            )
         }
     }
 
@@ -83,7 +77,7 @@ class AddMoneyBoxOperationViewModel @Inject constructor(
         }
     }
 
-    fun editMoneyBoxOperation(newAmountString: String) {
+    fun editMoneyBoxOperation(newAmountString: String, operationId: Int) {
 
         viewModelScope.launch {
 
@@ -91,7 +85,7 @@ class AddMoneyBoxOperationViewModel @Inject constructor(
                 checkEmptyFields(newAmountString)
                 checkIncorrectNumbers(newAmountString)
 
-                val oldData = dataFlow.first()
+                val oldData = getMoneyBoxOperationUseCase(operationId).first()
                 val newAmount = newAmountString.toInt()
 
                 checkNoChanges(

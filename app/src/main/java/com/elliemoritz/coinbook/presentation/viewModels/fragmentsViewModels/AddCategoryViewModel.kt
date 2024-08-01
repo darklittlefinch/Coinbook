@@ -18,11 +18,9 @@ import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentCate
 import com.elliemoritz.coinbook.presentation.util.checkEmptyFields
 import com.elliemoritz.coinbook.presentation.util.checkIncorrectNumbers
 import com.elliemoritz.coinbook.presentation.util.checkNoChanges
-import com.elliemoritz.coinbook.presentation.util.mergeWith
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -36,31 +34,25 @@ class AddCategoryViewModel @Inject constructor(
     private val removeLimitUseCase: RemoveLimitUseCase
 ) : ViewModel() {
 
-    private val categoryDataFlow = MutableSharedFlow<Category>()
-    private val limitDataFlow = MutableSharedFlow<Limit?>()
-
-    private val nameStateFlow = categoryDataFlow
-        .map { FragmentCategoryState.Name(it.name) }
-
-    private val limitStateFlow = limitDataFlow
-        .map {
-            val limitAmount = it?.amount ?: 0
-            FragmentCategoryState.Limit(limitAmount.toString())
-        }
-
     private val _state = MutableSharedFlow<FragmentCategoryState>()
 
     val state: Flow<FragmentCategoryState>
         get() = _state
-            .mergeWith(nameStateFlow)
-            .mergeWith(limitStateFlow)
 
-    fun setData(id: Int) {
+    fun setData(categoryId: Int) {
+
         viewModelScope.launch {
-            val categoryData = getCategoryUseCase(id).first()
-            categoryDataFlow.emit(categoryData)
+
+            val categoryData = getCategoryUseCase(categoryId).first()
+            _state.emit(
+                FragmentCategoryState.Name(categoryData.name)
+            )
+
             val limitData = getLimitByCategoryIdUseCase(categoryData.id).first()
-            limitDataFlow.emit(limitData)
+            val limitAmount = limitData?.amount ?: 0
+            _state.emit(
+                FragmentCategoryState.Limit(limitAmount.toString())
+            )
         }
     }
 
@@ -90,7 +82,7 @@ class AddCategoryViewModel @Inject constructor(
         }
     }
 
-    fun editCategory(newName: String, newLimitAmountString: String) {
+    fun editCategory(newName: String, newLimitAmountString: String, categoryId: Int) {
 
         viewModelScope.launch {
 
@@ -98,8 +90,8 @@ class AddCategoryViewModel @Inject constructor(
                 checkEmptyFields(newName, newLimitAmountString)
                 checkIncorrectNumbers(newLimitAmountString)
 
-                val oldData = categoryDataFlow.first()
-                val oldLimit = limitDataFlow.first()
+                val oldData = getCategoryUseCase(categoryId).first()
+                val oldLimit = getLimitByCategoryIdUseCase(categoryId).first()
                 val oldLimitAmount = oldLimit?.amount ?: 0
                 val newLimitAmount = newLimitAmountString.toInt()
 
@@ -108,9 +100,9 @@ class AddCategoryViewModel @Inject constructor(
                     listOf(oldData.name, oldLimitAmount)
                 )
 
-                val category = Category(newName, oldData.id)
+                val category = Category(newName, categoryId)
                 editCategoryUseCase(category)
-                handleLimit(oldLimit, newLimitAmount, oldData.id)
+                handleLimit(oldLimit, newLimitAmount, categoryId)
 
                 setFinishState()
 

@@ -14,11 +14,9 @@ import com.elliemoritz.coinbook.presentation.util.checkEmptyFields
 import com.elliemoritz.coinbook.presentation.util.checkIncorrectNumbers
 import com.elliemoritz.coinbook.presentation.util.checkNoChanges
 import com.elliemoritz.coinbook.presentation.util.getCurrentTimeMillis
-import com.elliemoritz.coinbook.presentation.util.mergeWith
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,27 +26,23 @@ class AddMoneyBoxViewModel @Inject constructor(
     private val editMoneyBoxUseCase: EditMoneyBoxUseCase
 ) : ViewModel() {
 
-    private val dataFlow = MutableSharedFlow<MoneyBox>()
-
-    private val dataStateFlow = dataFlow
-        .map {
-            FragmentMoneyBoxState.Data(
-                it.goalAmount.toString(),
-                it.goal
-            )
-        }
-
     private val _state = MutableSharedFlow<FragmentMoneyBoxState>()
 
     val state: Flow<FragmentMoneyBoxState>
         get() = _state
-            .mergeWith(dataStateFlow)
 
     fun setData() {
+
         viewModelScope.launch {
             val moneyBox = getMoneyBoxUseCase().first()
+
             moneyBox?.let {
-                dataFlow.emit(it)
+                _state.emit(
+                    FragmentMoneyBoxState.Data(
+                        it.goalAmount.toString(),
+                        it.goal
+                    )
+                )
             }
         }
     }
@@ -87,7 +81,9 @@ class AddMoneyBoxViewModel @Inject constructor(
                 checkEmptyFields(newGoalAmountString, newGoal)
                 checkIncorrectNumbers(newGoalAmountString)
 
-                val oldData = dataFlow.first()
+                val oldData = getMoneyBoxUseCase().first()
+                    ?: throw RuntimeException("Money box does not exist")
+
                 val newGoalAmount = newGoalAmountString.toInt()
 
                 checkNoChanges(

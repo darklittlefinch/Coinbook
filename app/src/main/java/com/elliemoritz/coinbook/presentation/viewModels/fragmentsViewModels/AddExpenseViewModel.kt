@@ -36,46 +36,24 @@ class AddExpenseViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val categoriesFlow = getCategoriesListUseCase()
-
-    private val categoriesStateFlow = categoriesFlow
-        .map { categoriesList ->
-            FragmentExpenseState.Categories(categoriesList
-                .map { category ->
+    private val categoriesStateFlow = categoriesFlow.map { categoriesList ->
+            FragmentExpenseState.Categories(categoriesList.map { category ->
                     category.name
                 })
-        }
-
-    private val dataFlow = MutableSharedFlow<Expense>()
-
-    private val amountStateFlow = dataFlow
-        .map { FragmentExpenseState.Amount(it.amount.toString()) }
-
-    private val categoryPositionStateFlow = dataFlow
-        .map {
-            val currentCategoryName = it.expCategoryName
-            val categories = categoriesFlow.first()
-            var categoryPosition = 0
-            for ((index, category) in categories.withIndex()) {
-                if (category.name === currentCategoryName) {
-                    categoryPosition = index
-                    break
-                }
-            }
-            FragmentExpenseState.CategoryPosition(categoryPosition)
         }
 
     private val _state = MutableSharedFlow<FragmentExpenseState>()
 
     val state: Flow<FragmentExpenseState>
-        get() = _state
-            .mergeWith(categoriesStateFlow)
-            .mergeWith(amountStateFlow)
-            .mergeWith(categoryPositionStateFlow)
+        get() = _state.mergeWith(categoriesStateFlow)
 
     fun setData(id: Int) {
         viewModelScope.launch {
-            val data = getExpenseUseCase(id).first()
-            dataFlow.emit(data)
+            val expense = getExpenseUseCase(id).first()
+            _state.emit(FragmentExpenseState.Amount(expense.amount.toString()))
+
+            val categoryPosition = getCategoryPosition(expense.expCategoryName)
+            _state.emit(FragmentExpenseState.CategoryPosition(categoryPosition))
         }
     }
 
@@ -102,7 +80,7 @@ class AddExpenseViewModel @Inject constructor(
         }
     }
 
-    fun editExpense(newAmountString: String, newCategoryName: String) {
+    fun editExpense(newAmountString: String, newCategoryName: String, expenseId: Int) {
 
         viewModelScope.launch {
 
@@ -110,7 +88,7 @@ class AddExpenseViewModel @Inject constructor(
                 checkEmptyFields(newAmountString, newCategoryName)
                 checkIncorrectNumbers(newAmountString)
 
-                val oldData = dataFlow.first()
+                val oldData = getExpenseUseCase(expenseId).first()
                 val newAmount = newAmountString.toInt()
 
                 checkNoChanges(
@@ -118,7 +96,9 @@ class AddExpenseViewModel @Inject constructor(
                     listOf(oldData.amount, oldData.expCategoryName)
                 )
 
-                val expense = Expense(oldData.dateTimeMillis, newAmount, newCategoryName, oldData.id)
+                val expense = Expense(
+                    oldData.dateTimeMillis, newAmount, newCategoryName, expenseId
+                )
                 editOperationUseCase(expense)
 
                 val oldAmount = oldData.amount
@@ -134,6 +114,18 @@ class AddExpenseViewModel @Inject constructor(
                 setNoChangesState()
             }
         }
+    }
+
+    private suspend fun getCategoryPosition(categoryName: String): Int {
+        val categories = categoriesFlow.first()
+        var categoryPosition = 0
+        for ((index, category) in categories.withIndex()) {
+            if (category.name == categoryName) {
+                categoryPosition = index
+                break
+            }
+        }
+        return categoryPosition
     }
 
     private suspend fun editBalance(oldAmount: Int, newAmount: Int) {

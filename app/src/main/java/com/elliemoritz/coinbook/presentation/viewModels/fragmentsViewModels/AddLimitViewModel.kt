@@ -36,7 +36,6 @@ class AddLimitViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val categoriesListFlow = getCategoriesListUseCase()
-
     private val categoriesStateFlow = categoriesListFlow
         .map { categoriesList ->
             FragmentLimitState.Categories(categoriesList
@@ -45,37 +44,26 @@ class AddLimitViewModel @Inject constructor(
                 })
         }
 
-    private val dataFlow = MutableSharedFlow<Limit>()
-
-    private val amountStateFlow = dataFlow
-        .map { FragmentLimitState.Amount(it.amount.toString()) }
-
-    private val categoryPositionStateFlow = dataFlow
-        .map {
-            val currentCategory = getCategoryUseCase(it.categoryId).first()
-            val categoriesList = categoriesListFlow.first()
-            var categoryPosition = 0
-            for ((index, category) in categoriesList.withIndex()) {
-                if (category.name == currentCategory.name) {
-                    categoryPosition = index
-                    break
-                }
-            }
-            FragmentLimitState.CategoryPosition(categoryPosition)
-        }
-
     private val _state = MutableSharedFlow<FragmentLimitState>()
 
     val state: Flow<FragmentLimitState>
         get() = _state
             .mergeWith(categoriesStateFlow)
-            .mergeWith(amountStateFlow)
-            .mergeWith(categoryPositionStateFlow)
 
-    fun setData(id: Int) {
+    fun setData(limitId: Int) {
+
         viewModelScope.launch {
-            val limit = getLimitUseCase(id).first()
-            dataFlow.emit(limit)
+
+            val limit = getLimitUseCase(limitId).first()
+            _state.emit(
+                FragmentLimitState.Amount(limit.amount.toString())
+            )
+
+            val category = getCategoryUseCase(limit.categoryId).first()
+            val categoryPosition = getCategoryPosition(category.name)
+            _state.emit(
+                FragmentLimitState.CategoryPosition(categoryPosition)
+            )
         }
     }
 
@@ -90,7 +78,7 @@ class AddLimitViewModel @Inject constructor(
                 checkIncorrectNumbers(amountString)
 
                 if (category == null) {
-                    throw RuntimeException("Somehow user selected a non-existent category...")
+                    throw RuntimeException("User selected a non-existent category (somehow)...")
                 }
 
                 val amount = amountString.toInt()
@@ -114,7 +102,7 @@ class AddLimitViewModel @Inject constructor(
         }
     }
 
-    fun editLimit(newAmountString: String, newCategoryName: String) {
+    fun editLimit(newAmountString: String, newCategoryName: String, limitId: Int) {
 
         viewModelScope.launch {
 
@@ -125,10 +113,10 @@ class AddLimitViewModel @Inject constructor(
                 checkIncorrectNumbers(newAmountString)
 
                 if (newCategory == null) {
-                    throw RuntimeException("Somehow user selected a non-existent category...")
+                    throw RuntimeException("User selected a non-existent category (somehow)...")
                 }
 
-                val oldData = dataFlow.first()
+                val oldData = getLimitUseCase(limitId).first()
                 val newAmount = newAmountString.toInt()
 
                 checkNoChanges(
@@ -136,7 +124,7 @@ class AddLimitViewModel @Inject constructor(
                     listOf(oldData.amount, oldData.categoryId)
                 )
 
-                val limit = Limit(newAmount, newCategory.id, oldData.id)
+                val limit = Limit(newAmount, newCategory.id, limitId)
                 editLimitUseCase(limit)
 
                 setFinishState()
@@ -149,6 +137,18 @@ class AddLimitViewModel @Inject constructor(
                 setNoChangesState()
             }
         }
+    }
+
+    private suspend fun getCategoryPosition(categoryName: String): Int {
+        val categoriesList = categoriesListFlow.first()
+        var categoryPosition = 0
+        for ((index, category) in categoriesList.withIndex()) {
+            if (category.name == categoryName) {
+                categoryPosition = index
+                break
+            }
+        }
+        return categoryPosition
     }
 
     private suspend fun setFinishState() {
