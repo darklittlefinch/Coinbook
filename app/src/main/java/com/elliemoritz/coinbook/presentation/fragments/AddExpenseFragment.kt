@@ -147,6 +147,8 @@ class AddExpenseFragment : Fragment() {
 
     companion object {
 
+        const val NAME = "AddExpenseFragment"
+
         private const val MODE = "mode"
         private const val EXPENSE_ID = "id"
 

@@ -211,7 +211,7 @@ class ExpensesActivity : AppCompatActivity(), OnEditingListener {
     private fun beginFragmentTransaction(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container_income, fragment)
-            .addToBackStack(AddIncomeFragment.NAME)
+            .addToBackStack(AddExpenseFragment.NAME)
             .commit()
     }
 
