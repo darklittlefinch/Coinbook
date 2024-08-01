@@ -30,8 +30,8 @@ class IncomeAdapter : ListAdapter<Income, IncomeViewHolder>(IncomeDiffCallback()
         val income = getItem(position)
         with(holder.binding) {
             tvIncomeSource.text = income.incSource
-            tvIncomeDate.text = formatDate(income.date)
-            tvIncomeTime.text = formatTime(income.date)
+            tvIncomeDate.text = formatDate(income.dateTimeMillis)
+            tvIncomeTime.text = formatTime(income.dateTimeMillis)
             tvIncomeAmount.text = formatAmount(income.amount, currency)
         }
     }

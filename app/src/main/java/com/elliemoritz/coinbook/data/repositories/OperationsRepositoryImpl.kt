@@ -15,7 +15,6 @@ import com.elliemoritz.coinbook.domain.entities.operations.Operation
 import com.elliemoritz.coinbook.domain.repositories.OperationsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import java.sql.Timestamp
 import javax.inject.Inject
 
 class OperationsRepositoryImpl @Inject constructor(
@@ -92,11 +91,11 @@ class OperationsRepositoryImpl @Inject constructor(
     }
 
     override fun getMoneyBoxOperationsListFromDate(
-        date: Timestamp
+        dateTimeMillis: Long
     ): Flow<List<MoneyBoxOperation>> = flow {
         val dbModelsList = dao.getOperationsListByOperationForm(
             OPERATION_FORM_MONEY_BOX_OPERATION,
-            date.time
+            dateTimeMillis
         )
         val moneyBoxOperationsList = mapper.mapListDbModelToListMoneyBoxOperations(dbModelsList)
         emit(moneyBoxOperationsList)

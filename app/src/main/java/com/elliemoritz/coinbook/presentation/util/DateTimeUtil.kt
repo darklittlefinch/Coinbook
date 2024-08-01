@@ -1,28 +1,31 @@
 package com.elliemoritz.coinbook.presentation.util
 
-import java.sql.Timestamp
 import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
-fun formatDate(timestamp: Timestamp): String {
+fun formatDate(dateTimeMillis: Long): String {
 
-    val dateTime = getZonedDateTime(timestamp)
+    val dateTime = getZonedDateTime(dateTimeMillis)
     val date = dateTime.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
     return date
 }
 
-fun formatTime(timestamp: Timestamp): String {
+fun formatTime(dateTimeMillis: Long): String {
 
-    val dateTime = getZonedDateTime(timestamp)
+    val dateTime = getZonedDateTime(dateTimeMillis)
     val time = dateTime.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
     return time
 }
 
-private fun getZonedDateTime(timestamp: Timestamp): ZonedDateTime {
-    val instant = Instant.ofEpochMilli(timestamp.time)
+private fun getZonedDateTime(dateTimeMillis: Long): ZonedDateTime {
+    val instant = Instant.ofEpochMilli(dateTimeMillis)
     val dateTime = ZonedDateTime.ofInstant(instant, ZoneId.systemDefault())
     return dateTime
+}
+
+fun getCurrentTimeMillis(): Long {
+    return System.currentTimeMillis()
 }

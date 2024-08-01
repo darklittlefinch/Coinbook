@@ -15,7 +15,7 @@ import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentInco
 import com.elliemoritz.coinbook.presentation.util.checkEmptyFields
 import com.elliemoritz.coinbook.presentation.util.checkIncorrectNumbers
 import com.elliemoritz.coinbook.presentation.util.checkNoChanges
-import com.elliemoritz.coinbook.presentation.util.getCurrentTimestamp
+import com.elliemoritz.coinbook.presentation.util.getCurrentTimeMillis
 import com.elliemoritz.coinbook.presentation.util.mergeWith
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -65,7 +65,7 @@ class AddIncomeViewModel @Inject constructor(
                 checkIncorrectNumbers(amountString)
 
                 val amount = amountString.toInt()
-                val income = Income(getCurrentTimestamp(), amount, source)
+                val income = Income(getCurrentTimeMillis(), amount, source)
                 addOperationUseCase(income)
                 addToBalanceUseCase(amount)
 
@@ -95,7 +95,7 @@ class AddIncomeViewModel @Inject constructor(
                     listOf(oldData.amount, oldData.incSource)
                 )
 
-                val income = Income(oldData.date, newAmount, newSource, oldData.id)
+                val income = Income(oldData.dateTimeMillis, newAmount, newSource, oldData.id)
                 editOperationUseCase(income)
 
                 val oldAmount = oldData.amount

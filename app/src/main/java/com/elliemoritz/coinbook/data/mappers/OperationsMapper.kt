@@ -14,7 +14,6 @@ import com.elliemoritz.coinbook.domain.entities.operations.Expense
 import com.elliemoritz.coinbook.domain.entities.operations.Income
 import com.elliemoritz.coinbook.domain.entities.operations.MoneyBoxOperation
 import com.elliemoritz.coinbook.domain.entities.operations.Operation
-import java.sql.Timestamp
 import javax.inject.Inject
 
 class OperationsMapper @Inject constructor() {
@@ -49,7 +48,7 @@ class OperationsMapper @Inject constructor() {
 
     fun mapDbModelToIncome(dbModel: OperationDbModel) = Income(
         incId = dbModel.id,
-        incDate = Timestamp(dbModel.dateTimeMillis),
+        incDateTimeMillis = dbModel.dateTimeMillis,
         incAmount = dbModel.amount,
         incSource = dbModel.info
     )
@@ -62,7 +61,7 @@ class OperationsMapper @Inject constructor() {
 
     fun mapDbModelToExpense(dbModel: OperationDbModel) = Expense(
         expId = dbModel.id,
-        expDate = Timestamp(dbModel.dateTimeMillis),
+        expDateTimeMillis = dbModel.dateTimeMillis,
         expAmount = dbModel.amount,
         expCategoryName = dbModel.info
     )
@@ -75,7 +74,7 @@ class OperationsMapper @Inject constructor() {
 
     fun mapDbModelToMoneyBoxOperation(dbModel: OperationDbModel) = MoneyBoxOperation(
         mbId = dbModel.id,
-        mbDate = Timestamp(dbModel.dateTimeMillis),
+        mbDateDateTimeMillis = dbModel.dateTimeMillis,
         mbAmount = dbModel.amount,
         mbType = defineEntityType(dbModel.type)
     )
@@ -88,7 +87,7 @@ class OperationsMapper @Inject constructor() {
 
     fun mapDbModelToDebtOperation(dbModel: OperationDbModel) = DebtOperation(
         debtId = dbModel.id,
-        debtDate = Timestamp(dbModel.dateTimeMillis),
+        debtDateTimeMillis = dbModel.dateTimeMillis,
         debtAmount = dbModel.amount,
         debtType = defineEntityType(dbModel.type),
         debtCreditor = dbModel.info
@@ -104,7 +103,7 @@ class OperationsMapper @Inject constructor() {
         id = income.id,
         operationForm = defineOperationForm(income.operationForm),
         type = defineDbModelType(income.type),
-        dateTimeMillis = income.date.time,
+        dateTimeMillis = income.dateTimeMillis,
         amount = income.amount,
         info = income.info
     )

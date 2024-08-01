@@ -13,7 +13,7 @@ import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentMone
 import com.elliemoritz.coinbook.presentation.util.checkEmptyFields
 import com.elliemoritz.coinbook.presentation.util.checkIncorrectNumbers
 import com.elliemoritz.coinbook.presentation.util.checkNoChanges
-import com.elliemoritz.coinbook.presentation.util.getCurrentTimestamp
+import com.elliemoritz.coinbook.presentation.util.getCurrentTimeMillis
 import com.elliemoritz.coinbook.presentation.util.mergeWith
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -65,7 +65,7 @@ class AddMoneyBoxViewModel @Inject constructor(
                 val moneyBox = MoneyBox(
                     goalAmount,
                     goal,
-                    getCurrentTimestamp()
+                    getCurrentTimeMillis()
                 )
                 addMoneyBoxUseCase(moneyBox)
 
@@ -98,7 +98,7 @@ class AddMoneyBoxViewModel @Inject constructor(
                 val moneyBox = MoneyBox(
                     newGoalAmount,
                     newGoal,
-                    getCurrentTimestamp()
+                    getCurrentTimeMillis()
                 )
                 editMoneyBoxUseCase(moneyBox)
 

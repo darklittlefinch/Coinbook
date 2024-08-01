@@ -6,7 +6,6 @@ import com.elliemoritz.coinbook.domain.entities.operations.Income
 import com.elliemoritz.coinbook.domain.entities.operations.MoneyBoxOperation
 import com.elliemoritz.coinbook.domain.entities.operations.Operation
 import kotlinx.coroutines.flow.Flow
-import java.sql.Timestamp
 
 interface OperationsRepository {
     fun getOperationsList(): Flow<List<Operation>>
@@ -23,7 +22,7 @@ interface OperationsRepository {
 
     fun getIncomeListForMonth(): Flow<List<Income>>
     fun getExpensesListForMonth(): Flow<List<Expense>>
-    fun getMoneyBoxOperationsListFromDate(date: Timestamp): Flow<List<MoneyBoxOperation>>
+    fun getMoneyBoxOperationsListFromDate(dateTimeMillis: Long): Flow<List<MoneyBoxOperation>>
     fun getDebtOperationsList(): Flow<List<DebtOperation>>
 
     fun getTotalIncomeAmountForMonth(): Flow<Int>
