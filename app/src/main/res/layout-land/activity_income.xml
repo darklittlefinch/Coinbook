@@ -53,6 +53,19 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_income_title"
         tools:text="37 500 ₽" />
 
+    <TextView
+        android:id="@+id/tv_no_income_info"
+        style="@style/details_with_numbers_info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/no_income"
+        android:textAlignment="center"
+        android:textColor="@color/dark_gray"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@id/guideline_income"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_income_amount" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_income"
         android:layout_width="0dp"

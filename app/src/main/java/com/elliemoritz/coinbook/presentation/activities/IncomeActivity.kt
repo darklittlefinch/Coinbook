@@ -68,7 +68,7 @@ class IncomeActivity : AppCompatActivity(), OnEditingListener {
                 viewModel.state.collect {
                     when (it) {
                         is IncomeState.NoData -> {
-                            binding.tvNoIncomeInfo?.visibility = View.VISIBLE
+                            binding.tvNoIncomeInfo.visibility = View.VISIBLE
                             binding.tvIncomeAmount.text = it.amount
                         }
 
