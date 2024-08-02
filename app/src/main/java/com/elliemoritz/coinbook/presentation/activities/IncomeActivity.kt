@@ -77,7 +77,7 @@ class IncomeActivity : AppCompatActivity(), OnEditingListener {
                         }
 
                         is IncomeState.IncomeList -> {
-                            binding.tvNoIncomeInfo?.visibility = View.GONE
+                            binding.tvNoIncomeInfo.visibility = View.GONE
                             incomeAdapter.submitList(it.list)
                         }
 
