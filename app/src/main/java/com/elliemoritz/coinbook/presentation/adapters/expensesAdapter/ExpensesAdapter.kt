@@ -32,7 +32,11 @@ class ExpensesAdapter : ListAdapter<Expense, ExpenseViewHolder>(ExpensesDiffCall
         val expense = getItem(position)
 
         with(holder.binding) {
-            tvExpenseCategory.text = expense.expCategoryName
+            val category = expense.expCategoryName.ifBlank {
+                CATEGORY_MONEY_BOX
+            }
+
+            tvExpenseCategory.text = category
             tvExpenseDate.text = formatDate(expense.dateTimeMillis)
             tvExpenseTime.text = formatTime(expense.dateTimeMillis)
             tvExpenseAmount.text = formatAmountWithSign(expense.amount, currency, expense.type)
@@ -41,5 +45,9 @@ class ExpensesAdapter : ListAdapter<Expense, ExpenseViewHolder>(ExpensesDiffCall
                 onIncomeClickListener?.invoke(expense)
             }
         }
+    }
+
+    companion object {
+        private const val CATEGORY_MONEY_BOX = "Added to money box"
     }
 }

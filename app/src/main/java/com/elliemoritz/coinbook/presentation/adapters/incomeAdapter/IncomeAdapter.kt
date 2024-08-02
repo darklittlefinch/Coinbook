@@ -32,7 +32,11 @@ class IncomeAdapter : ListAdapter<Income, IncomeViewHolder>(IncomeDiffCallback()
         val income = getItem(position)
 
         with(holder.binding) {
-            tvIncomeSource.text = income.incSource
+            val source = income.incSource.ifBlank {
+                SOURCE_MONEY_BOX
+            }
+
+            tvIncomeSource.text = source
             tvIncomeDate.text = formatDate(income.dateTimeMillis)
             tvIncomeTime.text = formatTime(income.dateTimeMillis)
             tvIncomeAmount.text = formatAmountWithSign(income.amount, currency, income.type)
@@ -41,5 +45,9 @@ class IncomeAdapter : ListAdapter<Income, IncomeViewHolder>(IncomeDiffCallback()
                 onIncomeClickListener?.invoke(income)
             }
         }
+    }
+
+    companion object {
+        private const val SOURCE_MONEY_BOX = "From money box"
     }
 }
