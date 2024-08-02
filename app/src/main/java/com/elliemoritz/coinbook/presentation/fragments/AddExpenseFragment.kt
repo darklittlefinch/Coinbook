@@ -16,6 +16,7 @@ import com.elliemoritz.coinbook.domain.entities.helpers.UNDEFINED_ID
 import com.elliemoritz.coinbook.presentation.CoinBookApp
 import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentExpenseState
 import com.elliemoritz.coinbook.presentation.util.OnEditingListener
+import com.elliemoritz.coinbook.presentation.util.OnNotEnoughMoneyListener
 import com.elliemoritz.coinbook.presentation.viewModels.ViewModelFactory
 import com.elliemoritz.coinbook.presentation.viewModels.fragmentsViewModels.AddExpenseViewModel
 import kotlinx.coroutines.launch
@@ -24,6 +25,7 @@ import javax.inject.Inject
 class AddExpenseFragment : Fragment() {
 
     private lateinit var onEditingListener: OnEditingListener
+    private lateinit var onNotEnoughMoneyListener: OnNotEnoughMoneyListener
 
     private val component by lazy {
         (requireActivity().application as CoinBookApp).component
@@ -51,6 +53,14 @@ class AddExpenseFragment : Fragment() {
         } else {
             throw RuntimeException(
                 "AddExpenseFragment: Activity must implement OnEditingListener"
+            )
+        }
+
+        if (context is OnNotEnoughMoneyListener) {
+            onNotEnoughMoneyListener = context
+        } else {
+            throw RuntimeException(
+                "AddExpenseFragment: Activity must implement OnNotEnoughMoneyListener"
             )
         }
     }
@@ -113,6 +123,10 @@ class AddExpenseFragment : Fragment() {
 
                         is FragmentExpenseState.Finish -> {
                             onEditingListener.onFinished()
+                        }
+
+                        is FragmentExpenseState.NotEnoughMoney -> {
+                            onNotEnoughMoneyListener.onNotEnoughMoney()
                         }
                     }
                 }

@@ -329,19 +329,18 @@ class MoneyBoxActivity : AppCompatActivity(),
         ).show()
     }
 
-
-    companion object {
-        fun newIntent(context: Context): Intent {
-            val intent = Intent(context, MoneyBoxActivity::class.java)
-            return intent
-        }
-    }
-
     override fun onNotEnoughMoney() {
         Toast.makeText(
             this,
             getString(R.string.toast_error_not_enough_money),
             Toast.LENGTH_SHORT
         ).show()
+    }
+
+    companion object {
+        fun newIntent(context: Context): Intent {
+            val intent = Intent(context, MoneyBoxActivity::class.java)
+            return intent
+        }
     }
 }

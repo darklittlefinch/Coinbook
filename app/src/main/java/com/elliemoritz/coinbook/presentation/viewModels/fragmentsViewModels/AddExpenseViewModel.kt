@@ -6,16 +6,19 @@ import com.elliemoritz.coinbook.domain.entities.operations.Expense
 import com.elliemoritz.coinbook.domain.exceptions.EmptyFieldsException
 import com.elliemoritz.coinbook.domain.exceptions.IncorrectNumberException
 import com.elliemoritz.coinbook.domain.exceptions.NoChangesException
+import com.elliemoritz.coinbook.domain.exceptions.NotEnoughMoneyException
 import com.elliemoritz.coinbook.domain.useCases.categoriesUseCases.GetCategoriesListUseCase
 import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.AddOperationUseCase
 import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.EditOperationUseCase
 import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetExpenseUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.AddToBalanceUseCase
+import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetBalanceUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.RemoveFromBalanceUseCase
 import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentExpenseState
 import com.elliemoritz.coinbook.presentation.util.checkEmptyFields
 import com.elliemoritz.coinbook.presentation.util.checkIncorrectNumbers
 import com.elliemoritz.coinbook.presentation.util.checkNoChanges
+import com.elliemoritz.coinbook.presentation.util.checkNotEnoughMoney
 import com.elliemoritz.coinbook.presentation.util.getCurrentTimeMillis
 import com.elliemoritz.coinbook.presentation.util.mergeWith
 import kotlinx.coroutines.flow.Flow
@@ -31,16 +34,17 @@ class AddExpenseViewModel @Inject constructor(
     private val addOperationUseCase: AddOperationUseCase,
     private val editOperationUseCase: EditOperationUseCase,
     getCategoriesListUseCase: GetCategoriesListUseCase,
+    private val getBalanceUseCase: GetBalanceUseCase,
     private val addToBalanceUseCase: AddToBalanceUseCase,
     private val removeFromBalanceUseCase: RemoveFromBalanceUseCase
 ) : ViewModel() {
 
     private val categoriesFlow = getCategoriesListUseCase()
     private val categoriesStateFlow = categoriesFlow.map { categoriesList ->
-            FragmentExpenseState.Categories(categoriesList.map { category ->
-                    category.name
-                })
-        }
+        FragmentExpenseState.Categories(categoriesList.map { category ->
+            category.name
+        })
+    }
 
     private val _state = MutableSharedFlow<FragmentExpenseState>()
 
@@ -66,6 +70,10 @@ class AddExpenseViewModel @Inject constructor(
                 checkIncorrectNumbers(amountString)
 
                 val amount = amountString.toInt()
+                val balance = getBalanceUseCase().first()
+
+                checkNotEnoughMoney(amount, balance)
+
                 val expense = Expense(getCurrentTimeMillis(), amount, categoryName)
                 addOperationUseCase(expense)
                 removeFromBalanceUseCase(amount)
@@ -76,6 +84,8 @@ class AddExpenseViewModel @Inject constructor(
                 setEmptyFieldsState()
             } catch (e: IncorrectNumberException) {
                 setIncorrectNumberState()
+            } catch (e: NotEnoughMoneyException) {
+                setNotEnoughMoneyState()
             }
         }
     }
@@ -90,6 +100,12 @@ class AddExpenseViewModel @Inject constructor(
 
                 val oldData = getExpenseUseCase(expenseId).first()
                 val newAmount = newAmountString.toInt()
+                val balance = getBalanceUseCase().first()
+
+                if (newAmount > oldData.amount) {
+                    val difference = newAmount - oldData.amount
+                    checkNotEnoughMoney(difference, balance)
+                }
 
                 checkNoChanges(
                     listOf(newAmount, newCategoryName),
@@ -112,6 +128,8 @@ class AddExpenseViewModel @Inject constructor(
                 setIncorrectNumberState()
             } catch (e: NoChangesException) {
                 setNoChangesState()
+            } catch (e: NotEnoughMoneyException) {
+                setNotEnoughMoneyState()
             }
         }
     }
@@ -151,5 +169,9 @@ class AddExpenseViewModel @Inject constructor(
 
     private suspend fun setIncorrectNumberState() {
         _state.emit(FragmentExpenseState.IncorrectNumber)
+    }
+
+    private suspend fun setNotEnoughMoneyState() {
+        _state.emit(FragmentExpenseState.NotEnoughMoney)
     }
 }
