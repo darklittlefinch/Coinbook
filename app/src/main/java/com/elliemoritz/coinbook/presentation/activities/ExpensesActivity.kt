@@ -20,6 +20,7 @@ import com.elliemoritz.coinbook.R
 import com.elliemoritz.coinbook.databinding.ActivityExpensesBinding
 import com.elliemoritz.coinbook.presentation.CoinBookApp
 import com.elliemoritz.coinbook.presentation.adapters.expensesAdapter.ExpensesAdapter
+import com.elliemoritz.coinbook.presentation.fragments.AddCategoryFragment
 import com.elliemoritz.coinbook.presentation.fragments.AddExpenseFragment
 import com.elliemoritz.coinbook.presentation.states.ExpenseState
 import com.elliemoritz.coinbook.presentation.util.OnEditingListener
@@ -168,11 +169,11 @@ class ExpensesActivity : AppCompatActivity(), OnEditingListener {
 
     private fun setOnAddCategoryClickListener() {
         binding.buttonAddCategory.setOnClickListener {
-            val intent = OperationsActivity.newIntentAdd(
-                this,
-                OperationsActivity.FRAGMENT_TYPE_CATEGORY
-            )
-            startActivity(intent)
+            if (isOnePanelModel()) {
+                launchAddCategoryOperationsActivity()
+            } else {
+                launchAddCategoryFragment()
+            }
         }
     }
 
@@ -197,6 +198,14 @@ class ExpensesActivity : AppCompatActivity(), OnEditingListener {
         startActivity(intent)
     }
 
+    private fun launchAddCategoryOperationsActivity() {
+        val intent = OperationsActivity.newIntentAdd(
+            this,
+            OperationsActivity.FRAGMENT_TYPE_CATEGORY
+        )
+        startActivity(intent)
+    }
+
     private fun launchAddExpenseFragment() {
         val fragment = AddExpenseFragment.newInstanceAdd()
         beginFragmentTransaction(fragment)
@@ -207,9 +216,14 @@ class ExpensesActivity : AppCompatActivity(), OnEditingListener {
         beginFragmentTransaction(fragment)
     }
 
+    private fun launchAddCategoryFragment() {
+        val fragment = AddCategoryFragment.newInstanceAdd()
+        beginFragmentTransaction(fragment)
+    }
+
     private fun beginFragmentTransaction(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container_income, fragment)
+            .replace(R.id.fragment_container_expenses, fragment)
             .addToBackStack(AddExpenseFragment.NAME)
             .commit()
     }
