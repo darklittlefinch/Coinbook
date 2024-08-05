@@ -10,6 +10,7 @@ class DebtMapper @Inject constructor() {
         id = debt.id,
         amount = debt.amount,
         creditor = debt.creditor,
+        finished = debt.finished,
         startedMillis = debt.startedMillis
     )
 
@@ -17,6 +18,7 @@ class DebtMapper @Inject constructor() {
         id = dbModel.id,
         amount = dbModel.amount,
         creditor = dbModel.creditor,
+        finished = dbModel.finished,
         startedMillis = dbModel.startedMillis
     )
 
