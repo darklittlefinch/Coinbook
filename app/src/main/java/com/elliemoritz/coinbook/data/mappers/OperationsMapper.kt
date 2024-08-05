@@ -1,126 +1,76 @@
 package com.elliemoritz.coinbook.data.mappers
 
-import com.elliemoritz.coinbook.data.dbModels.OperationDbModel
-import com.elliemoritz.coinbook.data.util.OPERATION_FORM_DEBT
-import com.elliemoritz.coinbook.data.util.OPERATION_FORM_EXPENSE
-import com.elliemoritz.coinbook.data.util.OPERATION_FORM_INCOME
-import com.elliemoritz.coinbook.data.util.OPERATION_FORM_MONEY_BOX_OPERATION
-import com.elliemoritz.coinbook.data.util.TYPE_EXPENSE
-import com.elliemoritz.coinbook.data.util.TYPE_INCOME
+import com.elliemoritz.coinbook.data.dbModels.operations.DebtOperationDbModel
+import com.elliemoritz.coinbook.data.dbModels.operations.ExpenseDbModel
+import com.elliemoritz.coinbook.data.dbModels.operations.IncomeDbModel
+import com.elliemoritz.coinbook.data.dbModels.operations.MoneyBoxOperationDbModel
+import com.elliemoritz.coinbook.data.util.defineEntityType
 import com.elliemoritz.coinbook.domain.entities.helpers.OperationForm
 import com.elliemoritz.coinbook.domain.entities.helpers.Type
-import com.elliemoritz.coinbook.domain.entities.operations.DebtOperation
-import com.elliemoritz.coinbook.domain.entities.operations.Expense
-import com.elliemoritz.coinbook.domain.entities.operations.Income
-import com.elliemoritz.coinbook.domain.entities.operations.MoneyBoxOperation
 import com.elliemoritz.coinbook.domain.entities.operations.Operation
 import javax.inject.Inject
 
 class OperationsMapper @Inject constructor() {
 
-    private fun defineOperationForm(operationForm: OperationForm): String {
-        return when (operationForm) {
-            OperationForm.INCOME -> OPERATION_FORM_INCOME
-            OperationForm.EXPENSE -> OPERATION_FORM_EXPENSE
-            OperationForm.MONEY_BOX -> OPERATION_FORM_MONEY_BOX_OPERATION
-            OperationForm.DEBT -> OPERATION_FORM_DEBT
-        }
+    fun mapListsOperationsToOneList(
+        incomeList: List<IncomeDbModel>,
+        expensesList: List<ExpenseDbModel>,
+        moneyBoxOperationsList: List<MoneyBoxOperationDbModel>,
+        debtsOperationsList: List<DebtOperationDbModel>
+    ): List<Operation> {
+        return mapListIncomeDbModelToListOperations(incomeList) +
+                mapListExpensesDbModelToListOperations(expensesList) +
+                mapListMoneyBoxOperationsDbModelToListOperations(moneyBoxOperationsList) +
+                mapListDebtOperationDbModelToListOperations(debtsOperationsList)
     }
 
-    private fun defineDbModelType(type: Type): String {
-        return when (type) {
-            Type.INCOME -> TYPE_INCOME
-            Type.EXPENSE -> TYPE_EXPENSE
-        }
-    }
+    private fun mapListIncomeDbModelToListOperations(list: List<IncomeDbModel>) = list
+        .map { mapIncomeDbModelToOperation(it) }
 
-    private fun defineEntityType(string: String): Type {
-        return when (string) {
-            TYPE_INCOME -> Type.INCOME
-            TYPE_EXPENSE -> Type.EXPENSE
-            else -> {
-                throw RuntimeException("OperationsMapper: Unknown type")
-            }
-        }
-    }
+    private fun mapListExpensesDbModelToListOperations(list: List<ExpenseDbModel>) = list
+        .map { mapExpenseDbModelToOperation(it) }
 
-    // INCOME
+    private fun mapListMoneyBoxOperationsDbModelToListOperations(
+        list: List<MoneyBoxOperationDbModel>
+    ) = list
+        .map { mapMoneyBoxOperationDbModelToOperation(it) }
 
-    fun mapDbModelToIncome(dbModel: OperationDbModel) = Income(
-        incId = dbModel.id,
-        incDateTimeMillis = dbModel.dateTimeMillis,
-        incAmount = dbModel.amount,
-        incSource = dbModel.info
+    private fun mapListDebtOperationDbModelToListOperations(
+        list: List<DebtOperationDbModel>
+    ) = list
+        .map { mapDebtOperationDbModelToOperation(it) }
+
+    private fun mapIncomeDbModelToOperation(dbModel: IncomeDbModel) = Operation(
+        operationForm = OperationForm.INCOME,
+        type = Type.INCOME,
+        amount = dbModel.amount,
+        dateTimeMillis = dbModel.dateTimeMillis,
+        operationId = dbModel.id
     )
 
-    fun mapListDbModelToListIncome(list: List<OperationDbModel>) = list.map {
-        mapDbModelToIncome(it)
-    }
-
-    // EXPENSE
-
-    fun mapDbModelToExpense(dbModel: OperationDbModel) = Expense(
-        expId = dbModel.id,
-        expDateTimeMillis = dbModel.dateTimeMillis,
-        expAmount = dbModel.amount,
-        expCategoryName = dbModel.info
+    private fun mapExpenseDbModelToOperation(dbModel: ExpenseDbModel) = Operation(
+        operationForm = OperationForm.EXPENSE,
+        type = Type.EXPENSE,
+        amount = dbModel.amount,
+        dateTimeMillis = dbModel.dateTimeMillis,
+        operationId = dbModel.id
     )
 
-    fun mapListDbModelToListExpenses(list: List<OperationDbModel>) = list.map {
-        mapDbModelToExpense(it)
-    }
-
-    // MONEY BOX OPERATION
-
-    fun mapDbModelToMoneyBoxOperation(dbModel: OperationDbModel) = MoneyBoxOperation(
-        mbId = dbModel.id,
-        mbDateTimeMillis = dbModel.dateTimeMillis,
-        mbAmount = dbModel.amount,
-        mbType = defineEntityType(dbModel.type)
+    private fun mapMoneyBoxOperationDbModelToOperation(
+        dbModel: MoneyBoxOperationDbModel
+    ) = Operation(
+        operationForm = OperationForm.MONEY_BOX,
+        type = defineEntityType(dbModel.type),
+        amount = dbModel.amount,
+        dateTimeMillis = dbModel.dateTimeMillis,
+        operationId = dbModel.id
     )
 
-    fun mapListDbModelToListMoneyBoxOperations(list: List<OperationDbModel>) = list.map {
-        mapDbModelToMoneyBoxOperation(it)
-    }
-
-    // DEBT OPERATION
-
-    fun mapDbModelToDebtOperation(dbModel: OperationDbModel) = DebtOperation(
-        debtId = dbModel.id,
-        debtDateTimeMillis = dbModel.dateTimeMillis,
-        debtAmount = dbModel.amount,
-        debtType = defineEntityType(dbModel.type),
-        debtCreditor = dbModel.info
+    private fun mapDebtOperationDbModelToOperation(dbModel: DebtOperationDbModel) = Operation(
+        operationForm = OperationForm.DEBT,
+        type = defineEntityType(dbModel.type),
+        amount = dbModel.amount,
+        dateTimeMillis = dbModel.dateTimeMillis,
+        operationId = dbModel.id
     )
-
-    fun mapListDbModelToListDebtOperations(list: List<OperationDbModel>) = list.map {
-        mapDbModelToDebtOperation(it)
-    }
-
-    // ALL OPERATIONS
-
-    fun mapOperationToDbModel(income: Operation) = OperationDbModel(
-        id = income.id,
-        operationForm = defineOperationForm(income.operationForm),
-        type = defineDbModelType(income.type),
-        dateTimeMillis = income.dateTimeMillis,
-        amount = income.amount,
-        info = income.info
-    )
-
-    fun mapDbModelToOperation(dbModel: OperationDbModel): Operation {
-        return when (dbModel.operationForm) {
-            OPERATION_FORM_INCOME -> mapDbModelToIncome(dbModel)
-            OPERATION_FORM_EXPENSE -> mapDbModelToExpense(dbModel)
-            OPERATION_FORM_MONEY_BOX_OPERATION -> mapDbModelToMoneyBoxOperation(dbModel)
-            OPERATION_FORM_DEBT -> mapDbModelToDebtOperation(dbModel)
-            else -> {
-                throw RuntimeException("OperationsMapper: Unknown operation form")
-            }
-        }
-    }
-
-    fun mapListDbModelToListOperations(list: List<OperationDbModel>) = list.map {
-        mapDbModelToOperation(it)
-    }
 }

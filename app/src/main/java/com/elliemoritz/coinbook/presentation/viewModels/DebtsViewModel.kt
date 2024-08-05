@@ -7,7 +7,6 @@ import com.elliemoritz.coinbook.domain.useCases.debtsUseCases.AddDebtUseCase
 import com.elliemoritz.coinbook.domain.useCases.debtsUseCases.EditDebtUseCase
 import com.elliemoritz.coinbook.domain.useCases.debtsUseCases.GetDebtsListUseCase
 import com.elliemoritz.coinbook.domain.useCases.debtsUseCases.RemoveDebtUseCase
-import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.RemoveOperationUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.AddToBalanceUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetBalanceUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetCurrencyUseCase

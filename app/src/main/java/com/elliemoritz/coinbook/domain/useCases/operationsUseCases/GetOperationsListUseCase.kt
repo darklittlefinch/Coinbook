@@ -6,9 +6,9 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GetOperationsListUseCase @Inject constructor(
-    private val operationsRepository: OperationsRepository
+    private val repository: OperationsRepository
 ) {
     operator fun invoke(): Flow<List<Operation>> {
-        return operationsRepository.getOperationsList()
+        return repository.getAllOperationsList()
     }
 }

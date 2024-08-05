@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elliemoritz.coinbook.domain.entities.helpers.Type
 import com.elliemoritz.coinbook.domain.entities.operations.MoneyBoxOperation
+import com.elliemoritz.coinbook.domain.useCases.moneyBoxOperationsUseCases.GetMoneyBoxOperationsListUseCase
+import com.elliemoritz.coinbook.domain.useCases.moneyBoxOperationsUseCases.RemoveMoneyBoxOperationUseCase
 import com.elliemoritz.coinbook.domain.useCases.moneyBoxUseCases.GetMoneyBoxUseCase
-import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetMoneyBoxOperationsListUseCase
-import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.RemoveOperationUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.AddToBalanceUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetCurrencyUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.RemoveFromBalanceUseCase
@@ -24,7 +24,7 @@ class MoneyBoxViewModel @Inject constructor(
     getCurrencyUseCase: GetCurrencyUseCase,
     getMoneyBoxUseCase: GetMoneyBoxUseCase,
     getMoneyBoxOperationsListUseCase: GetMoneyBoxOperationsListUseCase,
-    private val removeOperationUseCase: RemoveOperationUseCase,
+    private val removeMoneyBoxOperationUseCase: RemoveMoneyBoxOperationUseCase,
     private val addToBalanceUseCase: AddToBalanceUseCase,
     private val removeFromBalanceUseCase: RemoveFromBalanceUseCase
 ) : ViewModel() {
@@ -63,7 +63,7 @@ class MoneyBoxViewModel @Inject constructor(
                 emptyList()
             } else {
                 it.filter { operation ->
-                    operation.mbDateTimeMillis >= startedMillis
+                    operation.dateTimeMillis >= startedMillis
                 }
             }
             MoneyBoxState.OperationsList(operationsList)
@@ -80,7 +80,7 @@ class MoneyBoxViewModel @Inject constructor(
 
     fun removeMoneyBoxOperation(operation: MoneyBoxOperation) {
         viewModelScope.launch {
-            removeOperationUseCase(operation)
+            removeMoneyBoxOperationUseCase(operation)
             handleBalanceEditing(operation)
         }
     }

@@ -6,9 +6,9 @@ import com.elliemoritz.coinbook.domain.entities.operations.Income
 import com.elliemoritz.coinbook.domain.exceptions.EmptyFieldsException
 import com.elliemoritz.coinbook.domain.exceptions.IncorrectNumberException
 import com.elliemoritz.coinbook.domain.exceptions.NoChangesException
-import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.AddOperationUseCase
-import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.EditOperationUseCase
-import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetIncomeUseCase
+import com.elliemoritz.coinbook.domain.useCases.incomeUseCases.AddIncomeUseCase
+import com.elliemoritz.coinbook.domain.useCases.incomeUseCases.EditIncomeUseCase
+import com.elliemoritz.coinbook.domain.useCases.incomeUseCases.GetIncomeUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.AddToBalanceUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.RemoveFromBalanceUseCase
 import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentIncomeState
@@ -25,8 +25,8 @@ import kotlin.math.abs
 
 class AddIncomeViewModel @Inject constructor(
     private val getIncomeUseCase: GetIncomeUseCase,
-    private val addOperationUseCase: AddOperationUseCase,
-    private val editOperationUseCase: EditOperationUseCase,
+    private val addIncomeUseCase: AddIncomeUseCase,
+    private val editIncomeUseCase: EditIncomeUseCase,
     private val addToBalanceUseCase: AddToBalanceUseCase,
     private val removeFromBalanceUseCase: RemoveFromBalanceUseCase
 ) : ViewModel() {
@@ -42,7 +42,7 @@ class AddIncomeViewModel @Inject constructor(
             _state.emit(
                 FragmentIncomeState.Data(
                     data.amount.toString(),
-                    data.incSource
+                    data.source
                 )
             )
         }
@@ -57,8 +57,14 @@ class AddIncomeViewModel @Inject constructor(
                 checkIncorrectNumbers(amountString)
 
                 val amount = amountString.toInt()
-                val income = Income(getCurrentTimeMillis(), amount, source)
-                addOperationUseCase(income)
+
+                val income = Income(
+                    amount,
+                    source,
+                    getCurrentTimeMillis()
+                )
+
+                addIncomeUseCase(income)
                 addToBalanceUseCase(amount)
 
                 setFinishState()
@@ -84,11 +90,17 @@ class AddIncomeViewModel @Inject constructor(
 
                 checkNoChanges(
                     listOf(newAmount, newSource),
-                    listOf(oldData.amount, oldData.incSource)
+                    listOf(oldData.amount, oldData.source)
                 )
 
-                val income = Income(oldData.dateTimeMillis, newAmount, newSource, oldData.id)
-                editOperationUseCase(income)
+                val income = Income(
+                    newAmount,
+                    newSource,
+                    oldData.dateTimeMillis,
+                    oldData.id
+                )
+
+                editIncomeUseCase(income)
 
                 val oldAmount = oldData.amount
                 editBalance(oldAmount, newAmount)

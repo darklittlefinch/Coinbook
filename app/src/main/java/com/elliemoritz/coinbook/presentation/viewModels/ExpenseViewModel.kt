@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elliemoritz.coinbook.domain.entities.operations.Expense
 import com.elliemoritz.coinbook.domain.useCases.categoriesUseCases.GetCategoriesListUseCase
-import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetExpensesListForMonthUseCase
-import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetTotalExpensesAmountForMonthUseCase
-import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.RemoveOperationUseCase
+import com.elliemoritz.coinbook.domain.useCases.expensesUseCases.GetExpensesListForMonthUseCase
+import com.elliemoritz.coinbook.domain.useCases.expensesUseCases.GetTotalExpensesAmountForMonthUseCase
+import com.elliemoritz.coinbook.domain.useCases.expensesUseCases.RemoveExpenseUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.AddToBalanceUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetCurrencyUseCase
 import com.elliemoritz.coinbook.presentation.states.ExpenseState
@@ -23,7 +23,7 @@ class ExpenseViewModel @Inject constructor(
     getCurrencyUseCase: GetCurrencyUseCase,
     getTotalExpensesAmountForMonthUseCase: GetTotalExpensesAmountForMonthUseCase,
     getExpensesListForMonthUseCase: GetExpensesListForMonthUseCase,
-    private val removeOperationUseCase: RemoveOperationUseCase,
+    private val removeExpenseUseCase: RemoveExpenseUseCase,
     private val addToBalanceUseCase: AddToBalanceUseCase,
     private val getCategoriesListUseCase: GetCategoriesListUseCase
 ) : ViewModel() {
@@ -59,7 +59,7 @@ class ExpenseViewModel @Inject constructor(
 
     fun removeExpense(expense: Expense) {
         viewModelScope.launch {
-            removeOperationUseCase(expense)
+            removeExpenseUseCase(expense)
             addToBalanceUseCase(expense.amount)
         }
     }

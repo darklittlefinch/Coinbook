@@ -8,9 +8,10 @@ import com.elliemoritz.coinbook.domain.exceptions.IncorrectNumberException
 import com.elliemoritz.coinbook.domain.exceptions.NoChangesException
 import com.elliemoritz.coinbook.domain.exceptions.NotEnoughMoneyException
 import com.elliemoritz.coinbook.domain.useCases.categoriesUseCases.GetCategoriesListUseCase
-import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.AddOperationUseCase
-import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.EditOperationUseCase
-import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetExpenseUseCase
+import com.elliemoritz.coinbook.domain.useCases.categoriesUseCases.GetCategoryByNameUseCase
+import com.elliemoritz.coinbook.domain.useCases.expensesUseCases.AddExpenseUseCase
+import com.elliemoritz.coinbook.domain.useCases.expensesUseCases.EditExpenseUseCase
+import com.elliemoritz.coinbook.domain.useCases.expensesUseCases.GetExpenseUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.AddToBalanceUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetBalanceUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.RemoveFromBalanceUseCase
@@ -31,9 +32,10 @@ import kotlin.math.abs
 
 class AddExpenseViewModel @Inject constructor(
     private val getExpenseUseCase: GetExpenseUseCase,
-    private val addOperationUseCase: AddOperationUseCase,
-    private val editOperationUseCase: EditOperationUseCase,
+    private val addExpenseUseCase: AddExpenseUseCase,
+    private val editExpenseUseCase: EditExpenseUseCase,
     getCategoriesListUseCase: GetCategoriesListUseCase,
+    private val getCategoryByNameUseCase: GetCategoryByNameUseCase,
     private val getBalanceUseCase: GetBalanceUseCase,
     private val addToBalanceUseCase: AddToBalanceUseCase,
     private val removeFromBalanceUseCase: RemoveFromBalanceUseCase
@@ -56,7 +58,7 @@ class AddExpenseViewModel @Inject constructor(
             val expense = getExpenseUseCase(id).first()
             _state.emit(FragmentExpenseState.Amount(expense.amount.toString()))
 
-            val categoryPosition = getCategoryPosition(expense.expCategoryName)
+            val categoryPosition = getCategoryPosition(expense.categoryName)
             _state.emit(FragmentExpenseState.CategoryPosition(categoryPosition))
         }
     }
@@ -74,8 +76,17 @@ class AddExpenseViewModel @Inject constructor(
 
                 checkNotEnoughMoney(amount, balance)
 
-                val expense = Expense(getCurrentTimeMillis(), amount, categoryName)
-                addOperationUseCase(expense)
+                val category = getCategoryByNameUseCase(categoryName).first()
+                    ?: throw RuntimeException("User selected a non-existent category (how?!)")
+
+                val expense = Expense(
+                    amount,
+                    category.id,
+                    categoryName,
+                    getCurrentTimeMillis(),
+                )
+
+                addExpenseUseCase(expense)
                 removeFromBalanceUseCase(amount)
 
                 setFinishState()
@@ -109,13 +120,20 @@ class AddExpenseViewModel @Inject constructor(
 
                 checkNoChanges(
                     listOf(newAmount, newCategoryName),
-                    listOf(oldData.amount, oldData.expCategoryName)
+                    listOf(oldData.amount, oldData.categoryId)
                 )
 
+                val category = getCategoryByNameUseCase(newCategoryName).first()
+                    ?: throw RuntimeException("User selected a non-existent category (how?!)")
+
                 val expense = Expense(
-                    oldData.dateTimeMillis, newAmount, newCategoryName, expenseId
+                    newAmount,
+                    category.id,
+                    newCategoryName,
+                    oldData.dateTimeMillis,
+                    expenseId
                 )
-                editOperationUseCase(expense)
+                editExpenseUseCase(expense)
 
                 val oldAmount = oldData.amount
                 editBalance(oldAmount, newAmount)

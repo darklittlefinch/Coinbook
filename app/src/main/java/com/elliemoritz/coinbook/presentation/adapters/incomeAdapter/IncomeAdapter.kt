@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.elliemoritz.coinbook.databinding.ItemIncomeBinding
+import com.elliemoritz.coinbook.domain.entities.helpers.Type
 import com.elliemoritz.coinbook.domain.entities.operations.Income
 import com.elliemoritz.coinbook.presentation.util.formatAmountWithSign
 import com.elliemoritz.coinbook.presentation.util.formatDate
@@ -32,22 +33,14 @@ class IncomeAdapter : ListAdapter<Income, IncomeViewHolder>(IncomeDiffCallback()
         val income = getItem(position)
 
         with(holder.binding) {
-            val source = income.incSource.ifBlank {
-                SOURCE_MONEY_BOX
-            }
-
-            tvIncomeSource.text = source
+            tvIncomeSource.text = income.source
             tvIncomeDate.text = formatDate(income.dateTimeMillis)
             tvIncomeTime.text = formatTime(income.dateTimeMillis)
-            tvIncomeAmount.text = formatAmountWithSign(income.amount, currency, income.type)
+            tvIncomeAmount.text = formatAmountWithSign(income.amount, currency, Type.INCOME)
 
             cvItemIncome.setOnClickListener {
                 onIncomeClickListener?.invoke(income)
             }
         }
-    }
-
-    companion object {
-        private const val SOURCE_MONEY_BOX = "From money box"
     }
 }

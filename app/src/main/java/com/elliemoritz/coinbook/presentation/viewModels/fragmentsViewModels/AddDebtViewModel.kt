@@ -8,11 +8,12 @@ import com.elliemoritz.coinbook.domain.entities.operations.DebtOperation
 import com.elliemoritz.coinbook.domain.exceptions.EmptyFieldsException
 import com.elliemoritz.coinbook.domain.exceptions.IncorrectNumberException
 import com.elliemoritz.coinbook.domain.exceptions.NoChangesException
+import com.elliemoritz.coinbook.domain.useCases.debtsOperationsUseCases.AddDebtOperationUseCase
+import com.elliemoritz.coinbook.domain.useCases.debtsOperationsUseCases.EditDebtOperationUseCase
+import com.elliemoritz.coinbook.domain.useCases.debtsOperationsUseCases.GetDebtOperationByDebtIdUseCase
 import com.elliemoritz.coinbook.domain.useCases.debtsUseCases.AddDebtUseCase
 import com.elliemoritz.coinbook.domain.useCases.debtsUseCases.EditDebtUseCase
 import com.elliemoritz.coinbook.domain.useCases.debtsUseCases.GetDebtUseCase
-import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.AddOperationUseCase
-import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.EditOperationUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.AddToBalanceUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.RemoveFromBalanceUseCase
 import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentDebtState
@@ -33,8 +34,9 @@ class AddDebtViewModel @Inject constructor(
     private val editDebtUseCase: EditDebtUseCase,
     private val addToBalanceUseCase: AddToBalanceUseCase,
     private val removeFromBalanceUseCase: RemoveFromBalanceUseCase,
-    private val addOperationUseCase: AddOperationUseCase,
-    private val editOperationUseCase: EditOperationUseCase
+    private val getDebtOperationByDebtIdUseCase: GetDebtOperationByDebtIdUseCase,
+    private val addDebtOperationUseCase: AddDebtOperationUseCase,
+    private val editDebtOperationUseCase: EditDebtOperationUseCase
 ) : ViewModel() {
 
     private val _state = MutableSharedFlow<FragmentDebtState>()
@@ -87,12 +89,13 @@ class AddDebtViewModel @Inject constructor(
 
     private suspend fun addDebtOperation(debt: Debt) {
         val debtOperation = DebtOperation(
-            Type.INCOME,
-            getCurrentTimeMillis(),
             debt.amount,
-            debt.creditor
+            Type.INCOME,
+            debt.id,
+            debt.creditor,
+            getCurrentTimeMillis()
         )
-        addOperationUseCase(debtOperation)
+        addDebtOperationUseCase(debtOperation)
     }
 
     fun editDebt(newAmountString: String, newCreditor: String, debtId: Int) {
@@ -119,6 +122,7 @@ class AddDebtViewModel @Inject constructor(
                     oldData.id
                 )
                 editDebtUseCase(debt)
+                editDebtOperation(debt)
                 handleBalance(newAmount, oldData.amount)
 
                 setFinishState()
@@ -135,14 +139,18 @@ class AddDebtViewModel @Inject constructor(
 
     private suspend fun editDebtOperation(debt: Debt) {
 
+        val debtOperation = getDebtOperationByDebtIdUseCase(debt.id).first()
 
-        val debtOperation = DebtOperation(
-            Type.INCOME,
-            getCurrentTimeMillis(),
+        val newDebtOperation = DebtOperation(
             debt.amount,
-            debt.creditor
+            Type.INCOME,
+            debt.id,
+            debt.creditor,
+            getCurrentTimeMillis(),
+            debtOperation.id
         )
-        editOperationUseCase(debtOperation)
+
+        editDebtOperationUseCase(newDebtOperation)
     }
 
     private suspend fun handleBalance(newBalance: Int, oldBalance: Int) {

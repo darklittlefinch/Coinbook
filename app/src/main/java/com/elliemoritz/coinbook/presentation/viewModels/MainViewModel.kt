@@ -5,10 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.elliemoritz.coinbook.domain.useCases.alarmsUseCases.GetAlarmsCountUseCase
 import com.elliemoritz.coinbook.domain.useCases.categoriesUseCases.GetCategoriesListUseCase
 import com.elliemoritz.coinbook.domain.useCases.debtsUseCases.GetTotalDebtsAmountUseCase
+import com.elliemoritz.coinbook.domain.useCases.expensesUseCases.GetTotalExpensesAmountForMonthUseCase
+import com.elliemoritz.coinbook.domain.useCases.incomeUseCases.GetTotalIncomeAmountForMonthUseCase
 import com.elliemoritz.coinbook.domain.useCases.limitsUseCases.GetLimitsCountUseCase
 import com.elliemoritz.coinbook.domain.useCases.moneyBoxUseCases.GetMoneyBoxUseCase
-import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetTotalExpensesAmountForMonthUseCase
-import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetTotalIncomeAmountForMonthUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetBalanceUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetCurrencyUseCase
 import com.elliemoritz.coinbook.presentation.states.MainState

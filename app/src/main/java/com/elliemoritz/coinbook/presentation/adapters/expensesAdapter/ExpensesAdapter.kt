@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.elliemoritz.coinbook.databinding.ItemExpenseBinding
+import com.elliemoritz.coinbook.domain.entities.helpers.Type
 import com.elliemoritz.coinbook.domain.entities.operations.Expense
 import com.elliemoritz.coinbook.presentation.util.formatAmountWithSign
 import com.elliemoritz.coinbook.presentation.util.formatDate
@@ -32,22 +33,15 @@ class ExpensesAdapter : ListAdapter<Expense, ExpenseViewHolder>(ExpensesDiffCall
         val expense = getItem(position)
 
         with(holder.binding) {
-            val category = expense.expCategoryName.ifBlank {
-                CATEGORY_MONEY_BOX
-            }
 
-            tvExpenseCategory.text = category
+            tvExpenseCategory.text = expense.categoryName
             tvExpenseDate.text = formatDate(expense.dateTimeMillis)
             tvExpenseTime.text = formatTime(expense.dateTimeMillis)
-            tvExpenseAmount.text = formatAmountWithSign(expense.amount, currency, expense.type)
+            tvExpenseAmount.text = formatAmountWithSign(expense.amount, currency, Type.EXPENSE)
 
             cvItemExpense.setOnClickListener {
                 onIncomeClickListener?.invoke(expense)
             }
         }
-    }
-
-    companion object {
-        private const val CATEGORY_MONEY_BOX = "Added to money box"
     }
 }

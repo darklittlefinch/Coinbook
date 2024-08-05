@@ -8,12 +8,12 @@ import com.elliemoritz.coinbook.domain.exceptions.EmptyFieldsException
 import com.elliemoritz.coinbook.domain.exceptions.IncorrectNumberException
 import com.elliemoritz.coinbook.domain.exceptions.NoChangesException
 import com.elliemoritz.coinbook.domain.exceptions.NotEnoughMoneyException
+import com.elliemoritz.coinbook.domain.useCases.moneyBoxOperationsUseCases.AddMoneyBoxOperationUseCase
+import com.elliemoritz.coinbook.domain.useCases.moneyBoxOperationsUseCases.EditMoneyBoxOperationUseCase
+import com.elliemoritz.coinbook.domain.useCases.moneyBoxOperationsUseCases.GetMoneyBoxOperationUseCase
 import com.elliemoritz.coinbook.domain.useCases.moneyBoxUseCases.AddToMoneyBoxUseCase
 import com.elliemoritz.coinbook.domain.useCases.moneyBoxUseCases.GetMoneyBoxUseCase
 import com.elliemoritz.coinbook.domain.useCases.moneyBoxUseCases.RemoveFromMoneyBoxUseCase
-import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.AddOperationUseCase
-import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.EditOperationUseCase
-import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetMoneyBoxOperationUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.AddToBalanceUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetBalanceUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.RemoveFromBalanceUseCase
@@ -33,8 +33,8 @@ import kotlin.math.abs
 class AddMoneyBoxOperationViewModel @Inject constructor(
     private val getMoneyBoxUseCase: GetMoneyBoxUseCase,
     private val getMoneyBoxOperationUseCase: GetMoneyBoxOperationUseCase,
-    private val addOperationUseCase: AddOperationUseCase,
-    private val editOperationUseCase: EditOperationUseCase,
+    private val addMoneyBoxOperationUseCase: AddMoneyBoxOperationUseCase,
+    private val editMoneyBoxOperationUseCase: EditMoneyBoxOperationUseCase,
     private val addToMoneyBoxUseCase: AddToMoneyBoxUseCase,
     private val removeFromMoneyBoxUseCase: RemoveFromMoneyBoxUseCase,
     private val getBalanceUseCase: GetBalanceUseCase,
@@ -74,11 +74,12 @@ class AddMoneyBoxOperationViewModel @Inject constructor(
                 }
 
                 val moneyBoxOperation = MoneyBoxOperation(
+                    amount,
                     type,
-                    getCurrentTimeMillis(),
-                    amount
+                    getCurrentTimeMillis()
                 )
-                addOperationUseCase(moneyBoxOperation)
+
+                addMoneyBoxOperationUseCase(moneyBoxOperation)
                 handleCreateOperationType(type, amount)
 
                 setFinishState()
@@ -117,12 +118,13 @@ class AddMoneyBoxOperationViewModel @Inject constructor(
                 }
 
                 val moneyBoxOperation = MoneyBoxOperation(
+                    newAmount,
                     oldData.type,
                     oldData.dateTimeMillis,
-                    newAmount,
                     oldData.id
                 )
-                editOperationUseCase(moneyBoxOperation)
+
+                editMoneyBoxOperationUseCase(moneyBoxOperation)
                 handleEditOperationType(oldData.type, newAmount, oldData.amount)
 
                 setFinishState()

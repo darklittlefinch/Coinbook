@@ -3,9 +3,9 @@ package com.elliemoritz.coinbook.presentation.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elliemoritz.coinbook.domain.entities.operations.Income
-import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetIncomeListForMonthUseCase
-import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetTotalIncomeAmountForMonthUseCase
-import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.RemoveOperationUseCase
+import com.elliemoritz.coinbook.domain.useCases.incomeUseCases.GetIncomeListForMonthUseCase
+import com.elliemoritz.coinbook.domain.useCases.incomeUseCases.GetTotalIncomeAmountForMonthUseCase
+import com.elliemoritz.coinbook.domain.useCases.incomeUseCases.RemoveIncomeUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetCurrencyUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.RemoveFromBalanceUseCase
 import com.elliemoritz.coinbook.presentation.states.IncomeState
@@ -22,7 +22,7 @@ class IncomeViewModel @Inject constructor(
     getCurrencyUseCase: GetCurrencyUseCase,
     getTotalIncomeAmountForMonthUseCase: GetTotalIncomeAmountForMonthUseCase,
     getIncomeListForMonthUseCase: GetIncomeListForMonthUseCase,
-    private val removeOperationUseCase: RemoveOperationUseCase,
+    private val removeOperationUseCase: RemoveIncomeUseCase,
     private val removeFromBalanceUseCase: RemoveFromBalanceUseCase
 ) : ViewModel() {
 
