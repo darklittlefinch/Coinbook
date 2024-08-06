@@ -6,8 +6,6 @@ import com.elliemoritz.coinbook.domain.entities.Debt
 import com.elliemoritz.coinbook.domain.entities.helpers.Type
 import com.elliemoritz.coinbook.domain.entities.operations.DebtOperation
 import com.elliemoritz.coinbook.domain.useCases.debtsOperationsUseCases.AddDebtOperationUseCase
-import com.elliemoritz.coinbook.domain.useCases.debtsOperationsUseCases.GetDebtOperationByDebtIdUseCase
-import com.elliemoritz.coinbook.domain.useCases.debtsOperationsUseCases.RemoveDebtOperationUseCase
 import com.elliemoritz.coinbook.domain.useCases.debtsUseCases.EditDebtUseCase
 import com.elliemoritz.coinbook.domain.useCases.debtsUseCases.GetDebtsListUseCase
 import com.elliemoritz.coinbook.domain.useCases.debtsUseCases.GetTotalDebtsAmountUseCase
@@ -30,7 +28,7 @@ import javax.inject.Inject
 class DebtsViewModel @Inject constructor(
     getCurrencyUseCase: GetCurrencyUseCase,
     private val getDebtsListUseCase: GetDebtsListUseCase,
-    private val getTotalDebtsAmountUseCase: GetTotalDebtsAmountUseCase,
+    getTotalDebtsAmountUseCase: GetTotalDebtsAmountUseCase,
     private val editDebtUseCase: EditDebtUseCase,
     private val removeDebtUseCase: RemoveDebtUseCase,
     private val addDebtOperationUseCase: AddDebtOperationUseCase,
@@ -124,9 +122,5 @@ class DebtsViewModel @Inject constructor(
         addDebtOperationUseCase(debtOperation)
 
         addToBalanceUseCase(newDebt.amount)
-    }
-
-    companion object {
-        private const val NO_DATA_VALUE = 0
     }
 }
