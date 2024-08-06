@@ -1,8 +1,8 @@
 package com.elliemoritz.coinbook.presentation.adapters.debtsAdapter
 
 import androidx.recyclerview.widget.RecyclerView
-import com.elliemoritz.coinbook.databinding.ItemDebtBinding
+import androidx.viewbinding.ViewBinding
 
 class DebtViewHolder(
-    val binding: ItemDebtBinding
+    val binding: ViewBinding
 ) : RecyclerView.ViewHolder(binding.root)

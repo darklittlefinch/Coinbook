@@ -2,10 +2,9 @@ package com.elliemoritz.coinbook.presentation.adapters.debtsAdapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ListAdapter
-import com.elliemoritz.coinbook.R
 import com.elliemoritz.coinbook.databinding.ItemDebtBinding
+import com.elliemoritz.coinbook.databinding.ItemDebtFinishedBinding
 import com.elliemoritz.coinbook.domain.entities.Debt
 import com.elliemoritz.coinbook.presentation.util.formatAmount
 import com.elliemoritz.coinbook.presentation.util.formatDate
@@ -22,52 +21,79 @@ class DebtsAdapter : ListAdapter<Debt, DebtViewHolder>(DebtsDiffCallback()) {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DebtViewHolder {
-        val binding = ItemDebtBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
+        val binding = when (viewType) {
+            VIEW_TYPE_ACTIVE -> {
+                ItemDebtBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+            }
+
+            VIEW_TYPE_FINISHED -> {
+                ItemDebtFinishedBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+            }
+
+            else -> throw RuntimeException("DebtsAdapter: Unknown view type \"$viewType\"")
+        }
         return DebtViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: DebtViewHolder, position: Int) {
         val debt = getItem(position)
 
-        holder.binding.cvItemDebt.setOnClickListener {
-            onDebtClickListener?.invoke(debt)
+        when (holder.binding) {
+            is ItemDebtBinding -> {
+                with(holder.binding) {
+                    tvDebtCreditor.text = debt.creditor
+                    tvDebtDate.text = formatDate(debt.startedMillis)
+                    tvDebtAmount.text = formatAmount(debt.amount, currency)
+
+                    cvItemDebt.setOnClickListener {
+                        onDebtClickListener?.invoke(debt)
+                    }
+
+                    cvItemDebt.setOnLongClickListener {
+                        onDebtLongClickListener?.invoke(debt)
+                        true
+                    }
+                }
+            }
+
+            is ItemDebtFinishedBinding -> {
+                with(holder.binding) {
+                    tvDebtCreditor.text = debt.creditor
+                    tvDebtDate.text = formatDate(debt.startedMillis)
+                    tvDebtAmount.text = formatAmount(debt.amount, currency)
+
+                    cvItemDebt.setOnClickListener {
+                        onDebtClickListener?.invoke(debt)
+                    }
+
+                    cvItemDebt.setOnLongClickListener {
+                        onDebtLongClickListener?.invoke(debt)
+                        true
+                    }
+                }
+            }
         }
+    }
 
-        holder.binding.cvItemDebt.setOnLongClickListener {
-            onDebtLongClickListener?.invoke(debt)
-            true
-        }
-
-        holder.binding.tvDebtCreditor.text = debt.creditor
-        holder.binding.tvDebtDate.text = formatDate(debt.startedMillis)
-        holder.binding.tvDebtAmount.text = formatAmount(debt.amount, currency)
-
-        if (debt.finished) {
-            val colorResId = R.color.gray
-            val color = ContextCompat.getColor(holder.binding.root.context, colorResId)
-            holder.binding.tvDebtCreditor.setTextColor(color)
-            holder.binding.tvDebtDate.setTextColor(color)
-            holder.binding.tvDebtAmount.setTextColor(color)
+    override fun getItemViewType(position: Int): Int {
+        val item = getItem(position)
+        return if (item.finished) {
+            VIEW_TYPE_FINISHED
         } else {
-            val blackColorResId = R.color.black
-            val blackColor = ContextCompat.getColor(
-                holder.binding.root.context,
-                blackColorResId
-            )
-            holder.binding.tvDebtCreditor.setTextColor(blackColor)
-            holder.binding.tvDebtDate.setTextColor(blackColor)
-
-            val redColorResId = R.color.dark_red
-            val redColor = ContextCompat.getColor(
-                holder.binding.root.context,
-                redColorResId
-            )
-            holder.binding.tvDebtAmount.setTextColor(redColor)
-
+            VIEW_TYPE_ACTIVE
         }
+    }
+
+    companion object {
+        private const val VIEW_TYPE_ACTIVE = 100
+        private const val VIEW_TYPE_FINISHED = 101
     }
 }
