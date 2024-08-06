@@ -10,7 +10,7 @@ import com.elliemoritz.coinbook.data.dbModels.DebtDbModel
 interface DebtsDao {
 
     @Query("SELECT * FROM debts")
-    fun getDebtsList(): List<DebtDbModel>
+    suspend fun getDebtsList(): List<DebtDbModel>
 
     @Query("SELECT * FROM debts WHERE id = :debtId LIMIT 1")
     suspend fun getDebt(debtId: Int): DebtDbModel

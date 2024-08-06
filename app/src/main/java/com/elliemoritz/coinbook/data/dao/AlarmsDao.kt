@@ -10,7 +10,7 @@ import com.elliemoritz.coinbook.data.dbModels.AlarmDbModel
 interface AlarmsDao {
 
     @Query("SELECT * FROM alarms")
-    fun getAlarmsList(): List<AlarmDbModel>
+    suspend fun getAlarmsList(): List<AlarmDbModel>
 
     @Query("SELECT * FROM alarms WHERE id = :alarmId LIMIT 1")
     suspend fun getAlarm(alarmId: Int): AlarmDbModel
