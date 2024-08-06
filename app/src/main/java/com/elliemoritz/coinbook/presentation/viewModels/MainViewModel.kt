@@ -78,7 +78,7 @@ class MainViewModel @Inject constructor(
             )
         }
 
-    private val debtsAmountStateFlow = getTotalDebtsAmountUseCase()
+    private val debtsAmountStateFlow = getTotalDebtsAmountUseCase(finished = false)
         .map {
             val currency = currencyFlow.first()
             MainState.Debts(formatAmount(it, currency), it > NO_DATA)

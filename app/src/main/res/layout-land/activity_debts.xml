@@ -58,6 +58,7 @@
         style="@style/detail_with_numbers_info_land"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:text="@string/no_debts"
         android:textAlignment="center"
         android:textColor="@color/dark_gray"
         app:layout_constraintBottom_toBottomOf="@+id/tv_debts_amount"

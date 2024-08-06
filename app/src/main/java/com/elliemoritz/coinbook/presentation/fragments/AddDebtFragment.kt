@@ -134,6 +134,8 @@ class AddDebtFragment : Fragment() {
 
     companion object {
 
+        const val NAME = "AddDebtFragment"
+
         private const val MODE = "mode"
         private const val ID = "id"
 

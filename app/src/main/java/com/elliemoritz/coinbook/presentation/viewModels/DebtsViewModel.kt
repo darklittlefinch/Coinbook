@@ -3,9 +3,14 @@ package com.elliemoritz.coinbook.presentation.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elliemoritz.coinbook.domain.entities.Debt
-import com.elliemoritz.coinbook.domain.useCases.debtsUseCases.AddDebtUseCase
+import com.elliemoritz.coinbook.domain.entities.helpers.Type
+import com.elliemoritz.coinbook.domain.entities.operations.DebtOperation
+import com.elliemoritz.coinbook.domain.useCases.debtsOperationsUseCases.AddDebtOperationUseCase
+import com.elliemoritz.coinbook.domain.useCases.debtsOperationsUseCases.GetDebtOperationByDebtIdUseCase
+import com.elliemoritz.coinbook.domain.useCases.debtsOperationsUseCases.RemoveDebtOperationUseCase
 import com.elliemoritz.coinbook.domain.useCases.debtsUseCases.EditDebtUseCase
 import com.elliemoritz.coinbook.domain.useCases.debtsUseCases.GetDebtsListUseCase
+import com.elliemoritz.coinbook.domain.useCases.debtsUseCases.GetTotalDebtsAmountUseCase
 import com.elliemoritz.coinbook.domain.useCases.debtsUseCases.RemoveDebtUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.AddToBalanceUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetBalanceUseCase
@@ -13,6 +18,7 @@ import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetCurre
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.RemoveFromBalanceUseCase
 import com.elliemoritz.coinbook.presentation.states.DebtsState
 import com.elliemoritz.coinbook.presentation.util.formatAmount
+import com.elliemoritz.coinbook.presentation.util.getCurrentTimeMillis
 import com.elliemoritz.coinbook.presentation.util.mergeWith
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -23,9 +29,11 @@ import javax.inject.Inject
 
 class DebtsViewModel @Inject constructor(
     getCurrencyUseCase: GetCurrencyUseCase,
-    getDebtsListUseCase: GetDebtsListUseCase,
+    private val getDebtsListUseCase: GetDebtsListUseCase,
+    private val getTotalDebtsAmountUseCase: GetTotalDebtsAmountUseCase,
     private val editDebtUseCase: EditDebtUseCase,
     private val removeDebtUseCase: RemoveDebtUseCase,
+    private val addDebtOperationUseCase: AddDebtOperationUseCase,
     private val getBalanceUseCase: GetBalanceUseCase,
     private val addToBalanceUseCase: AddToBalanceUseCase,
     private val removeFromBalanceUseCase: RemoveFromBalanceUseCase
@@ -37,16 +45,11 @@ class DebtsViewModel @Inject constructor(
 
     private val debtsListFlow = getDebtsListUseCase()
 
-    private val amountStateFlow = debtsListFlow
+    private val amountStateFlow = getTotalDebtsAmountUseCase(finished = false)
         .map {
             val currency = currencyFlow.first()
-
-            if (it.isEmpty()) {
-                DebtsState.NoData(formatAmount(NO_DATA_VALUE, currency))
-            } else {
-                val totalAmount = it.sumOf { debt -> debt.amount }
-                DebtsState.Amount(formatAmount(totalAmount, currency))
-            }
+            val formattedAmount = formatAmount(it, currency)
+            DebtsState.Amount(formattedAmount)
         }
 
     private val debtsListStateFlow = debtsListFlow
@@ -73,18 +76,54 @@ class DebtsViewModel @Inject constructor(
         }
     }
 
-    fun setDebtFinished(debt: Debt) {
+    fun changeFinishedStatus(debt: Debt) {
         viewModelScope.launch {
-            val balance = getBalanceUseCase().first()
-
-            if (balance < debt.amount) {
-                _state.emit(DebtsState.NotEnoughMoney)
+            if (debt.finished) {
+                setDebtNotFinished(debt)
             } else {
-                debt.finished = true
-                editDebtUseCase(debt)
-                removeFromBalanceUseCase(debt.amount)
+                setDebtFinished(debt)
             }
+            val list = getDebtsListUseCase().first()
+            _state.emit(DebtsState.DebtsList(list))
         }
+    }
+
+    private suspend fun setDebtFinished(debt: Debt) {
+        val balance = getBalanceUseCase().first()
+
+        if (balance < debt.amount) {
+            _state.emit(DebtsState.NotEnoughMoney)
+        } else {
+            val newDebt = debt.copy(finished = true)
+            editDebtUseCase(newDebt)
+
+            val debtOperation = DebtOperation(
+                newDebt.amount,
+                Type.EXPENSE,
+                debt.id,
+                newDebt.creditor,
+                getCurrentTimeMillis()
+            )
+
+            addDebtOperationUseCase(debtOperation)
+            removeFromBalanceUseCase(newDebt.amount)
+        }
+    }
+
+    private suspend fun setDebtNotFinished(debt: Debt) {
+        val newDebt = debt.copy(finished = false)
+        editDebtUseCase(newDebt)
+
+        val debtOperation = DebtOperation(
+            debt.amount,
+            Type.INCOME,
+            debt.id,
+            newDebt.creditor,
+            getCurrentTimeMillis()
+        )
+        addDebtOperationUseCase(debtOperation)
+
+        addToBalanceUseCase(newDebt.amount)
     }
 
     companion object {

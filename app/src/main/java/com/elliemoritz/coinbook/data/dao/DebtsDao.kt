@@ -21,6 +21,6 @@ interface DebtsDao {
     @Query("DELETE FROM debts WHERE id = :debtId")
     suspend fun removeDebt(debtId: Int)
 
-    @Query("SELECT SUM(amount) FROM debts")
-    suspend fun getDebtsAmount(): Int?
+    @Query("SELECT SUM(amount) FROM debts WHERE finished = :finished")
+    suspend fun getDebtsAmount(finished: Boolean): Int?
 }
