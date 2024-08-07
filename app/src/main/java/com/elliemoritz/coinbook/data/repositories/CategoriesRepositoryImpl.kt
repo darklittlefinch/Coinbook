@@ -64,9 +64,10 @@ class CategoriesRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun addCategory(category: Category) {
+    override suspend fun addCategory(category: Category): Int {
         val dbModel = mapper.mapEntityToDbModel(category)
-        dao.addCategory(dbModel)
+        val id = dao.addCategory(dbModel)
+        return id.toInt()
     }
 
     override suspend fun editCategory(category: Category) {

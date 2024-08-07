@@ -19,7 +19,7 @@ interface CategoriesDao {
     suspend fun getCategoryByName(name: String): CategoryDbModel?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addCategory(category: CategoryDbModel)
+    suspend fun addCategory(category: CategoryDbModel): Long
 
     @Query("DELETE FROM categories WHERE id = :id")
     suspend fun removeCategory(id: Int)
