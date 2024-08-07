@@ -42,6 +42,16 @@ class DebtsViewModel @Inject constructor(
         .map { DebtsState.Currency(it) }
 
     private val debtsListFlow = getDebtsListUseCase()
+    private val HasDataStateFlow = debtsListFlow
+        .map {
+            if (it.isEmpty()) {
+                DebtsState.NoData
+            } else {
+                DebtsState.HasData
+            }
+        }
+    private val debtsListStateFlow = debtsListFlow
+        .map { DebtsState.DebtsList(it) }
 
     private val amountStateFlow = getTotalDebtsAmountUseCase(finished = false)
         .map {
@@ -50,16 +60,14 @@ class DebtsViewModel @Inject constructor(
             DebtsState.Amount(formattedAmount)
         }
 
-    private val debtsListStateFlow = debtsListFlow
-        .map { DebtsState.DebtsList(it) }
-
     private val _state = MutableSharedFlow<DebtsState>()
 
     val state: Flow<DebtsState>
         get() = _state
-            .mergeWith(amountStateFlow)
             .mergeWith(currencyStateFlow)
+            .mergeWith(HasDataStateFlow)
             .mergeWith(debtsListStateFlow)
+            .mergeWith(amountStateFlow)
 
     fun removeDebt(debt: Debt) {
         viewModelScope.launch {

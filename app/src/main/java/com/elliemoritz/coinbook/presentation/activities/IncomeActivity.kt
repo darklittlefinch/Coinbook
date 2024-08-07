@@ -69,7 +69,10 @@ class IncomeActivity : AppCompatActivity(), OnEditingListener {
                     when (it) {
                         is IncomeState.NoData -> {
                             binding.tvNoIncomeInfo.visibility = View.VISIBLE
-                            binding.tvIncomeAmount.text = it.amount
+                        }
+
+                        is IncomeState.HasData -> {
+                            binding.tvNoIncomeInfo.visibility = View.GONE
                         }
 
                         is IncomeState.Currency -> {
@@ -77,7 +80,6 @@ class IncomeActivity : AppCompatActivity(), OnEditingListener {
                         }
 
                         is IncomeState.IncomeList -> {
-                            binding.tvNoIncomeInfo.visibility = View.GONE
                             incomeAdapter.submitList(it.list)
                         }
 

@@ -67,6 +67,14 @@ class DebtsActivity : AppCompatActivity(), OnEditingListener {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.state.collect {
                     when (it) {
+                        is DebtsState.NoData -> {
+                            binding.tvDebtsInfo.visibility = View.VISIBLE
+                        }
+
+                        is DebtsState.HasData -> {
+                            binding.tvDebtsInfo.visibility = View.GONE
+                        }
+
                         is DebtsState.Amount -> {
                             binding.tvDebtsAmount.text = it.amount
                         }
@@ -76,13 +84,7 @@ class DebtsActivity : AppCompatActivity(), OnEditingListener {
                         }
 
                         is DebtsState.DebtsList -> {
-                            binding.tvDebtsInfo.visibility = View.GONE
                             debtsAdapter.submitList(it.list)
-                        }
-
-                        is DebtsState.NoData -> {
-                            binding.tvDebtsAmount.text = it.amount
-                            binding.tvDebtsInfo.visibility = View.VISIBLE
                         }
 
                         is DebtsState.NotEnoughMoney -> {

@@ -38,14 +38,15 @@ class ExpenseViewModel @Inject constructor(
             ExpenseState.Amount(formatAmount(it, currency))
         }
 
-    private val expensesListStateFlow = getExpensesListForMonthUseCase()
+    private val expensesListFlow = getExpensesListForMonthUseCase()
+    private val expensesListStateFlow = expensesListFlow
+        .map { ExpenseState.ExpensesList(it) }
+    private val hasDataStateFlow = expensesListFlow
         .map {
             if (it.isEmpty()) {
-                val currency = currencyFlow.first()
-                val formattedAmount = formatAmount(NO_DATA_VALUE, currency)
-                ExpenseState.NoData(formattedAmount)
+                ExpenseState.NoData
             } else {
-                ExpenseState.ExpensesList(it)
+                ExpenseState.HasData
             }
         }
 
@@ -53,9 +54,10 @@ class ExpenseViewModel @Inject constructor(
 
     val state: Flow<ExpenseState>
         get() = _state
-            .mergeWith(amountStateFlow)
             .mergeWith(currencyStateFlow)
+            .mergeWith(amountStateFlow)
             .mergeWith(expensesListStateFlow)
+            .mergeWith(hasDataStateFlow)
 
     fun removeExpense(expense: Expense) {
         viewModelScope.launch {
@@ -73,9 +75,5 @@ class ExpenseViewModel @Inject constructor(
                 _state.emit(ExpenseState.PermitAddExpense)
             }
         }
-    }
-
-    companion object {
-        private const val NO_DATA_VALUE = 0
     }
 }

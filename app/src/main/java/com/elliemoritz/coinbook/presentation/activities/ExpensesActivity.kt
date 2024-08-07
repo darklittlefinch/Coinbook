@@ -74,7 +74,10 @@ class ExpensesActivity : AppCompatActivity(),
                         is ExpenseState.NoData -> {
                             binding.tvExpensesInfo.visibility = View.VISIBLE
                             binding.tvExpensesInfo.text = getString(R.string.no_expenses)
-                            binding.tvExpensesAmount.text = it.amount
+                        }
+
+                        is ExpenseState.HasData -> {
+                            binding.tvExpensesInfo.visibility = View.GONE
                         }
 
                         is ExpenseState.Currency -> {
@@ -82,7 +85,6 @@ class ExpensesActivity : AppCompatActivity(),
                         }
 
                         is ExpenseState.ExpensesList -> {
-                            binding.tvExpensesInfo.visibility = View.GONE
                             expensesAdapter.submitList(it.list)
                         }
 

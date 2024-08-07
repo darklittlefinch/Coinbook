@@ -36,14 +36,15 @@ class IncomeViewModel @Inject constructor(
             IncomeState.Amount(formatAmount(it, currency))
         }
 
-    private val incomeListStateFlow = getIncomeListForMonthUseCase()
+    private val incomeListFlow = getIncomeListForMonthUseCase()
+    private val incomeListStateFlow = incomeListFlow
+        .map { IncomeState.IncomeList(it) }
+    private val hasDataStateFlow = incomeListFlow
         .map {
             if (it.isEmpty()) {
-                val currency = currencyFlow.first()
-                val formattedAmount = formatAmount(NO_DATA_VALUE, currency)
-                IncomeState.NoData(formattedAmount)
+                IncomeState.NoData
             } else {
-                IncomeState.IncomeList(it)
+                IncomeState.HasData
             }
         }
 
@@ -54,15 +55,12 @@ class IncomeViewModel @Inject constructor(
             .mergeWith(amountStateFlow)
             .mergeWith(currencyStateFlow)
             .mergeWith(incomeListStateFlow)
+            .mergeWith(hasDataStateFlow)
 
     fun removeIncome(income: Income) {
         viewModelScope.launch {
             removeOperationUseCase(income)
             removeFromBalanceUseCase(income.amount)
         }
-    }
-
-    companion object {
-        private const val NO_DATA_VALUE = 0
     }
 }
