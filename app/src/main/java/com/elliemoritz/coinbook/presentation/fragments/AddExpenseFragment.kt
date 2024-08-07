@@ -42,7 +42,7 @@ class AddExpenseFragment : Fragment() {
     }
 
     private var mode: String = MODE_UNKNOWN
-    private var expenseId: Int = UNDEFINED_ID
+    private var id: Int = UNDEFINED_ID
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -69,7 +69,7 @@ class AddExpenseFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             mode = it.getString(MODE, MODE_UNKNOWN)
-            expenseId = it.getInt(EXPENSE_ID)
+            id = it.getInt(EXPENSE_ID)
         }
     }
 
@@ -145,11 +145,11 @@ class AddExpenseFragment : Fragment() {
             }
 
             MODE_EDIT -> {
-                viewModel.setData(expenseId)
+                viewModel.setData(id)
                 binding.buttonAddExpense.setOnClickListener {
                     val amount = binding.etAddExpenseAmount.text.toString()
                     val categoryName = binding.spinnerAddExpenses.selectedItem.toString()
-                    viewModel.editExpense(amount, categoryName, expenseId)
+                    viewModel.editExpense(amount, categoryName, id)
                 }
             }
 

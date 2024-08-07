@@ -43,7 +43,7 @@ class AddMoneyBoxOperationFragment : Fragment() {
     }
 
     private var mode: String = MODE_UNKNOWN
-    private var operationId: Int = UNDEFINED_ID
+    private var id: Int = UNDEFINED_ID
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -70,7 +70,7 @@ class AddMoneyBoxOperationFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             mode = it.getString(MODE, MODE_UNKNOWN)
-            operationId = it.getInt(ID)
+            id = it.getInt(ID)
         }
     }
 
@@ -149,13 +149,13 @@ class AddMoneyBoxOperationFragment : Fragment() {
             }
 
             MODE_EDIT -> {
-                viewModel.setData(operationId)
+                viewModel.setData(id)
                 binding.tvAddMoneyBoxOperationTitle.text = requireContext().getString(
                     R.string.dialog_edit_money_box_operation
                 )
                 binding.buttonAddMoneyBoxOperation.setOnClickListener {
                     val amount = binding.etAddMoneyBoxOperationAmount.text.toString()
-                    viewModel.editMoneyBoxOperation(amount, operationId)
+                    viewModel.editMoneyBoxOperation(amount, id)
                 }
             }
 

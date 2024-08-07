@@ -44,10 +44,10 @@ class AddDebtViewModel @Inject constructor(
     val state: Flow<FragmentDebtState>
         get() = _state
 
-    fun setData(debtId: Int) {
+    fun setData(id: Int) {
 
         viewModelScope.launch {
-            val debt = getDebtUseCase(debtId).first()
+            val debt = getDebtUseCase(id).first()
 
             _state.emit(
                 FragmentDebtState.Data(
@@ -98,7 +98,7 @@ class AddDebtViewModel @Inject constructor(
         addDebtOperationUseCase(debtOperation)
     }
 
-    fun editDebt(newAmountString: String, newCreditor: String, debtId: Int) {
+    fun editDebt(newAmountString: String, newCreditor: String, id: Int) {
 
         viewModelScope.launch {
 
@@ -106,7 +106,7 @@ class AddDebtViewModel @Inject constructor(
                 checkEmptyFields(newAmountString, newCreditor)
                 checkIncorrectNumbers(newAmountString)
 
-                val oldData = getDebtUseCase(debtId).first()
+                val oldData = getDebtUseCase(id).first()
                 val newAmount = newAmountString.toInt()
 
                 checkNoChanges(

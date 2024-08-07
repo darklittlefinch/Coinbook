@@ -39,7 +39,7 @@ class AddCategoryFragment : Fragment() {
     }
 
     private var mode: String = MODE_UNKNOWN
-    private var categoryId: Int = UNDEFINED_ID
+    private var id: Int = UNDEFINED_ID
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -58,7 +58,7 @@ class AddCategoryFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             mode = it.getString(MODE, MODE_UNKNOWN)
-            categoryId = it.getInt(CATEGORY_ID)
+            id = it.getInt(CATEGORY_ID)
         }
     }
 
@@ -122,11 +122,11 @@ class AddCategoryFragment : Fragment() {
             }
 
             MODE_EDIT -> {
-                viewModel.setData(categoryId)
+                viewModel.setData(id)
                 binding.buttonAddCategory.setOnClickListener {
                     val name = binding.etAddCategoryName.text.toString()
                     val limit = binding.etAddCategoryLimit.text.toString()
-                    viewModel.editCategory(name, limit, categoryId)
+                    viewModel.editCategory(name, limit, id)
                 }
             }
 

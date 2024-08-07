@@ -39,11 +39,11 @@ class AddCategoryViewModel @Inject constructor(
     val state: Flow<FragmentCategoryState>
         get() = _state
 
-    fun setData(categoryId: Int) {
+    fun setData(id: Int) {
 
         viewModelScope.launch {
 
-            val categoryData = getCategoryUseCase(categoryId).first()
+            val categoryData = getCategoryUseCase(id).first()
             _state.emit(
                 FragmentCategoryState.Name(categoryData.name)
             )
@@ -82,7 +82,7 @@ class AddCategoryViewModel @Inject constructor(
         }
     }
 
-    fun editCategory(newName: String, newLimitAmountString: String, categoryId: Int) {
+    fun editCategory(newName: String, newLimitAmountString: String, id: Int) {
 
         viewModelScope.launch {
 
@@ -90,8 +90,8 @@ class AddCategoryViewModel @Inject constructor(
                 checkEmptyFields(newName, newLimitAmountString)
                 checkIncorrectNumbers(newLimitAmountString)
 
-                val oldData = getCategoryUseCase(categoryId).first()
-                val oldLimit = getLimitByCategoryIdUseCase(categoryId).first()
+                val oldData = getCategoryUseCase(id).first()
+                val oldLimit = getLimitByCategoryIdUseCase(id).first()
                 val oldLimitAmount = oldLimit?.amount ?: 0
                 val newLimitAmount = newLimitAmountString.toInt()
 
@@ -100,9 +100,9 @@ class AddCategoryViewModel @Inject constructor(
                     listOf(oldData.name, oldLimitAmount)
                 )
 
-                val category = Category(newName, categoryId)
+                val category = Category(newName, id)
                 editCategoryUseCase(category)
-                handleLimit(oldLimit, newLimitAmount, categoryId)
+                handleLimit(oldLimit, newLimitAmount, id)
 
                 setFinishState()
 
@@ -116,12 +116,12 @@ class AddCategoryViewModel @Inject constructor(
         }
     }
 
-    private suspend fun handleLimit(oldLimit: Limit?, newAmount: Int, categoryId: Int) {
+    private suspend fun handleLimit(oldLimit: Limit?, newAmount: Int, id: Int) {
 
         val oldLimitAmount = oldLimit?.amount ?: 0
 
         if (oldLimitAmount == 0 && newAmount != 0) {
-            createLimit(newAmount, categoryId)
+            createLimit(newAmount, id)
         } else if (oldLimitAmount != 0 && newAmount == 0) {
             oldLimit?.let { removeLimitUseCase(it) }
         } else if (oldLimitAmount != newAmount) {

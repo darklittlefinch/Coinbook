@@ -39,7 +39,7 @@ class AddIncomeFragment : Fragment() {
     }
 
     private var mode = MODE_UNKNOWN
-    private var incomeId = UNDEFINED_ID
+    private var id = UNDEFINED_ID
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -58,7 +58,7 @@ class AddIncomeFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             mode = it.getString(MODE, MODE_UNKNOWN)
-            incomeId = it.getInt(INCOME_ID)
+            id = it.getInt(INCOME_ID)
         }
     }
 
@@ -89,11 +89,11 @@ class AddIncomeFragment : Fragment() {
             }
 
             MODE_EDIT -> {
-                viewModel.setData(incomeId)
+                viewModel.setData(id)
                 binding.buttonAddIncome.setOnClickListener {
                     val amount = binding.etAddIncomeAmount.text.toString()
                     val source = binding.etAddIncomeSource.text.toString()
-                    viewModel.editIncome(amount, source, incomeId)
+                    viewModel.editIncome(amount, source, id)
                 }
             }
 

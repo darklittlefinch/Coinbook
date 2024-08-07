@@ -101,7 +101,7 @@ class AddExpenseViewModel @Inject constructor(
         }
     }
 
-    fun editExpense(newAmountString: String, newCategoryName: String, expenseId: Int) {
+    fun editExpense(newAmountString: String, newCategoryName: String, id: Int) {
 
         viewModelScope.launch {
 
@@ -109,7 +109,7 @@ class AddExpenseViewModel @Inject constructor(
                 checkEmptyFields(newAmountString, newCategoryName)
                 checkIncorrectNumbers(newAmountString)
 
-                val oldData = getExpenseUseCase(expenseId).first()
+                val oldData = getExpenseUseCase(id).first()
                 val newAmount = newAmountString.toInt()
                 val balance = getBalanceUseCase().first()
 
@@ -131,7 +131,7 @@ class AddExpenseViewModel @Inject constructor(
                     category.id,
                     newCategoryName,
                     oldData.dateTimeMillis,
-                    expenseId
+                    id
                 )
                 editExpenseUseCase(expense)
 

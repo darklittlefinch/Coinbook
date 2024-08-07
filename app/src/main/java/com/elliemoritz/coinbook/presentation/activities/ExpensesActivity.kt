@@ -192,11 +192,11 @@ class ExpensesActivity : AppCompatActivity(),
         startActivity(intent)
     }
 
-    private fun launchEditOperationsActivity(expenseId: Int) {
+    private fun launchEditOperationsActivity(id: Int) {
         val intent = OperationsActivity.newIntentEdit(
             this,
             OperationsActivity.FRAGMENT_TYPE_EXPENSE,
-            expenseId
+            id
         )
         startActivity(intent)
     }
@@ -214,8 +214,8 @@ class ExpensesActivity : AppCompatActivity(),
         beginFragmentTransaction(fragment)
     }
 
-    private fun launchEditExpenseFragment(expenseId: Int) {
-        val fragment = AddExpenseFragment.newInstanceEdit(expenseId)
+    private fun launchEditExpenseFragment(id: Int) {
+        val fragment = AddExpenseFragment.newInstanceEdit(id)
         beginFragmentTransaction(fragment)
     }
 

@@ -231,11 +231,11 @@ class MoneyBoxActivity : AppCompatActivity(),
         startActivity(intent)
     }
 
-    private fun launchEditOperationOperationsActivity(operationId: Int) {
+    private fun launchEditOperationOperationsActivity(id: Int) {
         val intent = OperationsActivity.newIntentEdit(
             this,
             OperationsActivity.FRAGMENT_TYPE_MONEY_BOX_OPERATION,
-            operationId
+            id
         )
         startActivity(intent)
     }
@@ -266,8 +266,8 @@ class MoneyBoxActivity : AppCompatActivity(),
         beginOperationFragmentTransaction(fragment)
     }
 
-    private fun launchEditMoneyBoxOperationFragment(operationId: Int) {
-        val fragment = AddMoneyBoxOperationFragment.newInstanceEdit(operationId)
+    private fun launchEditMoneyBoxOperationFragment(id: Int) {
+        val fragment = AddMoneyBoxOperationFragment.newInstanceEdit(id)
         beginOperationFragmentTransaction(fragment)
     }
 

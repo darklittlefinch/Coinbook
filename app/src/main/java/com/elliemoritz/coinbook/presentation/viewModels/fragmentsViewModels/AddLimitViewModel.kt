@@ -50,11 +50,11 @@ class AddLimitViewModel @Inject constructor(
         get() = _state
             .mergeWith(categoriesStateFlow)
 
-    fun setData(limitId: Int) {
+    fun setData(id: Int) {
 
         viewModelScope.launch {
 
-            val limit = getLimitUseCase(limitId).first()
+            val limit = getLimitUseCase(id).first()
             _state.emit(
                 FragmentLimitState.Amount(limit.amount.toString())
             )
@@ -99,7 +99,7 @@ class AddLimitViewModel @Inject constructor(
         }
     }
 
-    fun editLimit(newAmountString: String, newCategoryName: String, limitId: Int) {
+    fun editLimit(newAmountString: String, newCategoryName: String, id: Int) {
 
         viewModelScope.launch {
 
@@ -109,7 +109,7 @@ class AddLimitViewModel @Inject constructor(
 
                 checkEmptyFields(newAmountString, newCategoryName)
                 checkIncorrectNumbers(newAmountString)
-                val oldData = getLimitUseCase(limitId).first()
+                val oldData = getLimitUseCase(id).first()
                 val newAmount = newAmountString.toInt()
 
                 checkNoChanges(
@@ -117,7 +117,7 @@ class AddLimitViewModel @Inject constructor(
                     listOf(oldData.amount, oldData.categoryId)
                 )
 
-                val limit = Limit(newAmount, newCategory.id, limitId)
+                val limit = Limit(newAmount, newCategory.id, id)
                 editLimitUseCase(limit)
 
                 setFinishState()

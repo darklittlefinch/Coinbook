@@ -165,11 +165,11 @@ class IncomeActivity : AppCompatActivity(), OnEditingListener {
         startActivity(intent)
     }
 
-    private fun launchEditOperationsActivity(incomeId: Int) {
+    private fun launchEditOperationsActivity(id: Int) {
         val intent = OperationsActivity.newIntentEdit(
             this,
             OperationsActivity.FRAGMENT_TYPE_INCOME,
-            incomeId
+            id
         )
         startActivity(intent)
     }
@@ -179,8 +179,8 @@ class IncomeActivity : AppCompatActivity(), OnEditingListener {
         beginFragmentTransaction(fragment)
     }
 
-    private fun launchEditIncomeFragment(incomeId: Int) {
-        val fragment = AddIncomeFragment.newInstanceEdit(incomeId)
+    private fun launchEditIncomeFragment(id: Int) {
+        val fragment = AddIncomeFragment.newInstanceEdit(id)
         beginFragmentTransaction(fragment)
     }
 

@@ -39,7 +39,7 @@ class AddDebtFragment : Fragment() {
     }
 
     private var mode: String = MODE_UNKNOWN
-    private var debtId: Int = UNDEFINED_ID
+    private var id: Int = UNDEFINED_ID
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -58,7 +58,7 @@ class AddDebtFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             mode = it.getString(MODE, MODE_UNKNOWN)
-            debtId = it.getInt(ID)
+            id = it.getInt(ID)
         }
     }
 
@@ -118,11 +118,11 @@ class AddDebtFragment : Fragment() {
             }
 
             MODE_EDIT -> {
-                viewModel.setData(debtId)
+                viewModel.setData(id)
                 binding.buttonAddDebt.setOnClickListener {
                     val amount = binding.etAddDebtAmount.text.toString()
                     val creditor = binding.etAddDebtCreditor.text.toString()
-                    viewModel.editDebt(amount, creditor, debtId)
+                    viewModel.editDebt(amount, creditor, id)
                 }
             }
 

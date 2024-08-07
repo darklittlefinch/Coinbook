@@ -47,9 +47,9 @@ class AddMoneyBoxOperationViewModel @Inject constructor(
     val state: Flow<FragmentMoneyBoxOperationState>
         get() = _state
 
-    fun setData(operationId: Int) {
+    fun setData(id: Int) {
         viewModelScope.launch {
-            val operation = getMoneyBoxOperationUseCase(operationId).first()
+            val operation = getMoneyBoxOperationUseCase(id).first()
             _state.emit(
                 FragmentMoneyBoxOperationState.Data(operation.amount.toString())
             )
@@ -94,7 +94,7 @@ class AddMoneyBoxOperationViewModel @Inject constructor(
         }
     }
 
-    fun editMoneyBoxOperation(newAmountString: String, operationId: Int) {
+    fun editMoneyBoxOperation(newAmountString: String, id: Int) {
 
         viewModelScope.launch {
 
@@ -102,7 +102,7 @@ class AddMoneyBoxOperationViewModel @Inject constructor(
                 checkEmptyFields(newAmountString)
                 checkIncorrectNumbers(newAmountString)
 
-                val oldData = getMoneyBoxOperationUseCase(operationId).first()
+                val oldData = getMoneyBoxOperationUseCase(id).first()
                 val newAmount = newAmountString.toInt()
 
                 checkNoChanges(
