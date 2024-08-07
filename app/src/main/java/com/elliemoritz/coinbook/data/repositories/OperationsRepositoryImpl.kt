@@ -33,7 +33,7 @@ class OperationsRepositoryImpl @Inject constructor(
             expensesDao.getOperationsList(),
             moneyBoxOperationsDao.getOperationsList(),
             debtsOperationsDao.getOperationsList()
-        )
+        ).sortedByDescending { it.dateTimeMillis }
         emit(operationsList)
 
         refreshEvents.collect {
@@ -43,7 +43,7 @@ class OperationsRepositoryImpl @Inject constructor(
                 expensesDao.getOperationsList(),
                 moneyBoxOperationsDao.getOperationsList(),
                 debtsOperationsDao.getOperationsList()
-            )
+            ).sortedByDescending { it.dateTimeMillis }
             emit(updatedOperationsList)
         }
     }
