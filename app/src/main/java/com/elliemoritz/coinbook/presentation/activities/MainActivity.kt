@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity() {
                         MainState.NoCategoriesError -> {
                             Toast.makeText(
                                 this@MainActivity,
-                                getString(R.string.toast_create_category),
+                                getString(R.string.toast_error_create_category),
                                 Toast.LENGTH_SHORT
                             ).show()
                         }

@@ -95,7 +95,7 @@ class ExpensesActivity : AppCompatActivity(),
                         is ExpenseState.NoCategoriesError -> {
                             Toast.makeText(
                                 this@ExpensesActivity,
-                                getString(R.string.toast_create_category),
+                                getString(R.string.toast_error_create_category),
                                 Toast.LENGTH_SHORT
                             ).show()
                         }

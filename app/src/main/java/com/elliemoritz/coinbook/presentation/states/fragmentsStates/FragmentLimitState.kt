@@ -7,5 +7,6 @@ sealed class FragmentLimitState {
     data object EmptyFields : FragmentLimitState()
     data object NoChanges : FragmentLimitState()
     data object IncorrectNumber : FragmentLimitState()
+    data object LimitWithoutValue : FragmentLimitState()
     data object Finish : FragmentLimitState()
 }

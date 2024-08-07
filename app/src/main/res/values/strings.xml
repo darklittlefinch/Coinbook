@@ -7,7 +7,8 @@
     <string name="toast_error_incorrect_number">Field for numbers must not contain other characters</string>
     <string name="toast_error_no_changes">Nothing has changed</string>
     <string name="toast_error_not_enough_money">Not enough money to remove this amount</string>
-    <string name="toast_create_category">Create at least one category</string>
+    <string name="toast_error_limit_without_value">Limit has no value. Please, enter value more than 0</string>
+    <string name="toast_error_create_category">Create at least one category</string>
 
     <string name="operation_info_money_box_income">From money box</string>
     <string name="operation_info_money_box_expense">Added to money box</string>

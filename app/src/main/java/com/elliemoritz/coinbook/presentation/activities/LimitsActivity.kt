@@ -24,12 +24,15 @@ import com.elliemoritz.coinbook.presentation.fragments.AddCategoryFragment
 import com.elliemoritz.coinbook.presentation.fragments.AddLimitFragment
 import com.elliemoritz.coinbook.presentation.states.LimitsState
 import com.elliemoritz.coinbook.presentation.util.OnEditingListener
+import com.elliemoritz.coinbook.presentation.util.OnLimitWithoutValueListener
 import com.elliemoritz.coinbook.presentation.viewModels.LimitsViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.ViewModelFactory
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class LimitsActivity : AppCompatActivity(), OnEditingListener {
+class LimitsActivity : AppCompatActivity(),
+    OnEditingListener,
+    OnLimitWithoutValueListener {
 
     private val component by lazy {
         (application as CoinBookApp).component
@@ -87,7 +90,7 @@ class LimitsActivity : AppCompatActivity(), OnEditingListener {
                         is LimitsState.NoCategoriesError -> {
                             Toast.makeText(
                                 this@LimitsActivity,
-                                getString(R.string.toast_create_category),
+                                getString(R.string.toast_error_create_category),
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -255,6 +258,14 @@ class LimitsActivity : AppCompatActivity(), OnEditingListener {
         Toast.makeText(
             this,
             getString(R.string.toast_error_no_changes),
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    override fun onLimitWithoutValue() {
+        Toast.makeText(
+            this,
+            getString(R.string.toast_error_limit_without_value),
             Toast.LENGTH_SHORT
         ).show()
     }

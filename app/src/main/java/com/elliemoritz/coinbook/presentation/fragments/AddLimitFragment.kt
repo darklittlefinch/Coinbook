@@ -16,6 +16,7 @@ import com.elliemoritz.coinbook.domain.entities.helpers.UNDEFINED_ID
 import com.elliemoritz.coinbook.presentation.CoinBookApp
 import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentLimitState
 import com.elliemoritz.coinbook.presentation.util.OnEditingListener
+import com.elliemoritz.coinbook.presentation.util.OnLimitWithoutValueListener
 import com.elliemoritz.coinbook.presentation.viewModels.ViewModelFactory
 import com.elliemoritz.coinbook.presentation.viewModels.fragmentsViewModels.AddLimitViewModel
 import kotlinx.coroutines.launch
@@ -24,6 +25,7 @@ import javax.inject.Inject
 class AddLimitFragment : Fragment() {
 
     private lateinit var onEditingListener: OnEditingListener
+    private lateinit var onLimitWithoutValueListener: OnLimitWithoutValueListener
 
     private val component by lazy {
         (requireActivity().application as CoinBookApp).component
@@ -51,6 +53,14 @@ class AddLimitFragment : Fragment() {
         } else {
             throw RuntimeException(
                 "AddLimitFragment: Activity must implement OnEditingListener"
+            )
+        }
+
+        if (context is OnLimitWithoutValueListener) {
+            onEditingListener = context
+        } else {
+            throw RuntimeException(
+                "AddLimitFragment: Activity must implement OnLimitWithoutValueListener"
             )
         }
     }
@@ -107,6 +117,9 @@ class AddLimitFragment : Fragment() {
                             onEditingListener.onNoChanges()
                         }
 
+                        FragmentLimitState.LimitWithoutValue -> {
+
+                        }
 
                         is FragmentLimitState.IncorrectNumber -> {
                             onEditingListener.onIncorrectNumber()

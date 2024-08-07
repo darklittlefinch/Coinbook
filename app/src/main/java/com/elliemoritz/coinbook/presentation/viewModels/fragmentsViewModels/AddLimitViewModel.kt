@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.elliemoritz.coinbook.domain.entities.Limit
 import com.elliemoritz.coinbook.domain.exceptions.EmptyFieldsException
 import com.elliemoritz.coinbook.domain.exceptions.IncorrectNumberException
+import com.elliemoritz.coinbook.domain.exceptions.LimitWithoutValueException
 import com.elliemoritz.coinbook.domain.exceptions.NoChangesException
 import com.elliemoritz.coinbook.domain.useCases.categoriesUseCases.GetCategoriesListUseCase
 import com.elliemoritz.coinbook.domain.useCases.categoriesUseCases.GetCategoryByNameUseCase
@@ -17,6 +18,7 @@ import com.elliemoritz.coinbook.domain.useCases.limitsUseCases.GetLimitUseCase
 import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentLimitState
 import com.elliemoritz.coinbook.presentation.util.checkEmptyFields
 import com.elliemoritz.coinbook.presentation.util.checkIncorrectNumbers
+import com.elliemoritz.coinbook.presentation.util.checkLimitWithoutValue
 import com.elliemoritz.coinbook.presentation.util.checkNoChanges
 import com.elliemoritz.coinbook.presentation.util.mergeWith
 import kotlinx.coroutines.flow.Flow
@@ -81,6 +83,9 @@ class AddLimitViewModel @Inject constructor(
                 checkIncorrectNumbers(amountString)
 
                 val amount = amountString.toInt()
+
+                checkLimitWithoutValue(amount)
+
                 val possibleLimit = getLimitByCategoryIdUseCase(category.id).first()
 
                 if (possibleLimit == null) {
@@ -98,6 +103,8 @@ class AddLimitViewModel @Inject constructor(
                 setEmptyFieldsState()
             } catch (e: IncorrectNumberException) {
                 setIncorrectNumberState()
+            } catch (e: LimitWithoutValueException) {
+                setLimitWithoutValueState()
             }
         }
     }
@@ -112,8 +119,11 @@ class AddLimitViewModel @Inject constructor(
 
                 checkEmptyFields(newAmountString, newCategoryName)
                 checkIncorrectNumbers(newAmountString)
+
                 val oldData = getLimitUseCase(id).first()
                 val newAmount = newAmountString.toInt()
+
+                checkLimitWithoutValue(newAmount)
 
                 checkNoChanges(
                     listOf(newAmount, newCategory.id),
@@ -136,6 +146,8 @@ class AddLimitViewModel @Inject constructor(
                 setIncorrectNumberState()
             } catch (e: NoChangesException) {
                 setNoChangesState()
+            } catch (e: LimitWithoutValueException) {
+                setLimitWithoutValueState()
             }
         }
     }
@@ -168,4 +180,7 @@ class AddLimitViewModel @Inject constructor(
         _state.emit(FragmentLimitState.IncorrectNumber)
     }
 
+    private suspend fun setLimitWithoutValueState() {
+        _state.emit(FragmentLimitState.LimitWithoutValue)
+    }
 }
