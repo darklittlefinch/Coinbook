@@ -8,14 +8,18 @@ class LimitMapper @Inject constructor() {
 
     fun mapEntityToDbModel(limit: Limit) = LimitDbModel(
         id = limit.id,
-        amount = limit.amount,
-        categoryId = limit.categoryId
+        limitAmount = limit.limitAmount,
+        realAmount = limit.realAmount,
+        categoryId = limit.categoryId,
+        categoryName = limit.categoryName
     )
 
     fun mapDbModelToEntity(dbModel: LimitDbModel) = Limit(
         id = dbModel.id,
-        amount = dbModel.amount,
-        categoryId = dbModel.categoryId
+        limitAmount = dbModel.limitAmount,
+        realAmount = dbModel.realAmount,
+        categoryId = dbModel.categoryId,
+        categoryName = dbModel.categoryName
     )
 
     fun mapListDbModelToListEntities(list: List<LimitDbModel>) = list.map {

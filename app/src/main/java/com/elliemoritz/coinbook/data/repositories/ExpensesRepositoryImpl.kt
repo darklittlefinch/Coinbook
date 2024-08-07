@@ -109,6 +109,26 @@ class ExpensesRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun getTotalExpensesAmountByCategoryForMonth(categoryId: Int): Flow<Int> = flow {
+        val beginOfMonthMillis = getBeginOfMonthMillis()
+        val expensesAmount = dao.getOperationsAmountByCategoryFromDate(
+            categoryId,
+            beginOfMonthMillis
+        )
+            ?: OPERATIONS_AMOUNT_DEFAULT_VALUE
+        emit(expensesAmount)
+
+        refreshEvents.collect {
+            val updatedBeginOfMonthMillis = getBeginOfMonthMillis()
+            val updatedExpensesAmount = dao.getOperationsAmountByCategoryFromDate(
+                categoryId,
+                updatedBeginOfMonthMillis
+            )
+                ?: OPERATIONS_AMOUNT_DEFAULT_VALUE
+            emit(updatedExpensesAmount)
+        }
+    }
+
     companion object {
         private const val OPERATIONS_AMOUNT_DEFAULT_VALUE = 0
     }

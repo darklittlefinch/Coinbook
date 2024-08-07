@@ -67,7 +67,7 @@
         tools:text="You can spend 7 473 ₽ more this month" />
 
     <Button
-        android:id="@+id/button_add_category"
+        android:id="@+id/button_expenses_add_category"
         style="@style/details_add_category_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -85,7 +85,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline_expenses"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_add_category"
+        app:layout_constraintTop_toBottomOf="@+id/button_expenses_add_category"
         tools:listitem="@layout/item_expense" />
 
     <androidx.fragment.app.FragmentContainerView

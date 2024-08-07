@@ -38,7 +38,7 @@
 
     <TextView
         android:id="@+id/tv_limits_info"
-        style="@style/details_without_numbers_info"
+        style="@style/details_with_numbers_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/no_limits"
@@ -46,8 +46,17 @@
         android:textColor="@color/dark_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_limits_title"
-        tools:text="You can spend 7 473 ₽ more this month" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_limits_title" />
+
+    <Button
+        android:id="@+id/button_limits_add_category"
+        style="@style/details_add_category_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/info_expenses_add_new_category"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_limits_info" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_limits"
@@ -58,7 +67,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_limits_info"
+        app:layout_constraintTop_toBottomOf="@+id/button_limits_add_category"
         tools:listitem="@layout/item_limit" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

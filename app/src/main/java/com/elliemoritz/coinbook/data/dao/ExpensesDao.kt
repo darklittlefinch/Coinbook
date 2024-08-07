@@ -36,6 +36,16 @@ interface ExpensesDao {
     )
     suspend fun getOperationsAmountFromDate(dateTimeMillis: Long): Int?
 
+    @Query(
+        "SELECT SUM(amount) FROM expenses " +
+                "WHERE categoryId = :categoryId " +
+                "AND dateTimeMillis >= :dateTimeMillis"
+    )
+    suspend fun getOperationsAmountByCategoryFromDate(
+        categoryId: Int,
+        dateTimeMillis: Long
+    ): Int?
+
     @Query("DELETE FROM expenses")
     suspend fun removeAllOperations()
 

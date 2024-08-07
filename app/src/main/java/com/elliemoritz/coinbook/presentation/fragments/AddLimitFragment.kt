@@ -148,6 +148,8 @@ class AddLimitFragment : Fragment() {
 
     companion object {
 
+        const val NAME = "AddLimitFragment"
+
         private const val MODE = "mode"
         private const val ID = "id"
 

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.DebtsViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.ExpenseViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.IncomeViewModel
+import com.elliemoritz.coinbook.presentation.viewModels.LimitsViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.MainViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.MoneyBoxViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.SettingsViewModel
@@ -46,6 +47,11 @@ interface ViewModelModule {
     @IntoMap
     @ViewModelKey(DebtsViewModel::class)
     fun bindDebtsViewModel(viewModel: DebtsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(LimitsViewModel::class)
+    fun bindLimitsViewModel(viewModel: LimitsViewModel): ViewModel
 
     @Binds
     @IntoMap

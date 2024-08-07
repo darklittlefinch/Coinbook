@@ -9,6 +9,7 @@ import com.elliemoritz.coinbook.domain.exceptions.NoChangesException
 import com.elliemoritz.coinbook.domain.useCases.categoriesUseCases.GetCategoriesListUseCase
 import com.elliemoritz.coinbook.domain.useCases.categoriesUseCases.GetCategoryByNameUseCase
 import com.elliemoritz.coinbook.domain.useCases.categoriesUseCases.GetCategoryUseCase
+import com.elliemoritz.coinbook.domain.useCases.expensesUseCases.GetTotalExpensesAmountByCategoryForMonthUseCase
 import com.elliemoritz.coinbook.domain.useCases.limitsUseCases.AddLimitUseCase
 import com.elliemoritz.coinbook.domain.useCases.limitsUseCases.EditLimitUseCase
 import com.elliemoritz.coinbook.domain.useCases.limitsUseCases.GetLimitByCategoryIdUseCase
@@ -32,7 +33,8 @@ class AddLimitViewModel @Inject constructor(
     private val editLimitUseCase: EditLimitUseCase,
     getCategoriesListUseCase: GetCategoriesListUseCase,
     private val getCategoryUseCase: GetCategoryUseCase,
-    private val getCategoryByNameUseCase: GetCategoryByNameUseCase
+    private val getCategoryByNameUseCase: GetCategoryByNameUseCase,
+    private val getTotalExpensesAmountUseCase: GetTotalExpensesAmountByCategoryForMonthUseCase
 ) : ViewModel() {
 
     private val categoriesListFlow = getCategoriesListUseCase()
@@ -56,7 +58,7 @@ class AddLimitViewModel @Inject constructor(
 
             val limit = getLimitUseCase(id).first()
             _state.emit(
-                FragmentLimitState.Amount(limit.amount.toString())
+                FragmentLimitState.Amount(limit.limitAmount.toString())
             )
 
             val category = getCategoryUseCase(limit.categoryId).first()
@@ -82,10 +84,11 @@ class AddLimitViewModel @Inject constructor(
                 val possibleLimit = getLimitByCategoryIdUseCase(category.id).first()
 
                 if (possibleLimit == null) {
-                    val limit = Limit(amount, category.id)
+                    val realAmount = getTotalExpensesAmountUseCase(category.id).first()
+                    val limit = Limit(amount, realAmount, category.id, category.name)
                     addLimitUseCase(limit)
                 } else {
-                    val limit = possibleLimit.copy(amount = amount)
+                    val limit = possibleLimit.copy(limitAmount = amount)
                     editLimitUseCase(limit)
                 }
 
@@ -114,10 +117,15 @@ class AddLimitViewModel @Inject constructor(
 
                 checkNoChanges(
                     listOf(newAmount, newCategory.id),
-                    listOf(oldData.amount, oldData.categoryId)
+                    listOf(oldData.limitAmount, oldData.categoryId)
                 )
 
-                val limit = Limit(newAmount, newCategory.id, id)
+                val limit = oldData.copy(
+                    limitAmount = newAmount,
+                    categoryId = newCategory.id,
+                    categoryName = newCategory.name,
+                    id = id
+                )
                 editLimitUseCase(limit)
 
                 setFinishState()

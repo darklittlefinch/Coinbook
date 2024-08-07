@@ -173,7 +173,7 @@ class ExpensesActivity : AppCompatActivity(),
     }
 
     private fun setOnAddCategoryClickListener() {
-        binding.buttonAddCategory.setOnClickListener {
+        binding.buttonExpensesAddCategory.setOnClickListener {
             if (isOnePanelModel()) {
                 launchAddCategoryOperationsActivity()
             } else {

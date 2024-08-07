@@ -7,6 +7,8 @@ import androidx.room.PrimaryKey
 data class LimitDbModel(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
-    val amount: Int,
-    val categoryId: Int
+    val limitAmount: Int,
+    val realAmount: Int,
+    val categoryId: Int,
+    val categoryName: String
 )

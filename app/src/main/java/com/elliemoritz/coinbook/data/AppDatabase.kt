@@ -35,7 +35,7 @@ import com.elliemoritz.coinbook.data.dbModels.operations.MoneyBoxOperationDbMode
         MoneyBoxOperationDbModel::class,
         DebtOperationDbModel::class
     ],
-    version = 2,
+    version = 1,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

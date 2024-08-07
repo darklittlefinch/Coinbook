@@ -49,7 +49,7 @@ class AddCategoryViewModel @Inject constructor(
             )
 
             val limitData = getLimitByCategoryIdUseCase(categoryData.id).first()
-            val limitAmount = limitData?.amount ?: 0
+            val limitAmount = limitData?.limitAmount ?: 0
             _state.emit(
                 FragmentCategoryState.Limit(limitAmount.toString())
             )
@@ -69,7 +69,7 @@ class AddCategoryViewModel @Inject constructor(
                 addCategoryUseCase(category)
 
                 if (limitAmount != 0) {
-                    createLimit(limitAmount, category.id)
+                    createLimit(limitAmount, category)
                 }
 
                 setFinishState()
@@ -92,7 +92,7 @@ class AddCategoryViewModel @Inject constructor(
 
                 val oldData = getCategoryUseCase(id).first()
                 val oldLimit = getLimitByCategoryIdUseCase(id).first()
-                val oldLimitAmount = oldLimit?.amount ?: 0
+                val oldLimitAmount = oldLimit?.limitAmount ?: 0
                 val newLimitAmount = newLimitAmountString.toInt()
 
                 checkNoChanges(
@@ -102,7 +102,7 @@ class AddCategoryViewModel @Inject constructor(
 
                 val category = Category(newName, id)
                 editCategoryUseCase(category)
-                handleLimit(oldLimit, newLimitAmount, id)
+                handleLimit(oldLimit, newLimitAmount, category)
 
                 setFinishState()
 
@@ -116,12 +116,12 @@ class AddCategoryViewModel @Inject constructor(
         }
     }
 
-    private suspend fun handleLimit(oldLimit: Limit?, newAmount: Int, id: Int) {
+    private suspend fun handleLimit(oldLimit: Limit?, newAmount: Int, category: Category) {
 
-        val oldLimitAmount = oldLimit?.amount ?: 0
+        val oldLimitAmount = oldLimit?.limitAmount ?: 0
 
         if (oldLimitAmount == 0 && newAmount != 0) {
-            createLimit(newAmount, id)
+            createLimit(newAmount, category)
         } else if (oldLimitAmount != 0 && newAmount == 0) {
             oldLimit?.let { removeLimitUseCase(it) }
         } else if (oldLimitAmount != newAmount) {
@@ -129,14 +129,14 @@ class AddCategoryViewModel @Inject constructor(
         }
     }
 
-    private suspend fun createLimit(amount: Int, categoryId: Int) {
-        val limit = Limit(amount, categoryId)
+    private suspend fun createLimit(limitAmount: Int, category: Category) {
+        val limit = Limit(limitAmount, NO_DATA_VALUE, category.id, category.name)
         addLimitUseCase(limit)
     }
 
     private suspend fun editLimit(limit: Limit, newAmount: Int) {
-        limit.amount = newAmount
-        editLimitUseCase(limit)
+        val newLimit = limit.copy(limitAmount = newAmount)
+        editLimitUseCase(newLimit)
     }
 
     private suspend fun setFinishState() {
@@ -153,5 +153,9 @@ class AddCategoryViewModel @Inject constructor(
 
     private suspend fun setIncorrectNumberState() {
         _state.emit(FragmentCategoryState.IncorrectNumber)
+    }
+
+    companion object {
+        private const val NO_DATA_VALUE = 0
     }
 }

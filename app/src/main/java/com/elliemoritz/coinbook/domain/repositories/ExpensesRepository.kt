@@ -16,4 +16,5 @@ interface ExpensesRepository {
     suspend fun removeExpense(operation: Expense)
 
     fun getTotalExpensesAmountForMonth(): Flow<Int>
+    fun getTotalExpensesAmountByCategoryForMonth(categoryId: Int): Flow<Int>
 }
