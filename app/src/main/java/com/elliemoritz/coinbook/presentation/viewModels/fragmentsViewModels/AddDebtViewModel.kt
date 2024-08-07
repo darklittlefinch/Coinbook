@@ -117,7 +117,7 @@ class AddDebtViewModel @Inject constructor(
                 val debt = Debt(
                     newAmount,
                     newCreditor,
-                    getCurrentTimeMillis(),
+                    oldData.startedMillis,
                     oldData.finished,
                     oldData.id
                 )

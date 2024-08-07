@@ -94,7 +94,7 @@ class AddMoneyBoxViewModel @Inject constructor(
                 val moneyBox = MoneyBox(
                     newGoalAmount,
                     newGoal,
-                    getCurrentTimeMillis()
+                    oldData.startedMillis
                 )
                 editMoneyBoxUseCase(moneyBox)
 
