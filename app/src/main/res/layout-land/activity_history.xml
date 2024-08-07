@@ -27,6 +27,19 @@
         app:layout_constraintTop_toTopOf="@+id/tv_history_title"
         app:srcCompat="@drawable/ic_left_arrow" />
 
+    <TextView
+        android:id="@+id/tv_no_history_info"
+        style="@style/details_without_numbers_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/no_history"
+        android:textAlignment="center"
+        android:textColor="@color/dark_gray"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_history_title" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_history"
         android:layout_width="0dp"
@@ -36,7 +49,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_history_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_no_history_info"
         app:spanCount="2"
         tools:listitem="@layout/item_history" />
 

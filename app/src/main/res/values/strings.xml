@@ -9,6 +9,11 @@
     <string name="toast_error_not_enough_money">Not enough money to remove this amount</string>
     <string name="toast_create_category">Create at least one category</string>
 
+    <string name="operation_info_money_box_income">From money box</string>
+    <string name="operation_info_money_box_expense">Added to money box</string>
+    <string name="operation_info_debt_income">%s lent you money</string>
+    <string name="operation_info_debt_expense">Debt to %s</string>
+
     <string name="description_money_box_income">From money box</string>
     <string name="description_money_box_expense">Added to money box</string>
 

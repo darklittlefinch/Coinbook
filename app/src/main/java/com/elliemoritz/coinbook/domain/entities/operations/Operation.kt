@@ -7,7 +7,7 @@ import com.elliemoritz.coinbook.domain.entities.helpers.Type
  * Class Operation is needed for creating list of all operation types for HistoryActivity.
  */
 
-class Operation(
+data class Operation(
     val operationForm: OperationForm,
     val type: Type,
     var amount: Int,

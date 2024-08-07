@@ -3,6 +3,7 @@ package com.elliemoritz.coinbook.di
 import androidx.lifecycle.ViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.DebtsViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.ExpenseViewModel
+import com.elliemoritz.coinbook.presentation.viewModels.HistoryViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.IncomeViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.LimitsViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.MainViewModel
@@ -52,6 +53,11 @@ interface ViewModelModule {
     @IntoMap
     @ViewModelKey(LimitsViewModel::class)
     fun bindLimitsViewModel(viewModel: LimitsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(HistoryViewModel::class)
+    fun bindHistoryViewModel(viewModel: HistoryViewModel): ViewModel
 
     @Binds
     @IntoMap
