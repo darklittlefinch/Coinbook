@@ -57,7 +57,7 @@ class AddLimitFragment : Fragment() {
         }
 
         if (context is OnLimitWithoutValueListener) {
-            onEditingListener = context
+            onLimitWithoutValueListener = context
         } else {
             throw RuntimeException(
                 "AddLimitFragment: Activity must implement OnLimitWithoutValueListener"
@@ -118,7 +118,7 @@ class AddLimitFragment : Fragment() {
                         }
 
                         FragmentLimitState.LimitWithoutValue -> {
-
+                            onLimitWithoutValueListener.onLimitWithoutValue()
                         }
 
                         is FragmentLimitState.IncorrectNumber -> {
