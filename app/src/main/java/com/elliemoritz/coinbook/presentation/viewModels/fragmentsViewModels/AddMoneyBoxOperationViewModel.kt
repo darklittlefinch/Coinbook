@@ -68,7 +68,7 @@ class AddMoneyBoxOperationViewModel @Inject constructor(
                 val balance = getBalanceUseCase().first()
                 val moneyBoxAmount = getMoneyBoxUseCase().first()?.totalAmount ?: NO_DATA_VALUE
 
-                if (type == Type.EXPENSE) {
+                if (type == Type.INCOME) {
                     checkNotEnoughMoney(amount, moneyBoxAmount)
                     checkNotEnoughMoney(amount, balance)
                 }
@@ -144,11 +144,11 @@ class AddMoneyBoxOperationViewModel @Inject constructor(
     private suspend fun handleCreateOperationType(type: Type, amount: Int) {
 
         when (type) {
-            Type.INCOME -> {
-                addMoney(amount)
+            Type.EXPENSE -> {
+                addMoneyToMoneyBox(amount)
             }
 
-            Type.EXPENSE -> {
+            Type.INCOME -> {
                 removeMoney(amount)
             }
         }
@@ -159,32 +159,32 @@ class AddMoneyBoxOperationViewModel @Inject constructor(
         val difference = abs(newAmount - oldAmount)
 
         when (type) {
-            Type.INCOME -> {
+            Type.EXPENSE -> {
                 if (newAmount > oldAmount) {
-                    addMoney(difference)
+                    addMoneyToMoneyBox(difference)
                 } else if (oldAmount > newAmount) {
                     removeMoney(difference)
                 }
             }
 
-            Type.EXPENSE -> {
+            Type.INCOME -> {
                 if (newAmount > oldAmount) {
                     removeMoney(difference)
                 } else if (oldAmount > newAmount) {
-                    addMoney(difference)
+                    addMoneyToMoneyBox(difference)
                 }
             }
         }
     }
 
-    private suspend fun addMoney(amount: Int) {
+    private suspend fun addMoneyToMoneyBox(amount: Int) {
         addToMoneyBoxUseCase(amount)
-        addToBalanceUseCase(amount)
+        removeFromBalanceUseCase(amount)
     }
 
     private suspend fun removeMoney(amount: Int) {
         removeFromMoneyBoxUseCase(amount)
-        removeFromBalanceUseCase(amount)
+        addToBalanceUseCase(amount)
     }
 
     private suspend fun setFinishState() {

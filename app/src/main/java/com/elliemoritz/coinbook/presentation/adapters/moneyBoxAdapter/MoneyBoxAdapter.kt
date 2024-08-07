@@ -36,16 +36,21 @@ class MoneyBoxAdapter : ListAdapter<MoneyBoxOperation, MoneyBoxViewHolder>(Money
 
         with(holder.binding) {
 
+            val oppositeType = when (moneyBoxOperation.type) {
+                Type.INCOME -> Type.EXPENSE
+                Type.EXPENSE -> Type.INCOME
+            }
+
             tvMoneyBoxAmount.text = formatAmountWithSign(
                 moneyBoxOperation.amount,
                 currency,
-                moneyBoxOperation.type
+                oppositeType
             )
 
             tvMoneyBoxDate.text = formatDate(moneyBoxOperation.dateTimeMillis)
             tvMoneyBoxTime.text = formatTime(moneyBoxOperation.dateTimeMillis)
 
-            val colorResId = when (moneyBoxOperation.type) {
+            val colorResId = when (oppositeType) {
                 Type.INCOME -> R.color.dark_green
                 Type.EXPENSE -> R.color.dark_red
             }

@@ -134,7 +134,7 @@ class AddMoneyBoxOperationFragment : Fragment() {
                 )
                 binding.buttonAddMoneyBoxOperation.setOnClickListener {
                     val amount = binding.etAddMoneyBoxOperationAmount.text.toString()
-                    viewModel.createMoneyBoxOperation(amount, Type.INCOME)
+                    viewModel.createMoneyBoxOperation(amount, Type.EXPENSE)
                 }
             }
 
@@ -144,7 +144,7 @@ class AddMoneyBoxOperationFragment : Fragment() {
                 )
                 binding.buttonAddMoneyBoxOperation.setOnClickListener {
                     val amount = binding.etAddMoneyBoxOperationAmount.text.toString()
-                    viewModel.createMoneyBoxOperation(amount, Type.EXPENSE)
+                    viewModel.createMoneyBoxOperation(amount, Type.INCOME)
                 }
             }
 
