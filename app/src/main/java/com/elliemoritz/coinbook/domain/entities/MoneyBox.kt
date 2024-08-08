@@ -1,10 +1,10 @@
 package com.elliemoritz.coinbook.domain.entities
 
 data class MoneyBox(
-    var goalAmount: Int,
-    var goal: String,
+    val goalAmount: Int,
+    val goal: String,
     val startedMillis: Long,
-    var totalAmount: Int = 0,
+    val totalAmount: Int = 0,
     val id: Int = MONEY_BOX_ID
 ) {
     companion object {

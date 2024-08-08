@@ -10,7 +10,7 @@ import com.elliemoritz.coinbook.domain.entities.helpers.Type
 data class Operation(
     val operationForm: OperationForm,
     val type: Type,
-    var amount: Int,
+    val amount: Int,
     val dateTimeMillis: Long,
     val operationId: Int,
 
@@ -23,5 +23,5 @@ data class Operation(
      * for Debt - creditor.
      */
 
-    var info: String = ""
+    val info: String = ""
 )
