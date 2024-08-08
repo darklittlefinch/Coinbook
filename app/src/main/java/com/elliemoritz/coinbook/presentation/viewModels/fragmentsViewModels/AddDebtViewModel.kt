@@ -68,9 +68,9 @@ class AddDebtViewModel @Inject constructor(
 
                 val amount = amountString.toInt()
                 val debt = Debt(
-                    amount,
-                    creditor,
-                    getCurrentTimeMillis(),
+                    amount = amount,
+                    creditor = creditor,
+                    startedMillis = getCurrentTimeMillis(),
                     finished = false
                 )
                 addDebtUseCase(debt)
@@ -89,11 +89,11 @@ class AddDebtViewModel @Inject constructor(
 
     private suspend fun addDebtOperation(debt: Debt) {
         val debtOperation = DebtOperation(
-            debt.amount,
-            Type.INCOME,
-            debt.id,
-            debt.creditor,
-            getCurrentTimeMillis()
+            amount = debt.amount,
+            type = Type.INCOME,
+            debtId = debt.id,
+            debtCreditor = debt.creditor,
+            dateTimeMillis = getCurrentTimeMillis()
         )
         addDebtOperationUseCase(debtOperation)
     }
@@ -115,11 +115,11 @@ class AddDebtViewModel @Inject constructor(
                 )
 
                 val debt = Debt(
-                    newAmount,
-                    newCreditor,
-                    oldData.startedMillis,
-                    oldData.finished,
-                    oldData.id
+                    amount = newAmount,
+                    creditor = newCreditor,
+                    startedMillis = oldData.startedMillis,
+                    finished = oldData.finished,
+                    id = oldData.id
                 )
                 editDebtUseCase(debt)
                 editDebtOperation(debt)
@@ -142,12 +142,12 @@ class AddDebtViewModel @Inject constructor(
         val debtOperation = getDebtOperationByDebtIdUseCase(debt.id).first()
 
         val newDebtOperation = DebtOperation(
-            debt.amount,
-            Type.INCOME,
-            debt.id,
-            debt.creditor,
-            getCurrentTimeMillis(),
-            debtOperation.id
+            amount = debt.amount,
+            type = Type.INCOME,
+            debtId = debt.id,
+            debtCreditor = debt.creditor,
+            dateTimeMillis = getCurrentTimeMillis(),
+            id = debtOperation.id
         )
 
         editDebtOperationUseCase(newDebtOperation)

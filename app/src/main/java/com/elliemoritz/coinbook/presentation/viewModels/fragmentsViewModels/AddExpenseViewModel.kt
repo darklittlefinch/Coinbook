@@ -80,10 +80,10 @@ class AddExpenseViewModel @Inject constructor(
                     ?: throw RuntimeException("User selected a non-existent category (how?!)")
 
                 val expense = Expense(
-                    amount,
-                    category.id,
-                    categoryName,
-                    getCurrentTimeMillis(),
+                    amount = amount,
+                    categoryId = category.id,
+                    categoryName = categoryName,
+                    dateTimeMillis = getCurrentTimeMillis(),
                 )
 
                 addExpenseUseCase(expense)
@@ -127,11 +127,11 @@ class AddExpenseViewModel @Inject constructor(
                     ?: throw RuntimeException("User selected a non-existent category (how?!)")
 
                 val expense = Expense(
-                    newAmount,
-                    category.id,
-                    newCategoryName,
-                    oldData.dateTimeMillis,
-                    id
+                    amount = newAmount,
+                    categoryId = category.id,
+                    categoryName = newCategoryName,
+                    dateTimeMillis = oldData.dateTimeMillis,
+                    id = id
                 )
                 editExpenseUseCase(expense)
 

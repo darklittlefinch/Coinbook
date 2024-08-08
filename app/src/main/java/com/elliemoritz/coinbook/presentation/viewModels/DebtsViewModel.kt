@@ -42,7 +42,7 @@ class DebtsViewModel @Inject constructor(
         .map { DebtsState.Currency(it) }
 
     private val debtsListFlow = getDebtsListUseCase()
-    private val HasDataStateFlow = debtsListFlow
+    private val hasDataStateFlow = debtsListFlow
         .map {
             if (it.isEmpty()) {
                 DebtsState.NoData
@@ -65,7 +65,7 @@ class DebtsViewModel @Inject constructor(
     val state: Flow<DebtsState>
         get() = _state
             .mergeWith(currencyStateFlow)
-            .mergeWith(HasDataStateFlow)
+            .mergeWith(hasDataStateFlow)
             .mergeWith(debtsListStateFlow)
             .mergeWith(amountStateFlow)
 
@@ -104,11 +104,11 @@ class DebtsViewModel @Inject constructor(
             editDebtUseCase(newDebt)
 
             val debtOperation = DebtOperation(
-                newDebt.amount,
-                Type.EXPENSE,
-                debt.id,
-                newDebt.creditor,
-                getCurrentTimeMillis()
+                amount = newDebt.amount,
+                type = Type.EXPENSE,
+                debtId = debt.id,
+                debtCreditor = newDebt.creditor,
+                dateTimeMillis = getCurrentTimeMillis()
             )
 
             addDebtOperationUseCase(debtOperation)
@@ -121,11 +121,11 @@ class DebtsViewModel @Inject constructor(
         editDebtUseCase(newDebt)
 
         val debtOperation = DebtOperation(
-            debt.amount,
-            Type.INCOME,
-            debt.id,
-            newDebt.creditor,
-            getCurrentTimeMillis()
+            amount = debt.amount,
+            type = Type.INCOME,
+            debtId = debt.id,
+            debtCreditor = newDebt.creditor,
+            dateTimeMillis = getCurrentTimeMillis()
         )
         addDebtOperationUseCase(debtOperation)
 

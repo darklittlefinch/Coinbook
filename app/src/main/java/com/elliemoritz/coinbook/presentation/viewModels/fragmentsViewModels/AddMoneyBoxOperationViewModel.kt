@@ -74,9 +74,9 @@ class AddMoneyBoxOperationViewModel @Inject constructor(
                 }
 
                 val moneyBoxOperation = MoneyBoxOperation(
-                    amount,
-                    type,
-                    getCurrentTimeMillis()
+                    amount = amount,
+                    type = type,
+                    dateTimeMillis = getCurrentTimeMillis()
                 )
 
                 addMoneyBoxOperationUseCase(moneyBoxOperation)
@@ -118,10 +118,10 @@ class AddMoneyBoxOperationViewModel @Inject constructor(
                 }
 
                 val moneyBoxOperation = MoneyBoxOperation(
-                    newAmount,
-                    oldData.type,
-                    oldData.dateTimeMillis,
-                    oldData.id
+                    amount = newAmount,
+                    type = oldData.type,
+                    dateTimeMillis = oldData.dateTimeMillis,
+                    id = oldData.id
                 )
 
                 editMoneyBoxOperationUseCase(moneyBoxOperation)

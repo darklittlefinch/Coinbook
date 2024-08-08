@@ -71,7 +71,7 @@ class AddLimitViewModel @Inject constructor(
         }
     }
 
-    fun createLimit(amountString: String, categoryName: String) {
+    fun createLimit(limitAmountString: String, categoryName: String) {
 
         viewModelScope.launch {
 
@@ -79,21 +79,27 @@ class AddLimitViewModel @Inject constructor(
                 val category = getCategoryByNameUseCase(categoryName).first()
                     ?: throw RuntimeException("User selected a non-existent category (how?!)")
 
-                checkEmptyFields(amountString, categoryName)
-                checkIncorrectNumbers(amountString)
+                checkEmptyFields(limitAmountString, categoryName)
+                checkIncorrectNumbers(limitAmountString)
 
-                val amount = amountString.toInt()
+                val limitAmount = limitAmountString.toInt()
 
-                checkLimitWithoutValue(amount)
+                checkLimitWithoutValue(limitAmount)
 
                 val possibleLimit = getLimitByCategoryIdUseCase(category.id).first()
 
                 if (possibleLimit == null) {
                     val realAmount = getTotalExpensesAmountUseCase(category.id).first()
-                    val limit = Limit(amount, realAmount, category.id, category.name)
+
+                    val limit = Limit(
+                        limitAmount = limitAmount,
+                        realAmount = realAmount,
+                        categoryId = category.id,
+                        categoryName = category.name
+                    )
                     addLimitUseCase(limit)
                 } else {
-                    val limit = possibleLimit.copy(limitAmount = amount)
+                    val limit = possibleLimit.copy(limitAmount = limitAmount)
                     editLimitUseCase(limit)
                 }
 
@@ -109,7 +115,7 @@ class AddLimitViewModel @Inject constructor(
         }
     }
 
-    fun editLimit(newAmountString: String, newCategoryName: String, id: Int) {
+    fun editLimit(newLimitAmountString: String, newCategoryName: String, id: Int) {
 
         viewModelScope.launch {
 
@@ -117,21 +123,21 @@ class AddLimitViewModel @Inject constructor(
                 val newCategory = getCategoryByNameUseCase(newCategoryName).first()
                     ?: throw RuntimeException("User selected a non-existent category (how?!)")
 
-                checkEmptyFields(newAmountString, newCategoryName)
-                checkIncorrectNumbers(newAmountString)
+                checkEmptyFields(newLimitAmountString, newCategoryName)
+                checkIncorrectNumbers(newLimitAmountString)
 
                 val oldData = getLimitUseCase(id).first()
-                val newAmount = newAmountString.toInt()
+                val newLimitAmount = newLimitAmountString.toInt()
 
-                checkLimitWithoutValue(newAmount)
+                checkLimitWithoutValue(newLimitAmount)
 
                 checkNoChanges(
-                    listOf(newAmount, newCategory.id),
+                    listOf(newLimitAmount, newCategory.id),
                     listOf(oldData.limitAmount, oldData.categoryId)
                 )
 
                 val limit = oldData.copy(
-                    limitAmount = newAmount,
+                    limitAmount = newLimitAmount,
                     categoryId = newCategory.id,
                     categoryName = newCategory.name,
                     id = id

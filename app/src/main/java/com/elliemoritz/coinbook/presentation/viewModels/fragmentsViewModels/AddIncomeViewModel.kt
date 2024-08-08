@@ -59,9 +59,9 @@ class AddIncomeViewModel @Inject constructor(
                 val amount = amountString.toInt()
 
                 val income = Income(
-                    amount,
-                    source,
-                    getCurrentTimeMillis()
+                    amount = amount,
+                    source = source,
+                    dateTimeMillis = getCurrentTimeMillis()
                 )
 
                 addIncomeUseCase(income)
@@ -94,10 +94,10 @@ class AddIncomeViewModel @Inject constructor(
                 )
 
                 val income = Income(
-                    newAmount,
-                    newSource,
-                    oldData.dateTimeMillis,
-                    oldData.id
+                    amount = newAmount,
+                    source = newSource,
+                    dateTimeMillis = oldData.dateTimeMillis,
+                    id = oldData.id
                 )
 
                 editIncomeUseCase(income)

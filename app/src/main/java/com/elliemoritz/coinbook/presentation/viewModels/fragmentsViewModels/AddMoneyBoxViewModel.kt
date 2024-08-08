@@ -56,10 +56,11 @@ class AddMoneyBoxViewModel @Inject constructor(
                 checkIncorrectNumbers(goalAmountString)
 
                 val goalAmount = goalAmountString.toInt()
+
                 val moneyBox = MoneyBox(
-                    goalAmount,
-                    goal,
-                    getCurrentTimeMillis()
+                    goalAmount = goalAmount,
+                    goal = goal,
+                    startedMillis = getCurrentTimeMillis()
                 )
                 addMoneyBoxUseCase(moneyBox)
 
@@ -92,9 +93,10 @@ class AddMoneyBoxViewModel @Inject constructor(
                 )
 
                 val moneyBox = MoneyBox(
-                    newGoalAmount,
-                    newGoal,
-                    oldData.startedMillis
+                    goalAmount = newGoalAmount,
+                    goal = newGoal,
+                    startedMillis = oldData.startedMillis,
+                    totalAmount = oldData.totalAmount
                 )
                 editMoneyBoxUseCase(moneyBox)
 

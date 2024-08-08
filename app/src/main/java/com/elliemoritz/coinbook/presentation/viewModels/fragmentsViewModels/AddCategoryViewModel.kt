@@ -65,7 +65,7 @@ class AddCategoryViewModel @Inject constructor(
                 checkIncorrectNumbers(limitAmountString)
 
                 val limitAmount = limitAmountString.toInt()
-                val category = Category(name)
+                val category = Category(name = name)
                 val id = addCategoryUseCase(category)
 
                 if (limitAmount != 0) {
@@ -100,7 +100,10 @@ class AddCategoryViewModel @Inject constructor(
                     listOf(oldData.name, oldLimitAmount)
                 )
 
-                val category = Category(newName, id)
+                val category = Category(
+                    name = newName,
+                    id = id
+                )
                 editCategoryUseCase(category)
                 handleLimit(oldLimit, newLimitAmount, category)
 
