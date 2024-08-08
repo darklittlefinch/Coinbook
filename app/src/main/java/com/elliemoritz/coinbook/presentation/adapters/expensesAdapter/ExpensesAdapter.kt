@@ -14,12 +14,6 @@ class ExpensesAdapter : ListAdapter<Expense, ExpenseViewHolder>(ExpensesDiffCall
 
     var onIncomeClickListener: ((Expense) -> Unit)? = null
 
-    private lateinit var currency: String
-
-    fun setCurrency(newCurrency: String) {
-        currency = newCurrency
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExpenseViewHolder {
         val binding = ItemExpenseBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -37,7 +31,11 @@ class ExpensesAdapter : ListAdapter<Expense, ExpenseViewHolder>(ExpensesDiffCall
             tvExpenseCategory.text = expense.categoryName
             tvExpenseDate.text = formatDate(expense.dateTimeMillis)
             tvExpenseTime.text = formatTime(expense.dateTimeMillis)
-            tvExpenseAmount.text = formatAmountWithSign(expense.amount, currency, Type.EXPENSE)
+            tvExpenseAmount.text = formatAmountWithSign(
+                expense.amount,
+                expense.currency,
+                Type.EXPENSE
+            )
 
             cvItemExpense.setOnClickListener {
                 onIncomeClickListener?.invoke(expense)

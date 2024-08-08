@@ -16,12 +16,6 @@ class MoneyBoxAdapter : ListAdapter<MoneyBoxOperation, MoneyBoxViewHolder>(Money
 
     var onOperationClickListener: ((MoneyBoxOperation) -> Unit)? = null
 
-    private lateinit var currency: String
-
-    fun setCurrency(newCurrency: String) {
-        currency = newCurrency
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoneyBoxViewHolder {
         val binding = ItemMoneyBoxBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -43,7 +37,7 @@ class MoneyBoxAdapter : ListAdapter<MoneyBoxOperation, MoneyBoxViewHolder>(Money
 
             tvMoneyBoxAmount.text = formatAmountWithSign(
                 moneyBoxOperation.amount,
-                currency,
+                moneyBoxOperation.currency,
                 oppositeType
             )
 

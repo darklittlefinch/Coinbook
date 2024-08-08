@@ -15,6 +15,7 @@ import com.elliemoritz.coinbook.domain.useCases.debtsUseCases.AddDebtUseCase
 import com.elliemoritz.coinbook.domain.useCases.debtsUseCases.EditDebtUseCase
 import com.elliemoritz.coinbook.domain.useCases.debtsUseCases.GetDebtUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.AddToBalanceUseCase
+import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetCurrencyUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.RemoveFromBalanceUseCase
 import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentDebtState
 import com.elliemoritz.coinbook.presentation.util.checkEmptyFields
@@ -36,7 +37,8 @@ class AddDebtViewModel @Inject constructor(
     private val removeFromBalanceUseCase: RemoveFromBalanceUseCase,
     private val getDebtOperationByDebtIdUseCase: GetDebtOperationByDebtIdUseCase,
     private val addDebtOperationUseCase: AddDebtOperationUseCase,
-    private val editDebtOperationUseCase: EditDebtOperationUseCase
+    private val editDebtOperationUseCase: EditDebtOperationUseCase,
+    private val getCurrencyUseCase: GetCurrencyUseCase
 ) : ViewModel() {
 
     private val _state = MutableSharedFlow<FragmentDebtState>()
@@ -67,15 +69,18 @@ class AddDebtViewModel @Inject constructor(
                 checkIncorrectNumbers(amountString)
 
                 val amount = amountString.toInt()
+                val currency = getCurrencyUseCase().first()
+
                 val debt = Debt(
                     amount = amount,
                     creditor = creditor,
                     startedMillis = getCurrentTimeMillis(),
-                    finished = false
+                    finished = false,
+                    currency = currency
                 )
                 addDebtUseCase(debt)
                 addToBalanceUseCase(amount)
-                addDebtOperation(debt)
+                addDebtOperation(debt, currency)
 
                 setFinishState()
 
@@ -87,13 +92,14 @@ class AddDebtViewModel @Inject constructor(
         }
     }
 
-    private suspend fun addDebtOperation(debt: Debt) {
+    private suspend fun addDebtOperation(debt: Debt, currency: String) {
         val debtOperation = DebtOperation(
             amount = debt.amount,
             type = Type.INCOME,
             debtId = debt.id,
             debtCreditor = debt.creditor,
-            dateTimeMillis = getCurrentTimeMillis()
+            dateTimeMillis = getCurrentTimeMillis(),
+            currency = currency
         )
         addDebtOperationUseCase(debtOperation)
     }
@@ -114,15 +120,18 @@ class AddDebtViewModel @Inject constructor(
                     listOf(oldData.amount, oldData.creditor)
                 )
 
+                val currency = getCurrencyUseCase().first()
+
                 val debt = Debt(
                     amount = newAmount,
                     creditor = newCreditor,
                     startedMillis = oldData.startedMillis,
                     finished = oldData.finished,
-                    id = oldData.id
+                    id = oldData.id,
+                    currency = currency
                 )
                 editDebtUseCase(debt)
-                editDebtOperation(debt)
+                editDebtOperation(debt, currency)
                 handleBalance(newAmount, oldData.amount)
 
                 setFinishState()
@@ -137,7 +146,7 @@ class AddDebtViewModel @Inject constructor(
         }
     }
 
-    private suspend fun editDebtOperation(debt: Debt) {
+    private suspend fun editDebtOperation(debt: Debt, currency: String) {
 
         val debtOperation = getDebtOperationByDebtIdUseCase(debt.id).first()
 
@@ -147,7 +156,8 @@ class AddDebtViewModel @Inject constructor(
             debtId = debt.id,
             debtCreditor = debt.creditor,
             dateTimeMillis = getCurrentTimeMillis(),
-            id = debtOperation.id
+            id = debtOperation.id,
+            currency = currency
         )
 
         editDebtOperationUseCase(newDebtOperation)

@@ -14,7 +14,8 @@ class DebtOperationsMapper @Inject constructor() {
         type = defineDbModelType(entity.type),
         debtId = entity.debtId,
         debtCreditor = entity.debtCreditor,
-        dateTimeMillis = entity.dateTimeMillis
+        dateTimeMillis = entity.dateTimeMillis,
+        currency = entity.currency
     )
 
     fun mapDbModelToEntity(dbModel: DebtOperationDbModel) = DebtOperation(
@@ -23,7 +24,8 @@ class DebtOperationsMapper @Inject constructor() {
         type = defineEntityType(dbModel.type),
         debtId = dbModel.debtId,
         debtCreditor = dbModel.debtCreditor,
-        dateTimeMillis = dbModel.dateTimeMillis
+        dateTimeMillis = dbModel.dateTimeMillis,
+        currency = dbModel.currency
     )
 
     fun mapListDbModelToListEntities(list: List<DebtOperationDbModel>) = list.map {

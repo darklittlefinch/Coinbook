@@ -34,12 +34,10 @@ class DebtsViewModel @Inject constructor(
     private val addDebtOperationUseCase: AddDebtOperationUseCase,
     private val getBalanceUseCase: GetBalanceUseCase,
     private val addToBalanceUseCase: AddToBalanceUseCase,
-    private val removeFromBalanceUseCase: RemoveFromBalanceUseCase
+    private val removeFromBalanceUseCase: RemoveFromBalanceUseCase,
 ) : ViewModel() {
 
     private val currencyFlow = getCurrencyUseCase()
-    private val currencyStateFlow = currencyFlow
-        .map { DebtsState.Currency(it) }
 
     private val debtsListFlow = getDebtsListUseCase()
     private val hasDataStateFlow = debtsListFlow
@@ -64,7 +62,6 @@ class DebtsViewModel @Inject constructor(
 
     val state: Flow<DebtsState>
         get() = _state
-            .mergeWith(currencyStateFlow)
             .mergeWith(hasDataStateFlow)
             .mergeWith(debtsListStateFlow)
             .mergeWith(amountStateFlow)
@@ -103,12 +100,15 @@ class DebtsViewModel @Inject constructor(
             val newDebt = debt.copy(finished = true)
             editDebtUseCase(newDebt)
 
+            val currency = currencyFlow.first()
+
             val debtOperation = DebtOperation(
                 amount = newDebt.amount,
                 type = Type.EXPENSE,
                 debtId = debt.id,
                 debtCreditor = newDebt.creditor,
-                dateTimeMillis = getCurrentTimeMillis()
+                dateTimeMillis = getCurrentTimeMillis(),
+                currency = currency
             )
 
             addDebtOperationUseCase(debtOperation)
@@ -120,12 +120,15 @@ class DebtsViewModel @Inject constructor(
         val newDebt = debt.copy(finished = false)
         editDebtUseCase(newDebt)
 
+        val currency = currencyFlow.first()
+
         val debtOperation = DebtOperation(
             amount = debt.amount,
             type = Type.INCOME,
             debtId = debt.id,
             debtCreditor = newDebt.creditor,
-            dateTimeMillis = getCurrentTimeMillis()
+            dateTimeMillis = getCurrentTimeMillis(),
+            currency = currency
         )
         addDebtOperationUseCase(debtOperation)
 

@@ -15,6 +15,7 @@ import com.elliemoritz.coinbook.domain.useCases.limitsUseCases.AddLimitUseCase
 import com.elliemoritz.coinbook.domain.useCases.limitsUseCases.EditLimitUseCase
 import com.elliemoritz.coinbook.domain.useCases.limitsUseCases.GetLimitByCategoryIdUseCase
 import com.elliemoritz.coinbook.domain.useCases.limitsUseCases.GetLimitUseCase
+import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetCurrencyUseCase
 import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentLimitState
 import com.elliemoritz.coinbook.presentation.util.checkEmptyFields
 import com.elliemoritz.coinbook.presentation.util.checkIncorrectNumbers
@@ -36,7 +37,8 @@ class AddLimitViewModel @Inject constructor(
     getCategoriesListUseCase: GetCategoriesListUseCase,
     private val getCategoryUseCase: GetCategoryUseCase,
     private val getCategoryByNameUseCase: GetCategoryByNameUseCase,
-    private val getTotalExpensesAmountUseCase: GetTotalExpensesAmountByCategoryForMonthUseCase
+    private val getTotalExpensesAmountUseCase: GetTotalExpensesAmountByCategoryForMonthUseCase,
+    private val getCurrencyUseCase: GetCurrencyUseCase
 ) : ViewModel() {
 
     private val categoriesListFlow = getCategoriesListUseCase()
@@ -90,12 +92,14 @@ class AddLimitViewModel @Inject constructor(
 
                 if (possibleLimit == null) {
                     val realAmount = getTotalExpensesAmountUseCase(category.id).first()
+                    val currency = getCurrencyUseCase().first()
 
                     val limit = Limit(
                         limitAmount = limitAmount,
                         realAmount = realAmount,
                         categoryId = category.id,
-                        categoryName = category.name
+                        categoryName = category.name,
+                        currency = currency
                     )
                     addLimitUseCase(limit)
                 } else {

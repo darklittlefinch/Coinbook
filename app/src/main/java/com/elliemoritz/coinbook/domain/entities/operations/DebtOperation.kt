@@ -9,5 +9,6 @@ data class DebtOperation(
     val debtId: Long,
     val debtCreditor: String,
     val dateTimeMillis: Long,
+    val currency: String,
     val id: Long = UNDEFINED_ID,
 )

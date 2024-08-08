@@ -15,12 +15,6 @@ import com.elliemoritz.coinbook.presentation.util.formatTime
 
 class HistoryAdapter : ListAdapter<Operation, OperationViewHolder>(OperationsDiffCallback()) {
 
-    private lateinit var currency: String
-
-    fun setCurrency(newCurrency: String) {
-        currency = newCurrency
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OperationViewHolder {
         val binding = ItemHistoryBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -34,7 +28,11 @@ class HistoryAdapter : ListAdapter<Operation, OperationViewHolder>(OperationsDif
         val operation = getItem(position)
 
         with(holder.binding) {
-            tvHistoryAmount.text = formatAmountWithSign(operation.amount, currency, operation.type)
+            tvHistoryAmount.text = formatAmountWithSign(
+                operation.amount,
+                operation.currency,
+                operation.type
+            )
             tvHistoryDate.text = formatDate(operation.dateTimeMillis)
             tvHistoryTime.text = formatTime(operation.dateTimeMillis)
 

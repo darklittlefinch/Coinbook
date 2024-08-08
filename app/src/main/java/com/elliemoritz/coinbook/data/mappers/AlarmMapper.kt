@@ -10,14 +10,16 @@ class AlarmMapper @Inject constructor() {
         id = alarm.id,
         dateTimeMillis = alarm.dateTimeMillis,
         description = alarm.description,
-        amount = alarm.amount
+        amount = alarm.amount,
+        currency = alarm.currency
     )
 
     fun mapDbModelToEntity(dbModel: AlarmDbModel) = Alarm(
         id = dbModel.id,
         dateTimeMillis = dbModel.dateTimeMillis,
         description = dbModel.description,
-        amount = dbModel.amount
+        amount = dbModel.amount,
+        currency = dbModel.currency
     )
 
     fun mapListDbModelToListEntities(list: List<AlarmDbModel>) = list.map {

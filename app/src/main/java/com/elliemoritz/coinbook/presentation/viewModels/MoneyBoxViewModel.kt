@@ -30,11 +30,7 @@ class MoneyBoxViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val currencyFlow = getCurrencyUseCase()
-    private val currencyStateFlow = currencyFlow
-        .map { MoneyBoxState.Currency(it) }
-
     private val moneyBoxFlow = getMoneyBoxUseCase()
-
     private val goalStateFlow = moneyBoxFlow
         .map {
             if (it == null) {
@@ -73,7 +69,6 @@ class MoneyBoxViewModel @Inject constructor(
 
     val state: Flow<MoneyBoxState>
         get() = _state
-            .mergeWith(currencyStateFlow)
             .mergeWith(goalStateFlow)
             .mergeWith(totalAmountStateFlow)
             .mergeWith(operationsListStateFlow)

@@ -14,6 +14,7 @@ import com.elliemoritz.coinbook.domain.useCases.limitsUseCases.AddLimitUseCase
 import com.elliemoritz.coinbook.domain.useCases.limitsUseCases.EditLimitUseCase
 import com.elliemoritz.coinbook.domain.useCases.limitsUseCases.GetLimitByCategoryIdUseCase
 import com.elliemoritz.coinbook.domain.useCases.limitsUseCases.RemoveLimitUseCase
+import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetCurrencyUseCase
 import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentCategoryState
 import com.elliemoritz.coinbook.presentation.util.checkEmptyFields
 import com.elliemoritz.coinbook.presentation.util.checkIncorrectNumbers
@@ -31,7 +32,8 @@ class AddCategoryViewModel @Inject constructor(
     private val getLimitByCategoryIdUseCase: GetLimitByCategoryIdUseCase,
     private val addLimitUseCase: AddLimitUseCase,
     private val editLimitUseCase: EditLimitUseCase,
-    private val removeLimitUseCase: RemoveLimitUseCase
+    private val removeLimitUseCase: RemoveLimitUseCase,
+    private val getCurrencyUseCase: GetCurrencyUseCase
 ) : ViewModel() {
 
     private val _state = MutableSharedFlow<FragmentCategoryState>()
@@ -133,7 +135,14 @@ class AddCategoryViewModel @Inject constructor(
     }
 
     private suspend fun createLimit(limitAmount: Int, categoryName: String, id: Long) {
-        val limit = Limit(limitAmount, NO_DATA_VALUE, id, categoryName)
+        val currency = getCurrencyUseCase().first()
+        val limit = Limit(
+            limitAmount = limitAmount,
+            realAmount = NO_DATA_VALUE,
+            categoryId = id,
+            categoryName = categoryName,
+            currency = currency
+        )
         addLimitUseCase(limit)
     }
 

@@ -7,5 +7,4 @@ sealed class IncomeState {
     data object HasData: IncomeState()
     class Amount(val amount: String) : IncomeState()
     class IncomeList(val list: List<Income>) : IncomeState()
-    class Currency(val currency: String) : IncomeState()
 }

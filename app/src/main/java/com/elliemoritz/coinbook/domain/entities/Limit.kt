@@ -7,5 +7,6 @@ data class Limit(
     val realAmount: Int,
     val categoryId: Long,
     val categoryName: String,
+    val currency: String,
     val id: Long = UNDEFINED_ID
 )

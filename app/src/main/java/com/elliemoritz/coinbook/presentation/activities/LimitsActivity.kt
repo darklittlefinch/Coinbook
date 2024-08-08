@@ -79,10 +79,6 @@ class LimitsActivity : AppCompatActivity(),
                             binding.tvLimitsInfo.visibility = View.GONE
                         }
 
-                        is LimitsState.Currency -> {
-                            limitsAdapter.setCurrency(it.currency)
-                        }
-
                         is LimitsState.LimitsList -> {
                             limitsAdapter.submitList(it.list)
                         }

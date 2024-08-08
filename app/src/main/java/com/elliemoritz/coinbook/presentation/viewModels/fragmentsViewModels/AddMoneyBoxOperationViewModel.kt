@@ -16,6 +16,7 @@ import com.elliemoritz.coinbook.domain.useCases.moneyBoxUseCases.GetMoneyBoxUseC
 import com.elliemoritz.coinbook.domain.useCases.moneyBoxUseCases.RemoveFromMoneyBoxUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.AddToBalanceUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetBalanceUseCase
+import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetCurrencyUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.RemoveFromBalanceUseCase
 import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentMoneyBoxOperationState
 import com.elliemoritz.coinbook.presentation.util.checkEmptyFields
@@ -39,7 +40,8 @@ class AddMoneyBoxOperationViewModel @Inject constructor(
     private val removeFromMoneyBoxUseCase: RemoveFromMoneyBoxUseCase,
     private val getBalanceUseCase: GetBalanceUseCase,
     private val addToBalanceUseCase: AddToBalanceUseCase,
-    private val removeFromBalanceUseCase: RemoveFromBalanceUseCase
+    private val removeFromBalanceUseCase: RemoveFromBalanceUseCase,
+    private val getCurrencyUseCase: GetCurrencyUseCase
 ) : ViewModel() {
 
     private val _state = MutableSharedFlow<FragmentMoneyBoxOperationState>()
@@ -73,10 +75,13 @@ class AddMoneyBoxOperationViewModel @Inject constructor(
                     checkNotEnoughMoney(amount, balance)
                 }
 
+                val currency = getCurrencyUseCase().first()
+
                 val moneyBoxOperation = MoneyBoxOperation(
                     amount = amount,
                     type = type,
-                    dateTimeMillis = getCurrentTimeMillis()
+                    dateTimeMillis = getCurrentTimeMillis(),
+                    currency = currency
                 )
 
                 addMoneyBoxOperationUseCase(moneyBoxOperation)
@@ -117,11 +122,14 @@ class AddMoneyBoxOperationViewModel @Inject constructor(
                     checkNotEnoughMoney(newAmount - oldData.amount, balance)
                 }
 
+                val currency = getCurrencyUseCase().first()
+
                 val moneyBoxOperation = MoneyBoxOperation(
                     amount = newAmount,
                     type = oldData.type,
                     dateTimeMillis = oldData.dateTimeMillis,
-                    id = oldData.id
+                    id = oldData.id,
+                    currency = currency
                 )
 
                 editMoneyBoxOperationUseCase(moneyBoxOperation)

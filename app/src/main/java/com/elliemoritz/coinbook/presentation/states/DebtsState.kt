@@ -7,6 +7,5 @@ sealed class DebtsState {
     data object HasData : DebtsState()
     class Amount(val amount: String) : DebtsState()
     class DebtsList(val list: List<Debt>) : DebtsState()
-    class Currency(val currency: String) : DebtsState()
     data object NotEnoughMoney : DebtsState()
 }

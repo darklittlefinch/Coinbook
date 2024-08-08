@@ -10,5 +10,6 @@ data class LimitDbModel(
     val limitAmount: Int,
     val realAmount: Int,
     val categoryId: Long,
-    val categoryName: String
+    val categoryName: String,
+    val currency: String
 )

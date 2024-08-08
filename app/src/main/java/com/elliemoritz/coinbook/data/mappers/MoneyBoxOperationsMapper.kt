@@ -12,14 +12,16 @@ class MoneyBoxOperationsMapper @Inject constructor() {
         id = entity.id,
         amount = entity.amount,
         type = defineDbModelType(entity.type),
-        dateTimeMillis = entity.dateTimeMillis
+        dateTimeMillis = entity.dateTimeMillis,
+        currency = entity.currency
     )
 
     fun mapDbModelToEntity(dbModel: MoneyBoxOperationDbModel) = MoneyBoxOperation(
         id = dbModel.id,
         amount = dbModel.amount,
         type = defineEntityType(dbModel.type),
-        dateTimeMillis = dbModel.dateTimeMillis
+        dateTimeMillis = dbModel.dateTimeMillis,
+        currency = dbModel.currency
     )
 
     fun mapListDbModelToListEntities(list: List<MoneyBoxOperationDbModel>) = list.map {

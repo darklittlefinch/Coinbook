@@ -72,10 +72,6 @@ class HistoryActivity : AppCompatActivity() {
                         is HistoryState.OperationsList -> {
                             historyAdapter.submitList(it.list)
                         }
-
-                        is HistoryState.Currency -> {
-                            historyAdapter.setCurrency(it.currency)
-                        }
                     }
                 }
             }

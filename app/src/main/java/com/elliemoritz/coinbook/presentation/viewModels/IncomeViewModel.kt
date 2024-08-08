@@ -27,8 +27,6 @@ class IncomeViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val currencyFlow = getCurrencyUseCase()
-    private val currencyStateFlow = currencyFlow
-        .map { IncomeState.Currency(it) }
 
     private val amountStateFlow = getTotalIncomeAmountForMonthUseCase()
         .map {
@@ -53,7 +51,6 @@ class IncomeViewModel @Inject constructor(
     val state: Flow<IncomeState>
         get() = _state
             .mergeWith(amountStateFlow)
-            .mergeWith(currencyStateFlow)
             .mergeWith(incomeListStateFlow)
             .mergeWith(hasDataStateFlow)
 

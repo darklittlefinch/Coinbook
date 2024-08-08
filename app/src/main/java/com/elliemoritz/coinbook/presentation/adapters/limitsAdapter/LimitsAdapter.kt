@@ -13,12 +13,6 @@ class LimitsAdapter : ListAdapter<Limit, LimitViewHolder>(LimitsDiffCallback()) 
 
     var onLimitClickListener: ((Limit) -> Unit)? = null
 
-    private lateinit var currency: String
-
-    fun setCurrency(newCurrency: String) {
-        currency = newCurrency
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LimitViewHolder {
         val binding = ItemLimitBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -34,8 +28,8 @@ class LimitsAdapter : ListAdapter<Limit, LimitViewHolder>(LimitsDiffCallback()) 
         with(holder.binding) {
             tvLimitCategory.text = limit.categoryName
 
-            val realAmount = formatAmount(limit.realAmount, currency)
-            val limitAmount = formatAmount(limit.limitAmount, currency)
+            val realAmount = formatAmount(limit.realAmount, limit.currency)
+            val limitAmount = formatAmount(limit.limitAmount, limit.currency)
 
             tvSpentMoneyAmount.text = root.context.getString(
                 R.string.amount_limit,

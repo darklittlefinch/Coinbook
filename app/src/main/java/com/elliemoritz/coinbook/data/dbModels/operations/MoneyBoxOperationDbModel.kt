@@ -9,5 +9,6 @@ data class MoneyBoxOperationDbModel(
     val id: Long,
     val amount: Int,
     val type: String,
-    val dateTimeMillis: Long
+    val dateTimeMillis: Long,
+    val currency: String
 )

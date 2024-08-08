@@ -79,10 +79,6 @@ class DebtsActivity : AppCompatActivity(), OnEditingListener {
                             binding.tvDebtsAmount.text = it.amount
                         }
 
-                        is DebtsState.Currency -> {
-                            debtsAdapter.setCurrency(it.currency)
-                        }
-
                         is DebtsState.DebtsList -> {
                             debtsAdapter.submitList(it.list)
                         }

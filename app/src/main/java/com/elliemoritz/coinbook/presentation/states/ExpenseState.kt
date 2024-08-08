@@ -7,7 +7,6 @@ sealed class ExpenseState {
     data object HasData : ExpenseState()
     class Amount(val amount: String) : ExpenseState()
     class ExpensesList(val list: List<Expense>) : ExpenseState()
-    class Currency(val currency: String) : ExpenseState()
     data object NoCategoriesError : ExpenseState()
     data object PermitAddExpense : ExpenseState()
 }

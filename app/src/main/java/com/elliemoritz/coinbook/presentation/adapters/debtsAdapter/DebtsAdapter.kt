@@ -14,12 +14,6 @@ class DebtsAdapter : ListAdapter<Debt, DebtViewHolder>(DebtsDiffCallback()) {
     var onDebtClickListener: ((Debt) -> Unit)? = null
     var onDebtLongClickListener: ((Debt) -> Unit)? = null
 
-    private lateinit var currency: String
-
-    fun setCurrency(newCurrency: String) {
-        currency = newCurrency
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DebtViewHolder {
         val binding = when (viewType) {
             VIEW_TYPE_ACTIVE -> {
@@ -51,7 +45,7 @@ class DebtsAdapter : ListAdapter<Debt, DebtViewHolder>(DebtsDiffCallback()) {
                 with(holder.binding) {
                     tvDebtCreditor.text = debt.creditor
                     tvDebtDate.text = formatDate(debt.startedMillis)
-                    tvDebtAmount.text = formatAmount(debt.amount, currency)
+                    tvDebtAmount.text = formatAmount(debt.amount, debt.currency)
 
                     cvItemDebt.setOnClickListener {
                         onDebtClickListener?.invoke(debt)
@@ -68,7 +62,7 @@ class DebtsAdapter : ListAdapter<Debt, DebtViewHolder>(DebtsDiffCallback()) {
                 with(holder.binding) {
                     tvDebtCreditor.text = debt.creditor
                     tvDebtDate.text = formatDate(debt.startedMillis)
-                    tvDebtAmount.text = formatAmount(debt.amount, currency)
+                    tvDebtAmount.text = formatAmount(debt.amount, debt.currency)
 
                     cvItemDebt.setOnClickListener {
                         onDebtClickListener?.invoke(debt)

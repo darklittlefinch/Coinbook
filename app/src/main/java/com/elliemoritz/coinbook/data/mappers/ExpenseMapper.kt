@@ -11,7 +11,8 @@ class ExpenseMapper @Inject constructor() {
         amount = entity.amount,
         categoryId = entity.categoryId,
         categoryName = entity.categoryName,
-        dateTimeMillis = entity.dateTimeMillis
+        dateTimeMillis = entity.dateTimeMillis,
+        currency = entity.currency
     )
 
     fun mapDbModelToEntity(dbModel: ExpenseDbModel) = Expense(
@@ -19,7 +20,8 @@ class ExpenseMapper @Inject constructor() {
         amount = dbModel.amount,
         categoryId = dbModel.categoryId,
         categoryName = dbModel.categoryName,
-        dateTimeMillis = dbModel.dateTimeMillis
+        dateTimeMillis = dbModel.dateTimeMillis,
+        currency = dbModel.currency
     )
 
     fun mapListDbModelToListEntities(list: List<ExpenseDbModel>) = list.map {

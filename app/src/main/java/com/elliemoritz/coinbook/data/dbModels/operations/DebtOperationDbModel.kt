@@ -12,4 +12,5 @@ data class DebtOperationDbModel(
     val debtId: Long,
     val debtCreditor: String,
     val dateTimeMillis: Long,
+    val currency: String
 )

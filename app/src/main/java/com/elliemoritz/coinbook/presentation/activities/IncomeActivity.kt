@@ -75,10 +75,6 @@ class IncomeActivity : AppCompatActivity(), OnEditingListener {
                             binding.tvNoIncomeInfo.visibility = View.GONE
                         }
 
-                        is IncomeState.Currency -> {
-                            incomeAdapter.setCurrency(it.currency)
-                        }
-
                         is IncomeState.IncomeList -> {
                             incomeAdapter.submitList(it.list)
                         }

@@ -14,12 +14,6 @@ class IncomeAdapter : ListAdapter<Income, IncomeViewHolder>(IncomeDiffCallback()
 
     var onIncomeClickListener: ((Income) -> Unit)? = null
 
-    private lateinit var currency: String
-
-    fun setCurrency(newCurrency: String) {
-        currency = newCurrency
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IncomeViewHolder {
         val binding = ItemIncomeBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -36,7 +30,11 @@ class IncomeAdapter : ListAdapter<Income, IncomeViewHolder>(IncomeDiffCallback()
             tvIncomeSource.text = income.source
             tvIncomeDate.text = formatDate(income.dateTimeMillis)
             tvIncomeTime.text = formatTime(income.dateTimeMillis)
-            tvIncomeAmount.text = formatAmountWithSign(income.amount, currency, Type.INCOME)
+            tvIncomeAmount.text = formatAmountWithSign(
+                income.amount,
+                income.currency,
+                Type.INCOME
+            )
 
             cvItemIncome.setOnClickListener {
                 onIncomeClickListener?.invoke(income)

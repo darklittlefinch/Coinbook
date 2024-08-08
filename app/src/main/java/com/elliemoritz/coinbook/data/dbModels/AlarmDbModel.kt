@@ -9,5 +9,6 @@ data class AlarmDbModel(
     val id: Long,
     val dateTimeMillis: Long,
     val description: String,
-    val amount: Int
+    val amount: Int,
+    val currency: String
 )

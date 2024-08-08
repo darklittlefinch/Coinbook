@@ -10,5 +10,6 @@ data class DebtDbModel(
     val amount: Int,
     val creditor: String,
     val finished: Boolean,
-    val startedMillis: Long
+    val startedMillis: Long,
+    val currency: String
 )

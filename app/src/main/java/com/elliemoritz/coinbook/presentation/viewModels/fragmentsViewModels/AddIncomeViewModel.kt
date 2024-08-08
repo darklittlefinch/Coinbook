@@ -10,6 +10,7 @@ import com.elliemoritz.coinbook.domain.useCases.incomeUseCases.AddIncomeUseCase
 import com.elliemoritz.coinbook.domain.useCases.incomeUseCases.EditIncomeUseCase
 import com.elliemoritz.coinbook.domain.useCases.incomeUseCases.GetIncomeUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.AddToBalanceUseCase
+import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetCurrencyUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.RemoveFromBalanceUseCase
 import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentIncomeState
 import com.elliemoritz.coinbook.presentation.util.checkEmptyFields
@@ -28,7 +29,8 @@ class AddIncomeViewModel @Inject constructor(
     private val addIncomeUseCase: AddIncomeUseCase,
     private val editIncomeUseCase: EditIncomeUseCase,
     private val addToBalanceUseCase: AddToBalanceUseCase,
-    private val removeFromBalanceUseCase: RemoveFromBalanceUseCase
+    private val removeFromBalanceUseCase: RemoveFromBalanceUseCase,
+    private val getCurrencyUseCase: GetCurrencyUseCase
 ) : ViewModel() {
 
     private val _state = MutableSharedFlow<FragmentIncomeState>()
@@ -57,11 +59,13 @@ class AddIncomeViewModel @Inject constructor(
                 checkIncorrectNumbers(amountString)
 
                 val amount = amountString.toInt()
+                val currency = getCurrencyUseCase().first()
 
                 val income = Income(
                     amount = amount,
                     source = source,
-                    dateTimeMillis = getCurrentTimeMillis()
+                    dateTimeMillis = getCurrentTimeMillis(),
+                    currency = currency
                 )
 
                 addIncomeUseCase(income)
@@ -93,11 +97,14 @@ class AddIncomeViewModel @Inject constructor(
                     listOf(oldData.amount, oldData.source)
                 )
 
+                val currency = getCurrencyUseCase().first()
+
                 val income = Income(
                     amount = newAmount,
                     source = newSource,
                     dateTimeMillis = oldData.dateTimeMillis,
-                    id = oldData.id
+                    id = oldData.id,
+                    currency = currency
                 )
 
                 editIncomeUseCase(income)

@@ -10,5 +10,6 @@ data class ExpenseDbModel(
     val amount: Int,
     val categoryId: Long,
     val categoryName: String,
-    val dateTimeMillis: Long
+    val dateTimeMillis: Long,
+    val currency: String
 )

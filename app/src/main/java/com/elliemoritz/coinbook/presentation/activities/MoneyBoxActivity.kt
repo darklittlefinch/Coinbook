@@ -85,10 +85,6 @@ class MoneyBoxActivity : AppCompatActivity(),
                             setOnAddMoneyBoxClickListener()
                         }
 
-                        is MoneyBoxState.Currency -> {
-                            moneyBoxAdapter.setCurrency(it.currency)
-                        }
-
                         is MoneyBoxState.Goal -> {
                             binding.ivAddToMoneyBox.visibility = View.VISIBLE
                             binding.ivRemoveFromMoneyBox.visibility = View.VISIBLE

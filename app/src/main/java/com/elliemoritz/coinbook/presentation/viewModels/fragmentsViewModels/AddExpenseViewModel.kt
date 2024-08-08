@@ -14,6 +14,7 @@ import com.elliemoritz.coinbook.domain.useCases.expensesUseCases.EditExpenseUseC
 import com.elliemoritz.coinbook.domain.useCases.expensesUseCases.GetExpenseUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.AddToBalanceUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetBalanceUseCase
+import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetCurrencyUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.RemoveFromBalanceUseCase
 import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentExpenseState
 import com.elliemoritz.coinbook.presentation.util.checkEmptyFields
@@ -38,7 +39,8 @@ class AddExpenseViewModel @Inject constructor(
     private val getCategoryByNameUseCase: GetCategoryByNameUseCase,
     private val getBalanceUseCase: GetBalanceUseCase,
     private val addToBalanceUseCase: AddToBalanceUseCase,
-    private val removeFromBalanceUseCase: RemoveFromBalanceUseCase
+    private val removeFromBalanceUseCase: RemoveFromBalanceUseCase,
+    private val getCurrencyUseCase: GetCurrencyUseCase
 ) : ViewModel() {
 
     private val categoriesFlow = getCategoriesListUseCase()
@@ -79,11 +81,14 @@ class AddExpenseViewModel @Inject constructor(
                 val category = getCategoryByNameUseCase(categoryName).first()
                     ?: throw RuntimeException("User selected a non-existent category (how?!)")
 
+                val currency = getCurrencyUseCase().first()
+
                 val expense = Expense(
                     amount = amount,
                     categoryId = category.id,
                     categoryName = categoryName,
                     dateTimeMillis = getCurrentTimeMillis(),
+                    currency = currency
                 )
 
                 addExpenseUseCase(expense)
@@ -126,12 +131,15 @@ class AddExpenseViewModel @Inject constructor(
                 val category = getCategoryByNameUseCase(newCategoryName).first()
                     ?: throw RuntimeException("User selected a non-existent category (how?!)")
 
+                val currency = getCurrencyUseCase().first()
+
                 val expense = Expense(
                     amount = newAmount,
                     categoryId = category.id,
                     categoryName = newCategoryName,
                     dateTimeMillis = oldData.dateTimeMillis,
-                    id = id
+                    id = id,
+                    currency = currency
                 )
                 editExpenseUseCase(expense)
 

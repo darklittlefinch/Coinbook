@@ -46,7 +46,8 @@ class OperationsMapper @Inject constructor() {
         amount = dbModel.amount,
         dateTimeMillis = dbModel.dateTimeMillis,
         operationId = dbModel.id,
-        info = dbModel.source
+        info = dbModel.source,
+        currency = dbModel.currency
     )
 
     private fun mapExpenseDbModelToOperation(dbModel: ExpenseDbModel) = Operation(
@@ -55,7 +56,8 @@ class OperationsMapper @Inject constructor() {
         amount = dbModel.amount,
         dateTimeMillis = dbModel.dateTimeMillis,
         operationId = dbModel.id,
-        info = dbModel.categoryName
+        info = dbModel.categoryName,
+        currency = dbModel.currency
     )
 
     private fun mapMoneyBoxOperationDbModelToOperation(
@@ -65,7 +67,8 @@ class OperationsMapper @Inject constructor() {
         type = defineEntityType(dbModel.type),
         amount = dbModel.amount,
         dateTimeMillis = dbModel.dateTimeMillis,
-        operationId = dbModel.id
+        operationId = dbModel.id,
+        currency = dbModel.currency
     )
 
     private fun mapDebtOperationDbModelToOperation(dbModel: DebtOperationDbModel) = Operation(
@@ -73,6 +76,7 @@ class OperationsMapper @Inject constructor() {
         type = defineEntityType(dbModel.type),
         amount = dbModel.amount,
         dateTimeMillis = dbModel.dateTimeMillis,
-        operationId = dbModel.id
+        operationId = dbModel.id,
+        currency = dbModel.currency
     )
 }

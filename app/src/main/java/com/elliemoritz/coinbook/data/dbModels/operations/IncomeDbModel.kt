@@ -9,5 +9,6 @@ data class IncomeDbModel(
     val id: Long,
     val amount: Int,
     val source: String,
-    val dateTimeMillis: Long
+    val dateTimeMillis: Long,
+    val currency: String
 )

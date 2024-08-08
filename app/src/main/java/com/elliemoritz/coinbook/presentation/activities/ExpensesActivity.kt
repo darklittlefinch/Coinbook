@@ -80,10 +80,6 @@ class ExpensesActivity : AppCompatActivity(),
                             binding.tvExpensesInfo.visibility = View.GONE
                         }
 
-                        is ExpenseState.Currency -> {
-                            expensesAdapter.setCurrency(it.currency)
-                        }
-
                         is ExpenseState.ExpensesList -> {
                             expensesAdapter.submitList(it.list)
                         }

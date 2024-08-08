@@ -7,5 +7,4 @@ sealed class MoneyBoxState {
     class TotalAmount(val amount: String) : MoneyBoxState()
     class OperationsList(val list: List<MoneyBoxOperation>) : MoneyBoxState()
     class Goal(val goalAmount: String, val goal: String) : MoneyBoxState()
-    class Currency(val currency: String) : MoneyBoxState()
 }

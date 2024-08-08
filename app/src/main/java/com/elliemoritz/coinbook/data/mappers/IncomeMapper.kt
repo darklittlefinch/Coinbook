@@ -10,14 +10,16 @@ class IncomeMapper @Inject constructor() {
         id = entity.id,
         amount = entity.amount,
         source = entity.source,
-        dateTimeMillis = entity.dateTimeMillis
+        dateTimeMillis = entity.dateTimeMillis,
+        currency = entity.currency
     )
 
     fun mapDbModelToEntity(dbModel: IncomeDbModel) = Income(
         id = dbModel.id,
         amount = dbModel.amount,
         source = dbModel.source,
-        dateTimeMillis = dbModel.dateTimeMillis
+        dateTimeMillis = dbModel.dateTimeMillis,
+        currency = dbModel.currency
     )
 
     fun mapListDbModelToListEntities(list: List<IncomeDbModel>) = list.map {

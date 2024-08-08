@@ -6,7 +6,6 @@ import com.elliemoritz.coinbook.domain.entities.Limit
 import com.elliemoritz.coinbook.domain.useCases.categoriesUseCases.GetCategoriesListUseCase
 import com.elliemoritz.coinbook.domain.useCases.limitsUseCases.GetLimitsListUseCase
 import com.elliemoritz.coinbook.domain.useCases.limitsUseCases.RemoveLimitUseCase
-import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetCurrencyUseCase
 import com.elliemoritz.coinbook.presentation.states.LimitsState
 import com.elliemoritz.coinbook.presentation.util.mergeWith
 import kotlinx.coroutines.flow.Flow
@@ -17,15 +16,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class LimitsViewModel @Inject constructor(
-    getCurrencyUseCase: GetCurrencyUseCase,
     getLimitsListUseCase: GetLimitsListUseCase,
     private val removeLimitUseCase: RemoveLimitUseCase,
     private val getCategoriesListUseCase: GetCategoriesListUseCase
 ) : ViewModel() {
-
-    private val currencyFlow = getCurrencyUseCase()
-    private val currencyStateFlow = currencyFlow
-        .map { LimitsState.Currency(it) }
 
     private val limitsListFlow = getLimitsListUseCase()
     private val limitsListStateFlow = limitsListFlow
@@ -43,7 +37,6 @@ class LimitsViewModel @Inject constructor(
 
     val state: Flow<LimitsState>
         get() = _state
-            .mergeWith(currencyStateFlow)
             .mergeWith(limitsListStateFlow)
             .mergeWith(hasDataStateFlow)
 
