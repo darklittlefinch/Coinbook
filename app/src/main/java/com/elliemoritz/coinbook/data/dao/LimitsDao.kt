@@ -9,7 +9,7 @@ import com.elliemoritz.coinbook.data.dbModels.LimitDbModel
 @Dao
 interface LimitsDao {
 
-    @Query("SELECT * FROM limits")
+    @Query("SELECT * FROM limits ORDER BY categoryName")
     suspend fun getLimitsList(): List<LimitDbModel>
 
     @Query("SELECT * FROM limits WHERE id = :id LIMIT 1")

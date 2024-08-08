@@ -9,7 +9,7 @@ import com.elliemoritz.coinbook.data.dbModels.CategoryDbModel
 @Dao
 interface CategoriesDao {
 
-    @Query("SELECT * FROM categories")
+    @Query("SELECT * FROM categories ORDER BY name")
     suspend fun getCategoriesList(): List<CategoryDbModel>
 
     @Query("SELECT * FROM categories WHERE id = :id LIMIT 1")

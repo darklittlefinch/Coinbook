@@ -9,7 +9,7 @@ import com.elliemoritz.coinbook.data.dbModels.AlarmDbModel
 @Dao
 interface AlarmsDao {
 
-    @Query("SELECT * FROM alarms")
+    @Query("SELECT * FROM alarms ORDER BY dateTimeMillis")
     suspend fun getAlarmsList(): List<AlarmDbModel>
 
     @Query("SELECT * FROM alarms WHERE id = :id LIMIT 1")
