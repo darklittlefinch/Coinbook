@@ -9,7 +9,7 @@ interface IncomeRepository {
     fun getIncomeListForMonth(): Flow<List<Income>>
     suspend fun removeAllIncome()
 
-    fun getIncome(id: Int): Flow<Income>
+    fun getIncome(id: Long): Flow<Income>
     suspend fun addIncome(operation: Income)
     suspend fun editIncome(operation: Income)
     suspend fun removeIncome(operation: Income)

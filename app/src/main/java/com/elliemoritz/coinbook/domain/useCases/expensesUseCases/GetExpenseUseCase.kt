@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetExpenseUseCase @Inject constructor(
     private val repository: ExpensesRepository
 ) {
-    operator fun invoke(id: Int): Flow<Expense> {
+    operator fun invoke(id: Long): Flow<Expense> {
         return repository.getExpense(id)
     }
 }

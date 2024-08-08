@@ -38,7 +38,7 @@ class OperationsActivity : AppCompatActivity(),
     }
 
     private val id by lazy {
-        intent.getIntExtra(EXTRA_ID, UNDEFINED_ID)
+        intent.getLongExtra(EXTRA_ID, UNDEFINED_ID)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -194,7 +194,7 @@ class OperationsActivity : AppCompatActivity(),
             return intent
         }
 
-        fun newIntentEdit(context: Context, fragmentType: String, id: Int): Intent {
+        fun newIntentEdit(context: Context, fragmentType: String, id: Long): Intent {
             val intent = Intent(context, OperationsActivity::class.java)
             intent.putExtra(EXTRA_FRAGMENT_TYPE, fragmentType)
             intent.putExtra(EXTRA_MODE, MODE_EDIT)

@@ -9,7 +9,7 @@ interface MoneyBoxOperationsRepository {
     fun getOperationsListFromDate(dateTimeMillis: Long): Flow<List<MoneyBoxOperation>>
     suspend fun removeAllOperations()
 
-    fun getOperation(id: Int): Flow<MoneyBoxOperation>
+    fun getOperation(id: Long): Flow<MoneyBoxOperation>
     suspend fun addOperation(operation: MoneyBoxOperation)
     suspend fun editOperation(operation: MoneyBoxOperation)
     suspend fun removeOperation(operation: MoneyBoxOperation)

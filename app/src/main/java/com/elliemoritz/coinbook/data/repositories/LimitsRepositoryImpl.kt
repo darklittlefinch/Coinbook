@@ -32,7 +32,7 @@ class LimitsRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getLimit(id: Int): Flow<Limit> = flow {
+    override fun getLimit(id: Long): Flow<Limit> = flow {
         val dbModel = dao.getLimit(id)
         val limit = mapper.mapDbModelToEntity(dbModel)
         emit(limit)
@@ -44,7 +44,7 @@ class LimitsRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getLimitByCategoryId(categoryId: Int): Flow<Limit?> = flow {
+    override fun getLimitByCategoryId(categoryId: Long): Flow<Limit?> = flow {
         val dbModel = dao.getLimitByCategoryId(categoryId)
         val limit = if (dbModel != null) {
             mapper.mapDbModelToEntity(dbModel)
@@ -79,7 +79,7 @@ class LimitsRepositoryImpl @Inject constructor(
         refreshData()
     }
 
-    override fun getLimitsCount(): Flow<Int> = flow {
+    override fun getLimitsCount(): Flow<Long> = flow {
         val limitsCount = dao.getLimitsCount()
         emit(limitsCount)
 

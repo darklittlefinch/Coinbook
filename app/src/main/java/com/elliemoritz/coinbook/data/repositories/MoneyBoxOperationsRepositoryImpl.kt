@@ -49,7 +49,7 @@ class MoneyBoxOperationsRepositoryImpl @Inject constructor(
         dao.removeAllOperations()
     }
 
-    override fun getOperation(id: Int): Flow<MoneyBoxOperation> = flow {
+    override fun getOperation(id: Long): Flow<MoneyBoxOperation> = flow {
         val dbModel = dao.getOperation(id)
         val operation = mapper.mapDbModelToEntity(dbModel)
         emit(operation)

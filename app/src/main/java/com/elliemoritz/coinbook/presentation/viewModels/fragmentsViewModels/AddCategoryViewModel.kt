@@ -39,7 +39,7 @@ class AddCategoryViewModel @Inject constructor(
     val state: Flow<FragmentCategoryState>
         get() = _state
 
-    fun setData(id: Int) {
+    fun setData(id: Long) {
 
         viewModelScope.launch {
 
@@ -82,7 +82,7 @@ class AddCategoryViewModel @Inject constructor(
         }
     }
 
-    fun editCategory(newName: String, newLimitAmountString: String, id: Int) {
+    fun editCategory(newName: String, newLimitAmountString: String, id: Long) {
 
         viewModelScope.launch {
 
@@ -132,7 +132,7 @@ class AddCategoryViewModel @Inject constructor(
         }
     }
 
-    private suspend fun createLimit(limitAmount: Int, categoryName: String, id: Int) {
+    private suspend fun createLimit(limitAmount: Int, categoryName: String, id: Long) {
         val limit = Limit(limitAmount, NO_DATA_VALUE, id, categoryName)
         addLimitUseCase(limit)
     }

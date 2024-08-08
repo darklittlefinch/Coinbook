@@ -231,7 +231,7 @@ class MoneyBoxActivity : AppCompatActivity(),
         startActivity(intent)
     }
 
-    private fun launchEditOperationOperationsActivity(id: Int) {
+    private fun launchEditOperationOperationsActivity(id: Long) {
         val intent = OperationsActivity.newIntentEdit(
             this,
             OperationsActivity.FRAGMENT_TYPE_MONEY_BOX_OPERATION,
@@ -266,7 +266,7 @@ class MoneyBoxActivity : AppCompatActivity(),
         beginOperationFragmentTransaction(fragment)
     }
 
-    private fun launchEditMoneyBoxOperationFragment(id: Int) {
+    private fun launchEditMoneyBoxOperationFragment(id: Long) {
         val fragment = AddMoneyBoxOperationFragment.newInstanceEdit(id)
         beginOperationFragmentTransaction(fragment)
     }

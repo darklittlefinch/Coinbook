@@ -13,7 +13,7 @@ interface CategoriesDao {
     suspend fun getCategoriesList(): List<CategoryDbModel>
 
     @Query("SELECT * FROM categories WHERE id = :id LIMIT 1")
-    suspend fun getCategory(id: Int): CategoryDbModel
+    suspend fun getCategory(id: Long): CategoryDbModel
 
     @Query("SELECT * FROM categories WHERE name = :name LIMIT 1")
     suspend fun getCategoryByName(name: String): CategoryDbModel?
@@ -22,5 +22,5 @@ interface CategoriesDao {
     suspend fun addCategory(category: CategoryDbModel): Long
 
     @Query("DELETE FROM categories WHERE id = :id")
-    suspend fun removeCategory(id: Int)
+    suspend fun removeCategory(id: Long)
 }

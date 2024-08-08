@@ -32,7 +32,7 @@ class DebtsRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getDebt(id: Int): Flow<Debt> = flow {
+    override fun getDebt(id: Long): Flow<Debt> = flow {
         val dbModel = dao.getDebt(id)
         val debt = mapper.mapDbModelToEntity(dbModel)
         emit(debt)

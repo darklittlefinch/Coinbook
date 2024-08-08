@@ -53,7 +53,7 @@ class AddExpenseViewModel @Inject constructor(
     val state: Flow<FragmentExpenseState>
         get() = _state.mergeWith(categoriesStateFlow)
 
-    fun setData(id: Int) {
+    fun setData(id: Long) {
         viewModelScope.launch {
             val expense = getExpenseUseCase(id).first()
             _state.emit(FragmentExpenseState.Amount(expense.amount.toString()))
@@ -101,7 +101,7 @@ class AddExpenseViewModel @Inject constructor(
         }
     }
 
-    fun editExpense(newAmountString: String, newCategoryName: String, id: Int) {
+    fun editExpense(newAmountString: String, newCategoryName: String, id: Long) {
 
         viewModelScope.launch {
 

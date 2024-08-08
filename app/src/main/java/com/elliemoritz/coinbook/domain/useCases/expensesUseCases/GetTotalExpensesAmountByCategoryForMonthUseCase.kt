@@ -7,7 +7,7 @@ import javax.inject.Inject
 class GetTotalExpensesAmountByCategoryForMonthUseCase @Inject constructor(
     private val repository: ExpensesRepository
 ) {
-    operator fun invoke(categoryId: Int): Flow<Int> {
+    operator fun invoke(categoryId: Long): Flow<Int> {
         return repository.getTotalExpensesAmountByCategoryForMonth(categoryId)
     }
 }

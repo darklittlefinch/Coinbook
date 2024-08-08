@@ -6,8 +6,8 @@ import com.elliemoritz.coinbook.domain.entities.helpers.UNDEFINED_ID
 data class DebtOperation(
     val amount: Int,
     val type: Type,
-    val debtId: Int,
+    val debtId: Long,
     val debtCreditor: String,
     val dateTimeMillis: Long,
-    val id: Int = UNDEFINED_ID,
+    val id: Long = UNDEFINED_ID,
 )

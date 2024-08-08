@@ -10,11 +10,11 @@ import com.elliemoritz.coinbook.data.dbModels.MoneyBoxDbModel
 interface MoneyBoxDao {
 
     @Query("SELECT * FROM money_box WHERE id = :id LIMIT 1")
-    suspend fun getMoneyBox(id: Int): MoneyBoxDbModel?
+    suspend fun getMoneyBox(id: Long): MoneyBoxDbModel?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addMoneyBox(moneyBox: MoneyBoxDbModel)
 
     @Query("DELETE FROM money_box WHERE id = :id")
-    suspend fun removeMoneyBox(id: Int)
+    suspend fun removeMoneyBox(id: Long)
 }

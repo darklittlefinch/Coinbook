@@ -54,7 +54,7 @@ class AddLimitViewModel @Inject constructor(
         get() = _state
             .mergeWith(categoriesStateFlow)
 
-    fun setData(id: Int) {
+    fun setData(id: Long) {
 
         viewModelScope.launch {
 
@@ -115,7 +115,7 @@ class AddLimitViewModel @Inject constructor(
         }
     }
 
-    fun editLimit(newLimitAmountString: String, newCategoryName: String, id: Int) {
+    fun editLimit(newLimitAmountString: String, newCategoryName: String, id: Long) {
 
         viewModelScope.launch {
 

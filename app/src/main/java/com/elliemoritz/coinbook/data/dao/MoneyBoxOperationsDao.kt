@@ -23,11 +23,11 @@ interface MoneyBoxOperationsDao {
     suspend fun removeAllOperations()
 
     @Query("SELECT * FROM mb_operations WHERE id = :id LIMIT 1")
-    suspend fun getOperation(id: Int): MoneyBoxOperationDbModel
+    suspend fun getOperation(id: Long): MoneyBoxOperationDbModel
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addOperation(operation: MoneyBoxOperationDbModel)
 
     @Query("DELETE FROM mb_operations WHERE id = :id")
-    suspend fun removeOperation(id: Int)
+    suspend fun removeOperation(id: Long)
 }

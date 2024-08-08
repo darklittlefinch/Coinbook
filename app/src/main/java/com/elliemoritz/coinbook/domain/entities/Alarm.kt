@@ -6,5 +6,5 @@ data class Alarm(
     val dateTimeMillis: Long,
     val description: String,
     val amount: Int,
-    val id: Int = UNDEFINED_ID
+    val id: Long = UNDEFINED_ID
 )

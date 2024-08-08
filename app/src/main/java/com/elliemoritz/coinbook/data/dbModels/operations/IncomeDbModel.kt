@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "income")
 data class IncomeDbModel(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val id: Long,
     val amount: Int,
     val source: String,
     val dateTimeMillis: Long

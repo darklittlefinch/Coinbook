@@ -13,13 +13,13 @@ interface DebtsDao {
     suspend fun getDebtsList(): List<DebtDbModel>
 
     @Query("SELECT * FROM debts WHERE id = :id LIMIT 1")
-    suspend fun getDebt(id: Int): DebtDbModel
+    suspend fun getDebt(id: Long): DebtDbModel
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addDebt(debt: DebtDbModel)
 
     @Query("DELETE FROM debts WHERE id = :id")
-    suspend fun removeDebt(id: Int)
+    suspend fun removeDebt(id: Long)
 
     @Query("SELECT SUM(amount) FROM debts WHERE finished = :finished")
     suspend fun getDebtsAmount(finished: Boolean): Int?

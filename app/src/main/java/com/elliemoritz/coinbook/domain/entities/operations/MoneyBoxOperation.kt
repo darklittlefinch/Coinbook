@@ -7,5 +7,5 @@ data class MoneyBoxOperation(
     val amount: Int,
     val type: Type,
     val dateTimeMillis: Long,
-    val id: Int = UNDEFINED_ID
+    val id: Long = UNDEFINED_ID
 )

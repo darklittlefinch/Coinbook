@@ -19,7 +19,7 @@ interface ExpensesDao {
                 "ORDER BY dateTimeMillis DESC"
     )
     suspend fun getCategoryExpensesListFromDate(
-        categoryId: Int,
+        categoryId: Long,
         dateMillis: Long
     ): List<ExpenseDbModel>
 
@@ -42,7 +42,7 @@ interface ExpensesDao {
                 "AND dateTimeMillis >= :dateTimeMillis"
     )
     suspend fun getOperationsAmountByCategoryFromDate(
-        categoryId: Int,
+        categoryId: Long,
         dateTimeMillis: Long
     ): Int?
 
@@ -50,11 +50,11 @@ interface ExpensesDao {
     suspend fun removeAllOperations()
 
     @Query("SELECT * FROM expenses WHERE id = :id LIMIT 1")
-    suspend fun getOperation(id: Int): ExpenseDbModel
+    suspend fun getOperation(id: Long): ExpenseDbModel
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addOperation(operation: ExpenseDbModel)
 
     @Query("DELETE FROM expenses WHERE id = :id")
-    suspend fun removeOperation(id: Int)
+    suspend fun removeOperation(id: Long)
 }

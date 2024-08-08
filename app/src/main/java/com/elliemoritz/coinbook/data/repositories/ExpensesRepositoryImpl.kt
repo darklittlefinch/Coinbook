@@ -47,7 +47,7 @@ class ExpensesRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getCategoryExpensesListForMonth(categoryId: Int): Flow<List<Expense>> = flow {
+    override fun getCategoryExpensesListForMonth(categoryId: Long): Flow<List<Expense>> = flow {
         val beginOfMonthMillis = getBeginOfMonthMillis()
         val dbModelsList = dao.getCategoryExpensesListFromDate(categoryId, beginOfMonthMillis)
         val expensesList = mapper.mapListDbModelToListEntities(dbModelsList)
@@ -68,7 +68,7 @@ class ExpensesRepositoryImpl @Inject constructor(
         dao.removeAllOperations()
     }
 
-    override fun getExpense(id: Int): Flow<Expense> = flow {
+    override fun getExpense(id: Long): Flow<Expense> = flow {
         val dbModel = dao.getOperation(id)
         val operation = mapper.mapDbModelToEntity(dbModel)
         emit(operation)
@@ -109,7 +109,7 @@ class ExpensesRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getTotalExpensesAmountByCategoryForMonth(categoryId: Int): Flow<Int> = flow {
+    override fun getTotalExpensesAmountByCategoryForMonth(categoryId: Long): Flow<Int> = flow {
         val beginOfMonthMillis = getBeginOfMonthMillis()
         val expensesAmount = dao.getOperationsAmountByCategoryFromDate(
             categoryId,

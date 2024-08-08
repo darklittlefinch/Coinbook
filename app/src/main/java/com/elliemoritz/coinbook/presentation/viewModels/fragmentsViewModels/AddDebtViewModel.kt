@@ -44,7 +44,7 @@ class AddDebtViewModel @Inject constructor(
     val state: Flow<FragmentDebtState>
         get() = _state
 
-    fun setData(id: Int) {
+    fun setData(id: Long) {
 
         viewModelScope.launch {
             val debt = getDebtUseCase(id).first()
@@ -98,7 +98,7 @@ class AddDebtViewModel @Inject constructor(
         addDebtOperationUseCase(debtOperation)
     }
 
-    fun editDebt(newAmountString: String, newCreditor: String, id: Int) {
+    fun editDebt(newAmountString: String, newCreditor: String, id: Long) {
 
         viewModelScope.launch {
 

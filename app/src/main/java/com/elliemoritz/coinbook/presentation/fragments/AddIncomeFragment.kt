@@ -38,8 +38,8 @@ class AddIncomeFragment : Fragment() {
         ViewModelProvider(this, viewModelFactory)[AddIncomeViewModel::class.java]
     }
 
-    private var mode = MODE_UNKNOWN
-    private var id = UNDEFINED_ID
+    private var mode: String = MODE_UNKNOWN
+    private var id: Long = UNDEFINED_ID
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -58,7 +58,7 @@ class AddIncomeFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             mode = it.getString(MODE, MODE_UNKNOWN)
-            id = it.getInt(INCOME_ID)
+            id = it.getLong(INCOME_ID)
         }
     }
 
@@ -154,11 +154,11 @@ class AddIncomeFragment : Fragment() {
             }
 
         @JvmStatic
-        fun newInstanceEdit(incomeId: Int) =
+        fun newInstanceEdit(id: Long) =
             AddIncomeFragment().apply {
                 arguments = Bundle().apply {
                     putString(MODE, MODE_EDIT)
-                    putInt(INCOME_ID, incomeId)
+                    putLong(INCOME_ID, id)
                 }
             }
     }

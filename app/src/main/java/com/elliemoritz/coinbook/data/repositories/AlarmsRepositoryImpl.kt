@@ -32,7 +32,7 @@ class AlarmsRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getAlarm(id: Int): Flow<Alarm> = flow {
+    override fun getAlarm(id: Long): Flow<Alarm> = flow {
         val dbModel = dao.getAlarm(id)
         val alarm = mapper.mapDbModelToEntity(dbModel)
         emit(alarm)
@@ -59,7 +59,7 @@ class AlarmsRepositoryImpl @Inject constructor(
         refreshData()
     }
 
-    override fun getAlarmsCount(): Flow<Int> = flow {
+    override fun getAlarmsCount(): Flow<Long> = flow {
         val alarmsCount = dao.getAlarmsCount()
         emit(alarmsCount)
 

@@ -185,7 +185,7 @@ class LimitsActivity : AppCompatActivity(),
         startActivity(intent)
     }
 
-    private fun launchEditOperationsActivity(id: Int) {
+    private fun launchEditOperationsActivity(id: Long) {
         val intent = OperationsActivity.newIntentEdit(
             this,
             OperationsActivity.FRAGMENT_TYPE_LIMIT,
@@ -207,7 +207,7 @@ class LimitsActivity : AppCompatActivity(),
         beginFragmentTransaction(fragment)
     }
 
-    private fun launchEditLimitFragment(id: Int) {
+    private fun launchEditLimitFragment(id: Long) {
         val fragment = AddLimitFragment.newInstanceEdit(id)
         beginFragmentTransaction(fragment)
     }

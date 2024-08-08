@@ -51,7 +51,7 @@ class IncomeRepositoryImpl @Inject constructor(
         dao.removeAllOperations()
     }
 
-    override fun getIncome(id: Int): Flow<Income> = flow {
+    override fun getIncome(id: Long): Flow<Income> = flow {
         val dbModel = dao.getOperation(id)
         val income = mapper.mapDbModelToEntity(dbModel)
         emit(income)

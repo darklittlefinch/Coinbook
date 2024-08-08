@@ -32,7 +32,7 @@ class CategoriesRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getCategory(id: Int): Flow<Category> = flow {
+    override fun getCategory(id: Long): Flow<Category> = flow {
         val dbModel = dao.getCategory(id)
         val category = mapper.mapDbModelToEntity(dbModel)
         emit(category)
@@ -64,10 +64,10 @@ class CategoriesRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun addCategory(category: Category): Int {
+    override suspend fun addCategory(category: Category): Long {
         val dbModel = mapper.mapEntityToDbModel(category)
         val id = dao.addCategory(dbModel)
-        return id.toInt()
+        return id
     }
 
     override suspend fun editCategory(category: Category) {

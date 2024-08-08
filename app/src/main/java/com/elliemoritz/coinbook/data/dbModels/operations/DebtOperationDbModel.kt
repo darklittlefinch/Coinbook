@@ -6,10 +6,10 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "debt_operations")
 data class DebtOperationDbModel(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val id: Long,
     val amount: Int,
     val type: String,
-    val debtId: Int,
+    val debtId: Long,
     val debtCreditor: String,
     val dateTimeMillis: Long,
 )

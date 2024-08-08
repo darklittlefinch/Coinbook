@@ -5,9 +5,9 @@ data class MoneyBox(
     val goal: String,
     val startedMillis: Long,
     val totalAmount: Int = 0,
-    val id: Int = MONEY_BOX_ID
+    val id: Long = MONEY_BOX_ID
 ) {
     companion object {
-        const val MONEY_BOX_ID = 1
+        const val MONEY_BOX_ID = 1L
     }
 }

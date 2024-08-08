@@ -36,7 +36,7 @@ class DebtsOperationsRepositoryImpl @Inject constructor(
         dao.removeAllOperations()
     }
 
-    override fun getOperation(id: Int): Flow<DebtOperation> = flow {
+    override fun getOperation(id: Long): Flow<DebtOperation> = flow {
         val dbModel = dao.getOperation(id)
         val operation = mapper.mapDbModelToEntity(dbModel)
         emit(operation)
@@ -48,7 +48,7 @@ class DebtsOperationsRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getOperationByDebtId(debtId: Int): Flow<DebtOperation> = flow {
+    override fun getOperationByDebtId(debtId: Long): Flow<DebtOperation> = flow {
         val dbModel = dao.getOperationByDebtId(debtId)
         val operation = mapper.mapDbModelToEntity(dbModel)
         emit(operation)

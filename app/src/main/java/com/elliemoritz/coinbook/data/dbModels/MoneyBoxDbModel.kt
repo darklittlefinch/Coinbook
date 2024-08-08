@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "money_box")
 data class MoneyBoxDbModel(
     @PrimaryKey(autoGenerate = false)
-    val id: Int,
+    val id: Long,
     val goalAmount: Int,
     val totalAmount: Int,
     val goal: String,

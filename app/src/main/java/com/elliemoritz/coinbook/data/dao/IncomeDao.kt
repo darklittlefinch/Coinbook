@@ -29,11 +29,11 @@ interface IncomeDao {
     suspend fun removeAllOperations()
 
     @Query("SELECT * FROM income WHERE id = :id LIMIT 1")
-    suspend fun getOperation(id: Int): IncomeDbModel
+    suspend fun getOperation(id: Long): IncomeDbModel
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addOperation(operation: IncomeDbModel)
 
     @Query("DELETE FROM income WHERE id = :id")
-    suspend fun removeOperation(id: Int)
+    suspend fun removeOperation(id: Long)
 }

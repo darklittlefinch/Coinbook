@@ -180,7 +180,7 @@ class DebtsActivity : AppCompatActivity(), OnEditingListener {
         startActivity(intent)
     }
 
-    private fun launchEditOperationActivity(id: Int) {
+    private fun launchEditOperationActivity(id: Long) {
         val intent = OperationsActivity.newIntentEdit(
             this,
             OperationsActivity.FRAGMENT_TYPE_DEBT,
@@ -194,7 +194,7 @@ class DebtsActivity : AppCompatActivity(), OnEditingListener {
         beginFragmentTransaction(fragment)
     }
 
-    private fun launchEditDebtFragment(id: Int) {
+    private fun launchEditDebtFragment(id: Long) {
         val fragment = AddDebtFragment.newInstanceEdit(id)
         beginFragmentTransaction(fragment)
     }

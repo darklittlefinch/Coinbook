@@ -36,7 +36,7 @@ class AddIncomeViewModel @Inject constructor(
     val state: Flow<FragmentIncomeState>
         get() = _state
 
-    fun setData(id: Int) {
+    fun setData(id: Long) {
         viewModelScope.launch {
             val data = getIncomeUseCase(id).first()
             _state.emit(
@@ -77,7 +77,7 @@ class AddIncomeViewModel @Inject constructor(
         }
     }
 
-    fun editIncome(newAmountString: String, newSource: String, id: Int) {
+    fun editIncome(newAmountString: String, newSource: String, id: Long) {
 
         viewModelScope.launch {
 

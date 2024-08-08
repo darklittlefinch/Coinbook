@@ -47,7 +47,7 @@ class AddMoneyBoxOperationViewModel @Inject constructor(
     val state: Flow<FragmentMoneyBoxOperationState>
         get() = _state
 
-    fun setData(id: Int) {
+    fun setData(id: Long) {
         viewModelScope.launch {
             val operation = getMoneyBoxOperationUseCase(id).first()
             _state.emit(
@@ -94,7 +94,7 @@ class AddMoneyBoxOperationViewModel @Inject constructor(
         }
     }
 
-    fun editMoneyBoxOperation(newAmountString: String, id: Int) {
+    fun editMoneyBoxOperation(newAmountString: String, id: Long) {
 
         viewModelScope.launch {
 

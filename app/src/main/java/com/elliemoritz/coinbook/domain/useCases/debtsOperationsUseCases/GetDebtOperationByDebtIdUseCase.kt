@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetDebtOperationByDebtIdUseCase @Inject constructor(
     private val repository: DebtsOperationsRepository
 ) {
-    operator fun invoke(debtId: Int): Flow<DebtOperation> {
+    operator fun invoke(debtId: Long): Flow<DebtOperation> {
         return repository.getOperationByDebtId(debtId)
     }
 }

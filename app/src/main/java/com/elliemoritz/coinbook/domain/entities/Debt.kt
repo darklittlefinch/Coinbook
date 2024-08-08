@@ -7,5 +7,5 @@ data class Debt(
     val creditor: String,
     val startedMillis: Long,
     val finished: Boolean,
-    val id: Int = UNDEFINED_ID
+    val id: Long = UNDEFINED_ID
 )

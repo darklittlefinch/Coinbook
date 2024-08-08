@@ -4,8 +4,8 @@ import com.elliemoritz.coinbook.domain.entities.helpers.UNDEFINED_ID
 
 data class Expense(
     val amount: Int,
-    val categoryId: Int,
+    val categoryId: Long,
     val categoryName: String,
     val dateTimeMillis: Long,
-    val id: Int = UNDEFINED_ID
+    val id: Long = UNDEFINED_ID
 )

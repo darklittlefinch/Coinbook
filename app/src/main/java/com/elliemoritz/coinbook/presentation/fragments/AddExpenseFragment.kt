@@ -42,7 +42,7 @@ class AddExpenseFragment : Fragment() {
     }
 
     private var mode: String = MODE_UNKNOWN
-    private var id: Int = UNDEFINED_ID
+    private var id: Long = UNDEFINED_ID
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -69,7 +69,7 @@ class AddExpenseFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             mode = it.getString(MODE, MODE_UNKNOWN)
-            id = it.getInt(EXPENSE_ID)
+            id = it.getLong(EXPENSE_ID)
         }
     }
 
@@ -179,10 +179,10 @@ class AddExpenseFragment : Fragment() {
             }
 
         @JvmStatic
-        fun newInstanceEdit(id: Int) =
+        fun newInstanceEdit(id: Long) =
             AddExpenseFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(EXPENSE_ID, id)
+                    putLong(EXPENSE_ID, id)
                     putString(MODE, MODE_EDIT)
                 }
             }

@@ -12,7 +12,7 @@ data class Operation(
     val type: Type,
     val amount: Int,
     val dateTimeMillis: Long,
-    val operationId: Int,
+    val operationId: Long,
 
     /**
      * The field "info" in Operation class must contain information for HistoryActivity.

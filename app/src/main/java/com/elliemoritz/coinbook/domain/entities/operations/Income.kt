@@ -6,5 +6,5 @@ data class Income(
     val amount: Int,
     val source: String,
     val dateTimeMillis: Long,
-    val id: Int = UNDEFINED_ID
+    val id: Long = UNDEFINED_ID
 )

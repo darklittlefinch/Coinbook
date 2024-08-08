@@ -39,7 +39,7 @@ class AddDebtFragment : Fragment() {
     }
 
     private var mode: String = MODE_UNKNOWN
-    private var id: Int = UNDEFINED_ID
+    private var id: Long = UNDEFINED_ID
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -58,7 +58,7 @@ class AddDebtFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             mode = it.getString(MODE, MODE_UNKNOWN)
-            id = it.getInt(ID)
+            id = it.getLong(ID)
         }
     }
 
@@ -152,10 +152,10 @@ class AddDebtFragment : Fragment() {
             }
 
         @JvmStatic
-        fun newInstanceEdit(id: Int) =
+        fun newInstanceEdit(id: Long) =
             AddDebtFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(ID, id)
+                    putLong(ID, id)
                     putString(MODE, MODE_EDIT)
                 }
             }

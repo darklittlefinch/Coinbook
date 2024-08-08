@@ -7,7 +7,7 @@ import javax.inject.Inject
 class GetAlarmsCountUseCase @Inject constructor(
     private val alarmsRepository: AlarmsRepository
 ) {
-    operator fun invoke(): Flow<Int> {
+    operator fun invoke(): Flow<Long> {
         return alarmsRepository.getAlarmsCount()
     }
 }

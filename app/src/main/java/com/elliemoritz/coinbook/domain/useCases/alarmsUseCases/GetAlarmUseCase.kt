@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetAlarmUseCase @Inject constructor(
     private val alarmsRepository: AlarmsRepository
 ) {
-    operator fun invoke(id: Int): Flow<Alarm> {
+    operator fun invoke(id: Long): Flow<Alarm> {
         return alarmsRepository.getAlarm(id)
     }
 }

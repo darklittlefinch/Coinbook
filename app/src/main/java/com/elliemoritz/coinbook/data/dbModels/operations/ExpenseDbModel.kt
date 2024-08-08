@@ -6,9 +6,9 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "expenses")
 data class ExpenseDbModel(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val id: Long,
     val amount: Int,
-    val categoryId: Int,
+    val categoryId: Long,
     val categoryName: String,
     val dateTimeMillis: Long
 )
