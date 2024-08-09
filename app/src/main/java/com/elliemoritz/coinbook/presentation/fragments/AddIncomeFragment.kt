@@ -49,7 +49,7 @@ class AddIncomeFragment : Fragment() {
             onEditingListener = context
         } else {
             throw RuntimeException(
-                "AddIncomeFragment: Activity must implement OnEditingFinishedListener"
+                "AddIncomeFragment: Activity must implement OnEditingListener"
             )
         }
     }
