@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetLimitByCategoryIdUseCase @Inject constructor(
     private val limitsRepository: LimitsRepository
 ) {
-    operator fun invoke(categoryId: Int): Flow<Limit?> {
+    operator fun invoke(categoryId: Long): Flow<Limit?> {
         return limitsRepository.getLimitByCategoryId(categoryId)
     }
 }

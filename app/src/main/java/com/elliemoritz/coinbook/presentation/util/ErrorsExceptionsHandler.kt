@@ -3,7 +3,11 @@ package com.elliemoritz.coinbook.presentation.util
 import androidx.core.text.isDigitsOnly
 import com.elliemoritz.coinbook.domain.exceptions.EmptyFieldsException
 import com.elliemoritz.coinbook.domain.exceptions.IncorrectNumberException
+import com.elliemoritz.coinbook.domain.exceptions.LimitWithoutValueException
 import com.elliemoritz.coinbook.domain.exceptions.NoChangesException
+import com.elliemoritz.coinbook.domain.exceptions.NotEnoughMoneyException
+
+private const val NO_DATA_VALUE = 0
 
 fun checkEmptyFields(vararg fields: String) {
     for (field in fields) {
@@ -35,4 +39,16 @@ fun checkNoChanges(newList: List<Any>, oldList: List<Any>) {
     }
 
     throw NoChangesException()
+}
+
+fun checkNotEnoughMoney(amount: Int, balance: Int) {
+    if (amount > balance) {
+        throw NotEnoughMoneyException()
+    }
+}
+
+fun checkLimitWithoutValue(amount: Int) {
+    if (amount <= NO_DATA_VALUE) {
+        throw LimitWithoutValueException()
+    }
 }

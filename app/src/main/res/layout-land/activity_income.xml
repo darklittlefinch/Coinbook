@@ -43,16 +43,6 @@
         app:layout_constraintTop_toTopOf="@+id/tv_income_title"
         app:srcCompat="@drawable/ic_plus_rounded" />
 
-    <ImageView
-        android:id="@+id/iv_income"
-        style="@style/details_medium_image"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/content_description_simple_income_image"
-        android:src="@drawable/ic_income"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_income"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_income_title" />
-
     <TextView
         android:id="@+id/tv_income_amount"
         style="@style/details_numbers_land"
@@ -60,22 +50,36 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toStartOf="@+id/guideline_income"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_income"
+        app:layout_constraintTop_toBottomOf="@+id/tv_income_title"
         tools:text="37 500 ₽" />
+
+    <TextView
+        android:id="@+id/tv_no_income_info"
+        style="@style/details_with_numbers_info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/no_income"
+        android:textAlignment="center"
+        android:textColor="@color/dark_gray"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@id/guideline_income"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_income_amount" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_income"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
+        android:layout_height="0dp"
+        android:padding="4dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline_income"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_income_amount"
         tools:listitem="@layout/item_income" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/income_container"
-        android:name="com.elliemoritz.coinbook.presentation.fragments.AddIncomeFragment"
+        android:id="@+id/fragment_container_income"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"

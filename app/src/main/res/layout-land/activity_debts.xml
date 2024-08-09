@@ -43,16 +43,6 @@
         app:layout_constraintTop_toTopOf="@+id/tv_debts_title"
         app:srcCompat="@drawable/ic_plus_rounded" />
 
-    <ImageView
-        android:id="@+id/iv_debts"
-        style="@style/details_medium_image"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/content_description_simple_debt_image"
-        android:src="@drawable/ic_debt"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_debts"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_debts_title" />
-
     <TextView
         android:id="@+id/tv_debts_amount"
         style="@style/details_numbers_land"
@@ -60,7 +50,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toStartOf="@+id/guideline_debts"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_debts"
+        app:layout_constraintTop_toBottomOf="@+id/tv_debts_title"
         tools:text="2 500 ₽" />
 
     <TextView
@@ -68,8 +58,10 @@
         style="@style/detail_with_numbers_info_land"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:text="@string/no_debts"
         android:textAlignment="center"
         android:textColor="@color/dark_gray"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_debts_amount"
         app:layout_constraintEnd_toStartOf="@+id/guideline_debts"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_debts_amount"
@@ -78,16 +70,17 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_debts"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
+        android:layout_height="0dp"
+        android:padding="4dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/guideline_debts"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_debts_info"
         tools:listitem="@layout/item_debt" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/debts_container"
-        android:name="com.elliemoritz.coinbook.presentation.fragments.AddDebtFragment"
+        android:id="@+id/fragment_container_debts"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"

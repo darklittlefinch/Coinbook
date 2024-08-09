@@ -6,6 +6,6 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "categories")
 data class CategoryDbModel(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val id: Long,
     val name: String
 )

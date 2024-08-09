@@ -16,6 +16,7 @@ import com.elliemoritz.coinbook.domain.entities.helpers.UNDEFINED_ID
 import com.elliemoritz.coinbook.presentation.CoinBookApp
 import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentLimitState
 import com.elliemoritz.coinbook.presentation.util.OnEditingListener
+import com.elliemoritz.coinbook.presentation.util.OnLimitWithoutValueListener
 import com.elliemoritz.coinbook.presentation.viewModels.ViewModelFactory
 import com.elliemoritz.coinbook.presentation.viewModels.fragmentsViewModels.AddLimitViewModel
 import kotlinx.coroutines.launch
@@ -24,6 +25,7 @@ import javax.inject.Inject
 class AddLimitFragment : Fragment() {
 
     private lateinit var onEditingListener: OnEditingListener
+    private lateinit var onLimitWithoutValueListener: OnLimitWithoutValueListener
 
     private val component by lazy {
         (requireActivity().application as CoinBookApp).component
@@ -40,7 +42,7 @@ class AddLimitFragment : Fragment() {
     }
 
     private var mode: String = MODE_UNKNOWN
-    private var id: Int = UNDEFINED_ID
+    private var id: Long = UNDEFINED_ID
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -53,13 +55,21 @@ class AddLimitFragment : Fragment() {
                 "AddLimitFragment: Activity must implement OnEditingListener"
             )
         }
+
+        if (context is OnLimitWithoutValueListener) {
+            onLimitWithoutValueListener = context
+        } else {
+            throw RuntimeException(
+                "AddLimitFragment: Activity must implement OnLimitWithoutValueListener"
+            )
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             mode = it.getString(MODE, MODE_UNKNOWN)
-            id = it.getInt(ID)
+            id = it.getLong(ID)
         }
     }
 
@@ -107,6 +117,9 @@ class AddLimitFragment : Fragment() {
                             onEditingListener.onNoChanges()
                         }
 
+                        FragmentLimitState.LimitWithoutValue -> {
+                            onLimitWithoutValueListener.onLimitWithoutValue()
+                        }
 
                         is FragmentLimitState.IncorrectNumber -> {
                             onEditingListener.onIncorrectNumber()
@@ -136,7 +149,7 @@ class AddLimitFragment : Fragment() {
                 binding.buttonAddLimit.setOnClickListener {
                     val amount = binding.etAddLimitAmount.text.toString()
                     val categoryName = binding.spinnerAddLimit.selectedItem.toString()
-                    viewModel.editLimit(amount, categoryName)
+                    viewModel.editLimit(amount, categoryName, id)
                 }
             }
 
@@ -147,6 +160,8 @@ class AddLimitFragment : Fragment() {
     }
 
     companion object {
+
+        const val NAME = "AddLimitFragment"
 
         private const val MODE = "mode"
         private const val ID = "id"
@@ -164,11 +179,11 @@ class AddLimitFragment : Fragment() {
             }
 
         @JvmStatic
-        fun newInstanceEdit(id: Int) =
+        fun newInstanceEdit(id: Long) =
             AddLimitFragment().apply {
                 arguments = Bundle().apply {
                     putString(MODE, MODE_EDIT)
-                    putInt(ID, id)
+                    putLong(ID, id)
                 }
             }
     }

@@ -1,11 +1,9 @@
 package com.elliemoritz.coinbook.presentation.states
 
-import android.media.VolumeShaper.Operation
+import com.elliemoritz.coinbook.domain.entities.operations.Operation
 
-sealed class HistoryState
-
-data object NoHistoryData : HistoryState()
-
-class HistoryData(
-    operations: List<Operation>
-) : HistoryState()
+sealed class HistoryState {
+    data object NoData : HistoryState()
+    data object HasData : HistoryState()
+    class OperationsList(val list: List<Operation>) : HistoryState()
+}

@@ -5,17 +5,23 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.elliemoritz.coinbook.data.dao.AlarmsDao
-import com.elliemoritz.coinbook.data.dao.DebtsDao
 import com.elliemoritz.coinbook.data.dao.CategoriesDao
+import com.elliemoritz.coinbook.data.dao.DebtsDao
+import com.elliemoritz.coinbook.data.dao.DebtsOperationsDao
+import com.elliemoritz.coinbook.data.dao.ExpensesDao
+import com.elliemoritz.coinbook.data.dao.IncomeDao
 import com.elliemoritz.coinbook.data.dao.LimitsDao
 import com.elliemoritz.coinbook.data.dao.MoneyBoxDao
-import com.elliemoritz.coinbook.data.dao.OperationsDao
+import com.elliemoritz.coinbook.data.dao.MoneyBoxOperationsDao
 import com.elliemoritz.coinbook.data.dbModels.AlarmDbModel
-import com.elliemoritz.coinbook.data.dbModels.DebtDbModel
 import com.elliemoritz.coinbook.data.dbModels.CategoryDbModel
+import com.elliemoritz.coinbook.data.dbModels.DebtDbModel
 import com.elliemoritz.coinbook.data.dbModels.LimitDbModel
 import com.elliemoritz.coinbook.data.dbModels.MoneyBoxDbModel
-import com.elliemoritz.coinbook.data.dbModels.OperationDbModel
+import com.elliemoritz.coinbook.data.dbModels.operations.DebtOperationDbModel
+import com.elliemoritz.coinbook.data.dbModels.operations.ExpenseDbModel
+import com.elliemoritz.coinbook.data.dbModels.operations.IncomeDbModel
+import com.elliemoritz.coinbook.data.dbModels.operations.MoneyBoxOperationDbModel
 
 @Database(
     entities = [
@@ -24,7 +30,10 @@ import com.elliemoritz.coinbook.data.dbModels.OperationDbModel
         CategoryDbModel::class,
         LimitDbModel::class,
         MoneyBoxDbModel::class,
-        OperationDbModel::class
+        IncomeDbModel::class,
+        ExpenseDbModel::class,
+        MoneyBoxOperationDbModel::class,
+        DebtOperationDbModel::class
     ],
     version = 1,
     exportSchema = false
@@ -36,7 +45,10 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun categoriesDao(): CategoriesDao
     abstract fun limitsDao(): LimitsDao
     abstract fun moneyBoxDao(): MoneyBoxDao
-    abstract fun operationsDao(): OperationsDao
+    abstract fun incomeDao(): IncomeDao
+    abstract fun expensesDao(): ExpensesDao
+    abstract fun moneyBoxOperationsDao(): MoneyBoxOperationsDao
+    abstract fun debtsOperationsDao(): DebtsOperationsDao
 
     companion object {
 

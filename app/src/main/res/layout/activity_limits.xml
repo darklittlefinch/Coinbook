@@ -36,19 +36,9 @@
         app:layout_constraintTop_toTopOf="@+id/tv_limits_title"
         app:srcCompat="@drawable/ic_plus_rounded" />
 
-    <ImageView
-        android:id="@+id/iv_limits"
-        style="@style/details_medium_image"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/content_description_simple_limit_image"
-        android:src="@drawable/ic_limit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_limits_title" />
-
     <TextView
         android:id="@+id/tv_limits_info"
-        style="@style/details_without_numbers_info"
+        style="@style/details_with_numbers_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/no_limits"
@@ -56,29 +46,28 @@
         android:textColor="@color/dark_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_limits"
-        tools:text="You can spend 7 473 ₽ more this month" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_limits_title" />
+
+    <Button
+        android:id="@+id/button_limits_add_category"
+        style="@style/details_add_category_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/info_expenses_add_new_category"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_limits_info" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_limits"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_limits_info"
-        tools:listitem="@layout/item_limit" />
-
-    <ImageView
-        android:id="@+id/iv_no_limits"
-        style="@style/details_giant_image"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/content_description_add_new_limit"
-        android:src="@drawable/ic_plus_rounded_gray"
-        android:visibility="invisible"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="8dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/button_limits_add_category"
+        tools:listitem="@layout/item_limit" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,8 +21,13 @@ import com.elliemoritz.coinbook.presentation.fragments.AddMoneyBoxFragment
 import com.elliemoritz.coinbook.presentation.fragments.AddMoneyBoxOperationFragment
 import com.elliemoritz.coinbook.presentation.fragments.EditBalanceFragment
 import com.elliemoritz.coinbook.presentation.util.OnEditingListener
+import com.elliemoritz.coinbook.presentation.util.OnLimitWithoutValueListener
+import com.elliemoritz.coinbook.presentation.util.OnNotEnoughMoneyListener
 
-class OperationsActivity : AppCompatActivity(), OnEditingListener {
+class OperationsActivity : AppCompatActivity(),
+    OnEditingListener,
+    OnNotEnoughMoneyListener,
+    OnLimitWithoutValueListener {
 
     private val fragmentType by lazy {
         intent.getStringExtra(EXTRA_FRAGMENT_TYPE)
@@ -33,7 +38,7 @@ class OperationsActivity : AppCompatActivity(), OnEditingListener {
     }
 
     private val id by lazy {
-        intent.getIntExtra(EXTRA_ID, UNDEFINED_ID)
+        intent.getLongExtra(EXTRA_ID, UNDEFINED_ID)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -175,16 +180,32 @@ class OperationsActivity : AppCompatActivity(), OnEditingListener {
         const val MODE_REMOVE = "remove"
         const val MODE_EDIT = "edit"
 
-        fun newIntent(
-            context: Context,
-            fragment: String,
-            mode: String,
-            id: Int = UNDEFINED_ID
-        ): Intent {
+        fun newIntentAdd(context: Context, fragmentType: String): Intent {
             val intent = Intent(context, OperationsActivity::class.java)
-            intent.putExtra(EXTRA_FRAGMENT_TYPE, fragment)
-            intent.putExtra(EXTRA_MODE, mode)
+            intent.putExtra(EXTRA_FRAGMENT_TYPE, fragmentType)
+            intent.putExtra(EXTRA_MODE, MODE_ADD)
+            return intent
+        }
+
+        fun newIntentRemove(context: Context, fragmentType: String): Intent {
+            val intent = Intent(context, OperationsActivity::class.java)
+            intent.putExtra(EXTRA_FRAGMENT_TYPE, fragmentType)
+            intent.putExtra(EXTRA_MODE, MODE_REMOVE)
+            return intent
+        }
+
+        fun newIntentEdit(context: Context, fragmentType: String, id: Long): Intent {
+            val intent = Intent(context, OperationsActivity::class.java)
+            intent.putExtra(EXTRA_FRAGMENT_TYPE, fragmentType)
+            intent.putExtra(EXTRA_MODE, MODE_EDIT)
             intent.putExtra(EXTRA_ID, id)
+            return intent
+        }
+
+        fun newIntentEditWithoutId(context: Context, fragmentType: String): Intent {
+            val intent = Intent(context, OperationsActivity::class.java)
+            intent.putExtra(EXTRA_FRAGMENT_TYPE, fragmentType)
+            intent.putExtra(EXTRA_MODE, MODE_EDIT)
             return intent
         }
     }
@@ -219,6 +240,22 @@ class OperationsActivity : AppCompatActivity(), OnEditingListener {
         Toast.makeText(
             this,
             getString(R.string.toast_error_no_changes),
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    override fun onNotEnoughMoney() {
+        Toast.makeText(
+            this,
+            getString(R.string.toast_error_not_enough_money),
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    override fun onLimitWithoutValue() {
+        Toast.makeText(
+            this,
+            getString(R.string.toast_error_limit_without_value),
             Toast.LENGTH_SHORT
         ).show()
     }

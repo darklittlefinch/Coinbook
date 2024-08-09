@@ -2,11 +2,11 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cv_item_money_box"
     style="@style/base_narrow_top_bottom"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardBackgroundColor="@color/creamy"
-    app:cardCornerRadius="8dp"
     app:cardElevation="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,7 +23,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="500 ₽" />
+            tools:text="+ 500 ₽"
+            tools:textColor="@color/dark_green" />
 
         <TextView
             android:id="@+id/tv_money_box_date"
@@ -35,7 +36,7 @@
             app:layout_constraintBottom_toTopOf="@id/tv_money_box_time"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="01.11.2023" />
+            tools:text="Aug 1, 2024" />
 
         <TextView
             android:id="@+id/tv_money_box_time"
@@ -47,7 +48,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_money_box_date"
-            tools:text="23:52" />
+            tools:text="6:34 PM" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -38,8 +38,8 @@ class AddIncomeFragment : Fragment() {
         ViewModelProvider(this, viewModelFactory)[AddIncomeViewModel::class.java]
     }
 
-    private var mode = MODE_UNKNOWN
-    private var incomeId = UNDEFINED_ID
+    private var mode: String = MODE_UNKNOWN
+    private var id: Long = UNDEFINED_ID
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -49,7 +49,7 @@ class AddIncomeFragment : Fragment() {
             onEditingListener = context
         } else {
             throw RuntimeException(
-                "AddIncomeFragment: Activity must implement OnEditingFinishedListener"
+                "AddIncomeFragment: Activity must implement OnEditingListener"
             )
         }
     }
@@ -58,7 +58,7 @@ class AddIncomeFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             mode = it.getString(MODE, MODE_UNKNOWN)
-            incomeId = it.getInt(INCOME_ID)
+            id = it.getLong(INCOME_ID)
         }
     }
 
@@ -93,7 +93,7 @@ class AddIncomeFragment : Fragment() {
                 binding.buttonAddIncome.setOnClickListener {
                     val amount = binding.etAddIncomeAmount.text.toString()
                     val source = binding.etAddIncomeSource.text.toString()
-                    viewModel.editIncome(amount, source)
+                    viewModel.editIncome(amount, source, id)
                 }
             }
 
@@ -136,6 +136,8 @@ class AddIncomeFragment : Fragment() {
 
     companion object {
 
+        const val NAME = "AddIncomeFragment"
+
         private const val MODE = "mode"
         private const val INCOME_ID = "id"
 
@@ -152,11 +154,11 @@ class AddIncomeFragment : Fragment() {
             }
 
         @JvmStatic
-        fun newInstanceEdit(incomeId: Int) =
+        fun newInstanceEdit(id: Long) =
             AddIncomeFragment().apply {
                 arguments = Bundle().apply {
                     putString(MODE, MODE_EDIT)
-                    putInt(INCOME_ID, incomeId)
+                    putLong(INCOME_ID, id)
                 }
             }
     }

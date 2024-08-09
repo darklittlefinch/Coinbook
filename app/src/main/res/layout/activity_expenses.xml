@@ -36,16 +36,6 @@
         app:layout_constraintTop_toTopOf="@+id/tv_expenses_title"
         app:srcCompat="@drawable/ic_plus_rounded" />
 
-    <ImageView
-        android:id="@+id/iv_expense"
-        style="@style/details_medium_image"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/content_description_simple_expense_image"
-        android:src="@drawable/ic_expense"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_expenses_title" />
-
     <TextView
         android:id="@+id/tv_expenses_amount"
         style="@style/details_numbers_portrait"
@@ -53,7 +43,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_expense"
+        app:layout_constraintTop_toBottomOf="@+id/tv_expenses_title"
         tools:text="12 527 ₽" />
 
     <TextView
@@ -64,13 +54,14 @@
         android:text="@string/no_expenses"
         android:textAlignment="center"
         android:textColor="@color/dark_gray"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_expenses_amount"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_expenses_amount"
         tools:text="You can spend 7 473 ₽ more this month" />
 
     <Button
-        android:id="@+id/button_add_category"
+        android:id="@+id/button_expenses_add_category"
         style="@style/details_add_category_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -81,24 +72,14 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_expenses"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_add_category"
-        tools:listitem="@layout/item_expense" />
-
-    <ImageView
-        android:id="@+id/iv_no_expenses"
-        style="@style/details_giant_image"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/content_description_add_new_expense"
-        android:src="@drawable/ic_plus_rounded_gray"
-        android:visibility="invisible"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="8dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/button_expenses_add_category"
+        tools:listitem="@layout/item_expense" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

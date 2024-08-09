@@ -36,7 +36,7 @@
             <EditText
                 android:id="@+id/et_add_category_name"
                 style="@style/add_fragments_inputs"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_name"
                 android:importantForAutofill="no"
@@ -50,7 +50,7 @@
             <EditText
                 android:id="@+id/et_add_category_limit"
                 style="@style/add_fragments_inputs"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_limit"
                 android:importantForAutofill="no"

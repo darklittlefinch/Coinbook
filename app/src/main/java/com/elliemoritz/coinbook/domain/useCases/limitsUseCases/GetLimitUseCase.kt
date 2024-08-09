@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetLimitUseCase @Inject constructor(
     private val limitsRepository: LimitsRepository
 ) {
-    operator fun invoke(id: Int): Flow<Limit> {
+    operator fun invoke(id: Long): Flow<Limit> {
         return limitsRepository.getLimit(id)
     }
 }

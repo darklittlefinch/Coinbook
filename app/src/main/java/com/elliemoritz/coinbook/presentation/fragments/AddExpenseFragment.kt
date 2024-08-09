@@ -16,6 +16,7 @@ import com.elliemoritz.coinbook.domain.entities.helpers.UNDEFINED_ID
 import com.elliemoritz.coinbook.presentation.CoinBookApp
 import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentExpenseState
 import com.elliemoritz.coinbook.presentation.util.OnEditingListener
+import com.elliemoritz.coinbook.presentation.util.OnNotEnoughMoneyListener
 import com.elliemoritz.coinbook.presentation.viewModels.ViewModelFactory
 import com.elliemoritz.coinbook.presentation.viewModels.fragmentsViewModels.AddExpenseViewModel
 import kotlinx.coroutines.launch
@@ -24,6 +25,7 @@ import javax.inject.Inject
 class AddExpenseFragment : Fragment() {
 
     private lateinit var onEditingListener: OnEditingListener
+    private lateinit var onNotEnoughMoneyListener: OnNotEnoughMoneyListener
 
     private val component by lazy {
         (requireActivity().application as CoinBookApp).component
@@ -40,7 +42,7 @@ class AddExpenseFragment : Fragment() {
     }
 
     private var mode: String = MODE_UNKNOWN
-    private var id: Int = UNDEFINED_ID
+    private var id: Long = UNDEFINED_ID
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -53,13 +55,21 @@ class AddExpenseFragment : Fragment() {
                 "AddExpenseFragment: Activity must implement OnEditingListener"
             )
         }
+
+        if (context is OnNotEnoughMoneyListener) {
+            onNotEnoughMoneyListener = context
+        } else {
+            throw RuntimeException(
+                "AddExpenseFragment: Activity must implement OnNotEnoughMoneyListener"
+            )
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             mode = it.getString(MODE, MODE_UNKNOWN)
-            id = it.getInt(EXPENSE_ID)
+            id = it.getLong(EXPENSE_ID)
         }
     }
 
@@ -114,6 +124,10 @@ class AddExpenseFragment : Fragment() {
                         is FragmentExpenseState.Finish -> {
                             onEditingListener.onFinished()
                         }
+
+                        is FragmentExpenseState.NotEnoughMoney -> {
+                            onNotEnoughMoneyListener.onNotEnoughMoney()
+                        }
                     }
                 }
             }
@@ -135,7 +149,7 @@ class AddExpenseFragment : Fragment() {
                 binding.buttonAddExpense.setOnClickListener {
                     val amount = binding.etAddExpenseAmount.text.toString()
                     val categoryName = binding.spinnerAddExpenses.selectedItem.toString()
-                    viewModel.editExpense(amount, categoryName)
+                    viewModel.editExpense(amount, categoryName, id)
                 }
             }
 
@@ -146,6 +160,8 @@ class AddExpenseFragment : Fragment() {
     }
 
     companion object {
+
+        const val NAME = "AddExpenseFragment"
 
         private const val MODE = "mode"
         private const val EXPENSE_ID = "id"
@@ -163,10 +179,10 @@ class AddExpenseFragment : Fragment() {
             }
 
         @JvmStatic
-        fun newInstanceEdit(id: Int) =
+        fun newInstanceEdit(id: Long) =
             AddExpenseFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(EXPENSE_ID, id)
+                    putLong(EXPENSE_ID, id)
                     putString(MODE, MODE_EDIT)
                 }
             }

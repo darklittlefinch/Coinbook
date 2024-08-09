@@ -66,13 +66,15 @@
 
     <style name="details_numbers_portrait" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">40sp</item>
+        <item name="android:textSize">36sp</item>
+        <item name="android:padding">16dp</item>
         <item name="android:textAlignment">center</item>
     </style>
 
     <style name="details_numbers_land" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">28sp</item>
+        <item name="android:padding">8dp</item>
         <item name="android:textAlignment">center</item>
     </style>
 
@@ -85,7 +87,7 @@
     </style>
 
     <style name="details_without_numbers_info" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="android:layout_margin">16dp</item>
+        <item name="android:padding">16dp</item>
         <item name="android:textSize">14sp</item>
     </style>
 
@@ -105,7 +107,7 @@
     </style>
 
     <style name="details_medium_image" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="android:layout_margin">16dp</item>
+        <item name="android:layout_margin">8dp</item>
         <item name="android:layout_height">60dp</item>
         <item name="android:layout_width">60dp</item>
     </style>
@@ -131,9 +133,18 @@
     </style>
 
     <style name="items_text" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:layout_marginStart">8dp</item>
         <item name="android:layout_marginEnd">8dp</item>
+    </style>
+
+    <style name="items_text_bold" parent="items_text">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="items_text_pale" parent="items_text">
+        <item name="android:textColor">@color/gray</item>
     </style>
 
     <style name="items_numbers" parent="Theme.Material3.DayNight.NoActionBar">

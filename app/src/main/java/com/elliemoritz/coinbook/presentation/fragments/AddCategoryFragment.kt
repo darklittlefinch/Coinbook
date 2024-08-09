@@ -39,7 +39,7 @@ class AddCategoryFragment : Fragment() {
     }
 
     private var mode: String = MODE_UNKNOWN
-    private var categoryId: Int = UNDEFINED_ID
+    private var id: Long = UNDEFINED_ID
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -58,7 +58,7 @@ class AddCategoryFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             mode = it.getString(MODE, MODE_UNKNOWN)
-            categoryId = it.getInt(CATEGORY_ID)
+            id = it.getLong(CATEGORY_ID)
         }
     }
 
@@ -126,7 +126,7 @@ class AddCategoryFragment : Fragment() {
                 binding.buttonAddCategory.setOnClickListener {
                     val name = binding.etAddCategoryName.text.toString()
                     val limit = binding.etAddCategoryLimit.text.toString()
-                    viewModel.editCategory(name, limit)
+                    viewModel.editCategory(name, limit, id)
                 }
             }
 
@@ -154,11 +154,11 @@ class AddCategoryFragment : Fragment() {
             }
 
         @JvmStatic
-        fun newInstanceEdit(id: Int) =
+        fun newInstanceEdit(id: Long) =
             AddCategoryFragment().apply {
                 arguments = Bundle().apply {
                     putString(MODE, MODE_EDIT)
-                    putInt(CATEGORY_ID, id)
+                    putLong(CATEGORY_ID, id)
                 }
             }
     }

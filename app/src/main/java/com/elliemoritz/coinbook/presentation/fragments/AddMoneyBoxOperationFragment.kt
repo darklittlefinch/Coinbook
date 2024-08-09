@@ -17,6 +17,7 @@ import com.elliemoritz.coinbook.domain.entities.helpers.UNDEFINED_ID
 import com.elliemoritz.coinbook.presentation.CoinBookApp
 import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentMoneyBoxOperationState
 import com.elliemoritz.coinbook.presentation.util.OnEditingListener
+import com.elliemoritz.coinbook.presentation.util.OnNotEnoughMoneyListener
 import com.elliemoritz.coinbook.presentation.viewModels.ViewModelFactory
 import com.elliemoritz.coinbook.presentation.viewModels.fragmentsViewModels.AddMoneyBoxOperationViewModel
 import kotlinx.coroutines.launch
@@ -25,6 +26,7 @@ import javax.inject.Inject
 class AddMoneyBoxOperationFragment : Fragment() {
 
     private lateinit var onEditingListener: OnEditingListener
+    private lateinit var onNotEnoughMoneyListener: OnNotEnoughMoneyListener
 
     private val component by lazy {
         (requireActivity().application as CoinBookApp).component
@@ -41,7 +43,7 @@ class AddMoneyBoxOperationFragment : Fragment() {
     }
 
     private var mode: String = MODE_UNKNOWN
-    private var id: Int = UNDEFINED_ID
+    private var id: Long = UNDEFINED_ID
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -54,13 +56,21 @@ class AddMoneyBoxOperationFragment : Fragment() {
                 "AddMoneyBoxOperationFragment: Activity must implement OnEditingListener"
             )
         }
+
+        if (context is OnNotEnoughMoneyListener) {
+            onNotEnoughMoneyListener = context
+        } else {
+            throw RuntimeException(
+                "AddMoneyBoxOperationFragment: Activity must implement OnNotEnoughMoneyListener"
+            )
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             mode = it.getString(MODE, MODE_UNKNOWN)
-            id = it.getInt(ID)
+            id = it.getLong(ID)
         }
     }
 
@@ -106,6 +116,10 @@ class AddMoneyBoxOperationFragment : Fragment() {
                         is FragmentMoneyBoxOperationState.Finish -> {
                             onEditingListener.onFinished()
                         }
+
+                        FragmentMoneyBoxOperationState.NotEnoughMoney -> {
+                            onNotEnoughMoneyListener.onNotEnoughMoney()
+                        }
                     }
                 }
             }
@@ -119,7 +133,7 @@ class AddMoneyBoxOperationFragment : Fragment() {
                     R.string.dialog_put_in_money_box
                 )
                 binding.buttonAddMoneyBoxOperation.setOnClickListener {
-                    val amount = binding.buttonAddMoneyBoxOperation.text.toString()
+                    val amount = binding.etAddMoneyBoxOperationAmount.text.toString()
                     viewModel.createMoneyBoxOperation(amount, Type.EXPENSE)
                 }
             }
@@ -129,7 +143,7 @@ class AddMoneyBoxOperationFragment : Fragment() {
                     R.string.dialog_remove_from_money_box
                 )
                 binding.buttonAddMoneyBoxOperation.setOnClickListener {
-                    val amount = binding.buttonAddMoneyBoxOperation.text.toString()
+                    val amount = binding.etAddMoneyBoxOperationAmount.text.toString()
                     viewModel.createMoneyBoxOperation(amount, Type.INCOME)
                 }
             }
@@ -140,8 +154,8 @@ class AddMoneyBoxOperationFragment : Fragment() {
                     R.string.dialog_edit_money_box_operation
                 )
                 binding.buttonAddMoneyBoxOperation.setOnClickListener {
-                    val amount = binding.buttonAddMoneyBoxOperation.text.toString()
-                    viewModel.editMoneyBoxOperation(amount)
+                    val amount = binding.etAddMoneyBoxOperationAmount.text.toString()
+                    viewModel.editMoneyBoxOperation(amount, id)
                 }
             }
 
@@ -152,6 +166,8 @@ class AddMoneyBoxOperationFragment : Fragment() {
     }
 
     companion object {
+
+        const val NAME = "AddMoneyBoxOperationFragment"
 
         private const val MODE = "mode"
         private const val ID = "id"
@@ -178,10 +194,10 @@ class AddMoneyBoxOperationFragment : Fragment() {
             }
 
         @JvmStatic
-        fun newInstanceEdit(id: Int) =
+        fun newInstanceEdit(id: Long) =
             AddMoneyBoxOperationFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(ID, id)
+                    putLong(ID, id)
                     putString(MODE, MODE_EDIT)
                 }
             }

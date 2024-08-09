@@ -4,9 +4,9 @@ import com.elliemoritz.coinbook.domain.repositories.OperationsRepository
 import javax.inject.Inject
 
 class RemoveAllOperationsUseCase @Inject constructor(
-    private val operationsRepository: OperationsRepository
+    private val repository: OperationsRepository
 ) {
     suspend operator fun invoke() {
-        operationsRepository.removeAllOperations()
+        repository.removeAllOperations()
     }
 }

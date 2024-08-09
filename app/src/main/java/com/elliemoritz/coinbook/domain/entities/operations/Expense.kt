@@ -1,15 +1,12 @@
 package com.elliemoritz.coinbook.domain.entities.operations
 
-import com.elliemoritz.coinbook.domain.entities.helpers.OperationForm
-import com.elliemoritz.coinbook.domain.entities.helpers.Type
 import com.elliemoritz.coinbook.domain.entities.helpers.UNDEFINED_ID
-import java.sql.Timestamp
 
 data class Expense(
-    val expDate: Timestamp,
-    var expAmount: Int,
-    var expCategoryName: String,
-    val expId: Int = UNDEFINED_ID
-) : Operation(
-    OperationForm.EXPENSE, Type.EXPENSE, expDate, expAmount, expCategoryName, expId
+    val amount: Int,
+    val categoryId: Long,
+    val categoryName: String,
+    val dateTimeMillis: Long,
+    val currency: String,
+    val id: Long = UNDEFINED_ID
 )

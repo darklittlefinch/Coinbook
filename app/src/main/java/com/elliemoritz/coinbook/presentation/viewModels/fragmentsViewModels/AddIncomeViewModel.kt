@@ -6,53 +6,47 @@ import com.elliemoritz.coinbook.domain.entities.operations.Income
 import com.elliemoritz.coinbook.domain.exceptions.EmptyFieldsException
 import com.elliemoritz.coinbook.domain.exceptions.IncorrectNumberException
 import com.elliemoritz.coinbook.domain.exceptions.NoChangesException
-import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.AddOperationUseCase
-import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.EditOperationUseCase
-import com.elliemoritz.coinbook.domain.useCases.operationsUseCases.GetIncomeUseCase
+import com.elliemoritz.coinbook.domain.useCases.incomeUseCases.AddIncomeUseCase
+import com.elliemoritz.coinbook.domain.useCases.incomeUseCases.EditIncomeUseCase
+import com.elliemoritz.coinbook.domain.useCases.incomeUseCases.GetIncomeUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.AddToBalanceUseCase
+import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetCurrencyUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.RemoveFromBalanceUseCase
 import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentIncomeState
 import com.elliemoritz.coinbook.presentation.util.checkEmptyFields
 import com.elliemoritz.coinbook.presentation.util.checkIncorrectNumbers
 import com.elliemoritz.coinbook.presentation.util.checkNoChanges
-import com.elliemoritz.coinbook.presentation.util.getCurrentTimestamp
-import com.elliemoritz.coinbook.presentation.util.mergeWith
+import com.elliemoritz.coinbook.presentation.util.getCurrentTimeMillis
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.abs
 
 class AddIncomeViewModel @Inject constructor(
     private val getIncomeUseCase: GetIncomeUseCase,
-    private val addOperationUseCase: AddOperationUseCase,
-    private val editOperationUseCase: EditOperationUseCase,
+    private val addIncomeUseCase: AddIncomeUseCase,
+    private val editIncomeUseCase: EditIncomeUseCase,
     private val addToBalanceUseCase: AddToBalanceUseCase,
-    private val removeFromBalanceUseCase: RemoveFromBalanceUseCase
+    private val removeFromBalanceUseCase: RemoveFromBalanceUseCase,
+    private val getCurrencyUseCase: GetCurrencyUseCase
 ) : ViewModel() {
-
-    private val dataFlow = MutableSharedFlow<Income>()
-
-    private val dataStateFlow = dataFlow
-        .map {
-            FragmentIncomeState.Data(
-                it.incAmount.toString(),
-                it.incSource
-            )
-        }
 
     private val _state = MutableSharedFlow<FragmentIncomeState>()
 
     val state: Flow<FragmentIncomeState>
         get() = _state
-            .mergeWith(dataStateFlow)
 
-    fun setData(id: Int) {
+    fun setData(id: Long) {
         viewModelScope.launch {
             val data = getIncomeUseCase(id).first()
-            this@AddIncomeViewModel.dataFlow.emit(data)
+            _state.emit(
+                FragmentIncomeState.Data(
+                    data.amount.toString(),
+                    data.source
+                )
+            )
         }
     }
 
@@ -65,8 +59,16 @@ class AddIncomeViewModel @Inject constructor(
                 checkIncorrectNumbers(amountString)
 
                 val amount = amountString.toInt()
-                val income = Income(getCurrentTimestamp(), amount, source)
-                addOperationUseCase(income)
+                val currency = getCurrencyUseCase().first()
+
+                val income = Income(
+                    amount = amount,
+                    source = source,
+                    dateTimeMillis = getCurrentTimeMillis(),
+                    currency = currency
+                )
+
+                addIncomeUseCase(income)
                 addToBalanceUseCase(amount)
 
                 setFinishState()
@@ -79,7 +81,7 @@ class AddIncomeViewModel @Inject constructor(
         }
     }
 
-    fun editIncome(newAmountString: String, newSource: String) {
+    fun editIncome(newAmountString: String, newSource: String, id: Long) {
 
         viewModelScope.launch {
 
@@ -87,16 +89,25 @@ class AddIncomeViewModel @Inject constructor(
                 checkEmptyFields(newAmountString, newSource)
                 checkIncorrectNumbers(newAmountString)
 
-                val oldData = dataFlow.first()
+                val oldData = getIncomeUseCase(id).first()
                 val newAmount = newAmountString.toInt()
 
                 checkNoChanges(
                     listOf(newAmount, newSource),
-                    listOf(oldData.amount, oldData.incSource)
+                    listOf(oldData.amount, oldData.source)
                 )
 
-                val income = Income(oldData.date, newAmount, newSource, oldData.id)
-                editOperationUseCase(income)
+                val currency = getCurrencyUseCase().first()
+
+                val income = Income(
+                    amount = newAmount,
+                    source = newSource,
+                    dateTimeMillis = oldData.dateTimeMillis,
+                    id = oldData.id,
+                    currency = currency
+                )
+
+                editIncomeUseCase(income)
 
                 val oldAmount = oldData.amount
                 editBalance(oldAmount, newAmount)

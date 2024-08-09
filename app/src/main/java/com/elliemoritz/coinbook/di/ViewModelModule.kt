@@ -1,11 +1,17 @@
 package com.elliemoritz.coinbook.di
 
 import androidx.lifecycle.ViewModel
-import com.elliemoritz.coinbook.presentation.viewModels.fragmentsViewModels.AddExpenseViewModel
+import com.elliemoritz.coinbook.presentation.viewModels.DebtsViewModel
+import com.elliemoritz.coinbook.presentation.viewModels.ExpenseViewModel
+import com.elliemoritz.coinbook.presentation.viewModels.HistoryViewModel
+import com.elliemoritz.coinbook.presentation.viewModels.IncomeViewModel
+import com.elliemoritz.coinbook.presentation.viewModels.LimitsViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.MainViewModel
+import com.elliemoritz.coinbook.presentation.viewModels.MoneyBoxViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.SettingsViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.fragmentsViewModels.AddCategoryViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.fragmentsViewModels.AddDebtViewModel
+import com.elliemoritz.coinbook.presentation.viewModels.fragmentsViewModels.AddExpenseViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.fragmentsViewModels.AddIncomeViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.fragmentsViewModels.AddLimitViewModel
 import com.elliemoritz.coinbook.presentation.viewModels.fragmentsViewModels.AddMoneyBoxOperationViewModel
@@ -22,6 +28,36 @@ interface ViewModelModule {
     @IntoMap
     @ViewModelKey(MainViewModel::class)
     fun bindMainViewModel(viewModel: MainViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(IncomeViewModel::class)
+    fun bindIncomeViewModel(viewModel: IncomeViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ExpenseViewModel::class)
+    fun bindExpenseViewModel(viewModel: ExpenseViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MoneyBoxViewModel::class)
+    fun bindMoneyBoxViewModel(viewModel: MoneyBoxViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(DebtsViewModel::class)
+    fun bindDebtsViewModel(viewModel: DebtsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(LimitsViewModel::class)
+    fun bindLimitsViewModel(viewModel: LimitsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(HistoryViewModel::class)
+    fun bindHistoryViewModel(viewModel: HistoryViewModel): ViewModel
 
     @Binds
     @IntoMap

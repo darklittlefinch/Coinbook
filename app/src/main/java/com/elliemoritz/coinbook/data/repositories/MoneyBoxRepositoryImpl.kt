@@ -5,6 +5,7 @@ import com.elliemoritz.coinbook.data.mappers.MoneyBoxMapper
 import com.elliemoritz.coinbook.domain.entities.MoneyBox
 import com.elliemoritz.coinbook.domain.repositories.MoneyBoxRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
@@ -12,6 +13,12 @@ class MoneyBoxRepositoryImpl @Inject constructor(
     private val dao: MoneyBoxDao,
     private val mapper: MoneyBoxMapper
 ) : MoneyBoxRepository {
+
+    private val refreshEvents = MutableSharedFlow<Unit>()
+
+    private suspend fun refreshData() {
+        refreshEvents.emit(Unit)
+    }
 
     override fun getMoneyBox(): Flow<MoneyBox?> = flow {
         val dbModel = dao.getMoneyBox(MoneyBox.MONEY_BOX_ID)
@@ -21,6 +28,16 @@ class MoneyBoxRepositoryImpl @Inject constructor(
             null
         }
         emit(moneyBox)
+
+        refreshEvents.collect {
+            val updatedDbModel = dao.getMoneyBox(MoneyBox.MONEY_BOX_ID)
+            val updatedMoneyBox = if (updatedDbModel != null) {
+                mapper.mapDbModelToEntity(updatedDbModel)
+            } else {
+                null
+            }
+            emit(updatedMoneyBox)
+        }
     }
 
     override suspend fun addMoneyBox(moneyBox: MoneyBox) {
@@ -49,5 +66,6 @@ class MoneyBoxRepositoryImpl @Inject constructor(
 
     override suspend fun removeMoneyBox(moneyBox: MoneyBox) {
         dao.removeMoneyBox(moneyBox.id)
+        refreshData()
     }
 }

@@ -36,7 +36,7 @@
             <EditText
                 android:id="@+id/et_edit_balance_amount"
                 style="@style/add_fragments_inputs"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_balance"
                 android:importantForAutofill="no"

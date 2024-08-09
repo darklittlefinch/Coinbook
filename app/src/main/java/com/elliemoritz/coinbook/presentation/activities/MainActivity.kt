@@ -1,7 +1,6 @@
 package com.elliemoritz.coinbook.presentation.activities
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -87,16 +86,15 @@ class MainActivity : AppCompatActivity() {
                         MainState.NoCategoriesError -> {
                             Toast.makeText(
                                 this@MainActivity,
-                                getString(R.string.toast_create_category),
+                                getString(R.string.toast_error_create_category),
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
 
                         MainState.PermitAddExpense -> {
-                            val intent = OperationsActivity.newIntent(
+                            val intent = OperationsActivity.newIntentAdd(
                                 this@MainActivity,
-                                OperationsActivity.FRAGMENT_TYPE_EXPENSE,
-                                OperationsActivity.MODE_ADD
+                                OperationsActivity.FRAGMENT_TYPE_EXPENSE
                             )
                             startActivity(intent)
                         }
@@ -162,10 +160,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun setOnBalanceClickListener() {
         binding.cvBalance.setOnClickListener {
-            val intent = OperationsActivity.newIntent(
+            val intent = OperationsActivity.newIntentEditWithoutId(
                 this,
-                OperationsActivity.FRAGMENT_TYPE_BALANCE,
-                OperationsActivity.MODE_EDIT
+                OperationsActivity.FRAGMENT_TYPE_BALANCE
             )
             startActivity(intent)
         }
@@ -180,10 +177,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun setOnPlusClickListener() {
         binding.cvPlus.setOnClickListener {
-            val intent = OperationsActivity.newIntent(
+            val intent = OperationsActivity.newIntentAdd(
                 this,
-                OperationsActivity.FRAGMENT_TYPE_INCOME,
-                OperationsActivity.MODE_ADD
+                OperationsActivity.FRAGMENT_TYPE_INCOME
             )
             startActivity(intent)
         }

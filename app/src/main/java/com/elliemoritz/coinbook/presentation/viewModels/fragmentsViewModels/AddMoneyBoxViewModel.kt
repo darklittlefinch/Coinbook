@@ -13,12 +13,10 @@ import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentMone
 import com.elliemoritz.coinbook.presentation.util.checkEmptyFields
 import com.elliemoritz.coinbook.presentation.util.checkIncorrectNumbers
 import com.elliemoritz.coinbook.presentation.util.checkNoChanges
-import com.elliemoritz.coinbook.presentation.util.getCurrentTimestamp
-import com.elliemoritz.coinbook.presentation.util.mergeWith
+import com.elliemoritz.coinbook.presentation.util.getCurrentTimeMillis
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,27 +26,23 @@ class AddMoneyBoxViewModel @Inject constructor(
     private val editMoneyBoxUseCase: EditMoneyBoxUseCase
 ) : ViewModel() {
 
-    private val dataFlow = MutableSharedFlow<MoneyBox>()
-
-    private val dataStateFlow = dataFlow
-        .map {
-            FragmentMoneyBoxState.Data(
-                it.goalAmount.toString(),
-                it.goal
-            )
-        }
-
     private val _state = MutableSharedFlow<FragmentMoneyBoxState>()
 
     val state: Flow<FragmentMoneyBoxState>
         get() = _state
-            .mergeWith(dataStateFlow)
 
     fun setData() {
+
         viewModelScope.launch {
             val moneyBox = getMoneyBoxUseCase().first()
+
             moneyBox?.let {
-                dataFlow.emit(it)
+                _state.emit(
+                    FragmentMoneyBoxState.Data(
+                        it.goalAmount.toString(),
+                        it.goal
+                    )
+                )
             }
         }
     }
@@ -62,10 +56,11 @@ class AddMoneyBoxViewModel @Inject constructor(
                 checkIncorrectNumbers(goalAmountString)
 
                 val goalAmount = goalAmountString.toInt()
+
                 val moneyBox = MoneyBox(
-                    goalAmount,
-                    goal,
-                    getCurrentTimestamp()
+                    goalAmount = goalAmount,
+                    goal = goal,
+                    startedMillis = getCurrentTimeMillis()
                 )
                 addMoneyBoxUseCase(moneyBox)
 
@@ -87,7 +82,9 @@ class AddMoneyBoxViewModel @Inject constructor(
                 checkEmptyFields(newGoalAmountString, newGoal)
                 checkIncorrectNumbers(newGoalAmountString)
 
-                val oldData = dataFlow.first()
+                val oldData = getMoneyBoxUseCase().first()
+                    ?: throw RuntimeException("Money box does not exist")
+
                 val newGoalAmount = newGoalAmountString.toInt()
 
                 checkNoChanges(
@@ -96,9 +93,10 @@ class AddMoneyBoxViewModel @Inject constructor(
                 )
 
                 val moneyBox = MoneyBox(
-                    newGoalAmount,
-                    newGoal,
-                    getCurrentTimestamp()
+                    goalAmount = newGoalAmount,
+                    goal = newGoal,
+                    startedMillis = oldData.startedMillis,
+                    totalAmount = oldData.totalAmount
                 )
                 editMoneyBoxUseCase(moneyBox)
 

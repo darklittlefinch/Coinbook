@@ -36,28 +36,18 @@
         app:layout_constraintTop_toTopOf="@+id/tv_income_title"
         app:srcCompat="@drawable/ic_plus_rounded" />
 
-    <ImageView
-        android:id="@+id/iv_income"
-        style="@style/details_medium_image"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/content_description_simple_income_image"
-        android:src="@drawable/ic_income"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_income_title" />
-
     <TextView
         android:id="@+id/tv_income_amount"
         style="@style/details_numbers_portrait"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_income"
+        app:layout_constraintTop_toBottomOf="@+id/tv_income_title"
         tools:text="37 500 ₽" />
 
     <TextView
-        android:id="@+id/tv_no_history_info"
+        android:id="@+id/tv_no_income_info"
         style="@style/details_with_numbers_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -71,24 +61,14 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_income"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="8dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_income_amount"
         tools:listitem="@layout/item_income" />
-
-    <ImageView
-        android:id="@+id/iv_no_income"
-        style="@style/details_giant_image"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/content_description_add_new_income"
-        android:src="@drawable/ic_plus_rounded_gray"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

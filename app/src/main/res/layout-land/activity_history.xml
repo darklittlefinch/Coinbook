@@ -27,26 +27,30 @@
         app:layout_constraintTop_toTopOf="@+id/tv_history_title"
         app:srcCompat="@drawable/ic_left_arrow" />
 
-    <ImageView
-        android:id="@+id/iv_history"
-        style="@style/details_medium_image"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/content_description_simple_alarm_image"
-        android:src="@drawable/ic_history"
+    <TextView
+        android:id="@+id/tv_no_history_info"
+        style="@style/details_without_numbers_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/no_history"
+        android:textAlignment="center"
+        android:textColor="@color/dark_gray"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_history_title" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_history_title" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_history"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
+        android:layout_height="0dp"
+        android:padding="4dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="2"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_history"
-        tools:listitem="@layout/item_history_income" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_no_history_info"
+        app:spanCount="2"
+        tools:listitem="@layout/item_history" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

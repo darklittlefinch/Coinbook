@@ -2,6 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cv_item_limit"
     style="@style/base_narrow_top_bottom"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -12,12 +13,12 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="4dp"
+        android:layout_margin="8dp"
         android:padding="4dp">
 
         <TextView
             android:id="@+id/tv_limit_category"
-            style="@style/items_text"
+            style="@style/items_text_bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
@@ -28,14 +29,14 @@
 
         <TextView
             android:id="@+id/tv_spent_money_amount"
-            style="@style/items_text"
+            style="@style/items_text_bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@id/progress_bar_limit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="4 142 / 5 000 ₽" />
+            tools:text="4 142 / 5 000 ₽"
+            tools:textColor="@color/dark_green" />
 
         <ProgressBar
             android:id="@+id/progress_bar_limit"

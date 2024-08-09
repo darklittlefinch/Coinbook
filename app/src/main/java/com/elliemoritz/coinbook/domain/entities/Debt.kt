@@ -3,7 +3,10 @@ package com.elliemoritz.coinbook.domain.entities
 import com.elliemoritz.coinbook.domain.entities.helpers.UNDEFINED_ID
 
 data class Debt(
-    var amount: Int,
-    var creditor: String,
-    val id: Int = UNDEFINED_ID
+    val amount: Int,
+    val creditor: String,
+    val startedMillis: Long,
+    val finished: Boolean,
+    val currency: String,
+    val id: Long = UNDEFINED_ID
 )

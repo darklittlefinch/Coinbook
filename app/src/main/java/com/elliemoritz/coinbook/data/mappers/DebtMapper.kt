@@ -9,13 +9,19 @@ class DebtMapper @Inject constructor() {
     fun mapEntityToDbModel(debt: Debt) = DebtDbModel(
         id = debt.id,
         amount = debt.amount,
-        creditor = debt.creditor
+        creditor = debt.creditor,
+        finished = debt.finished,
+        startedMillis = debt.startedMillis,
+        currency = debt.currency
     )
 
     fun mapDbModelToEntity(dbModel: DebtDbModel) = Debt(
         id = dbModel.id,
         amount = dbModel.amount,
-        creditor = dbModel.creditor
+        creditor = dbModel.creditor,
+        finished = dbModel.finished,
+        startedMillis = dbModel.startedMillis,
+        currency = dbModel.currency
     )
 
     fun mapListDbModelToListEntities(list: List<DebtDbModel>) = list.map {

@@ -109,7 +109,7 @@ class AddMoneyBoxFragment : Fragment() {
             MODE_ADD -> {
                 binding.buttonAddMoneyBox.setOnClickListener {
                     val goalAmount = binding.etAddMoneyBoxAmount.text.toString()
-                    val goal = binding.etAddMoneyBoxAmount.text.toString()
+                    val goal = binding.etAddMoneyBoxGoal.text.toString()
                     viewModel.createMoneyBox(goalAmount, goal)
                 }
             }
@@ -118,7 +118,7 @@ class AddMoneyBoxFragment : Fragment() {
                 viewModel.setData()
                 binding.buttonAddMoneyBox.setOnClickListener {
                     val goalAmount = binding.etAddMoneyBoxAmount.text.toString()
-                    val goal = binding.etAddMoneyBoxAmount.text.toString()
+                    val goal = binding.etAddMoneyBoxGoal.text.toString()
                     viewModel.editMoneyBox(goalAmount, goal)
                 }
             }
@@ -130,6 +130,8 @@ class AddMoneyBoxFragment : Fragment() {
     }
 
     companion object {
+
+        const val NAME = "AddMoneyBoxFragment"
 
         private const val MODE = "mode"
         private const val MODE_ADD = "add"

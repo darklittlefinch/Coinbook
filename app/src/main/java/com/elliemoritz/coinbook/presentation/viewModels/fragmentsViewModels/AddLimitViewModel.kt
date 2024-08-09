@@ -5,17 +5,21 @@ import androidx.lifecycle.viewModelScope
 import com.elliemoritz.coinbook.domain.entities.Limit
 import com.elliemoritz.coinbook.domain.exceptions.EmptyFieldsException
 import com.elliemoritz.coinbook.domain.exceptions.IncorrectNumberException
+import com.elliemoritz.coinbook.domain.exceptions.LimitWithoutValueException
 import com.elliemoritz.coinbook.domain.exceptions.NoChangesException
 import com.elliemoritz.coinbook.domain.useCases.categoriesUseCases.GetCategoriesListUseCase
 import com.elliemoritz.coinbook.domain.useCases.categoriesUseCases.GetCategoryByNameUseCase
 import com.elliemoritz.coinbook.domain.useCases.categoriesUseCases.GetCategoryUseCase
+import com.elliemoritz.coinbook.domain.useCases.expensesUseCases.GetTotalExpensesAmountByCategoryForMonthUseCase
 import com.elliemoritz.coinbook.domain.useCases.limitsUseCases.AddLimitUseCase
 import com.elliemoritz.coinbook.domain.useCases.limitsUseCases.EditLimitUseCase
 import com.elliemoritz.coinbook.domain.useCases.limitsUseCases.GetLimitByCategoryIdUseCase
 import com.elliemoritz.coinbook.domain.useCases.limitsUseCases.GetLimitUseCase
+import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetCurrencyUseCase
 import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentLimitState
 import com.elliemoritz.coinbook.presentation.util.checkEmptyFields
 import com.elliemoritz.coinbook.presentation.util.checkIncorrectNumbers
+import com.elliemoritz.coinbook.presentation.util.checkLimitWithoutValue
 import com.elliemoritz.coinbook.presentation.util.checkNoChanges
 import com.elliemoritz.coinbook.presentation.util.mergeWith
 import kotlinx.coroutines.flow.Flow
@@ -32,11 +36,12 @@ class AddLimitViewModel @Inject constructor(
     private val editLimitUseCase: EditLimitUseCase,
     getCategoriesListUseCase: GetCategoriesListUseCase,
     private val getCategoryUseCase: GetCategoryUseCase,
-    private val getCategoryByNameUseCase: GetCategoryByNameUseCase
+    private val getCategoryByNameUseCase: GetCategoryByNameUseCase,
+    private val getTotalExpensesAmountUseCase: GetTotalExpensesAmountByCategoryForMonthUseCase,
+    private val getCurrencyUseCase: GetCurrencyUseCase
 ) : ViewModel() {
 
     private val categoriesListFlow = getCategoriesListUseCase()
-
     private val categoriesStateFlow = categoriesListFlow
         .map { categoriesList ->
             FragmentLimitState.Categories(categoriesList
@@ -45,62 +50,60 @@ class AddLimitViewModel @Inject constructor(
                 })
         }
 
-    private val dataFlow = MutableSharedFlow<Limit>()
-
-    private val amountStateFlow = dataFlow
-        .map { FragmentLimitState.Amount(it.amount.toString()) }
-
-    private val categoryPositionStateFlow = dataFlow
-        .map {
-            val currentCategory = getCategoryUseCase(it.categoryId).first()
-            val categoriesList = categoriesListFlow.first()
-            var categoryPosition = 0
-            for ((index, category) in categoriesList.withIndex()) {
-                if (category.name == currentCategory.name) {
-                    categoryPosition = index
-                    break
-                }
-            }
-            FragmentLimitState.CategoryPosition(categoryPosition)
-        }
-
     private val _state = MutableSharedFlow<FragmentLimitState>()
 
     val state: Flow<FragmentLimitState>
         get() = _state
             .mergeWith(categoriesStateFlow)
-            .mergeWith(amountStateFlow)
-            .mergeWith(categoryPositionStateFlow)
 
-    fun setData(id: Int) {
+    fun setData(id: Long) {
+
         viewModelScope.launch {
+
             val limit = getLimitUseCase(id).first()
-            dataFlow.emit(limit)
+            _state.emit(
+                FragmentLimitState.Amount(limit.limitAmount.toString())
+            )
+
+            val category = getCategoryUseCase(limit.categoryId).first()
+            val categoryPosition = getCategoryPosition(category.name)
+            _state.emit(
+                FragmentLimitState.CategoryPosition(categoryPosition)
+            )
         }
     }
 
-    fun createLimit(amountString: String, categoryName: String) {
+    fun createLimit(limitAmountString: String, categoryName: String) {
 
         viewModelScope.launch {
 
             try {
                 val category = getCategoryByNameUseCase(categoryName).first()
+                    ?: throw RuntimeException("User selected a non-existent category (how?!)")
 
-                checkEmptyFields(amountString, categoryName)
-                checkIncorrectNumbers(amountString)
+                checkEmptyFields(limitAmountString, categoryName)
+                checkIncorrectNumbers(limitAmountString)
 
-                if (category == null) {
-                    throw RuntimeException("Somehow user selected a non-existent category...")
-                }
+                val limitAmount = limitAmountString.toInt()
 
-                val amount = amountString.toInt()
+                checkLimitWithoutValue(limitAmount)
+
                 val possibleLimit = getLimitByCategoryIdUseCase(category.id).first()
 
                 if (possibleLimit == null) {
-                    val limit = Limit(amount, category.id)
+                    val realAmount = getTotalExpensesAmountUseCase(category.id).first()
+                    val currency = getCurrencyUseCase().first()
+
+                    val limit = Limit(
+                        limitAmount = limitAmount,
+                        realAmount = realAmount,
+                        categoryId = category.id,
+                        categoryName = category.name,
+                        currency = currency
+                    )
                     addLimitUseCase(limit)
                 } else {
-                    val limit = possibleLimit.copy(amount = amount)
+                    val limit = possibleLimit.copy(limitAmount = limitAmount)
                     editLimitUseCase(limit)
                 }
 
@@ -110,33 +113,39 @@ class AddLimitViewModel @Inject constructor(
                 setEmptyFieldsState()
             } catch (e: IncorrectNumberException) {
                 setIncorrectNumberState()
+            } catch (e: LimitWithoutValueException) {
+                setLimitWithoutValueState()
             }
         }
     }
 
-    fun editLimit(newAmountString: String, newCategoryName: String) {
+    fun editLimit(newLimitAmountString: String, newCategoryName: String, id: Long) {
 
         viewModelScope.launch {
 
             try {
                 val newCategory = getCategoryByNameUseCase(newCategoryName).first()
+                    ?: throw RuntimeException("User selected a non-existent category (how?!)")
 
-                checkEmptyFields(newAmountString, newCategoryName)
-                checkIncorrectNumbers(newAmountString)
+                checkEmptyFields(newLimitAmountString, newCategoryName)
+                checkIncorrectNumbers(newLimitAmountString)
 
-                if (newCategory == null) {
-                    throw RuntimeException("Somehow user selected a non-existent category...")
-                }
+                val oldData = getLimitUseCase(id).first()
+                val newLimitAmount = newLimitAmountString.toInt()
 
-                val oldData = dataFlow.first()
-                val newAmount = newAmountString.toInt()
+                checkLimitWithoutValue(newLimitAmount)
 
                 checkNoChanges(
-                    listOf(newAmount, newCategory.id),
-                    listOf(oldData.amount, oldData.categoryId)
+                    listOf(newLimitAmount, newCategory.id),
+                    listOf(oldData.limitAmount, oldData.categoryId)
                 )
 
-                val limit = Limit(newAmount, newCategory.id, oldData.id)
+                val limit = oldData.copy(
+                    limitAmount = newLimitAmount,
+                    categoryId = newCategory.id,
+                    categoryName = newCategory.name,
+                    id = id
+                )
                 editLimitUseCase(limit)
 
                 setFinishState()
@@ -147,8 +156,22 @@ class AddLimitViewModel @Inject constructor(
                 setIncorrectNumberState()
             } catch (e: NoChangesException) {
                 setNoChangesState()
+            } catch (e: LimitWithoutValueException) {
+                setLimitWithoutValueState()
             }
         }
+    }
+
+    private suspend fun getCategoryPosition(categoryName: String): Int {
+        val categoriesList = categoriesListFlow.first()
+        var categoryPosition = 0
+        for ((index, category) in categoriesList.withIndex()) {
+            if (category.name == categoryName) {
+                categoryPosition = index
+                break
+            }
+        }
+        return categoryPosition
     }
 
     private suspend fun setFinishState() {
@@ -167,4 +190,7 @@ class AddLimitViewModel @Inject constructor(
         _state.emit(FragmentLimitState.IncorrectNumber)
     }
 
+    private suspend fun setLimitWithoutValueState() {
+        _state.emit(FragmentLimitState.LimitWithoutValue)
+    }
 }

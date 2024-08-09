@@ -7,7 +7,7 @@ import javax.inject.Inject
 class GetTotalDebtsAmountUseCase @Inject constructor(
     private val debtsRepository: DebtsRepository
 ) {
-    operator fun invoke(): Flow<Int> {
-        return debtsRepository.getTotalDebtsAmount()
+    operator fun invoke(finished: Boolean): Flow<Int> {
+        return debtsRepository.getTotalDebtsAmount(finished)
     }
 }

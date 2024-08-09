@@ -3,23 +3,28 @@ package com.elliemoritz.coinbook.presentation.viewModels.fragmentsViewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elliemoritz.coinbook.domain.entities.Debt
+import com.elliemoritz.coinbook.domain.entities.helpers.Type
+import com.elliemoritz.coinbook.domain.entities.operations.DebtOperation
 import com.elliemoritz.coinbook.domain.exceptions.EmptyFieldsException
 import com.elliemoritz.coinbook.domain.exceptions.IncorrectNumberException
 import com.elliemoritz.coinbook.domain.exceptions.NoChangesException
+import com.elliemoritz.coinbook.domain.useCases.debtsOperationsUseCases.AddDebtOperationUseCase
+import com.elliemoritz.coinbook.domain.useCases.debtsOperationsUseCases.EditDebtOperationUseCase
+import com.elliemoritz.coinbook.domain.useCases.debtsOperationsUseCases.GetDebtOperationByDebtIdUseCase
 import com.elliemoritz.coinbook.domain.useCases.debtsUseCases.AddDebtUseCase
 import com.elliemoritz.coinbook.domain.useCases.debtsUseCases.EditDebtUseCase
 import com.elliemoritz.coinbook.domain.useCases.debtsUseCases.GetDebtUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.AddToBalanceUseCase
+import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.GetCurrencyUseCase
 import com.elliemoritz.coinbook.domain.useCases.userPreferencesUseCases.RemoveFromBalanceUseCase
 import com.elliemoritz.coinbook.presentation.states.fragmentsStates.FragmentDebtState
 import com.elliemoritz.coinbook.presentation.util.checkEmptyFields
 import com.elliemoritz.coinbook.presentation.util.checkIncorrectNumbers
 import com.elliemoritz.coinbook.presentation.util.checkNoChanges
-import com.elliemoritz.coinbook.presentation.util.mergeWith
+import com.elliemoritz.coinbook.presentation.util.getCurrentTimeMillis
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.abs
@@ -29,24 +34,29 @@ class AddDebtViewModel @Inject constructor(
     private val addDebtUseCase: AddDebtUseCase,
     private val editDebtUseCase: EditDebtUseCase,
     private val addToBalanceUseCase: AddToBalanceUseCase,
-    private val removeFromBalanceUseCase: RemoveFromBalanceUseCase
+    private val removeFromBalanceUseCase: RemoveFromBalanceUseCase,
+    private val getDebtOperationByDebtIdUseCase: GetDebtOperationByDebtIdUseCase,
+    private val addDebtOperationUseCase: AddDebtOperationUseCase,
+    private val editDebtOperationUseCase: EditDebtOperationUseCase,
+    private val getCurrencyUseCase: GetCurrencyUseCase
 ) : ViewModel() {
-
-    private var dataFlow = MutableSharedFlow<Debt>()
-
-    private val dataStateFlow = dataFlow
-        .map { FragmentDebtState.Data(it.amount.toString(), it.creditor) }
 
     private val _state = MutableSharedFlow<FragmentDebtState>()
 
     val state: Flow<FragmentDebtState>
         get() = _state
-            .mergeWith(dataStateFlow)
 
-    fun setData(id: Int) {
+    fun setData(id: Long) {
+
         viewModelScope.launch {
             val debt = getDebtUseCase(id).first()
-            dataFlow.emit(debt)
+
+            _state.emit(
+                FragmentDebtState.Data(
+                    debt.amount.toString(),
+                    debt.creditor
+                )
+            )
         }
     }
 
@@ -59,9 +69,18 @@ class AddDebtViewModel @Inject constructor(
                 checkIncorrectNumbers(amountString)
 
                 val amount = amountString.toInt()
-                val debt = Debt(amount, creditor)
+                val currency = getCurrencyUseCase().first()
+
+                val debt = Debt(
+                    amount = amount,
+                    creditor = creditor,
+                    startedMillis = getCurrentTimeMillis(),
+                    finished = false,
+                    currency = currency
+                )
                 addDebtUseCase(debt)
                 addToBalanceUseCase(amount)
+                addDebtOperation(debt, currency)
 
                 setFinishState()
 
@@ -73,7 +92,19 @@ class AddDebtViewModel @Inject constructor(
         }
     }
 
-    fun editDebt(newAmountString: String, newCreditor: String) {
+    private suspend fun addDebtOperation(debt: Debt, currency: String) {
+        val debtOperation = DebtOperation(
+            amount = debt.amount,
+            type = Type.INCOME,
+            debtId = debt.id,
+            debtCreditor = debt.creditor,
+            dateTimeMillis = getCurrentTimeMillis(),
+            currency = currency
+        )
+        addDebtOperationUseCase(debtOperation)
+    }
+
+    fun editDebt(newAmountString: String, newCreditor: String, id: Long) {
 
         viewModelScope.launch {
 
@@ -81,7 +112,7 @@ class AddDebtViewModel @Inject constructor(
                 checkEmptyFields(newAmountString, newCreditor)
                 checkIncorrectNumbers(newAmountString)
 
-                val oldData = dataFlow.first()
+                val oldData = getDebtUseCase(id).first()
                 val newAmount = newAmountString.toInt()
 
                 checkNoChanges(
@@ -89,8 +120,18 @@ class AddDebtViewModel @Inject constructor(
                     listOf(oldData.amount, oldData.creditor)
                 )
 
-                val debt = Debt(newAmount, newCreditor, oldData.id)
+                val currency = getCurrencyUseCase().first()
+
+                val debt = Debt(
+                    amount = newAmount,
+                    creditor = newCreditor,
+                    startedMillis = oldData.startedMillis,
+                    finished = oldData.finished,
+                    id = oldData.id,
+                    currency = currency
+                )
                 editDebtUseCase(debt)
+                editDebtOperation(debt, currency)
                 handleBalance(newAmount, oldData.amount)
 
                 setFinishState()
@@ -103,6 +144,23 @@ class AddDebtViewModel @Inject constructor(
                 setNoChangesState()
             }
         }
+    }
+
+    private suspend fun editDebtOperation(debt: Debt, currency: String) {
+
+        val debtOperation = getDebtOperationByDebtIdUseCase(debt.id).first()
+
+        val newDebtOperation = DebtOperation(
+            amount = debt.amount,
+            type = Type.INCOME,
+            debtId = debt.id,
+            debtCreditor = debt.creditor,
+            dateTimeMillis = getCurrentTimeMillis(),
+            id = debtOperation.id,
+            currency = currency
+        )
+
+        editDebtOperationUseCase(newDebtOperation)
     }
 
     private suspend fun handleBalance(newBalance: Int, oldBalance: Int) {
