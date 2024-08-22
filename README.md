@@ -1,3 +1,5 @@
+[![Maintainability](https://api.codeclimate.com/v1/badges/00ecc2f6552876f761ef/maintainability)](https://codeclimate.com/github/darklittlefinch/Coinbook/maintainability)
+
 # Coinbook
 
 This is my own **pet project**. It is an app for home financial accounting. Currently available in English only.
